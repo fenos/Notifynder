@@ -1,0 +1,30 @@
+{
+    "name": "fenos/notifynder",
+    "description": "",
+    "authors": [
+        {
+            "name": "Fabrizio Fenoglio",
+            "email": "fabri_feno@yahoo.it"
+        }
+    ],
+    "require": {
+        "php": ">=5.4.0",
+        "illuminate/support": "4.1.*"
+    },
+
+    "require-dev": {
+        "mockery/mockery": "dev-master@dev",
+        "phpunit/phpunit": "3.7.*"
+    },
+
+    "autoload": {
+        "classmap": [
+            "src/migrations",
+            "src/config"
+        ],
+        "psr-0": {
+            "Fenos\\Notifynder\\": "src/"
+        }
+    },
+    "minimum-stability": "stable"
+}
