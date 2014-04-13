@@ -1,6 +1,6 @@
 {
     "name": "fenos/notifynder",
-    "description": "",
+    "description": "Internal notifications management",
     "authors": [
         {
             "name": "Fabrizio Fenoglio",
