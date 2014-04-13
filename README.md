@@ -146,3 +146,166 @@ $notification_information = array(
 
 Notifynder::category('londonNews')->sendOne($notification_information); // it just send!
 ~~~
+
+
+#### Send multiple notifications ####
+
+Now it's time to send multiple notification at once! The only thing you need to keep attention is that `created_at` and `updated_at` are not updated automatically so just put it on your array :)
+
+~~~
+$notification_information = array(
+    
+    array => (
+        'from_id'     => 1, // ID user that send the notification
+        'to_id'       => 2, // ID user that receive the notification
+        'category_id' => 1, // ID category
+        'url'         => 'www.urlofnotification.com', // Url of your notification
+        'created_at'  => Carbon::now(),
+        'updated_at'  => Carbon::now()
+    ),
+    
+    array => (
+        'from_id'     => 1, // ID user that send the notification
+        'to_id'       => 4, // ID user that receive the notification
+        'category_id' => 2, // ID category
+        'url'         => 'www.urlofnotification.com', // Url of your notification
+        'created_at'  => Carbon::now(),
+        'updated_at'  => Carbon::now()
+    )
+);
+
+
+Notifynder::sendMultiple($notification_information);
+~~~
+
+In this method the `category()` method will not work on chaining, but instead let's see how can you use it here!
+
+~~~
+$notification_information = array(
+    
+    array => (
+        'from_id'     => 1, // ID user that send the notification
+        'to_id'       => 2, // ID user that receive the notification
+        'category_id' => Notifynder::category('londonNews')->id(), // Will give you the notification ID
+        'url'         => 'www.urlofnotification.com', // Url of your notification
+        'created_at'  => Carbon::now(),
+        'updated_at'  => Carbon::now()
+    ),
+    
+    array => (
+        'from_id'     => 1, // ID user that send the notification
+        'to_id'       => 4, // ID user that receive the notification
+        'category_id' => Notifynder::category('londonNews')->id(), // Will give you the notification ID
+        'url'         => 'www.urlofnotification.com', // Url of your notification
+        'created_at'  => Carbon::now(),
+        'updated_at'  => Carbon::now()
+    )
+);
+
+
+Notifynder::sendMultiple($notification_information);
+~~~
+
+### Read Notification/s ###
+
+Now is time to make it read when the user read the notification/s! Let's see how!
+
+#### Read One ####
+
+With this method will make read a single notification giving the id of it.
+
+~~~
+Notifynder::readOne($notification_id); // That's It
+~~~
+
+
+#### Read All ####
+
+With this method will make read all the notifications that hasn't been read but this time you will pass the id of the user. The equivalent to the id of the `to_id` filed on the you table.
+
+~~~
+Notifynder::readAll($to_id); // this will make read all the notifications not read of this user user
+~~~
+
+#### Read Limit ####
+Well when is time to have thousand of notifications to read you will need to set up a Queues or something and this method will be really useful to you. In few words this method will let you make read only the number of notifications you set! If you want to update the last 10 notifications or the first one Let's see how:
+
+~~~
+$to_id = 1;
+
+Notifynder::readLimit($to_id,10,'ASC'); // This method will update the first 10 notifications of the user with ID 1
+~~~
+
+**Parameters**
+- first : To id (Id of the user)
+- second : numbers of notifications you want to make read,
+- third : direction of the order - 'ASC' / 'DESC'
+
+### Retrive notifications ###
+
+Now we did everything but we need somehow to get this notifications! Let's see how:
+
+#### Get Not Read ####
+
+This method will get all notifications not read giving the user id
+
+~~~
+Notifynder::getNotRead($user_id); // get all not read
+~~~
+
+You can also limit the results passing the value as second parameter:
+
+~~~
+Notifynder::getNotRead($user_id,10); // get 10 notifications not read
+~~~
+
+Do you need to paginate the notifications? give a true value as third parameter it will do the trick!
+
+~~~
+Notifynder::getNotRead($user_id,10,true); // get notifications not read paginating 10 results per page
+~~~
+
+#### Get All ####
+
+This method will get all notifications **Even the read**, about the current user, of course the notifications not read will be at first position.
+
+~~~
+Notifynder:getAll($user_id); // get all notifications
+~~~
+
+Limiting
+
+~~~
+Notifynder::getAll($user_id,10) // get all notifications limiting at 10 the result
+~~~
+
+Paginate the result
+
+~~~
+Notifynder::getAll($user_id,10,true);
+~~~
+
+
+###Method Category() ###
+
+The method category before used on the documentation give you the possibility to don't hard code the id of the category but instead write the name of it.
+But how it work? It does a query to the database for get the correct ID. But hey stay easy it is **lazy loading** like so even if you use that method for 100 notifications of the same type it will do only 1 quick query.
+
+**Also remember: If you digit a name that doesn't exist on the database it will throw an exception but you can always catch it:**
+
+~~~
+
+try
+{
+
+Notifynder::category('notFound')->id();
+
+}
+catch(NotificationCategoryNotFoundException $e)
+{
+
+// category not found
+
+}
+~~~
+
