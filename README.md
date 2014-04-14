@@ -6,6 +6,23 @@ This package has been released for Laravel 4 Framework.
 
 **Ps: This is the first release, I'm already working on future milestones to add in this package so, stay tuned for all news**
 
+* [Documentation](#documentation)
+* [Notification Categories](#notification-categories)
+    * [Add](#add-categories)
+    * [Update](#update-categories)
+    * [Delete](#delete-categories)
+* [Send Notification/s](#send-notification-s)
+    * [Send single notification](#send-single-notification)
+    * [Send multiple notifications](#send-multiple-notifications)
+* [Read Notification/s](#read-notifications)
+    * [Read one](#read-one)
+    * [Read All](#read-all)
+    * [Read Limit](#read-limit)
+* [Retrive Notification] (#retrive-notifications)
+    *[Get not read](#get-not-read)
+    *[Get All](#get-all)
+* [Method Category()](#method-category)
+
 
 ## Installation ##
 
