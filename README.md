@@ -4,11 +4,15 @@ Notifynder
 Notifynder is a package that implement on your application a management system of internal notifications. Similar to facebook notifications. You cand send, make read, and more stay tuned on the following documentation. 
 This package has been released for Laravel 4 Framework.
 
-**Ps: This is the first release, I'm already working on future milestones to add in this package so, stay tuned for all news**
+- - -
 
-**On the Next Release:**
-- Translations notifications
-- Insert on the body text whenever parameter you pass in whicever position.
+####On the Next Release:####
+   - Translations notifications
+   - Insert on the body text whenever parameter you pass in any position.
+
+- - -
+
+
 
 * [Installation](#installation)
 * [Documentation](#documentation)
