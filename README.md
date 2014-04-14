@@ -19,8 +19,8 @@ This package has been released for Laravel 4 Framework.
     * [Read All](#read-all)
     * [Read Limit](#read-limit)
 * [Retrive Notification] (#retrive-notifications)
-    *[Get not read](#get-not-read)
-    *[Get All](#get-all)
+    * [Get not read](#get-not-read)
+    * [Get All](#get-all)
 * [Method Category()](#method-category)
 
 
