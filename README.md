@@ -204,7 +204,7 @@ Now it's time to send multiple notification at once! The only thing you need to 
 ~~~
 $notification_information = array(
     
-    array => (
+    array (
         'from_id'     => 1, // ID user that send the notification
         'to_id'       => 2, // ID user that receive the notification
         'category_id' => 1, // ID category
@@ -213,7 +213,7 @@ $notification_information = array(
         'updated_at'  => Carbon::now()
     ),
     
-    array => (
+    array (
         'from_id'     => 1, // ID user that send the notification
         'to_id'       => 4, // ID user that receive the notification
         'category_id' => 2, // ID category
