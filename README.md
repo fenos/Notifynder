@@ -62,7 +62,7 @@ That's it! we have done with the installation!
 
 ### Notification Categories ###
 
-The notification categories are just the body of the your notification. As first release we have only 2 field availables:
+The notification categories are just the body of the your notification. As first release we have only 2 fields availables:
 
 - name
 - text
