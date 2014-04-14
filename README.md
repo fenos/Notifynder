@@ -6,6 +6,10 @@ This package has been released for Laravel 4 Framework.
 
 **Ps: This is the first release, I'm already working on future milestones to add in this package so, stay tuned for all news**
 
+**On the Next Release:**
+- Translations notifications
+- Insert on the body text whenever parameter you pass in whicever position.
+
 * [Installation](#installation)
 * [Documentation](#documentation)
 * [Notification Categories](#notification-categories)
