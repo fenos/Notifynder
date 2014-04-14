@@ -1,7 +1,10 @@
 Notifynder
 ==========
 
-Notifynder is a package that implement on your application a management system of internal notifications. Similar to facebook notifications. You cand send, make read, and more stay tuned on the following documentation.
+Notifynder is a package that implement on your application a management system of internal notifications. Similar to facebook notifications. You cand send, make read, and more stay tuned on the following documentation. 
+This package has been released for Laravel 4 Framework.
+
+**Ps: This is the first release, I already on working progress future milestone to add in this package so, stay tuned for all news**
 
 
 ## Installation ##
@@ -93,9 +96,18 @@ As second paramenter you pass the id of the current category to update.
 How second option if you don't want hardcode the id of the category you can update your row simply like so:
 
 ~~~
-$new_informations = array( 'body' => 'New body of the category' );
+try
+{
+    $new_informations = array( 'body' => 'New body of the category' );
+    
+    Notifynder::category('londonNews')->updateCategory($new_informations);
+}
+catch(Fenos\Notifynder\Exceptions\NotificationCategoryNotFoundException $e)
+{
 
-Notifynder::category('londonNews')->updateCategory($new_informations);
+    // category not found
+
+}
 ~~~
 
 On the category method you'll pass the name of the category that you want update and on the update method just the informations.
@@ -111,7 +123,16 @@ Notifynder::deleteCategory(1);
 As first parameter you pass the id of the category you want to delete or again you can use the method `category` and it will think about to get the id for you just passing the name
 
 ~~~
-Notifynder::category('londonNews')->deleteCategory();
+try
+{
+    Notifynder::category('londonNews')->deleteCategory();
+}
+catch(Fenos\Notifynder\Exceptions\NotificationCategoryNotFoundException $e)
+{
+
+    // category not found
+
+}
 ~~~
 
 ### Send Notification / s ###
@@ -137,14 +158,24 @@ Notifynder::sendOne($notification_information); // it just send!
 But remember you can always use the method `category()` and don't hard code the category id!
 
 ~~~
-$notification_information = array(
+try
+{
 
-    'from_id'     => 1, // ID user that send the notification
-    'to_id'       => 2, // ID user that receive the notification
-    'url'         => 'www.urlofnotification.com', // Url of your notification
-);
+    $notification_information = array(
+    
+        'from_id'     => 1, // ID user that send the notification
+        'to_id'       => 2, // ID user that receive the notification
+        'url'         => 'www.urlofnotification.com', // Url of your notification
+    );
+    
+    Notifynder::category('londonNews')->sendOne($notification_information); // it just send!
+}
+catch(Fenos\Notifynder\Exceptions\NotificationCategoryNotFoundException $e)
+{
 
-Notifynder::category('londonNews')->sendOne($notification_information); // it just send!
+    // category not found
+
+}
 ~~~
 
 
@@ -213,9 +244,20 @@ Now is time to make it read when the user read the notification/s! Let's see how
 #### Read One ####
 
 With this method will make read a single notification giving the id of it.
+if you give an ID that doesn't exist prepare yourself to catch an exception
 
 ~~~
-Notifynder::readOne($notification_id); // That's It
+try
+{
+
+    Notifynder::readOne($notification_id); // That's It
+}
+catch(Fenos\Notifynder\Exceptions\NotificationNotFoundException $e)
+{
+
+    // Notification not found
+
+}
 ~~~
 
 
@@ -291,17 +333,17 @@ Notifynder::getAll($user_id,10,true);
 The method category before used on the documentation give you the possibility to don't hard code the id of the category but instead write the name of it.
 But how it work? It does a query to the database for get the correct ID. But hey stay easy it is **lazy loading** like so even if you use that method for 100 notifications of the same type it will do only 1 quick query.
 
-**Also remember: If you digit a name that doesn't exist on the database it will throw an exception but you can always catch it:**
+**Also remember: If you digit a name that doesn't exist on the database it will throw an exception but you can always catch it.**
 
 ~~~
 
 try
 {
 
-Notifynder::category('notFound')->id();
+Notifynder::category('notFound')->id(); // or whenever method you use
 
 }
-catch(NotificationCategoryNotFoundException $e)
+catch(Fenos\Notifynder\Exceptions\NotificationCategoryNotFoundException $e)
 {
 
 // category not found
@@ -309,3 +351,10 @@ catch(NotificationCategoryNotFoundException $e)
 }
 ~~~
 
+#### Tests ####
+
+For run the tests make sure to have phpUnit installed
+
+
+
+©Copyright Fabrizio Fenoglio Released package under MIT Licence.
