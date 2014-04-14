@@ -229,7 +229,7 @@ class Notifynder implements NotifynderInterface
 	* @param $category_id 	(int)
 	* @return Fenos\Notifynder\Models\NotificationType
 	*/
-	public function update(array $informations,$category_id = null)
+	public function updateCategory(array $informations,$category_id = null)
 	{	
 		if ( is_null($category_id) && !is_null($this->category) ) $category_id = $this->category;
 		
