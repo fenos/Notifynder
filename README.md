@@ -6,6 +6,7 @@ This package has been released for Laravel 4 Framework.
 
 **Ps: This is the first release, I'm already working on future milestones to add in this package so, stay tuned for all news**
 
+* [Installation](#installation)
 * [Documentation](#documentation)
 * [Notification Categories](#notification-categories)
     * [Add](#add-categories)
