@@ -98,7 +98,7 @@ The notification categories are just the body of the your notification. As first
 
 ### Add categories ###
 
-Let's say an example, We want to add a notification that says: **News recently updated from the city of London**
+Let's say an example, We want to add a **Body Text** notification that says: **News recently updated from the city of London**
 
 Well for create that it's easy:
 
