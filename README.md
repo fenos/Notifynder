@@ -374,4 +374,6 @@ For run the tests make sure to have phpUnit installed
 
 
 
-©Copyright Fabrizio Fenoglio Released package under MIT Licence.
+© Copyright Fabrizio Fenoglio
+
+Released package under MIT Licence.
