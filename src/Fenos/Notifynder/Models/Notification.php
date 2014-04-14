@@ -12,7 +12,7 @@ class Notification extends Model
 
 	public function body()
 	{
-		return $this->belongsTo('Fenos\Notifynder\Models\NotificationType');
+		return $this->belongsTo('Fenos\Notifynder\Models\NotificationCategory');
 	}
 
 	public function user()
