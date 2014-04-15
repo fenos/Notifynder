@@ -34,6 +34,7 @@ This package has been released for Laravel 4 Framework.
     * [Get not read](#get-not-read)
     * [Get All](#get-all)
 * [Method Category()](#method-category)
+* [Translations](#translations)
 
 
 ## Installation ##
@@ -379,6 +380,50 @@ catch(Fenos\Notifynder\Exceptions\NotificationCategoryNotFoundException $e)
 
 }
 ~~~
+
+### Translations ###
+
+When you have a good system of notifications and you want extends that notifications to multiple languages Notifynder use a easy approch for make it work.
+
+You have to publish the configurations files, on there you will find a file called `translations.php` that file is the right place to put your translations.
+
+You will see that file with an array with same keys of the languages availables, feel free to add how many languages you want.
+
+Inside that array you will put another array with they **key as the name of your category** and **the value with the translation of it**.
+
+~~~
+
+return array(
+        
+        // italian language
+
+        'it' => array(
+
+            // name category  
+            'comment' => 'ho postato un commento' // translation
+
+        ),
+
+        'fr' => array (
+
+            'comment' => 'J'ai posté un commentaire'
+
+        )
+
+);
+
+~~~
+
+And now for retrieve that translations when you get the results from the methods `getAll` - `getNotRead` you can easilly translate them like so:
+
+~~~
+
+Notifynder::getAll( 2 )->translate('it');
+
+~~~
+
+You use like normal the method to retrieve the notification and you chain the translate method with the language you wish to translate! That's it.
+
 
 #### Tests ####
 
