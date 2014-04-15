@@ -2,6 +2,7 @@
 
 use Fenos\Notifynder\Repositories\EloquentRepository\NotifynderRepository;
 use Fenos\Notifynder\Repositories\EloquentRepository\NotifynderCategoryRepository;
+use Fenos\Notifynder\Translator\NotifynderTranslator;
 
 //Exceptions
 use Fenos\Notifynder\Exceptions\NotificationCategoryNotFoundException;
@@ -24,6 +25,11 @@ class Notifynder implements NotifynderInterface
 	protected $notifynderCategoryRepository;
 
 	/**
+	* @var instance of Fenos\Notifynder\Translator\NotifynderTranslator
+	*/
+	protected $notifynderTranslator;
+
+	/**
 	* @var Container category for lazy Loading
 	*/
 	protected $category_container = array();
@@ -34,10 +40,12 @@ class Notifynder implements NotifynderInterface
 	protected $category;
 
 	function __construct(NotifynderRepository $notifynderRepository,
-						 NotifynderCategoryRepository $notifynderCategoryRepository )
+						 NotifynderCategoryRepository $notifynderCategoryRepository,
+						 NotifynderTranslator $notifynderTranslator )
 	{
 		$this->notifynderRepository = $notifynderRepository;
 		$this->notifynderCategoryRepository = $notifynderCategoryRepository;
+		$this->notifynderTranslator = $notifynderTranslator;
 	}
 
 	/**
@@ -205,7 +213,7 @@ class Notifynder implements NotifynderInterface
 	}
 
 	/**
-	* Delete type notification from database
+	* Delete category notification from database
 	*
 	* @param $id 	(int)
 	* @return Boolean
@@ -239,6 +247,19 @@ class Notifynder implements NotifynderInterface
 		}
 
 		return $this->notifynderCategoryRepository->update($informations,$category_id);
+	}
+
+	/**
+	* Translate a category notification
+	* Giving the language and the name of it
+	*
+	* @param $language (String)
+	* @param $name
+	* @return (String)
+	*/
+	public function translate($language,$name)
+	{
+		return $this->notifynderTranslator->translate($language,$name);
 	}
 
 	/**

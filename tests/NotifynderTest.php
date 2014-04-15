@@ -38,6 +38,11 @@ class Nofifynder extends PHPUnit_Framework_TestCase
     protected $notification_category_model;
 
     /**
+    * @var instance of Fenos\Notifynder\Translator\NotifynderTranslator
+    */
+    protected $notifynderTranslator;
+
+    /**
     * @var Fenos\Notifynder\Models\Notificantion
     */
     protected $notification_model;
@@ -51,7 +56,8 @@ class Nofifynder extends PHPUnit_Framework_TestCase
         $this->notifynder = new Notifynder(
 
             $this->notifynderRepository = m::mock('Fenos\Notifynder\Repositories\EloquentRepository\NotifynderRepository'),
-            $this->notifynderTypeRepository = m::mock('Fenos\Notifynder\Repositories\EloquentRepository\NotifynderCategoryRepository')
+            $this->notifynderTypeRepository = m::mock('Fenos\Notifynder\Repositories\EloquentRepository\NotifynderCategoryRepository'),
+            $this->notifynderTranslator = m::mock('Fenos\Notifynder\Translator\NotifynderTranslator')
 
         );
 
@@ -285,6 +291,19 @@ class Nofifynder extends PHPUnit_Framework_TestCase
       $result = $this->notifynder->deleteCategory();
     }
 
+    public function test_translate_notification()
+    {
+      $this->notifynderTranslator->shouldReceive('translate')
+                                ->once()
+                                ->with('it','notifynder')
+                                ->andReturn('Notifynder e\' magnifico');
+
+      $result = $this->notifynder->translate('it','notifynder');
+
+      $this->assertEquals($result,'Notifynder e\' magnifico');
+
+    }
+
     public function test_update_type_notification()
     {
       $this->notifynderTypeRepository->shouldReceive('update')
@@ -292,7 +311,7 @@ class Nofifynder extends PHPUnit_Framework_TestCase
                                   ->with(['name' => 'new', 'content' => 'new content'],1)
                                   ->andReturn($this->notification_category_model);
 
-      $result = $this->notifynder->update(['name' => 'new', 'content' => 'new content'],1);
+      $result = $this->notifynder->updateCategory(['name' => 'new', 'content' => 'new content'],1);
       
       $this->assertInstanceOf('Fenos\Notifynder\Models\NotificationCategory',$result);
     }

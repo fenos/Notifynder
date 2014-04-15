@@ -31,6 +31,7 @@ class NotifynderServiceProvider extends ServiceProvider {
 		
 		$this->repositories();
 		$this->notifynder();
+		$this->collections();
 		
 	}
 
@@ -43,7 +44,8 @@ class NotifynderServiceProvider extends ServiceProvider {
     	{
 	        return new Notifynder(
 	        	$app->make('notifynder.repository.notifynder'),
-	        	$app->make('notifynder.repository.category')
+	        	$app->make('notifynder.repository.category'),
+	        	$app->make('Fenos\Notifynder\Translator\NotifynderTranslator')
 	        );
     	});
 	}
@@ -56,17 +58,13 @@ class NotifynderServiceProvider extends ServiceProvider {
 		// bind NotifynderRepository
 		$this->app->bind('notifynder.repository.notifynder', function($app){
 
+			$notification_model = $app['config']->get('notifynder::config.notification_model');
+
 			return new Repositories\EloquentRepository\NotifynderRepository(
-				new Models\Notification,
+				new $notification_model,
 				$app['db']
 			);
 		});
-
-		// trigger class NotifynderRepository when invoke NotifynderRepositoryInterface
-		// $this->app->bind(
-		// 		'Fenos\Notifynder\Repositories\EloquentRepository\NotifynderRepositoryInterface',
-		// 		'Fenos\Notifynder\Repositories\EloquentRepository\NotifynderRepository'
-		// );
 
 		// bind NotifynderCategoryRepository
 		$this->app->bind('notifynder.repository.category', function($app){
@@ -76,12 +74,21 @@ class NotifynderServiceProvider extends ServiceProvider {
 				$app['db']
 			);
 		});
+	}
 
-		// // trigger class NotifynderCategoryRepository when invoke NotifynderCategoryRepositoryInterface
-		// $this->app->bind(
-		// 		'Fenos\Notifynder\Repositories\EloquentRepository\NotifynderCategoryRepositoryInterface',
-		// 		'Fenos\Notifynder\Repositories\EloquentRepository\NotifynderCategoryRepository'
-		// );
+	/**
+	* Bind Collections
+	*/
+	public function collections()
+	{
+		$this->app->bind('Fenos\Notifynder\Models\Collections\NotifynderTranslationCollection', function($app){
+
+			return new Models\Collections\NotifynderTranslationCollection(
+				[],
+				$app->make('Fenos\Notifynder\Translator\NotifynderTranslator')
+			);
+
+		});
 	}
 
 	/**

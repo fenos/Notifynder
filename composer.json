@@ -1,6 +1,7 @@
 {
     "name": "fenos/notifynder",
     "description": "Internal notifications management",
+    "license": "MIT",
     "authors": [
         {
             "name": "Fabrizio Fenoglio",
