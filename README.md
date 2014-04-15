@@ -8,7 +8,7 @@ This package has been released for Laravel 4 Framework.
 
 ####On the Next Release:####
 
-   - Translations notifications
+   - Translations notifications **( Added )**
    - Insert on the body text whenever parameter you pass in any position.
    - Extend Notifynder Eloquent
    - Extend Notifynder Class
