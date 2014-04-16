@@ -50,7 +50,7 @@ This package has been released for Laravel 4 Framework.
 Add it on your composer.json
 
 ~~~
-"fenos/notifynder": "dev-master"
+"fenos/notifynder": "1.*"
 ~~~
 
 and run **composer update**
