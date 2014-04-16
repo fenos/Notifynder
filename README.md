@@ -8,7 +8,7 @@ This package has been released for Laravel 4 Framework.
 
 - - -
 
-####On the Next Release:####
+#### On the Next Release: ####
 
    - Translations notifications **( Added )**
    - Insert on the body text whenever parameter you pass in any position.
@@ -35,6 +35,10 @@ This package has been released for Laravel 4 Framework.
 * [Retrive Notification](#retrive-notifications)
     * [Get not read](#get-not-read)
     * [Get All](#get-all)
+* [Delete Notification](#delete-notifications)
+    * [Delete single](#delete-single)
+    * [Delete All](#delete-all)
+    * [Delete Limit](#delete-limit)
 * [Method Category()](#method-category)
 * [Translations](#translations)
 
@@ -360,7 +364,38 @@ Notifynder::getAll($user_id,10,true);
 ~~~
 
 
-###Method Category() ###
+### Delete Notification ###
+
+As before we have 3 methods availables to manage the action to delete the notifications let's see how use it.
+
+#### Delete single ####
+
+For delete a single notification we pass the id of the current notification to delete simply like so:
+
+~~~
+Notifynder::delete( 2 ); // it will detele the notification with ID 2
+~~~
+
+
+#### Delete All ####
+
+This method will delete all notifications about the current user passed as first parameter.
+
+~~~
+Notifynder::deleteAll( 1 ); // it will delete all notification of the user with ID 1
+~~~
+
+#### Delete Limit ####
+
+This method will be very useful as the `Notifynder::readLimit()` because it give you possibility to limit the notifications to delete very useful associated to a cron job.
+
+~~~
+Notifynder::deleteLimit( 1, 10, 'ASC' )
+~~~
+
+as first parameter you will pass the id of the user, as second parameter you will pass the number of notifications to delete, as third parameter you will pass the order that will start to count the number of notifications `"ASC" - "DESC"`
+
+### Method Category() ###
 
 The method category before used on the documentation give you the possibility to don't hard code the id of the category but instead write the name of it.
 But how it work? It does a query to the database for get the correct ID. But hey stay easy it is **lazy loading** like so even if you use that method for 100 notifications of the same type it will do only 1 quick query.
@@ -385,9 +420,15 @@ catch(Fenos\Notifynder\Exceptions\NotificationCategoryNotFoundException $e)
 
 ### Translations ###
 
-When you have a good system of notifications and you want extends that notifications to multiple languages Notifynder use a easy approch for make it work.
+When you have a good system of notifications and you want extends that notifications to multiple languages, Notifynder use a easy approch for make it work.
 
-You have to publish the configurations files, on there you will find a file called `translations.php` that file is the right place to put your translations.
+You have to publish the configurations files, doing:
+
+~~~
+php artisan config:publish fenos/notifynder
+~~~
+
+Under the directory `app/config/packages/fenos/notifynder` you will find a file called `translations.php` that file is the right place to put your translations.
 
 You will see that file with an array with same keys of the languages availables, feel free to add how many languages you want.
 
@@ -397,26 +438,22 @@ Inside that array you will put another array with they **key as the name of your
 
 return array(
         
-        // italian language
-
-        'it' => array(
+        'it' => array( // italian language
 
             // name category  
             'comment' => 'ho postato un commento' // translation
 
         ),
 
-        'fr' => array (
+        'fr' => array ( // french language
 
             'comment' => 'J'ai posté un commentaire'
-
         )
-
 );
 
 ~~~
 
-And now for retrieve that translations when you get the results from the methods `getAll` - `getNotRead` you can easilly translate them like so:
+And now for retrieve the notifications translated, you use as normal the methods `getAll` - `getNotRead` but you easilly chain the method translate with the language as first parameter:
 
 ~~~
 
@@ -424,12 +461,29 @@ Notifynder::getAll( 2 )->translate('it');
 
 ~~~
 
-You use like normal the method to retrieve the notification and you chain the translate method with the language you wish to translate! That's it.
+It will return to you the body translated!
 
+
+### Extend the model class ###
+
+Well, I like have packages more extendible possible, so I give you the possibility to extend the model for make your own staff become real.
+
+Even here you will have to take a look the configuration file. Under the key `notification_model` you have to change the current model with the *** namespace *** / **name** of your model and extend it with the previous one.
+
+~~~
+
+use Fenos\Notifynder\Models\Notification;
+
+class NewNotificationModel extends Notification
+{
+
+}
+
+~~~
 
 #### Tests ####
 
-For run the tests make sure to have phpUnit installed
+For run the tests make sure to have phpUnit and Mockery installed
 
 #### Package ####
 
