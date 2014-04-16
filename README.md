@@ -32,7 +32,7 @@ This package has been released for Laravel 4 Framework.
     * [Read one](#read-one)
     * [Read All](#read-all)
     * [Read Limit](#read-limit)
-* [Retrive Notification] (#retrive-notifications)
+* [Retrive Notification](#retrive-notifications)
     * [Get not read](#get-not-read)
     * [Get All](#get-all)
 * [Method Category()](#method-category)
