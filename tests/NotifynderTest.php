@@ -259,7 +259,43 @@ class Nofifynder extends PHPUnit_Framework_TestCase
       $this->assertInstanceOf('Fenos\Notifynder\Models\Notification',$result);
     }
 
-    public function test_add_type_notification()
+    public function test_delete_a_single_notification()
+    {
+      $this->notifynderRepository->shouldReceive('delete')
+                                  ->once()
+                                  ->with(1)
+                                  ->andReturn(true);
+
+      $result = $this->notifynder->delete(1);
+
+      $this->assertTrue($result);
+    }
+
+    public function test_delete_all_notifications_about_the_current_user()
+    {
+      $this->notifynderRepository->shouldReceive('deleteAll')
+                                  ->once()
+                                  ->with(1)
+                                  ->andReturn(true);
+
+      $result = $this->notifynder->deleteAll(1);
+
+      $this->assertTrue($result);
+    }
+
+    public function test_delete_notifications_as_much_as_the_number_and_order_passes()
+    {
+      $this->notifynderRepository->shouldReceive('deleteLimit')
+                                  ->once()
+                                  ->with(1,10,'DESC')
+                                  ->andReturn(true);
+
+      $result = $this->notifynder->deleteLimit(1,10,'DESC');
+
+      $this->assertTrue($result);
+    }
+
+    public function test_add_category_notification()
     {
       $this->notifynderTypeRepository->shouldReceive('add')
                                   ->once()
@@ -271,7 +307,7 @@ class Nofifynder extends PHPUnit_Framework_TestCase
       $this->assertInstanceOf('Fenos\Notifynder\Models\NotificationCategory',$result);
     }
 
-    public function test_delete_type_notification()
+    public function test_delete_category_notification()
     {
       $this->notifynderTypeRepository->shouldReceive('delete')
                                   ->once()

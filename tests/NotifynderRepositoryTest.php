@@ -144,13 +144,10 @@ class NofitynderRepositoryTest extends PHPUnit_Framework_TestCase
 
     	$this->assertTrue($result);
 
-
     }
 
     public function test_one_notification()
     {
-
-     
 
       $this->notification_model->shouldReceive('find')
                             ->once()
@@ -177,6 +174,7 @@ class NofitynderRepositoryTest extends PHPUnit_Framework_TestCase
                         ->andReturn($queryBuilder);
 
         $queryBuilder->shouldReceive('where')
+                        ->with('to_id','=',2)
                         ->once()
                         ->andReturn($queryBuilder);
 
@@ -208,6 +206,7 @@ class NofitynderRepositoryTest extends PHPUnit_Framework_TestCase
                         ->andReturn($queryBuilder);
 
         $queryBuilder->shouldReceive('where')
+                        ->with('to_id','=',1)
                         ->once()
                         ->andReturn($queryBuilder);
 
@@ -218,6 +217,102 @@ class NofitynderRepositoryTest extends PHPUnit_Framework_TestCase
         $result = $this->notifynderRepository->readAll(1);
         $this->assertEquals(1,$result);
 
+    }
+
+    public function test_delete_a_single_notification()
+    {
+
+        $this->notification_model->shouldReceive('find')
+                                ->once()
+                                ->with(1)
+                                ->andReturn($this->notification_model);
+
+        $this->notification_model->shouldReceive('delete')
+                                ->once()
+                                ->andReturn(true);
+
+        $result = $this->notifynderRepository->delete(1);
+
+        $this->assertTrue($result);
+    }
+
+    public function test_delete_all_notifications_of_this_user()
+    {
+        $queryBuilder = m::mock('Illuminate\Database\Query\Builder');
+
+        $this->dbBuilder->shouldReceive('table')
+                        ->once()
+                        ->andReturn($queryBuilder);
+
+        $queryBuilder->shouldReceive('where')
+                        ->once('to_id',1)
+                        ->andReturn($queryBuilder);
+
+        $queryBuilder->shouldReceive('delete')
+                        ->once()
+                        ->andReturn(true);
+
+        $result = $this->notifynderRepository->deleteAll(1);
+
+        $this->assertTrue($result);
+    }
+
+    public function test_delete_limiting_the_results_as_specificated_and_by_order()
+    {
+        $this->notification_model->shouldReceive('where')
+                                ->once()
+                                ->with('to_id',1)
+                                ->andReturn($this->notification_model);
+
+        $this->notification_model->shouldReceive('orderBy')
+                                ->once()
+                                ->with('id','DESC')
+                                ->andReturn($this->notification_model);
+
+        $this->notification_model->shouldReceive('select')
+                                ->once()
+                                ->with('id')
+                                ->andReturn($this->notification_model);
+
+        $this->notification_model->shouldReceive('limit')
+                                ->once()
+                                ->with(10)
+                                ->andReturn($this->notification_model);
+
+        $this->notification_model->shouldReceive('get')
+                                ->once()
+                                ->andReturn($this->notification_model);
+
+        $this->notification_model->shouldReceive('count')
+                                ->once()
+                                ->andReturn(10);
+
+        $array_ids = [0 => 1,1 => 2, 2=> 3,3 => 4,4 => 5,5 => 6,6 =>7,7 => 8,8 => 9,9 => 10];
+
+        $array = $this->notification_model->shouldReceive('toArray')
+                                ->once()
+                                ->andReturn($array_ids);
+
+        
+
+        $flatten = m::mock(['array_flatten']);
+        $flatten->shouldReceive('array_flatten')
+                    ->with($array_ids)
+                    //improve this test it is bit tricky
+                    ->andReturn([0,1,2,3,4,5,6,7,8,9,10]);
+
+        $this->notification_model->shouldReceive('whereIn')
+                                ->once()
+                                //improve this test little it is bit tricky
+                                ->andReturn($this->notification_model);
+
+        $this->notification_model->shouldReceive('delete')
+                                ->once()
+                                ->andReturn(true);
+
+        $result = $this->notifynderRepository->deleteLimit(1,10,'DESC');
+
+        $this->assertTrue($result);
     }
 
     public function test_get_all_not_read_notifications()
@@ -302,6 +397,7 @@ class NofitynderRepositoryTest extends PHPUnit_Framework_TestCase
 
         $this->notification_model->shouldReceive('where')
                                 ->once()
+                                ->with('to_id',1)
                                 ->andReturn($this->notification_model);
 
         $this->notification_model->shouldReceive('orderBy')
@@ -324,6 +420,7 @@ class NofitynderRepositoryTest extends PHPUnit_Framework_TestCase
                                 ->andReturn($this->notification_model);
 
         $this->notification_model->shouldReceive('where')
+                                ->with('to_id',1)
                                 ->once()
                                 ->andReturn($this->notification_model);
 
@@ -352,6 +449,7 @@ class NofitynderRepositoryTest extends PHPUnit_Framework_TestCase
                                 ->andReturn($this->notification_model);
 
         $this->notification_model->shouldReceive('where')
+                                ->with('to_id',1)
                                 ->once()
                                 ->andReturn($this->notification_model);
 

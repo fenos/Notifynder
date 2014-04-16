@@ -200,6 +200,45 @@ class Notifynder implements NotifynderInterface
 	}
 
 	/**
+	* Delete a notification giving the id
+	* of it
+	*
+	* @param $id (int)
+	* @return Boolean
+	*/
+	public function delete($id)
+	{
+		return $this->notifynderRepository->delete($id);
+	}
+
+	/**
+	* Delete All notifications about the
+	* current user 
+	*
+	* @param $user_id (int)
+	* @return Boolean
+	*/
+	public function deleteAll($user_id)
+	{
+		return $this->notifynderRepository->deleteAll($user_id);
+	}
+
+	/**
+	* Delete numbers of notifications equals
+	* to the number passing as 2 parameter of
+	* the current user
+	*
+	* @param $user_id 	(int)
+	* @param $number 	(int)
+	* @param $order 	(String)
+	* @return Boolean
+	*/
+	public function deleteLimit($user_id, $number, $order = "ASC")
+	{
+		return $this->notifynderRepository->deleteLimit($user_id, $number, $order);
+	}
+
+	/**
 	* Add a description to the associate 
 	* notification
 	*

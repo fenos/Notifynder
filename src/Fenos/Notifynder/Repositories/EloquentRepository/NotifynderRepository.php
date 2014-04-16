@@ -109,13 +109,13 @@ class NotifynderRepository implements NotifynderEloquentRepositoryInterface
 	*
 	* @param $to_id 	(int)
 	* @param $numbers	(int)
-	* @param $position 	(String) | ASC - DESC
+	* @param $order 	(String) | ASC - DESC
 	*/
-	public function readLimit($to_id,$numbers, $position = "ASC")
+	public function readLimit($to_id,$numbers, $order = "ASC")
 	{
 		return $this->db->table('notifications')
 						->where('to_id','=',$to_id)
-						->orderBy('id',$position)
+						->orderBy('id',$order)
 						->limit($numbers)
 						->update(['read' => 1]);
 	}
@@ -129,6 +129,65 @@ class NotifynderRepository implements NotifynderEloquentRepositoryInterface
 	public function readAll($to_id)
 	{
 		return $this->db->table('notifications')->where('to_id','=',$to_id)->update(['read' => 1]);
+	}
+
+	/**
+	* Delete a notification giving the id
+	* of it
+	*
+	* @param $id (int)
+	* @return Boolean
+	*/
+	public function delete($notification_id)
+	{
+
+		$notification = $this->notificationModel->find($notification_id);
+
+		if ( !is_null( $notification) )
+		{
+			return $notification->delete();
+		}
+
+		return false;
+		
+	}
+
+	/**
+	* Delete All notifications about the
+	* current user 
+	*
+	* @param $user_id (int)
+	* @return Boolean
+	*/
+	public function deleteAll($user_id)
+	{
+		return $this->db->table('notifications')->where('to_id',$user_id)->delete();
+	}
+
+	/**
+	* Delete numbers of notifications equals
+	* to the number passing as 2 parameter of
+	* the current user
+	*
+	* @param $user_id 	(int)
+	* @param $number 	(int)
+	* @param $order 	(String)
+	* @return Boolean
+	*/
+	public function deleteLimit($user_id, $number, $order)
+	{
+		
+		$notifications_id = $this->notificationModel->where('to_id',$user_id)
+							->orderBy('id',$order)
+							->select('id')
+							->limit($number)->get();
+
+		if ( $notifications_id->count() == 0 ) return false;
+
+		$makeItArray = $notifications_id->toArray();
+		$array_id = array_flatten($makeItArray);
+
+		return $this->notificationModel->whereIn('id',$array_id)->delete();
 	}
 
 	/**
@@ -172,7 +231,7 @@ class NotifynderRepository implements NotifynderEloquentRepositoryInterface
 	* Retrive all notifications, not read
 	* in first.
 	* You can also limit the number of
-	* Notification if you don't it will get all
+	* Notifications if you don't, it will get all
 	*
 	* @param $to_id 	(int)
 	* @param $limit 	(int)
