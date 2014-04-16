@@ -41,7 +41,7 @@ This package has been released for Laravel 4 Framework.
     * [Delete Limit](#delete-limit)
 * [Method Category()](#method-category)
 * [Translations](#translations)
-* [Extends Model Class](#extends-the-model-class)
+* [Extends Model Class](#extend-the-model-class)
 
 ## Installation ##
 
