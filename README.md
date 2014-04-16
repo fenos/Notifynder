@@ -41,7 +41,7 @@ This package has been released for Laravel 4 Framework.
     * [Delete Limit](#delete-limit)
 * [Method Category()](#method-category)
 * [Translations](#translations)
-
+* [Extends Model Class](#extends-the-model-class)
 
 ## Installation ##
 
@@ -468,7 +468,7 @@ It will return to you the body translated!
 
 Well, I like have packages more extendible possible, so I give you the possibility to extend the model for make your own staff become real.
 
-Even here you will have to take a look the configuration file. Under the key `notification_model` you have to change the current model with the *** namespace *** / **name** of your model and extend it with the previous one.
+Even here you will have to take a look the configuration file. Under the key `notification_model` you have to change the current model with the **namespace** / **name** of your model and extend it with the previous one.
 
 ~~~
 
