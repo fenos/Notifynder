@@ -333,6 +333,10 @@ class NofitynderRepositoryTest extends PHPUnit_Framework_TestCase
                                 ->once()
                                 ->andReturn($this->notification_model);
 
+        $this->notification_model->shouldReceive('parse')
+                                ->once()
+                                ->andReturn($this->notification_model);
+
         $result = $this->notifynderRepository->getNotRead(1,null,false);
 
         $this->assertInstanceOf('Fenos\Notifynder\Models\Notification',$result);
@@ -361,6 +365,10 @@ class NofitynderRepositoryTest extends PHPUnit_Framework_TestCase
                                 ->once()
                                 ->andReturn($this->notification_model);
 
+        $this->notification_model->shouldReceive('parse')
+                                ->once()
+                                ->andReturn($this->notification_model);
+
         $result = $this->notifynderRepository->getNotRead(1,10,false);
 
         $this->assertInstanceOf('Fenos\Notifynder\Models\Notification',$result);
@@ -381,6 +389,10 @@ class NofitynderRepositoryTest extends PHPUnit_Framework_TestCase
                                 ->andReturn($this->notification_model);
 
         $this->notification_model->shouldReceive('paginate')
+                                ->once()
+                                ->andReturn($this->notification_model);
+
+        $this->notification_model->shouldReceive('parse')
                                 ->once()
                                 ->andReturn($this->notification_model);
 

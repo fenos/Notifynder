@@ -2,6 +2,7 @@
 
 use Fenos\Notifynder\Models\Notification;
 use Illuminate\Database\DatabaseManager as DB;
+use Fenos\Notifynder\Parse\NotifynderParse;
 
 //Exceptions
 use Fenos\Notifynder\Exceptions\NotificationNotFoundException;
@@ -204,27 +205,31 @@ class NotifynderRepository implements NotifynderEloquentRepositoryInterface
 	{
 		if ( is_null($limit) )
 		{
-			return $this->notificationModel->with('body','user')
+			$result = $this->notificationModel->with('body','user')
 						->where('to_id',$to_id)
 						->where('read',0)
 						->orderBy('created_at','DESC')
 						->get();
+						
+			return $result->parse(); // parse results
 		}
 
 		if ($paginate)
 
-			return $this->notificationModel->with('body','user')
+			$result = $this->notificationModel->with('body','user')
 					->where('to_id',$to_id)
 					->where('read',0)
 					->orderBy('created_at','DESC')
 					->paginate($limit);
 		else
-			return $this->notificationModel->with('body','user')
+			$result = $this->notificationModel->with('body','user')
 						->where('to_id',$to_id)
 						->where('read',0)
 						->orderBy('created_at','DESC')
 						->limit($limit)
 						->get();
+
+		return $result->parse(); // parse results
 	}
 
 	/**

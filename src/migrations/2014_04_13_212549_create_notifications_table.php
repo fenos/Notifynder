@@ -18,6 +18,7 @@ class CreateNotificationsTable extends Migration {
 			$table->integer('to_id');
 			$table->integer('category_id');
 			$table->string('url');
+			$table->string('extra');
 			$table->integer('read');
 			$table->timestamps();
 		});

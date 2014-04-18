@@ -3,6 +3,7 @@
 use Illuminate\Database\Eloquent\Model;
 use Fenos\Notifynder\Models\Collections\NotifynderTranslationCollection;
 use Fenos\Notifynder\Translator\NotifynderTranslator;
+use Fenos\Notifynder\Parse\NotifynderParse;
 use Config;
 
 /**
@@ -11,7 +12,7 @@ use Config;
 class Notification extends Model
 {
 	protected $table = "notifications";
-	protected $fillable = ['from_id','to_id','category_id','url','read'];
+	protected $fillable = ['from_id','to_id','category_id','url','extra', 'read'];
 
 	/**
 	* Custom Collection for the translations

@@ -3,6 +3,8 @@
 use Illuminate\Database\Eloquent\Model;
 use Fenos\Notifynder\Models\Collections\NotifynderTranslationCollection;
 use Fenos\Notifynder\Translator\NotifynderTranslator;
+use Fenos\Notifynder\Parse\NotifynderParse;
+
 
 /**
 * 
@@ -25,4 +27,6 @@ class NotificationCategory extends Model
 	{
 		return $this->hasOne('Fenos\Notifynder\Models\Notification','category_id');
 	}
+
+
 }
