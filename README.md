@@ -17,10 +17,7 @@ This package has been released for Laravel 4 Framework.
 
 #### On the Next Release: ####
 
-   - Translations notifications **( Added )**
-   - Extend Notifynder Eloquent **( Added )**
-   - Insert on the body text whenever parameter you pass in any position. **( Added )**
-   - Notification Handler
+   - Notification Handler - Release 1.4.5
 
 - - -
 
@@ -199,7 +196,7 @@ The values between `{}` are the specials values but how you saw on the example I
 
 This two values are really different, because the first one get the value from the current relation of the user table so you can use all the felds about the user that sent the notification, example: `user.surname`.
 Instead the `{extra}` value a static special value and it will be replaced from the value `extra` in your table notifications. 
-So for now you are limited to have 2 dynamic values on your body text. on the future release this limit will be deleted.
+So for now you are limited to have as many as you want for relation values and 1 **extra** value on your body text. on the future release this limit will be deleted.
 
 ### Send Notification / s ###
 
