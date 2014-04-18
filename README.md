@@ -13,14 +13,11 @@ This package has been released for Laravel 4 Framework.
 ####What's new####
 
 #####Release 1.4.0#####
-
+* [Advanced Categories](#advanced-categories)
 
 #### On the Next Release: ####
 
-   - Translations notifications **( Added )**
-   - Extend Notifynder Eloquent **( Added )**
-   - Insert on the body text whenever parameter you pass in any position. **( Added )**
-   - Notification Handler
+   - Notification Handler - Release 1.4.5
 
 - - -
 
@@ -58,7 +55,7 @@ This package has been released for Laravel 4 Framework.
 Add it on your composer.json
 
 ~~~
-"fenos/notifynder": "1.3.*"
+"fenos/notifynder": "1.4.*"
 ~~~
 
 and run **composer update**
@@ -197,9 +194,9 @@ Notifynder:addCategory('inviteEvent','User {user.name} has invited you on the ev
 
 The values between `{}` are the specials values but how you saw on the example I used the first one with the `dot` annotation and the second one without it why?
 
-This two values are really different, because the first one get the value from the current relation of the user table so you can use all the felds about the user, example: `user.surname`.
+This two values are really different, because the first one get the value from the current relation of the user table so you can use all the felds about the user that sent the notification, example: `user.surname`.
 Instead the `{extra}` value a static special value and it will be replaced from the value `extra` in your table notifications. 
-So for now you are limited to have 2 dynamic values on your body text. on the future release this limit will be deleted.
+So for now you are limited to have as many as you want for relation values and 1 **extra** value on your body text. on the future release this limit will be deleted.
 
 ### Send Notification / s ###
 
