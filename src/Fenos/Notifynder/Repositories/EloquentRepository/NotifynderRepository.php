@@ -210,7 +210,7 @@ class NotifynderRepository implements NotifynderEloquentRepositoryInterface
 						->where('read',0)
 						->orderBy('created_at','DESC')
 						->get();
-						
+
 			return $result->parse(); // parse results
 		}
 
@@ -251,7 +251,7 @@ class NotifynderRepository implements NotifynderEloquentRepositoryInterface
 						->where('to_id',$to_id)
 						->orderBy('created_at','DESC')
 						->orderBy('read','ASC')
-						->get();
+						->get()->parse();
 		}
 
 		if ($paginate)
@@ -259,13 +259,13 @@ class NotifynderRepository implements NotifynderEloquentRepositoryInterface
 					->where('to_id',$to_id)
 					->orderBy('created_at','DESC')
 					->orderBy('read','ASC')
-					->paginate($limit);
+					->paginate($limit)->parse();
 		else
 			return $this->notificationModel->with('body','user')
 						->where('to_id',$to_id)
 						->orderBy('created_at','DESC')
 						->orderBy('read','ASC')
 						->limit($limit)
-						->get();
+						->get()->parse();
 	}
 }
