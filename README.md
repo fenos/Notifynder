@@ -58,7 +58,7 @@ This package has been released for Laravel 4 Framework.
 Add it on your composer.json
 
 ~~~
-"fenos/notifynder": "1.3.*"
+"fenos/notifynder": "1.4.*"
 ~~~
 
 and run **composer update**
