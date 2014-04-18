@@ -10,7 +10,6 @@ return array(
 		'it' => array(
 
 			'notifynder' => 'e un ottimo pacchetto',
-			'userPost'	 => 'user {user.username} has posted a comment on the wall of {user.first_name}, saying {extra}'
 
 		),
 
