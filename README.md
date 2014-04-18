@@ -10,12 +10,16 @@ Notifynder is a package that implement on your application a management system o
 This package has been released for Laravel 4 Framework.
 
 - - -
+####What's new####
+
+#####Release 1.4.0#####
+
 
 #### On the Next Release: ####
 
    - Translations notifications **( Added )**
    - Extend Notifynder Eloquent **( Added )**
-   - Insert on the body text whenever parameter you pass in any position.
+   - Insert on the body text whenever parameter you pass in any position. **( Added )**
    - Notification Handler
 
 - - -
@@ -28,6 +32,7 @@ This package has been released for Laravel 4 Framework.
     * [Add](#add-categories)
     * [Update](#update-categories)
     * [Delete](#delete-categories)
+    * [Advanced Categories](#advanced-categories)
 * [Send Notification/s](#send-notification-s)
     * [Send single notification](#send-single-notification)
     * [Send multiple notifications](#send-multiple-notifications)
@@ -174,6 +179,28 @@ catch(Fenos\Notifynder\Exceptions\NotificationCategoryNotFoundException $e)
 }
 ~~~
 
+### Advanced Categories ###
+
+**In the release 1.4.0 the migration file has changed adding one more column called "extra" to the table notifications**
+
+The advanced categories permit to have a really nice body text inseting "special values". this "special values" will be dynamic and parsed from notifynder.
+Let's see an example for understand better the logic:
+
+We want to have a notificaton that says: `User X has invited you on the event NOTIFYNDER`/
+
+But we know that user `X` and `NOTIFYNDER` will change for different users and events.
+For achieve this result when you create the category see the code example:
+
+~~~
+Notifynder:addCategory('inviteEvent','User {user.name} has invited you on the event {extra}'); // that's it!
+~~~
+
+The values between `{}` are the specials values but how you saw on the example I used the first one with the `dot` annotation and the second one without it why?
+
+This two values are really different, because the first one get the value from the current relation of the user table so you can use all the felds about the user, example: `user.surname`.
+Instead the `{extra}` value a static special value and it will be replaced from the value `extra` in your table notifications. 
+So for now you are limited to have 2 dynamic values on your body text. on the future release this limit will be deleted.
+
 ### Send Notification / s ###
 
 Notifynder permit to send a single notification or multiple notifications at once. Let's see how:
@@ -230,6 +257,7 @@ $notification_information = array(
         'to_id'       => 2, // ID user that receive the notification
         'category_id' => 1, // ID category
         'url'         => 'www.urlofnotification.com', // Url of your notification
+        'extra'       => 'extra value' // extra value that will be replace if present {extra} in the category body
         'created_at'  => Carbon::now(),
         'updated_at'  => Carbon::now()
     ),
@@ -239,6 +267,7 @@ $notification_information = array(
         'to_id'       => 4, // ID user that receive the notification
         'category_id' => 2, // ID category
         'url'         => 'www.urlofnotification.com', // Url of your notification
+        'extra'       => 'extra value' // extra value that will be replace if present {extra} in the category body
         'created_at'  => Carbon::now(),
         'updated_at'  => Carbon::now()
     )
@@ -258,6 +287,7 @@ $notification_information = array(
         'to_id'       => 2, // ID user that receive the notification
         'category_id' => Notifynder::category('londonNews')->id(), // Will give you the notification ID
         'url'         => 'www.urlofnotification.com', // Url of your notification
+        'extra'       => 'extra value' // extra value that will be replace if present {extra} in the category body
         'created_at'  => Carbon::now(),
         'updated_at'  => Carbon::now()
     ),
@@ -267,6 +297,7 @@ $notification_information = array(
         'to_id'       => 4, // ID user that receive the notification
         'category_id' => Notifynder::category('londonNews')->id(), // Will give you the notification ID
         'url'         => 'www.urlofnotification.com', // Url of your notification
+        'extra'       => 'extra value' // extra value that will be replace if present {extra} in the category body
         'created_at'  => Carbon::now(),
         'updated_at'  => Carbon::now()
     )
