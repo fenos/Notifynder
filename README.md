@@ -15,9 +15,8 @@ This package has been released for Laravel 4 Framework.
 #####Release 1.4.0#####
 * [Advanced Categories](#advanced-categories)
 
-#### On the Next Release: ####
-
-   - Notification Handler - Release 1.4.5
+#####Release 1.4.5#####
+* [Notifications Handler](#notifications-handler)
 
 - - -
 
@@ -46,6 +45,7 @@ This package has been released for Laravel 4 Framework.
     * [Delete Limit](#delete-limit)
 * [Method Category()](#method-category)
 * [Translations](#translations)
+* [Notifications Handler](#notifications-handler)
 * [Extends Model Class](#extend-the-model-class)
 
 ## Installation ##
@@ -494,6 +494,135 @@ Notifynder::getAll( 2 )->translate('it');
 
 It will return to you the body translated!
 
+
+### Notifications Handler ###
+
+What's this new future? Well notifynder handler is a simple class that permit you to have good separation of your logic for send notifications.
+Sometimes you wish to send a notification when something happen and sometimes "how is happened to me" I found myself to write 100 rows just for determinate wich category send
+why, and when. 
+
+Then this class will support us for separate our logic, let's see how it work:
+
+
+First you have to create a file called 1notifications.php1 on your `app` folder or whenever you feel right to create it. **It must be autoloaded** so let's adding it on your composer json:
+
+This will not be a class so you will use `files` under autoload section.
+~~~
+"files": [
+    "app/notifications.php"
+]
+~~~
+
+This file will be more or less similar to your route file where you'll listen this kind the event to be triggered. 
+For determinate a listener of notification let's see the code of example:
+
+~~~
+Notifynder::listen(['key' => 'EventInvite', 'handler' => 'YourClass@YourMethod']);
+~~~
+
+Let's describe what's going on here, we are passing an array with 2 **main keys** `key` and `handler`.
+
+- The `key` will give you the possibility to trigger this event whenever has been called.
+- The `handler` will fill with your Class and the method that will contain your logic for the notification. It is separate with `@`
+
+When you set up this listener I'm going to create that class for make more clear the situation:
+
+~~~
+
+class YourClass {
+
+    // you can also use dependency Injection on your constructor the class 
+    //will be resolved with App::make behind the scences
+    
+    /**
+    * Logic for send a notification to users
+    * Excluding the session id user
+    *
+    * @param $array_user_id (Array)
+    */
+    public function YourMethod($array_user_id) // i pass a array of user id that will receive the notification
+    {                                          // you can pass any parameters you want
+        if ( count($array_user_id) > 0 )
+        {
+
+            // delete the id of the user logged that send the notification
+            if(($key = array_search(Auth::user()->id, $array_user_id)) !== false) {
+
+                unset($array_user_id[$key]);
+            }
+
+            // i set up the array to send for all the remain users
+            foreach ($array_user_id as $key => $value)
+            {
+                $notification_information[] = array(
+
+                    'from_id'     => Auth::user()->id,      // ID user that send the notification
+                    'to_id'       => $array_user_id[$key],  // ID user that receive the notification
+                    'category_id' => 1,                     // category id
+                    'url'         => 'www.urlofnotification.com', // Url of your notification
+                );
+            }
+
+            // return the array of the users
+            return $notification_information;
+
+        }
+
+        // return false if there is no user to send
+        return false;
+
+    }
+
+}
+~~~
+
+Well this is how you set up your logic for the notifications returning the array of the users that you want that the current notification be sent.
+**Remember to return false in case no notifications will be sent** You will understand why in a bit.
+
+Now we had make listen our notification and set up our logic for make it send, now is time to **trigger** this notification.
+
+Instead to use directly the method `Notifynder::sendMultiple()` it will be used with a closure and it permit to invoke that method sending the notification as well.
+Let's see this:
+
+~~~
+Notifynder::fire('EventInvite',['values' => $myValues, 'use' => function($notifynder,$yourMethodCallBack){
+    
+    return $notifynder->sendMultiple($yourMethodCallBack); // cool isn't?
+
+}]);
+~~~
+
+Let's describe it:
+
+ - First Parameter is the `key` that had set on the listener
+ - The second parameter is an array passing `values` if you have any extra values to pass a that function, if you haven't any you can not use it.
+   As `use` value you pass a closure, in this closure you'll find as first parameter the object of notifynder, and the second the value that you
+   returned from your function
+
+If your method return false, the code Inside the closure will be not triggered and the clouse will return false as well.
+
+Now for complete this example let's see this in action:
+
+~~~
+
+class MyController extends BaseController
+{
+
+    public function inviteToEvent()
+    {
+        $users_selected = Input::get('users_selected'); // Array of users
+
+        Notifynder::fire('EventInvite',['values' => $users_selected, 'use' => function($notifynder, $users){
+
+            return $notifynder->sendMultiple($users); // it send to all your users!
+
+        }]);
+    }
+}
+
+~~~
+
+I hope you can see the benefits of that. Enjoy it.
 
 ### Extend the model class ###
 
