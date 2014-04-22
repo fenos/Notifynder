@@ -498,13 +498,13 @@ It will return to you the body translated!
 ### Notifications Handler ###
 
 What's this new future? Well notifynder handler is a simple class that permit you to have good separation of your logic for send notifications.
-Sometimes you wish to send a notification when something happen and sometimes "how is happened to me" I found myself to write 100 rows just for determinate wich category send
+Sometimes you wish to send a notification when something happen. Sometimes "how is happened to me" I found myself to write 100 rows and i didn't know where put that, just for determinate wich category send
 why, and when. 
 
 Then this class will support us for separate our logic, let's see how it work:
 
 
-First you have to create a file called 1notifications.php1 on your `app` folder or whenever you feel right to create it. **It must be autoloaded** so let's adding it on your composer json:
+First you have to create a file called `notifications.php` on your `app` folder or whenever you feel right to create it. **It must be autoloaded** so let's adding it on your composer json:
 
 This will not be a class so you will use `files` under autoload section.
 ~~~
@@ -514,7 +514,7 @@ This will not be a class so you will use `files` under autoload section.
 ~~~
 
 This file will be more or less similar to your route file where you'll listen this kind the event to be triggered. 
-For determinate a listener of notification let's see the code of example:
+For determinate a listener of a behavior that a notification should have let's see the code of example:
 
 ~~~
 Notifynder::listen(['key' => 'EventInvite', 'handler' => 'YourClass@YourMethod']);
@@ -539,6 +539,7 @@ class YourClass {
     * Excluding the session id user
     *
     * @param $array_user_id (Array)
+    * @return Array
     */
     public function YourMethod($array_user_id) // i pass a array of user id that will receive the notification
     {                                          // you can pass any parameters you want
@@ -576,10 +577,10 @@ class YourClass {
 }
 ~~~
 
-Well this is how you set up your logic for the notifications returning the array of the users that you want that the current notification be sent.
+Well this is how you set up your logic for the notifications returning the array of the users that you want that the current notification will be sent.
 **Remember to return false in case no notifications will be sent** You will understand why in a bit.
 
-Now we had make listen our notification and set up our logic for make it send, now is time to **trigger** this notification.
+Now we had made listening our notification and set up our logic for make it send, now is time to **trigger** this notification.
 
 Instead to use directly the method `Notifynder::sendMultiple()` it will be used with a closure and it permit to invoke that method sending the notification as well.
 Let's see this:
@@ -596,10 +597,10 @@ Let's describe it:
 
  - First Parameter is the `key` that had set on the listener
  - The second parameter is an array passing `values` if you have any extra values to pass a that function, if you haven't any you can not use it.
-   As `use` value you pass a closure, in this closure you'll find as first parameter the object of notifynder, and the second the value that you
+   As `use` value you pass a closure, in this closure you'll find as first parameter the object of notifynder, and the second the parameter is that value that you
    returned from your function
 
-If your method return false, the code Inside the closure will be not triggered and the clouse will return false as well.
+If your method return false, the code Inside the closure will not be triggered and the clouse will return false as well.
 
 Now for complete this example let's see this in action:
 
