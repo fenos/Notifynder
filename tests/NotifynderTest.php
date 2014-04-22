@@ -43,6 +43,11 @@ class Nofifynder extends PHPUnit_Framework_TestCase
     protected $notifynderTranslator;
 
     /**
+    * @var instance of Fenos\Notifynder\Handler\NotifynderHandler
+    */
+    protected $notifynderHandler;
+
+    /**
     * @var Fenos\Notifynder\Models\Notificantion
     */
     protected $notification_model;
@@ -57,7 +62,8 @@ class Nofifynder extends PHPUnit_Framework_TestCase
 
             $this->notifynderRepository = m::mock('Fenos\Notifynder\Repositories\EloquentRepository\NotifynderRepository'),
             $this->notifynderTypeRepository = m::mock('Fenos\Notifynder\Repositories\EloquentRepository\NotifynderCategoryRepository'),
-            $this->notifynderTranslator = m::mock('Fenos\Notifynder\Translator\NotifynderTranslator')
+            $this->notifynderTranslator = m::mock('Fenos\Notifynder\Translator\NotifynderTranslator'),
+            $this->notifynderHandler = m::mock('Fenos\Notifynder\Handler\NotifynderHandler')
 
         );
 

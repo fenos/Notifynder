@@ -28,11 +28,10 @@ class NotifynderServiceProvider extends ServiceProvider {
 	 */
 	public function register()
 	{
-		
 		$this->repositories();
 		$this->notifynder();
 		$this->collections();
-		
+		$this->handler();
 	}
 
 	/**
@@ -45,7 +44,8 @@ class NotifynderServiceProvider extends ServiceProvider {
 	        return new Notifynder(
 	        	$app->make('notifynder.repository.notifynder'),
 	        	$app->make('notifynder.repository.category'),
-	        	$app->make('Fenos\Notifynder\Translator\NotifynderTranslator')
+	        	$app->make('Fenos\Notifynder\Translator\NotifynderTranslator'),
+	        	$app->make('notifynder.handler')
 	        );
     	});
 	}
@@ -86,6 +86,17 @@ class NotifynderServiceProvider extends ServiceProvider {
 			return new Models\Collections\NotifynderTranslationCollection(
 				[],
 				$app->make('Fenos\Notifynder\Translator\NotifynderTranslator')
+			);
+
+		});
+	}
+
+	public function handler()
+	{
+		$this->app->bind('notifynder.handler', function($app){
+
+			return new Handler\NotifynderHandler(
+				$app['app']
 			);
 
 		});

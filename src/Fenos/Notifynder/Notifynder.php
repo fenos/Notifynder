@@ -3,6 +3,7 @@
 use Fenos\Notifynder\Repositories\EloquentRepository\NotifynderRepository;
 use Fenos\Notifynder\Repositories\EloquentRepository\NotifynderCategoryRepository;
 use Fenos\Notifynder\Translator\NotifynderTranslator;
+use Fenos\Notifynder\Handler\NotifynderHandler;
 
 //Exceptions
 use Fenos\Notifynder\Exceptions\NotificationCategoryNotFoundException;
@@ -10,7 +11,7 @@ use Fenos\Notifynder\Exceptions\NotificationNotFoundException;
 
 /**
 * Class management for notifications
-* Version 1.0 MIT Licence
+* Version 1.4.5 MIT Licence
 */
 class Notifynder implements NotifynderInterface
 {
@@ -30,6 +31,11 @@ class Notifynder implements NotifynderInterface
 	protected $notifynderTranslator;
 
 	/**
+	* @var instance of Fenos\Notifynder\Handler\NotifynderHandler
+	*/
+	protected $notifynderHandler;
+
+	/**
 	* @var Container category for lazy Loading
 	*/
 	protected $category_container = array();
@@ -41,11 +47,13 @@ class Notifynder implements NotifynderInterface
 
 	function __construct(NotifynderRepository $notifynderRepository,
 						 NotifynderCategoryRepository $notifynderCategoryRepository,
-						 NotifynderTranslator $notifynderTranslator )
+						 NotifynderTranslator $notifynderTranslator,
+						 NotifynderHandler $notifynderHandler	 )
 	{
 		$this->notifynderRepository = $notifynderRepository;
 		$this->notifynderCategoryRepository = $notifynderCategoryRepository;
 		$this->notifynderTranslator = $notifynderTranslator;
+		$this->notifynderHandler = $notifynderHandler;
 	}
 
 	/**
@@ -299,6 +307,31 @@ class Notifynder implements NotifynderInterface
 	public function translate($language,$name)
 	{
 		return $this->notifynderTranslator->translate($language,$name);
+	}
+
+	/**
+	* Load all the listener availables
+	*
+	* @param $listen 	(Array)
+	* @return Array
+	*/
+	public function listen(array $listen)
+	{
+		return $this->notifynderHandler->listen($listen);
+	}
+
+	/**
+	* Fire the method with the logic of your notification
+	* It will execute the closure just if the method fired
+	* Will not return false
+	*
+	* @param $key 		(String)
+	* @param $values 	(Array)
+	* @return Closure \ False
+	*/
+	public function fire($key, array $values)
+	{
+		return $this->notifynderHandler->fire($this, $key, $values);
 	}
 
 	/**
