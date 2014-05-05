@@ -16,15 +16,12 @@ interface NotifynderEloquentRepositoryInterface
 
 	/**
 	* Send the notification to the current
-	* User
+	* User 
 	*
-	* @param $from_id 	(int)
-	* @param $to_id 	(int)
-	* @param $type_id 	(int)
-	* @param $url 		(String)
-	* @return Bool
+	* @param $notificationInformations 	(Array)
+	* @return Fenos\Notyfinder\Models\Notification
 	*/
-	public function sendOne(array $notificationInformation);
+	public function sendOne(array $notificationInformations);
 
 	/**
 	* Send Multiple notification at once
@@ -51,9 +48,9 @@ interface NotifynderEloquentRepositoryInterface
 	*
 	* @param $to_id 	(int)
 	* @param $numbers	(int)
-	* @param $position 	(String) | ASC - DESC
+	* @param $order 	(String) | ASC - DESC
 	*/
-	public function readLimit($to_id,$numbers, $position = "ASC");
+	public function readLimit($to_id,$numbers, $order = "ASC");
 
 	/**
 	* Make read all notification not read
@@ -64,10 +61,52 @@ interface NotifynderEloquentRepositoryInterface
 	public function readAll($to_id);
 
 	/**
-	* Retrive all notifications not read
-	* in first.
+	* Delete a notification giving the id
+	* of it
+	*
+	* @param $id (int)
+	* @return Boolean
+	*/
+	public function delete($notification_id);
+
+	/**
+	* Delete All notifications about the
+	* current user 
+	*
+	* @param $user_id (int)
+	* @return Boolean
+	*/
+	public function deleteAll($user_id);
+
+	/**
+	* Delete numbers of notifications equals
+	* to the number passing as 2 parameter of
+	* the current user
+	*
+	* @param $user_id 	(int)
+	* @param $number 	(int)
+	* @param $order 	(String)
+	* @return Boolean
+	*/
+	public function deleteLimit($user_id, $number, $order);
+
+	/**
+	* Retrive notifications not Read
 	* You can also limit the number of
 	* Notification if you don't it will get all
+	*
+	* @param $to_id 	(int)
+	* @param $limit 	(int)
+	* @param $paginate	(Boolean)
+	* @return Fenos\Notyfinder\Models\Notification Collection
+	*/
+	public function getNotRead($to_id, $limit, $paginate);
+
+	/**
+	* Retrive all notifications, not read
+	* in first.
+	* You can also limit the number of
+	* Notifications if you don't, it will get all
 	*
 	* @param $to_id 	(int)
 	* @param $limit 	(int)

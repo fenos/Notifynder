@@ -12,7 +12,7 @@ use Config;
 class Notification extends Model
 {
 	protected $table = "notifications";
-	protected $fillable = ['from_id','to_id','category_id','url','extra', 'read'];
+	protected $fillable = ['from_id','from_type','to_id','to_type', 'category_id','url','extra', 'read'];
 
 	/**
 	* Custom Collection for the translations
@@ -28,8 +28,41 @@ class Notification extends Model
 		return $this->belongsTo('Fenos\Notifynder\Models\NotificationCategory','category_id');
 	}
 
-	public function user()
+	public function from()
 	{
-		return $this->belongsTo(Config::get('notifynder::model'),'from_id');
+		// check if on the configurations file there is the option 
+		// polymorphic setted to true, if so Notifynder will work 
+		// polymorphic.
+		if ( Config::get('notifynder::polymorphic') === false )
+		{
+			return $this->belongsTo(Config::get('notifynder::config.model'),'from_id');
+		}
+		else {
+			
+			return $this->morphTo();
+		}
+	}
+
+	public function to()
+	{
+		// check if on the configurations file there is the option 
+		// polymorphic setted to true, if so Notifynder will work 
+		// polymorphic.
+		if ( Config::get('notifynder::notifynder.polymorphic') === false )
+		{
+			return $this->belongsTo(Config::get('notifynder::config.model'),'to_id');
+		}
+		else {
+			
+			return $this->morphTo();
+		}
+	}
+
+	public function scopeGetNotifications($query,$to_id)
+	{
+		return $query->with('body','from')
+						->where('to_id',$to_id)
+						->where('read',0)
+						->orderBy('created_at','DESC');
 	}
 }

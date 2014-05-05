@@ -318,7 +318,7 @@ class NofitynderRepositoryTest extends PHPUnit_Framework_TestCase
     public function test_get_all_not_read_notifications()
     {
         $this->notification_model->shouldReceive('with')
-                                ->with('body','user')
+                                ->with('body','from')
                                 ->andReturn($this->notification_model);
 
         $this->notification_model->shouldReceive('where')
@@ -345,7 +345,7 @@ class NofitynderRepositoryTest extends PHPUnit_Framework_TestCase
     public function test_get_limit_not_read_notifications()
     {
         $this->notification_model->shouldReceive('with')
-                                ->with('body','user')
+                                ->with('body','from')
                                 ->andReturn($this->notification_model);
 
         $this->notification_model->shouldReceive('where')
@@ -377,7 +377,7 @@ class NofitynderRepositoryTest extends PHPUnit_Framework_TestCase
     public function test_get_pagination_not_read_notifications()
     {
         $this->notification_model->shouldReceive('with')
-                                ->with('body','user')
+                                ->with('body','from')
                                 ->andReturn($this->notification_model);
 
         $this->notification_model->shouldReceive('where')
@@ -404,7 +404,7 @@ class NofitynderRepositoryTest extends PHPUnit_Framework_TestCase
     public function test_get_all_notifications()
     {
         $this->notification_model->shouldReceive('with')
-                                ->with('body','user')
+                                ->with('body','from')
                                 ->andReturn($this->notification_model);
 
         $this->notification_model->shouldReceive('where')
@@ -432,7 +432,7 @@ class NofitynderRepositoryTest extends PHPUnit_Framework_TestCase
     public function test_get_all_notifications_limiting_result()
     {
         $this->notification_model->shouldReceive('with')
-                                ->with('body','user')
+                                ->with('body','from')
                                 ->andReturn($this->notification_model);
 
         $this->notification_model->shouldReceive('where')
@@ -465,7 +465,7 @@ class NofitynderRepositoryTest extends PHPUnit_Framework_TestCase
     public function test_get_all_notifications_paginating_result()
     {
         $this->notification_model->shouldReceive('with')
-                                ->with('body','user')
+                                ->with('body','from')
                                 ->andReturn($this->notification_model);
 
         $this->notification_model->shouldReceive('where')

@@ -42,7 +42,7 @@ class NotifynderServiceProvider extends ServiceProvider {
 		$this->app['notifynder'] = $this->app->share(function($app)
     	{
 	        return new Notifynder(
-	        	$app->make('notifynder.repository.notifynder'),
+	        	$app->make('Fenos\Notifynder\Repositories\EloquentRepository\NotifynderEloquentRepositoryInterface'),
 	        	$app->make('notifynder.repository.category'),
 	        	$app->make('Fenos\Notifynder\Translator\NotifynderTranslator'),
 	        	$app->make('notifynder.handler')
@@ -55,16 +55,24 @@ class NotifynderServiceProvider extends ServiceProvider {
 	*/
 	public function repositories()
 	{	
+
 		// bind NotifynderRepository
 		$this->app->bind('notifynder.repository.notifynder', function($app){
 
-			$notification_model = $app['config']->get('notifynder::config.notification_model');
+			$classRepo = ( $this->app['config']->get('notifynder::config.polymorphic') === true) ? "NotifynderRepositoryPolymorphic" : "NotifynderRepository";
+			$generateRepository = "Fenos\Notifynder\Repositories\EloquentRepository\\".$classRepo;
 
-			return new Repositories\EloquentRepository\NotifynderRepository(
+			$notification_model = $app['config']->get('notifynder::config.notification_model');
+			
+
+			return new $generateRepository(
 				new $notification_model,
 				$app['db']
 			);
 		});
+
+		$this->app->bind('Fenos\Notifynder\Repositories\EloquentRepository\NotifynderEloquentRepositoryInterface','notifynder.repository.notifynder');
+		
 
 		// bind NotifynderCategoryRepository
 		$this->app->bind('notifynder.repository.category', function($app){

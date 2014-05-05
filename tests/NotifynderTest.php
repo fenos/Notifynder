@@ -14,7 +14,7 @@ use Fenos\Notifynder\Exceptions\NotificationCategoryNotFoundException;
 /**
 * 
 */
-class Nofifynder extends PHPUnit_Framework_TestCase
+class NofifynderTest extends PHPUnit_Framework_TestCase
 {
     
     /**
@@ -219,6 +219,12 @@ class Nofifynder extends PHPUnit_Framework_TestCase
 
     public function test_read_notifications_giving_max_limit()
     {
+
+      $this->notifynderRepository->shouldReceive('entity')
+                ->once()
+                ->with("")
+                ->andReturn($this->notifynderRepository);
+
       $this->notifynderRepository->shouldReceive('readLimit')
                                   ->once()
                                   ->with(2,10,'ASC')
@@ -231,6 +237,11 @@ class Nofifynder extends PHPUnit_Framework_TestCase
 
     public function test_read_all_notifications_by_user_id()
     {
+      $this->notifynderRepository->shouldReceive('entity')
+                ->once()
+                ->with("")
+                ->andReturn($this->notifynderRepository);
+
       $this->notifynderRepository->shouldReceive('readAll')
                                   ->once()
                                   ->with(1)
@@ -243,6 +254,11 @@ class Nofifynder extends PHPUnit_Framework_TestCase
 
     public function test_get_not_read_notifications()
     {
+      $this->notifynderRepository->shouldReceive('entity')
+                ->once()
+                ->with("")
+                ->andReturn($this->notifynderRepository);
+
       $this->notifynderRepository->shouldReceive('getNotRead')
                                   ->once()
                                   ->with(1,null,false)
@@ -255,6 +271,11 @@ class Nofifynder extends PHPUnit_Framework_TestCase
 
     public function test_get_all_notifications()
     {
+      $this->notifynderRepository->shouldReceive('entity')
+                ->once()
+                ->with("")
+                ->andReturn($this->notifynderRepository);
+
       $this->notifynderRepository->shouldReceive('getAll')
                                   ->once()
                                   ->with(1,null,false)
@@ -279,6 +300,11 @@ class Nofifynder extends PHPUnit_Framework_TestCase
 
     public function test_delete_all_notifications_about_the_current_user()
     {
+      $this->notifynderRepository->shouldReceive('entity')
+                ->once()
+                ->with("")
+                ->andReturn($this->notifynderRepository);
+
       $this->notifynderRepository->shouldReceive('deleteAll')
                                   ->once()
                                   ->with(1)
@@ -291,6 +317,11 @@ class Nofifynder extends PHPUnit_Framework_TestCase
 
     public function test_delete_notifications_as_much_as_the_number_and_order_passes()
     {
+      $this->notifynderRepository->shouldReceive('entity')
+                ->once()
+                ->with("")
+                ->andReturn($this->notifynderRepository);
+
       $this->notifynderRepository->shouldReceive('deleteLimit')
                                   ->once()
                                   ->with(1,10,'DESC')
@@ -356,5 +387,17 @@ class Nofifynder extends PHPUnit_Framework_TestCase
       $result = $this->notifynder->updateCategory(['name' => 'new', 'content' => 'new content'],1);
       
       $this->assertInstanceOf('Fenos\Notifynder\Models\NotificationCategory',$result);
+    }
+
+    public function test_listen_handler()
+    {
+      $this->notifynderHandler->shouldReceive('listen')
+                            ->once()
+                            ->with(['key' => 'test', 'handler' => 'Test@test'])
+                            ->andReturn(['test' => 'Test@test']);
+
+      $result = $this->notifynder->listen(['key' => 'test', 'handler' => 'Test@test']);
+
+      $this->assertEquals(['test' => 'Test@test'],$result);
     }
 }

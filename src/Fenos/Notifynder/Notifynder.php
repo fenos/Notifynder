@@ -1,6 +1,6 @@
 <?php namespace Fenos\Notifynder;
 
-use Fenos\Notifynder\Repositories\EloquentRepository\NotifynderRepository;
+use Fenos\Notifynder\Repositories\EloquentRepository\NotifynderEloquentRepositoryInterface;
 use Fenos\Notifynder\Repositories\EloquentRepository\NotifynderCategoryRepository;
 use Fenos\Notifynder\Translator\NotifynderTranslator;
 use Fenos\Notifynder\Handler\NotifynderHandler;
@@ -16,7 +16,7 @@ use Fenos\Notifynder\Exceptions\NotificationNotFoundException;
 class Notifynder implements NotifynderInterface
 {
 	/**
-	* @var instance of Fenos\Notifynder\Repositories\NotifynderRepository
+	* @var instance of Fenos\Notifynder\Repositories\NotifynderEloquentRepositoryInterface
 	*/
 	protected $notifynderRepository;
 
@@ -41,11 +41,16 @@ class Notifynder implements NotifynderInterface
 	protected $category_container = array();
 
 	/**
+	* @var entity container
+	*/
+	protected $entity;
+
+	/**
 	* @var Category id
 	*/
 	protected $category;
 
-	function __construct(NotifynderRepository $notifynderRepository,
+	function __construct(NotifynderEloquentRepositoryInterface $notifynderRepository,
 						 NotifynderCategoryRepository $notifynderCategoryRepository,
 						 NotifynderTranslator $notifynderTranslator,
 						 NotifynderHandler $notifynderHandler	 )
@@ -89,6 +94,24 @@ class Notifynder implements NotifynderInterface
 		}
 
 		throw new NotificationCategoryNotFoundException("Notification Category Not Found");
+	}
+
+	/**
+	* Method used when polymorphic relations
+	* are enabled. With this method you'll choose 
+	* The model that you want get result
+	*/
+	public function entity($name)
+	{
+		if (class_exists($name))
+		{
+			$this->entity = $name;
+
+			return $this;
+		}
+
+		throw new \InvalidArgumentException("The class [$name] not exist", 1);
+		
 	}
 
 	/**
@@ -162,7 +185,7 @@ class Notifynder implements NotifynderInterface
 	*/
 	public function readLimit($to_id,$numbers, $position = "ASC")
 	{
-		return $this->notifynderRepository->readLimit($to_id,$numbers,$position);
+		return $this->notifynderRepository->entity($this->entity)->readLimit($to_id,$numbers,$position);
 	}
 
 	/**
@@ -173,7 +196,7 @@ class Notifynder implements NotifynderInterface
 	*/
 	public function readAll($to_id)
 	{
-		return $this->notifynderRepository->readAll($to_id);
+		return $this->notifynderRepository->entity($this->entity)->readAll($to_id);
 	}
 
 	/**
@@ -188,7 +211,7 @@ class Notifynder implements NotifynderInterface
 	*/
 	public function getNotRead($to_id,$limit = null, $paginate = false)
 	{	
-		return $this->notifynderRepository->getNotRead($to_id, $limit, $paginate );
+		return $this->notifynderRepository->entity($this->entity)->getNotRead($to_id, $limit, $paginate );
 	}
 
 	/**
@@ -204,7 +227,7 @@ class Notifynder implements NotifynderInterface
 	*/
 	public function getAll($to_id,$limit = null, $paginate = false)
 	{
-		return $this->notifynderRepository->getAll($to_id,$limit,$paginate);
+		return $this->notifynderRepository->entity($this->entity)->getAll($to_id,$limit,$paginate);
 	}
 
 	/**
@@ -228,7 +251,7 @@ class Notifynder implements NotifynderInterface
 	*/
 	public function deleteAll($user_id)
 	{
-		return $this->notifynderRepository->deleteAll($user_id);
+		return $this->notifynderRepository->entity($this->entity)->deleteAll($user_id);
 	}
 
 	/**
@@ -243,7 +266,7 @@ class Notifynder implements NotifynderInterface
 	*/
 	public function deleteLimit($user_id, $number, $order = "ASC")
 	{
-		return $this->notifynderRepository->deleteLimit($user_id, $number, $order);
+		return $this->notifynderRepository->entity($this->entity)->deleteLimit($user_id, $number, $order);
 	}
 
 	/**

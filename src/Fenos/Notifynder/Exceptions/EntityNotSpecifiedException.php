@@ -3,10 +3,9 @@
 /**
 * 
 */
-class NotificationNotFoundException extends \Exception
+class EntityNotSpecifiedException extends \Exception
 {
 	
 }
-
 
 

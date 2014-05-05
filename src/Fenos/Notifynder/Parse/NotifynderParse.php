@@ -51,7 +51,7 @@ class NotifynderParse
 			// there are any?
 			if ( count($values) == 0 ) // no
 			{
-				$this->items[$key]['body']['text'] = $this->items[$key]['body']['text'];
+				$this->items[$key]['body']['text'];
 			}
 			else // yes
 			{

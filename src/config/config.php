@@ -10,6 +10,12 @@ return array(
 'model' => 'User',
 
 /**
+* Do you want have notifynder that work polymorphically?
+* just swap the value to true and you will able to use it!
+*/
+'polymorphic' => false,
+
+/**
 * If you need to extend the model class of 
 * Notifynder you just need to change this line
 * With the path / NameSpace of your model and extend it

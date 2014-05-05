@@ -6,16 +6,22 @@ use Fenos\Notifynder\Parse\NotifynderParse;
 
 //Exceptions
 use Fenos\Notifynder\Exceptions\NotificationNotFoundException;
+use Fenos\Notifynder\Exceptions\EntityNotSpecifiedException;
 
 /**
-* 
+* Polymorphic repository
 */
-class NotifynderRepository implements NotifynderEloquentRepositoryInterface
+class NotifynderRepositoryPolymorphic extends NotifynderRepository implements NotifynderEloquentRepositoryInterface
 {
 	/**
 	* @var instance of Fenos\Notyfinder\Models\Notification (Eloquent)
 	*/
 	protected $notificationModel;
+
+	/**
+	* @var entity container
+	*/
+	protected $entity;
 
 	/**
 	* @var Application
@@ -33,6 +39,10 @@ class NotifynderRepository implements NotifynderEloquentRepositoryInterface
 		return $this->app;
 	}
 
+	/**
+	* Getter for entity property
+	* @return $this
+	*/
 	public function entity($entity)
 	{
 		$this->entity = $entity;
@@ -41,74 +51,20 @@ class NotifynderRepository implements NotifynderEloquentRepositoryInterface
 	}
 
 	/**
-	* Find Notification by id
+	* This method check if the entity inserted
+	* is not null otherwise it throw an exception
+	* because on polymorphic relations is required
 	*
-	* @param $notification_id	(int)
-	* @return Fenos\Notyfinder\Models\Notification | NotificationNotFoundException
+	* @return void
+	* @throw EntityNotSpecifiedException
 	*/
-	public function find($notification_id)
+	public function entityRequired()
 	{
-		$notification = $this->notificationModel->find($notification_id);
-
-		if ( !is_null($notification) )
+		if (is_null( $this->entity ) )
 		{
-			return $notification;
+			throw new EntityNotSpecifiedException("You have to implement the method [entity()] when polymorphic is active");
+			
 		}
-
-		throw new NotificationNotFoundException("Notification Not Found");
-
-	}
-
-	/**
-	* Send the notification to the current
-	* User 
-	*
-	* @param $notificationInformations 	(Array)
-	* @return Fenos\Notyfinder\Models\Notification
-	*/
-	public function sendOne(array $notificationInformations)
-	{
-		return $this->notificationModel->create($notificationInformations);
-	}
-
-	/**
-	* Send Multiple notification at once
-	* Remember to add manually the dateTime
-	* Because the method Insert of DB doesn't
-	* automatcally
-	*
-	* @param $multiNotifications 	(Array)
-	* @return Boolean
-	*/
-	public function sendMultiple(array $multiNotifications)
-	{
-		return $this->db->table('notifications')->insert($multiNotifications);
-	}
-
-	/**
-	* Make read one notification
-	*
-	* @param $notification_id	(int)
-	* @return Fenos\Notyfinder\Models\Notification | False
-	*/
-	public function readOne($notification_id)
-	{
-		// find notification
-		$notification = $this->notificationModel->find($notification_id);
-
-		if ( !is_null($notification) )
-		{
-
-			// update notification
-			$notification->read = 1;
-			$notification->save();
-
-			return $notification;
-
-		}
-		
-		return false;
-		
 	}
 
 	/**
@@ -121,8 +77,11 @@ class NotifynderRepository implements NotifynderEloquentRepositoryInterface
 	*/
 	public function readLimit($to_id,$numbers, $order = "ASC")
 	{
+		$this->entityRequired();
+
 		return $this->db->table('notifications')
 						->where('to_id','=',$to_id)
+						->where('to_type',$this->entity)
 						->orderBy('id',$order)
 						->limit($numbers)
 						->update(['read' => 1]);
@@ -136,28 +95,9 @@ class NotifynderRepository implements NotifynderEloquentRepositoryInterface
 	*/
 	public function readAll($to_id)
 	{
-		return $this->db->table('notifications')->where('to_id','=',$to_id)->update(['read' => 1]);
-	}
+		$this->entityRequired();
 
-	/**
-	* Delete a notification giving the id
-	* of it
-	*
-	* @param $id (int)
-	* @return Boolean
-	*/
-	public function delete($notification_id)
-	{
-
-		$notification = $this->notificationModel->find($notification_id);
-
-		if ( !is_null( $notification) )
-		{
-			return $notification->delete();
-		}
-
-		return false;
-		
+		return $this->db->table('notifications')->where('to_id','=',$to_id)->where('to_type',$this->entity)->update(['read' => 1]);
 	}
 
 	/**
@@ -169,7 +109,9 @@ class NotifynderRepository implements NotifynderEloquentRepositoryInterface
 	*/
 	public function deleteAll($user_id)
 	{
-		return $this->db->table('notifications')->where('to_id',$user_id)->delete();
+		$this->entityRequired();
+
+		return $this->db->table('notifications')->where('to_id',$user_id)->where('to_type',$this->entity)->delete();
 	}
 
 	/**
@@ -184,8 +126,10 @@ class NotifynderRepository implements NotifynderEloquentRepositoryInterface
 	*/
 	public function deleteLimit($user_id, $number, $order)
 	{
+		$this->entityRequired();
 		
 		$notifications_id = $this->notificationModel->where('to_id',$user_id)
+							->where('to_type',$this->entity)
 							->orderBy('id',$order)
 							->select('id')
 							->limit($number)->get();
@@ -209,10 +153,13 @@ class NotifynderRepository implements NotifynderEloquentRepositoryInterface
 	* @return Fenos\Notyfinder\Models\Notification Collection
 	*/
 	public function getNotRead($to_id, $limit, $paginate)
-	{
+	{	
+		$this->entityRequired();
+
 		if ( is_null($limit) )
 		{
 			$result = $this->notificationModel->with('body','from')
+						->where('to_type',$this->entity)
 						->where('to_id',$to_id)
 						->where('read',0)
 						->orderBy('created_at','DESC')
@@ -224,12 +171,14 @@ class NotifynderRepository implements NotifynderEloquentRepositoryInterface
 		if ($paginate)
 
 			$result = $this->notificationModel->with('body','from')
+						->where('to_type',$this->entity)
 						->where('to_id',$to_id)
 						->where('read',0)
 						->orderBy('created_at','DESC')
-						->paginate($limit);
+					->paginate($limit);
 		else
 			$result = $this->notificationModel->with('body','from')
+						->where('to_type',$this->entity)
 						->where('to_id',$to_id)
 						->where('read',0)
 						->orderBy('created_at','DESC')
@@ -251,11 +200,14 @@ class NotifynderRepository implements NotifynderEloquentRepositoryInterface
 	* @return Fenos\Notyfinder\Models\Notification Collection
 	*/
 	public function getAll($to_id,$limit = null, $paginate = false)
-	{
+	{	
+		$this->entityRequired();
+		
 		if ( is_null($limit) )
 		{
 			return $this->notificationModel->with('body','from')
 						->where('to_id',$to_id)
+						->where('to_type',$this->entity)
 						->orderBy('created_at','DESC')
 						->orderBy('read','ASC')
 						->get()->parse();
@@ -264,12 +216,14 @@ class NotifynderRepository implements NotifynderEloquentRepositoryInterface
 		if ($paginate)
 			return $this->notificationModel->with('body','from')
 					->where('to_id',$to_id)
+					->where('to_type',$this->entity)
 					->orderBy('created_at','DESC')
 					->orderBy('read','ASC')
 					->paginate($limit)->parse();
 		else
 			return $this->notificationModel->with('body','from')
 						->where('to_id',$to_id)
+						->where('to_type',$this->entity)
 						->orderBy('created_at','DESC')
 						->orderBy('read','ASC')
 						->limit($limit)
