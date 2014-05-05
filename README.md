@@ -18,6 +18,9 @@ This package has been released for Laravel 4 Framework.
 #####Release 1.4.5#####
 * [Notifications Handler](#notifications-handler)
 
+#####Release 1.6.0#####
+* [Notifynder Polymorphic](#notifynder-polymorphic)
+
 - - -
 
 
@@ -44,9 +47,11 @@ This package has been released for Laravel 4 Framework.
     * [Delete All](#delete-all)
     * [Delete Limit](#delete-limit)
 * [Method Category()](#method-category)
+* [Notifynder Polymorphic](#notifynder-polymorphic)
 * [Translations](#translations)
 * [Notifications Handler](#notifications-handler)
 * [Extends Model Class](#extend-the-model-class)
+* [Upgrade Release](#upgrade-release)
 
 ## Installation ##
 
@@ -449,6 +454,70 @@ catch(Fenos\Notifynder\Exceptions\NotificationCategoryNotFoundException $e)
 }
 ~~~
 
+## Notifynder Polymorphic ##
+
+If you have a **previous release** already installed before upgrade to the 1.6.0 please see the [Upgrade Release ](#upgrade-release) section. 
+
+On the release 1.6.0 Notifynder becomes polymorphic, or well just if you want!! What does it mean that Notifynder is polymorphic? Notifynder was binded with a User model, so the system of notifications could be use it only beetween users. But now you can decide if use it as normal just for users or if you need more power transform it Polymorphically.
+
+Let's see how it work:
+
+The magic is on the configutation file, so if you didn't push them just do it:
+
+~~~
+php artisan config:publish fenos/notifynder
+~~~
+
+then you will see a new value `polymorphic` setted to false just swap it to true and that's it now notifynder work polymorphically.
+
+#####Set up relations on your models#####
+ 
+The models that you wish to have as morphed to Notifynder must include the following relations:
+
+~~
+public function notifications_sender()
+{
+    return $this->morphMany('Fenos\Notifynder\Models\Notification','from');
+}
+
+public function notifications_receiver()
+{
+    return $this->morphMany('Fenos\Notifynder\Models\Notification','to');
+}
+~~
+
+#####Entity method() #####
+
+An **Important** method will help you to differentiate the models associated with notifynder when it comes polymorphcally. 
+
+So every time you will use a method that require the `$user_id` when **polymorphic is disabled** you'll now use the method entity to specify the model like so:
+
+~~~
+// Get all notifications about the User with ID 1
+Notifynder::entity('Users')->getAll(1); 
+
+// Delete All notifications about the Team with ID 2
+Notifynder::entity('Teams')->deleteAll(2);
+~~~
+
+That's It! :)
+
+#####Send notifications polymorphically#####
+
+Just remeber to add of the default array this 2 field: `from_type`, `to_type`
+
+~~~
+$notification_information = array(
+
+    'from_id'     => 1, // ID user that send the notification
+    'from_type'   => "User", // Type of model used for polymorphic relation
+    'to_id'       => 2, // ID user that receive the notification
+    'to_type'   => "User",  // Type of model used for polymorphic relation
+    'category_id' => 1, // category notification ID
+    'url'         => 'www.urlofnotification.com', // Url of your notification
+);
+~~~
+
 ### Translations ###
 
 When you have a good system of notifications and you want extends that notifications to multiple languages, Notifynder use a easy approch for make it work.
@@ -641,6 +710,27 @@ class NewNotificationModel extends Notification
 }
 
 ~~~
+
+#### Upgrade Release ####
+
+**Migrate to Release 1.4.5 to 1.6.0 Important Notes:**
+
+1) Migrations file are changed just adding 2 columns `from_type`, `from_id`
+2) Now for access to the relation of the sender when you get the notifications use `from` instead `user`
+
+Example
+
+~~~
+$allNotifications = Notifynder::getAll(1);
+
+foreach($allNotifications as $notification)
+{   
+    // New release 1.6.0
+    <li>The notification has been sent from: {{ $notification->from->name }}</li>
+
+    // Preious release
+    <li>The notification has been sent from: {{ $notification->user->name }}</li>
+}
 
 #### Tests ####
 
