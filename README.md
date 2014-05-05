@@ -731,6 +731,7 @@ foreach($allNotifications as $notification)
     // Preious release
     <li>The notification has been sent from: {{ $notification->user->name }}</li>
 }
+~~~
 
 #### Tests ####
 
