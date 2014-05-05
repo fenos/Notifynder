@@ -470,11 +470,12 @@ php artisan config:publish fenos/notifynder
 
 then you will see a new value `polymorphic` setted to false just swap it to true and that's it now notifynder work polymorphically.
 
-#####Set up relations on your models#####
+####Set up relations on your models####
  
 The models that you wish to have as morphed to Notifynder must include the following relations:
 
 ~~
+
 public function notifications_sender()
 {
     return $this->morphMany('Fenos\Notifynder\Models\Notification','from');
@@ -484,9 +485,10 @@ public function notifications_receiver()
 {
     return $this->morphMany('Fenos\Notifynder\Models\Notification','to');
 }
+
 ~~
 
-#####Entity method() #####
+####Entity method() ####
 
 An **Important** method will help you to differentiate the models associated with notifynder when it comes polymorphcally. 
 
@@ -502,7 +504,7 @@ Notifynder::entity('Teams')->deleteAll(2);
 
 That's It! :)
 
-#####Send notifications polymorphically#####
+####Send notifications polymorphically####
 
 Just remeber to add of the default array this 2 field: `from_type`, `to_type`
 
@@ -516,6 +518,8 @@ $notification_information = array(
     'category_id' => 1, // category notification ID
     'url'         => 'www.urlofnotification.com', // Url of your notification
 );
+
+Notifynder::sendOne($notification_information);
 ~~~
 
 ### Translations ###
