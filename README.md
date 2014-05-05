@@ -474,7 +474,7 @@ then you will see a new value `polymorphic` setted to false just swap it to true
  
 The models that you wish to have as morphed to Notifynder must include the following relations:
 
-~~
+~~~
 
 public function notifications_sender()
 {
@@ -486,7 +486,7 @@ public function notifications_receiver()
     return $this->morphMany('Fenos\Notifynder\Models\Notification','to');
 }
 
-~~
+~~~
 
 ####Entity method() ####
 
