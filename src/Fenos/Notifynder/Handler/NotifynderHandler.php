@@ -9,12 +9,12 @@ use Illuminate\Foundation\Application;
 class NotifynderHandler
 {
 	/**
-	* @var instance of Illuminate\Foundation\Application
+	* @var \Illuminate\Foundation\Application
 	*/
 	public $app;
 
 	/**
-	* @var listener notifications
+	* @var $listener
 	*/
 	protected $listener = [];
 
@@ -33,15 +33,18 @@ class NotifynderHandler
 		return $this->listener[$listen['key']] = $listen['handler'];
 	}
 
-	/**
-	* Fire the method with the logic of your notification
-	* It will execute the closure just if the method fired
-	* Will not return false
-	*
-	* @param $key 		(String)
-	* @param $values 	(Array)
-	* @return Closure \ False
-	*/
+    /**
+     * Fire the method with the logic of your notification
+     * It will execute the closure just if the method fired
+     * Will not return false
+     *
+     * @param \Fenos\Notifynder\Notifynder $notifynder
+     * @param $key (String)
+     * @param array $values (Array)
+     * @return bool
+     * @throws \InvalidArgumentException
+     * @throws \BadMethodCallException
+     */
 	public function fire(Notifynder $notifynder, $key, array $values)
 	{
 		// get the class and method of the current event 
@@ -57,6 +60,11 @@ class NotifynderHandler
 		// there are any extra parameters?
 		if (array_key_exists('values', $values)) // yes
 		{
+			if ( !method_exists($class, $ClassAndMethod[1]) )
+			{
+				throw new \BadMethodCallException("Method [$ClassAndMethod[1]] does not exist");	
+			}
+
 			$method = $class->$ClassAndMethod[1]($values['values']);
 		}
 		else 									// no
@@ -81,12 +89,13 @@ class NotifynderHandler
 
 	}
 
-	/**
-	* Return an array with as first value
-	* The class and second the method
-	*
-	* @return Array()
-	*/
+    /**
+     * Return an array with as first value
+     * The class and second the method
+     *
+     * @param $stringFunction
+     * @return Array()
+     */
 	public function getFunction($stringFunction)
 	{
 		return explode('@', $stringFunction);

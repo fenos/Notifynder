@@ -13,7 +13,7 @@ use Fenos\Notifynder\Exceptions\NotificationNotFoundException;
 class NotifynderRepository implements NotifynderEloquentRepositoryInterface
 {
 	/**
-	* @var instance of Fenos\Notyfinder\Models\Notification (Eloquent)
+	* @var \Fenos\Notifynder\Models\Notification (Eloquent)
 	*/
 	protected $notificationModel;
 
@@ -40,12 +40,13 @@ class NotifynderRepository implements NotifynderEloquentRepositoryInterface
 		return $this;
 	}
 
-	/**
-	* Find Notification by id
-	*
-	* @param $notification_id	(int)
-	* @return Fenos\Notyfinder\Models\Notification | NotificationNotFoundException
-	*/
+    /**
+     * Find Notification by id
+     *
+     * @param $notification_id (int)
+     * @throws \Fenos\Notifynder\Exceptions\NotificationNotFoundException
+     * @return \Fenos\Notifynder\Models\Notification
+     */
 	public function find($notification_id)
 	{
 		$notification = $this->notificationModel->find($notification_id);
@@ -64,7 +65,7 @@ class NotifynderRepository implements NotifynderEloquentRepositoryInterface
 	* User 
 	*
 	* @param $notificationInformations 	(Array)
-	* @return Fenos\Notyfinder\Models\Notification
+	* @return \Fenos\Notifynder\Models\Notification
 	*/
 	public function sendOne(array $notificationInformations)
 	{
@@ -89,7 +90,7 @@ class NotifynderRepository implements NotifynderEloquentRepositoryInterface
 	* Make read one notification
 	*
 	* @param $notification_id	(int)
-	* @return Fenos\Notyfinder\Models\Notification | False
+	* @return \Fenos\Notifynder\Models\Notification | False
 	*/
 	public function readOne($notification_id)
 	{
@@ -206,7 +207,7 @@ class NotifynderRepository implements NotifynderEloquentRepositoryInterface
 	* @param $to_id 	(int)
 	* @param $limit 	(int)
 	* @param $paginate	(Boolean)
-	* @return Fenos\Notyfinder\Models\Notification Collection
+	* @return \Fenos\Notifynder\Models\Notification Collection
 	*/
 	public function getNotRead($to_id, $limit, $paginate)
 	{
@@ -248,7 +249,7 @@ class NotifynderRepository implements NotifynderEloquentRepositoryInterface
 	* @param $to_id 	(int)
 	* @param $limit 	(int)
 	* @param $paginate	(Boolean)
-	* @return Fenos\Notyfinder\Models\Notification Collection
+	* @return \Fenos\Notyfinder\Models\Notification Collection
 	*/
 	public function getAll($to_id,$limit = null, $paginate = false)
 	{

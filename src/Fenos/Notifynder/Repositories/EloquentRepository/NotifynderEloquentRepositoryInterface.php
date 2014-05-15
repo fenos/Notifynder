@@ -10,7 +10,7 @@ interface NotifynderEloquentRepositoryInterface
 	* Find Notification by id
 	*
 	* @param $notification_id	(int)
-	* @return Fenos\Notyfinder\Models\Notification | NotificationNotFoundException
+	* @return \Fenos\Notifynder\Models\Notification | NotificationNotFoundException
 	*/
 	public function find($notification_id);
 
@@ -19,7 +19,7 @@ interface NotifynderEloquentRepositoryInterface
 	* User 
 	*
 	* @param $notificationInformations 	(Array)
-	* @return Fenos\Notyfinder\Models\Notification
+	* @return \Fenos\Notifynder\Models\Notification
 	*/
 	public function sendOne(array $notificationInformations);
 
@@ -38,7 +38,7 @@ interface NotifynderEloquentRepositoryInterface
 	* Make read one notification
 	*
 	* @param $notification_id	(int)
-	* @return Fenos\Notyfinder\Models\Notification | False
+	* @return \Fenos\Notifynder\Models\Notification | False
 	*/
 	public function readOne($notification_id);
 
@@ -98,7 +98,7 @@ interface NotifynderEloquentRepositoryInterface
 	* @param $to_id 	(int)
 	* @param $limit 	(int)
 	* @param $paginate	(Boolean)
-	* @return Fenos\Notyfinder\Models\Notification Collection
+	* @return \Fenos\Notifynder\Models\Notification Collection
 	*/
 	public function getNotRead($to_id, $limit, $paginate);
 
@@ -111,7 +111,7 @@ interface NotifynderEloquentRepositoryInterface
 	* @param $to_id 	(int)
 	* @param $limit 	(int)
 	* @param $paginate	(Boolean)
-	* @return Fenos\Notyfinder\Models\Notification Collection
+	* @return \Fenos\Notifynder\Models\Notification Collection
 	*/
 	public function getAll($to_id,$limit = null, $paginate = false);
 

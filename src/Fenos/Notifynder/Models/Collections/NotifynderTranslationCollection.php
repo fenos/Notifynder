@@ -10,12 +10,12 @@ use Fenos\Notifynder\Exceptions\NotificationTranslationNotFoundException;
 class NotifynderTranslationCollection extends Collection
 {
 	/**
-	* @var instance of Fenos\Notifynder\Translator\NotifynderTraslator
+	* @var \Fenos\Notifynder\Translator\NotifynderTraslator
 	*/
 	protected $notifynderTranslator;
 
 	/**
-	* @var instance of Fenos\Notifynder\Translator\NotifynderParse
+	* @var \Fenos\Notifynder\Translator\NotifynderParse
 	*/
 	protected $notifynderParse;
 

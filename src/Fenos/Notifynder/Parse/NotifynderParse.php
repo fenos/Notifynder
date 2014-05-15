@@ -1,8 +1,5 @@
 <?php namespace Fenos\Notifynder\Parse;
 
-use Fenos\Notifynder\Models\NotificationCategory;
-
-
 /**
 * Class parse used on collection. It permit to decode the special
 * values inserted on the notification
@@ -13,17 +10,17 @@ class NotifynderParse
 	const RULE = '/\{(.+?)(?:\{(.+)\})?\}/';
 
 	/**
-	* @var instance of Fenos\Notifynder\Models\Notification
+	* @var \Fenos\Notifynder\Models\Notification
 	*/
 	protected $notification;
 
 	/**
-	* @var items container
+	* @var $items
 	*/
 	protected $items;
 
 	/**
-	* @var container lazy loading 
+	* @var $loader
 	*/
 	protected $loader = array();
 	
@@ -32,14 +29,13 @@ class NotifynderParse
 		$this->items = $items;
 	}
 
-	/**
-	* Parse the body of the notifications
-	* Replacing the default value with the
-	* right parameter
-	*
-	* @param $items 	(Obj)
-	* @return  Collection
-	*/
+    /**
+     * Parse the body of the notifications
+     * Replacing the default value with the
+     * right parameter
+     *
+     * return $this->items
+     */
 	public function parse()
 	{
 		// for each items of the collection
@@ -62,15 +58,16 @@ class NotifynderParse
 		return $this->items;
 	}
 
-	/**
-	* Replace Special value of the body 
-	* of the items I pass as secoond parameter
-	* The key of the main array of the result so it can
-	* merge the result properly
-	*
-	* @param $values (Array)
-	* @return Collection
-	*/
+    /**
+     * Replace Special value of the body
+     * of the items I pass as secoond parameter
+     * The key of the main array of the result so it can
+     * merge the result properly
+     *
+     * @param $values (Array)
+     * @param $keyItems
+     * @return $this->items
+     */
 	public function replaceSpecialValues($values,$keyItems)
 	{
 		// for each special values
@@ -87,7 +84,7 @@ class NotifynderParse
 			if ( strpos($value, $relation.'.') !== false) // yes
 			{
 				// for each values with relations
-				foreach ($value_user as $key => $value) {
+				foreach ($value_user as $value) {
 
 					if (!array_key_exists($this->items[$keyItems]['body']['name'].$relation.$value, $this->loader))
 					{

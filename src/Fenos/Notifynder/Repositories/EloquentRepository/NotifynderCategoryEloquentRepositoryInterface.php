@@ -6,7 +6,7 @@ interface NotifynderCategoryEloquentRepositoryInterface
 	* Find category notification by id
 	* 
 	* @param $notifynderCategoryId	(int)
-	* @return Fenos\Notifynder\Models\NotificationCategory | NotificationCategoryNotFoundException
+	* @return \Fenos\Notifynder\Models\NotificationCategory | NotificationCategoryNotFoundException
 	*/
 	public function find($notifynderCategoryId);
 
@@ -14,7 +14,7 @@ interface NotifynderCategoryEloquentRepositoryInterface
 	* Get id category by name given
 	*
 	* @param $name (String)
-	* @return Fenos\Notifynder\Models\NotificationCategory
+	* @return \Fenos\Notifynder\Models\NotificationCategory
 	*/
 	public function findByName($name);
 
@@ -23,7 +23,7 @@ interface NotifynderCategoryEloquentRepositoryInterface
 	*
 	* @param $name 	(String)
 	* @param $text 	(String)
-	* @return Fenos\Notifynder\Models\NotificationCategory
+	* @return \Fenos\Notifynder\Models\NotificationCategory
 	*/
 	public function add($name, $text);
 
@@ -40,7 +40,7 @@ interface NotifynderCategoryEloquentRepositoryInterface
 	*
 	* @param $name 	(String)
 	* @param $informations (Array)
-	* @return Fenos\Notifynder\Models\NotificationCategory
+	* @return \Fenos\Notifynder\Models\NotificationCategory
 	*/
 	public function update(array $informations,$name);
 }

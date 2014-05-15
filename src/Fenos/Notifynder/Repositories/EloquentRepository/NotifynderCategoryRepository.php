@@ -12,7 +12,7 @@ use Fenos\Notifynder\Exceptions\NotificationCategoryNotFoundException;
 class NotifynderCategoryRepository implements NotifynderCategoryEloquentRepositoryInterface
 {
 	/**
-	* @var instance of Fenos\Notifynder\Models\NotificationCategory (Eloquent)
+	* @var \Fenos\Notifynder\Models\NotificationCategory (Eloquent)
 	*/
 	protected $notifynderType;
 
@@ -22,12 +22,13 @@ class NotifynderCategoryRepository implements NotifynderCategoryEloquentReposito
 		$this->query = $query;
 	}
 
-	/**
-	* Find category notification by id
-	* 
-	* @param $notifynderCategoryId	(int)
-	* @return Fenos\Notifynder\Models\NotificationCategory | NotificationCategoryNotFoundException
-	*/
+    /**
+     * Find category notification by id
+     *
+     * @param $notifynderCategoryId (int)
+     * @throws \Fenos\Notifynder\Exceptions\NotificationCategoryNotFoundException
+     * @return \Fenos\Notifynder\Models\NotificationCategory
+     */
 	public function find($notifynderCategoryId)
 	{
 		$notificationCategoryInfo = $this->notifynderType->find($notifynderCategoryId);
@@ -45,7 +46,7 @@ class NotifynderCategoryRepository implements NotifynderCategoryEloquentReposito
 	* Get id category by name given
 	*
 	* @param $name (String)
-	* @return Fenos\Notifynder\Models\NotificationCategory
+	* @return \Fenos\Notifynder\Models\NotificationCategory
 	*/
 	public function findByName($name)
 	{
@@ -57,7 +58,7 @@ class NotifynderCategoryRepository implements NotifynderCategoryEloquentReposito
 	*
 	* @param $name 	(String)
 	* @param $text 	(String)
-	* @return Fenos\Notifynder\Models\NotificationCategory
+	* @return \Fenos\Notifynder\Models\NotificationCategory
 	*/
 	public function add($name, $text)
 	{
@@ -80,15 +81,16 @@ class NotifynderCategoryRepository implements NotifynderCategoryEloquentReposito
 	{
 		$notificationType = $this->notifynderType->find($id);
 		return $notificationType->delete();
-	}	
+	}
 
-	/**
-	* Update current category notification
-	*
-	* @param $informations (Array)
-	* @param $id 	(int)
-	* @return Fenos\Notifynder\Models\NotificationCategory | NotificationCategoryNotFoundException
-	*/
+    /**
+     * Update current category notification
+     *
+     * @param array $informations (Array)
+     * @param $id (int)
+     * @throws \Fenos\Notifynder\Exceptions\NotificationCategoryNotFoundException
+     * @return \Fenos\Notifynder\Models\NotificationCategory
+     */
 	public function update(array $informations,$id)
 	{
 		$notificationType = $this->notifynderType->find($id);

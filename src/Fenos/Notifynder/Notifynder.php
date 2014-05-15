@@ -16,37 +16,37 @@ use Fenos\Notifynder\Exceptions\NotificationNotFoundException;
 class Notifynder implements NotifynderInterface
 {
 	/**
-	* @var instance of Fenos\Notifynder\Repositories\NotifynderEloquentRepositoryInterface
+	* @var NotifynderEloquentRepositoryInterface
 	*/
 	protected $notifynderRepository;
 
 	/**
-	* @var instance of Fenos\Notifynder\Repositories\NotifynderCategoryRepository
+	* @var NotifynderCategoryRepository
 	*/
 	protected $notifynderCategoryRepository;
 
 	/**
-	* @var instance of Fenos\Notifynder\Translator\NotifynderTranslator
+	* @var NotifynderTranslator
 	*/
 	protected $notifynderTranslator;
 
 	/**
-	* @var instance of Fenos\Notifynder\Handler\NotifynderHandler
+	* @var NotifynderHandler
 	*/
 	protected $notifynderHandler;
 
 	/**
-	* @var Container category for lazy Loading
+	* @var $category_container
 	*/
 	protected $category_container = array();
 
 	/**
-	* @var entity container
+	* @var $entity
 	*/
 	protected $entity;
 
 	/**
-	* @var Category id
+	* @var $category
 	*/
 	protected $category;
 
@@ -61,12 +61,13 @@ class Notifynder implements NotifynderInterface
 		$this->notifynderHandler = $notifynderHandler;
 	}
 
-	/**
-	* Get id category by name given
-	*
-	* @param $name (String)
-	* @return Category id | NotificationCategoryNotFoundException
-	*/
+    /**
+     * Get id category by name given
+     *
+     * @param $name (String)
+     * @throws Exceptions\NotificationCategoryNotFoundException
+     * @return $this | NotificationCategoryNotFoundException
+     */
 	public function category($name)
 	{	
 		// lazy loading on getting notifications
@@ -114,13 +115,14 @@ class Notifynder implements NotifynderInterface
 		
 	}
 
-	/**
-	* Send the notification to the current
-	* User 
-	*
-	* @param $notificationInformations 	(Array)
-	* @return Fenos\Notyfinder\Models\Notification | NotificationCategoryNotFoundException
-	*/
+    /**
+     * Send the notification to the current
+     * User
+     *
+     * @param array $notificationInformations (Array)
+     * @throws Exceptions\NotificationCategoryNotFoundException
+     * @return \Fenos\Notifynder\Models\Notification
+     */
 	public function sendOne(array $notificationInformations)
 	{
 		// if you have specificated the category_id will be overwritten
@@ -144,26 +146,28 @@ class Notifynder implements NotifynderInterface
 		return $this->notifynderRepository->sendOne($notificationInformations);
 	}
 
-	/**
-	* Send Multiple notifications at once
-	* Remember to add manually the dateTime
-	* Because the method Insert of DB doesn't
-	* automatcally
-	*
-	* @param $multiNotifications 	(Array)
-	* @return Boolean
-	*/
+    /**
+     * Send Multiple notifications at once
+     * Remember to add manually the dateTime
+     * Because the method Insert of DB doesn't
+     * automatically
+     *
+     * @param array $multipleNotifications
+     * @internal param $multiNotifications (Array)
+     * @return Boolean
+     */
 	public function sendMultiple(array $multipleNotifications)
 	{
 		return $this->notifynderRepository->sendMultiple($multipleNotifications);
 	}
 
-	/**
-	* Make read one notification
-	*
-	* @param $notification_id	(int)
-	* @return Fenos\Notyfinder\Models\Notification | False
-	*/
+    /**
+     * Make read one notification
+     *
+     * @param $notification_id (int)
+     * @throws Exceptions\NotificationNotFoundException
+     * @return \Fenos\Notifynder\Models\Notification | False
+     */
 	public function readOne($notification_id)
 	{
 		if ( $notificationRead = $this->notifynderRepository->readOne($notification_id) )
@@ -207,7 +211,7 @@ class Notifynder implements NotifynderInterface
 	* @param $to_id 	(int)
 	* @param $limit 	(int)
 	* @param $paginate	(Boolean)
-	* @return Fenos\Notyfinder\Models\Notification Collection
+	* @return \Fenos\Notifynder\Models\Notification
 	*/
 	public function getNotRead($to_id,$limit = null, $paginate = false)
 	{	
@@ -223,7 +227,7 @@ class Notifynder implements NotifynderInterface
 	* @param $to_id 	(int)
 	* @param $limit 	(int)
 	* @param $paginate	(Boolean)
-	* @return Fenos\Notyfinder\Models\Notification Collection
+	* @return \Fenos\Notifynder\Models\Notification
 	*/
 	public function getAll($to_id,$limit = null, $paginate = false)
 	{
@@ -275,19 +279,20 @@ class Notifynder implements NotifynderInterface
 	*
 	* @param $name 	(String)
 	* @param $text 	(String)
-	* @return Fenos\Notyfinder\Models\NotificationType
+	* @return \Fenos\Notifynder\Models\NotificationType
 	*/
 	public function addCategory($name,$text)
 	{
 		return $this->notifynderCategoryRepository->add($name,$text);
 	}
 
-	/**
-	* Delete category notification from database
-	*
-	* @param $id 	(int)
-	* @return Boolean
-	*/
+    /**
+     * Delete category notification from database
+     *
+     * @param $id (int)
+     * @throws Exceptions\NotificationCategoryNotFoundException
+     * @return Boolean
+     */
 	public function deleteCategory($id = null)
 	{
 		if ( is_null($id) && !is_null($this->category) ) $id = $this->category;
@@ -300,13 +305,14 @@ class Notifynder implements NotifynderInterface
 		return $this->notifynderCategoryRepository->delete($id);
 	}
 
-	/**
-	* Update current category notification
-	*
-	* @param $informations (Array)
-	* @param $category_id 	(int)
-	* @return Fenos\Notifynder\Models\NotificationType
-	*/
+    /**
+     * Update current category notification
+     *
+     * @param array $informations (Array)
+     * @param $category_id (int)
+     * @throws Exceptions\NotificationCategoryNotFoundException
+     * @return \Fenos\Notifynder\Models\NotificationType
+     */
 	public function updateCategory(array $informations,$category_id = null)
 	{	
 		if ( is_null($category_id) && !is_null($this->category) ) $category_id = $this->category;
@@ -343,15 +349,15 @@ class Notifynder implements NotifynderInterface
 		return $this->notifynderHandler->listen($listen);
 	}
 
-	/**
-	* Fire the method with the logic of your notification
-	* It will execute the closure just if the method fired
-	* Will not return false
-	*
-	* @param $key 		(String)
-	* @param $values 	(Array)
-	* @return Closure \ False
-	*/
+    /**
+     * Fire the method with the logic of your notification
+     * It will execute the closure just if the method fired
+     * Will not return false
+     *
+     * @param $key (String)
+     * @param $values (Array)
+     * @return \Fenos\Notifynder\Handler\Closure
+     */
 	public function fire($key, array $values)
 	{
 		return $this->notifynderHandler->fire($this, $key, $values);

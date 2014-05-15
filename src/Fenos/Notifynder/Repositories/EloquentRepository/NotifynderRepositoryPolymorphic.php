@@ -14,12 +14,12 @@ use Fenos\Notifynder\Exceptions\EntityNotSpecifiedException;
 class NotifynderRepositoryPolymorphic extends NotifynderRepository implements NotifynderEloquentRepositoryInterface
 {
 	/**
-	* @var instance of Fenos\Notyfinder\Models\Notification (Eloquent)
+	* @var \Fenos\Notifynder\Models\Notification (Eloquent)
 	*/
 	protected $notificationModel;
 
 	/**
-	* @var entity container
+	* @var $entity
 	*/
 	protected $entity;
 
@@ -39,10 +39,11 @@ class NotifynderRepositoryPolymorphic extends NotifynderRepository implements No
 		return $this->app;
 	}
 
-	/**
-	* Getter for entity property
-	* @return $this
-	*/
+    /**
+     * Getter for entity property
+     * @param $entity
+     * @return $this
+     */
 	public function entity($entity)
 	{
 		$this->entity = $entity;
@@ -50,14 +51,14 @@ class NotifynderRepositoryPolymorphic extends NotifynderRepository implements No
 		return $this;
 	}
 
-	/**
-	* This method check if the entity inserted
-	* is not null otherwise it throw an exception
-	* because on polymorphic relations is required
-	*
-	* @return void
-	* @throw EntityNotSpecifiedException
-	*/
+    /**
+     * This method check if the entity inserted
+     * is not null otherwise it throw an exception
+     * because on polymorphic relations is required
+     *
+     * @throws \Fenos\Notifynder\Exceptions\EntityNotSpecifiedException
+     * @return void
+     */
 	public function entityRequired()
 	{
 		if (is_null( $this->entity ) )
@@ -150,7 +151,7 @@ class NotifynderRepositoryPolymorphic extends NotifynderRepository implements No
 	* @param $to_id 	(int)
 	* @param $limit 	(int)
 	* @param $paginate	(Boolean)
-	* @return Fenos\Notyfinder\Models\Notification Collection
+	* @return \Fenos\Notifynder\Models\Notification Collection
 	*/
 	public function getNotRead($to_id, $limit, $paginate)
 	{	
@@ -197,7 +198,7 @@ class NotifynderRepositoryPolymorphic extends NotifynderRepository implements No
 	* @param $to_id 	(int)
 	* @param $limit 	(int)
 	* @param $paginate	(Boolean)
-	* @return Fenos\Notyfinder\Models\Notification Collection
+	* @return \Fenos\Notifynder\Models\Notification Collection
 	*/
 	public function getAll($to_id,$limit = null, $paginate = false)
 	{	
