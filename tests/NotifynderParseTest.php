@@ -8,10 +8,10 @@ use Fenos\Notifynder\Parse\NotifynderParse;
 */
 class NofitynderParseTest extends PHPUnit_Framework_TestCase
 {
-	/**
-	* @var
-	*/
-	protected $notifynderTranslator;
+    /**
+    * @var
+    */
+    protected $notifynderTranslator;
 
     /**
     * @var
@@ -32,9 +32,9 @@ class NofitynderParseTest extends PHPUnit_Framework_TestCase
         $this->notifynderParse = new NotifynderParse(
 
             $this->notifynder_model =  $this->items()
-        
+
         );
-       
+
     }
 
     /**
@@ -66,9 +66,9 @@ class NofitynderParseTest extends PHPUnit_Framework_TestCase
                         ->once()
                         ->andReturn($this->itemsParsed());
 
-        // i mocked the method replaceSpecialValues so it didn't set the property items with the new 
-        // results updated so i specific that here using reflection I do this manually but the method that 
-        // merge the results (replaceSpecialValues) has been unit tested correctly 
+        // i mocked the method replaceSpecialValues so it didn't set the property items with the new
+        // results updated so i specific that here using reflection I do this manually but the method that
+        // merge the results (replaceSpecialValues) has been unit tested correctly
         $reflection = new \ReflectionClass($notifynderParse);
         $reflection_property = $reflection->getProperty('items');
         $reflection_property->setAccessible(true);
@@ -127,7 +127,7 @@ class NofitynderParseTest extends PHPUnit_Framework_TestCase
                 ),
 
                 "user" => array(
-                
+
                     "id" => 1,
                     "email" => "admin@admin.com",
                     "name" => "fabrizio"
@@ -159,7 +159,7 @@ class NofitynderParseTest extends PHPUnit_Framework_TestCase
                 ),
 
                 "user" => array(
-                
+
                     "id" => 1,
                     "email" => "admin@admin.com",
                     "name" => "fabrizio"

@@ -7,25 +7,25 @@ use Fenos\Notifynder\Repositories\EloquentRepository\NotifynderRepository;
 use Fenos\Notifynder\Exceptions\NotificationNotFoundException;
 
 /**
-* 
+*
 */
 class NofitynderRepositoryTest extends PHPUnit_Framework_TestCase
 {
 
-	/**
-	* @var
-	*/
-	protected $notifynderRepository;
+    /**
+    * @var
+    */
+    protected $notifynderRepository;
 
-	/**
-	* @var
-	*/
-	protected $notification_model;
+    /**
+    * @var
+    */
+    protected $notification_model;
 
-	/**
-	* @var
-	*/
-	protected $dbBuilder;
+    /**
+    * @var
+    */
+    protected $dbBuilder;
 
     public function setUp()
     {
@@ -34,11 +34,11 @@ class NofitynderRepositoryTest extends PHPUnit_Framework_TestCase
 
         $this->notification_model = m::mock('Fenos\Notifynder\Models\Notification');
 
-        $this->notifynderRepository = new NotifynderRepository( 
+        $this->notifynderRepository = new NotifynderRepository(
 
-        	$this->notification_model,
+            $this->notification_model,
             $this->dbBuilder = m::mock('Illuminate\Database\DatabaseManager')
-        	
+
         );
 
     }
@@ -54,32 +54,32 @@ class NofitynderRepositoryTest extends PHPUnit_Framework_TestCase
 
     public function test_find_notification_by_id()
     {
-    	$this->notification_model->shouldReceive('find')
-    							->once()
-    							->with(1)
-    							->andReturn($this->notification_model);
+        $this->notification_model->shouldReceive('find')
+                                ->once()
+                                ->with(1)
+                                ->andReturn($this->notification_model);
 
-    	$result = $this->notifynderRepository->find(1);
+        $result = $this->notifynderRepository->find(1);
 
-    	$this->assertInstanceOf('Fenos\Notifynder\Models\Notification',$result);
+        $this->assertInstanceOf('Fenos\Notifynder\Models\Notification',$result);
     }
 
     /**
-	*@expectedException Fenos\Notifynder\Exceptions\NotificationNotFOundException
+    *@expectedException Fenos\Notifynder\Exceptions\NotificationNotFOundException
     */
     public function test_find_notification_but_it_doesnt_exist()
     {
-    	$this->notification_model->shouldReceive('find')
-    							->once()
-    							->with(1)
-    							->andReturn(null);
+        $this->notification_model->shouldReceive('find')
+                                ->once()
+                                ->with(1)
+                                ->andReturn(null);
 
-    	$result = $this->notifynderRepository->find(1);
+        $result = $this->notifynderRepository->find(1);
     }
 
     public function test_send_one_notification()
     {
-    	$oneNotification = array(
+        $oneNotification = array(
               'from_id'     => 1,
               'to_id'       => 2,
               'category_id' => 1,
@@ -88,19 +88,19 @@ class NofitynderRepositoryTest extends PHPUnit_Framework_TestCase
               'updated_at'  => '2014-04-04 00:20:57'
             );
 
-    	$this->notification_model->shouldReceive('create')
-    							->once()
-    							->with($oneNotification)
-    							->andReturn($this->notification_model);
+        $this->notification_model->shouldReceive('create')
+                                ->once()
+                                ->with($oneNotification)
+                                ->andReturn($this->notification_model);
 
-    	$result = $this->notifynderRepository->sendOne($oneNotification);
+        $result = $this->notifynderRepository->sendOne($oneNotification);
 
-    	$this->assertInstanceOf('Fenos\Notifynder\Models\Notification',$result);
+        $this->assertInstanceOf('Fenos\Notifynder\Models\Notification',$result);
     }
 
     public function test_sending_multiple_notifications()
     {
-    	$notifications = [
+        $notifications = [
 
             array(
               'from_id'     => 1,
@@ -131,18 +131,18 @@ class NofitynderRepositoryTest extends PHPUnit_Framework_TestCase
         ];
 
         $queryBuilder = m::mock('Illuminate\Database\Query\Builder');
-        
+
         $this->dbBuilder->shouldReceive('table')
-        			->with('notifications')
-        			->andReturn($queryBuilder);
+                    ->with('notifications')
+                    ->andReturn($queryBuilder);
 
-       	$queryBuilder->shouldReceive('insert')
-       				->once()
-       				->andReturn(true);
+           $queryBuilder->shouldReceive('insert')
+                       ->once()
+                       ->andReturn(true);
 
-    	$result = $this->notifynderRepository->sendMultiple($notifications);
+        $result = $this->notifynderRepository->sendMultiple($notifications);
 
-    	$this->assertTrue($result);
+        $this->assertTrue($result);
 
     }
 
@@ -162,7 +162,7 @@ class NofitynderRepositoryTest extends PHPUnit_Framework_TestCase
 
       $this->assertInstanceOf('Fenos\Notifynder\Models\Notification',$result);
 
-      
+
     }
 
     public function test_read_notification_giving_a_max_limit()
@@ -198,7 +198,7 @@ class NofitynderRepositoryTest extends PHPUnit_Framework_TestCase
 
     public function test_read_all_notifications()
     {
-        
+
         $queryBuilder = m::mock('Illuminate\Database\Query\Builder');
 
         $this->dbBuilder->shouldReceive('table')
@@ -293,7 +293,7 @@ class NofitynderRepositoryTest extends PHPUnit_Framework_TestCase
                                 ->once()
                                 ->andReturn($array_ids);
 
-        
+
 
         $flatten = m::mock(['array_flatten']);
         $flatten->shouldReceive('array_flatten')

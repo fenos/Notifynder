@@ -6,7 +6,7 @@ Notifynder
 [![License](https://poser.pugx.org/fenos/Notifynder/license.png)](https://packagist.org/packages/fenos/Notifynder)
 [![Latest Stable Version](https://poser.pugx.org/fenos/notifynder/v/stable.png)](https://packagist.org/packages/fenos/notifynder)
 
-Notifynder is a package that implement on your application a management system of internal notifications. Similar to facebook notifications. You cand send, make read, and more stay tuned on the following documentation. 
+Notifynder is a package that implement on your application a management system of internal notifications. Similar to facebook notifications. You cand send, make read, and more stay tuned on the following documentation.
 This package has been released for Laravel 4 Framework.
 
 - - -
@@ -79,7 +79,7 @@ Add the following string to **app/config/app.php**
 **Aliases array:**
 
 ~~~
-'Notifynder'	=> 'Fenos\Notifynder\Facades\Notifynder'
+'Notifynder'    => 'Fenos\Notifynder\Facades\Notifynder'
 ~~~
 
 ### Step 3 ###
@@ -145,7 +145,7 @@ How second option if you don't want hardcode the id of the category you can upda
 try
 {
     $new_informations = array( 'body' => 'New body of the category' );
-    
+
     Notifynder::category('londonNews')->updateCategory($new_informations);
 }
 catch(Fenos\Notifynder\Exceptions\NotificationCategoryNotFoundException $e)
@@ -200,7 +200,7 @@ Notifynder:addCategory('inviteEvent','User {user.name} has invited you on the ev
 The values between `{}` are the specials values but how you saw on the example I used the first one with the `dot` annotation and the second one without it why?
 
 This two values are really different, because the first one get the value from the current relation of the user table so you can use all the felds about the user that sent the notification, example: `user.surname`.
-Instead the `{extra}` value a static special value and it will be replaced from the value `extra` in your table notifications. 
+Instead the `{extra}` value a static special value and it will be replaced from the value `extra` in your table notifications.
 So for now you are limited to have as many as you want for relation values and 1 **extra** value on your body text. on the future release this limit will be deleted.
 
 ### Send Notification / s ###
@@ -230,12 +230,12 @@ try
 {
 
     $notification_information = array(
-    
+
         'from_id'     => 1, // ID user that send the notification
         'to_id'       => 2, // ID user that receive the notification
         'url'         => 'www.urlofnotification.com', // Url of your notification
     );
-    
+
     Notifynder::category('londonNews')->sendOne($notification_information); // it just send!
 }
 catch(Fenos\Notifynder\Exceptions\NotificationCategoryNotFoundException $e)
@@ -253,7 +253,7 @@ Now it's time to send multiple notification at once! The only thing you need to 
 
 ~~~
 $notification_information = array(
-    
+
     array (
         'from_id'     => 1, // ID user that send the notification
         'to_id'       => 2, // ID user that receive the notification
@@ -263,7 +263,7 @@ $notification_information = array(
         'created_at'  => Carbon::now(),
         'updated_at'  => Carbon::now()
     ),
-    
+
     array (
         'from_id'     => 1, // ID user that send the notification
         'to_id'       => 4, // ID user that receive the notification
@@ -283,7 +283,7 @@ In this method the `category()` method will not work on chaining, but instead le
 
 ~~~
 $notification_information = array(
-    
+
     array => (
         'from_id'     => 1, // ID user that send the notification
         'to_id'       => 2, // ID user that receive the notification
@@ -293,7 +293,7 @@ $notification_information = array(
         'created_at'  => Carbon::now(),
         'updated_at'  => Carbon::now()
     ),
-    
+
     array => (
         'from_id'     => 1, // ID user that send the notification
         'to_id'       => 4, // ID user that receive the notification
@@ -456,7 +456,7 @@ catch(Fenos\Notifynder\Exceptions\NotificationCategoryNotFoundException $e)
 
 ## Notifynder Polymorphic ##
 
-If you have a **previous release** already installed before upgrade to the 1.6.0 please see the [Upgrade Release ](#upgrade-release) section. 
+If you have a **previous release** already installed before upgrade to the 1.6.0 please see the [Upgrade Release ](#upgrade-release) section.
 
 On the release 1.6.0 Notifynder becomes polymorphic, or well just if you want!! What does it mean that Notifynder is polymorphic? Notifynder was binded with a User model, so the system of notifications could be use it only beetween users. But now you can decide if use it as normal just for users or if you need more power transform it Polymorphically.
 
@@ -471,7 +471,7 @@ php artisan config:publish fenos/notifynder
 then you will see a new value `polymorphic` setted to false just swap it to true and that's it now notifynder work polymorphically.
 
 ####Set up relations on your models####
- 
+
 The models that you wish to have as morphed to Notifynder must include the following relations:
 
 ~~~
@@ -490,13 +490,13 @@ public function notifications_receiver()
 
 ####Entity method() ####
 
-An **Important** method will help you to differentiate the models associated with notifynder when it comes polymorphcally. 
+An **Important** method will help you to differentiate the models associated with notifynder when it comes polymorphcally.
 
 So every time you will use a method that require the `$user_id` when **polymorphic is disabled** you'll now use the method entity to specify the model like so:
 
 ~~~
 // Get all notifications about the User with ID 1
-Notifynder::entity('Users')->getAll(1); 
+Notifynder::entity('Users')->getAll(1);
 
 // Delete All notifications about the Team with ID 2
 Notifynder::entity('Teams')->deleteAll(2);
@@ -541,10 +541,10 @@ Inside that array you will put another array with they **key as the name of your
 ~~~
 
 return array(
-        
+
         'it' => array( // italian language
 
-            // name category  
+            // name category
             'comment' => 'ho postato un commento' // translation
 
         ),
@@ -572,7 +572,7 @@ It will return to you the body translated!
 
 What's this new future? Well notifynder handler is a simple class that permit you to have good separation of your logic for send notifications.
 Sometimes you wish to send a notification when something happen. Sometimes "how is happened to me" I found myself to write 100 rows and i didn't know where put that, just for determinate wich category send
-why, and when. 
+why, and when.
 
 Then this class will support us for separate our logic, let's see how it work:
 
@@ -586,7 +586,7 @@ This will not be a class so you will use `files` under autoload section.
 ]
 ~~~
 
-This file will be more or less similar to your route file where you'll listen this kind the event to be triggered. 
+This file will be more or less similar to your route file where you'll listen this kind the event to be triggered.
 For determinate a listener of a behavior that a notification should have let's see the code of example:
 
 ~~~
@@ -604,9 +604,9 @@ When you set up this listener I'm going to create that class for make more clear
 
 class YourClass {
 
-    // you can also use dependency Injection on your constructor the class 
+    // you can also use dependency Injection on your constructor the class
     //will be resolved with App::make behind the scences
-    
+
     /**
     * Logic for send a notification to users
     * Excluding the session id user
@@ -660,7 +660,7 @@ Let's see this:
 
 ~~~
 Notifynder::fire('EventInvite',['values' => $myValues, 'use' => function($notifynder,$yourMethodCallBack){
-    
+
     return $notifynder->sendMultiple($yourMethodCallBack); // cool isn't?
 
 }]);
@@ -728,7 +728,7 @@ Example
 $allNotifications = Notifynder::getAll(1);
 
 foreach($allNotifications as $notification)
-{   
+{
     // New release 1.6.0
     <li>The notification has been sent from: {{ $notification->from->name }}</li>
 

@@ -8,10 +8,10 @@ use Fenos\Notifynder\Translator\NotifynderTranslator;
 */
 class NofitynderTranslatorTest extends PHPUnit_Framework_TestCase
 {
-	/**
-	* @var
-	*/
-	protected $notifynderTranslator;
+    /**
+    * @var
+    */
+    protected $notifynderTranslator;
 
     /**
     * @var

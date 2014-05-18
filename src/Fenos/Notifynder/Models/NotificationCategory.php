@@ -7,26 +7,26 @@ use Fenos\Notifynder\Parse\NotifynderParse;
 
 
 /**
-* 
+*
 */
 class NotificationCategory extends Model
 {
-	protected $table = "notification_categories";
-	protected $fillable = ['text','name'];
+    protected $table = "notification_categories";
+    protected $fillable = ['text','name'];
 
-	/**
-	* Custom Collection for the translations
-	*
-	*/
-	public function newCollection(array $models = array())
-  	{
+    /**
+    * Custom Collection for the translations
+    *
+    */
+    public function newCollection(array $models = array())
+      {
       return new NotifynderTranslationCollection($models, new NotifynderTranslator );
-  	}
-	
-	public function notifications()
-	{
-		return $this->hasOne('Fenos\Notifynder\Models\Notification','category_id');
-	}
+      }
+
+    public function notifications()
+    {
+        return $this->hasOne('Fenos\Notifynder\Models\Notification','category_id');
+    }
 
 
 }
