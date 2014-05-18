@@ -12,11 +12,11 @@ use Fenos\Notifynder\Exceptions\NotificationCategoryNotFoundException;
 
 
 /**
-* 
+*
 */
 class NofifynderTest extends PHPUnit_Framework_TestCase
 {
-    
+
     /**
     * @var Fenos\Notifynder\Repositories\NotifynderRepositoryInterface
     */
@@ -54,7 +54,7 @@ class NofifynderTest extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        
+
         $this->notification_model = m::mock('Illuminate\Database\Eloquent\Model');
         $this->notification_category_model = m::mock('Fenos\Notifynder\Models\NotificationCategory')->makePartial();
 
@@ -200,7 +200,7 @@ class NofifynderTest extends PHPUnit_Framework_TestCase
                                   ->andReturn( m::mock('Fenos\Notifynder\Models\Notification') );
 
       $result = $this->notifynder->readOne(1);
-      
+
       $this->assertInstanceOf('Fenos\Notifynder\Models\Notification',$result);
     }
 
@@ -248,7 +248,7 @@ class NofifynderTest extends PHPUnit_Framework_TestCase
                                   ->andReturn(5);
 
       $result = $this->notifynder->readAll(1);
-      
+
       $this->assertEquals(5,$result);
     }
 
@@ -265,7 +265,7 @@ class NofifynderTest extends PHPUnit_Framework_TestCase
                                   ->andReturn( m::mock('Fenos\Notifynder\Models\Notification') );
 
       $result = $this->notifynder->getNotRead(1,null,false);
-      
+
       $this->assertInstanceOf('Fenos\Notifynder\Models\Notification',$result);
     }
 
@@ -282,7 +282,7 @@ class NofifynderTest extends PHPUnit_Framework_TestCase
                                   ->andReturn( m::mock('Fenos\Notifynder\Models\Notification') );
 
       $result = $this->notifynder->getAll(1,null,false);
-      
+
       $this->assertInstanceOf('Fenos\Notifynder\Models\Notification',$result);
     }
 
@@ -340,7 +340,7 @@ class NofifynderTest extends PHPUnit_Framework_TestCase
                                   ->andReturn($this->notification_category_model);
 
       $result = $this->notifynder->addCategory('comment','The user has added a comment on your post');
-      
+
       $this->assertInstanceOf('Fenos\Notifynder\Models\NotificationCategory',$result);
     }
 
@@ -352,7 +352,7 @@ class NofifynderTest extends PHPUnit_Framework_TestCase
                                   ->andReturn( m::mock('Fenos\Notifynder\Models\Notification') );
 
       $result = $this->notifynder->deleteCategory(1);
-      
+
       $this->assertInstanceOf('Fenos\Notifynder\Models\Notification',$result);
     }
 
@@ -385,7 +385,7 @@ class NofifynderTest extends PHPUnit_Framework_TestCase
                                   ->andReturn($this->notification_category_model);
 
       $result = $this->notifynder->updateCategory(['name' => 'new', 'content' => 'new content'],1);
-      
+
       $this->assertInstanceOf('Fenos\Notifynder\Models\NotificationCategory',$result);
     }
 

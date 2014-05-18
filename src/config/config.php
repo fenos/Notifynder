@@ -16,7 +16,7 @@ return array(
 'polymorphic' => false,
 
 /**
-* If you need to extend the model class of 
+* If you need to extend the model class of
 * Notifynder you just need to change this line
 * With the path / NameSpace of your model and extend it
 * to Fenos\Notifynder\Models\Notification
@@ -28,6 +28,6 @@ return array(
 * rather then config file of the package, you can just switch
 * the path on this line with the path of your file
 */
-'translation_file'	 => Config::get('notifynder::translations')
+'translation_file'     => Config::get('notifynder::translations')
 
 );

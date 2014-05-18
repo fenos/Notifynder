@@ -16,10 +16,10 @@ class Handler
 */
 class NofitynderHandlerTest extends PHPUnit_Framework_TestCase
 {
-	/**
-	* @var
-	*/
-	protected $notifynderHandler;
+    /**
+    * @var
+    */
+    protected $notifynderHandler;
 
     /**
     * @var mock app

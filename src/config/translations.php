@@ -7,20 +7,20 @@
 
 return array(
 
-		'it' => array(
+        'it' => array(
 
-			'notifynder' => 'e un ottimo pacchetto',
+            'notifynder' => 'e un ottimo pacchetto',
 
-		),
+        ),
 
-		'fr' => array(
-
-
-		),
-
-		'es' => array(
+        'fr' => array(
 
 
-		)
+        ),
+
+        'es' => array(
+
+
+        )
 
 );

@@ -11,14 +11,12 @@
     ],
     "require": {
         "php": ">=5.4.0",
-        "illuminate/support": "4.1.*"
+        "illuminate/support": "~4.1"
     },
-
     "require-dev": {
-        "mockery/mockery": "dev-master@dev",
-        "phpunit/phpunit": "3.7.*"
+        "phpunit/phpunit": "~4.0",
+        "mockery/mockery": "~0.9.1"
     },
-
     "autoload": {
         "classmap": [
             "src/migrations",
@@ -27,6 +25,5 @@
         "psr-0": {
             "Fenos\\Notifynder\\": "src/"
         }
-    },
-    "minimum-stability": "stable"
+    }
 }

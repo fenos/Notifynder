@@ -7,25 +7,25 @@ use Fenos\Notifynder\Repositories\EloquentRepository\NotifynderCategoryRepositor
 use Fenos\Notifynder\Exceptions\NotificationCategoryNotFoundException;
 
 /**
-* 
+*
 */
 class NofitynderCategoryRepositoryTest extends PHPUnit_Framework_TestCase
 {
 
-	/**
-	* @var
-	*/
-	protected $notifynderRepository;
+    /**
+    * @var
+    */
+    protected $notifynderRepository;
 
-	/**
-	* @var
-	*/
-	protected $notification_model;
+    /**
+    * @var
+    */
+    protected $notification_model;
 
-	/**
-	* @var
-	*/
-	protected $dbBuilder;
+    /**
+    * @var
+    */
+    protected $dbBuilder;
 
     public function setUp()
     {
@@ -34,11 +34,11 @@ class NofitynderCategoryRepositoryTest extends PHPUnit_Framework_TestCase
 
         $this->notification_model = m::mock('Fenos\Notifynder\Models\NotificationCategory');
 
-        $this->notifynderRepository = new NotifynderCategoryRepository( 
+        $this->notifynderRepository = new NotifynderCategoryRepository(
 
-        	$this->notification_model,
+            $this->notification_model,
             $this->dbBuilder = m::mock('Illuminate\Database\DatabaseManager')
-        	
+
         );
 
     }
