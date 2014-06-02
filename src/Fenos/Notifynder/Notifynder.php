@@ -50,6 +50,12 @@ class Notifynder implements NotifynderInterface
     */
     protected $category;
 
+    /**
+     * @param NotifynderEloquentRepositoryInterface $notifynderRepository
+     * @param NotifynderCategoryRepository $notifynderCategoryRepository
+     * @param NotifynderTranslator $notifynderTranslator
+     * @param NotifynderHandler $notifynderHandler
+     */
     function __construct(NotifynderEloquentRepositoryInterface $notifynderRepository,
                          NotifynderCategoryRepository $notifynderCategoryRepository,
                          NotifynderTranslator $notifynderTranslator,
@@ -206,7 +212,7 @@ class Notifynder implements NotifynderInterface
     /**
     * Retrive notifications not Read
     * You can also limit the number of
-    * Notification if you don't it will get all
+    * Notification, if you don't, it will get all
     *
     * @param $to_id     (int)
     * @param $limit     (int)
@@ -216,6 +222,18 @@ class Notifynder implements NotifynderInterface
     public function getNotRead($to_id,$limit = null, $paginate = false)
     {
         return $this->notifynderRepository->entity($this->entity)->getNotRead($to_id, $limit, $paginate );
+    }
+
+    /**
+     * Get number of notifications not Read
+     * of the given user
+     *
+     * @param $to_id
+     * @return mixed
+     */
+    public function countNotRead($to_id)
+    {
+        return $this->notifynderRepository->entity($this->entity)->countNotRead($to_id);
     }
 
     /**
@@ -326,13 +344,13 @@ class Notifynder implements NotifynderInterface
     }
 
     /**
-    * Translate a category notification
-    * Giving the language and the name of it
-    *
-    * @param $language (String)
-    * @param $name
-    * @return (String)
-    */
+     * Translate a category notification
+     * Giving the language and the name of it
+     *
+     * @param $language (String)
+     * @param $name
+     * @return mixed (String)
+     */
     public function translate($language,$name)
     {
         return $this->notifynderTranslator->translate($language,$name);

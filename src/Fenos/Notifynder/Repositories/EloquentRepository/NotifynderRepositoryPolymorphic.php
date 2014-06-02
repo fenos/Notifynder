@@ -230,4 +230,20 @@ class NotifynderRepositoryPolymorphic extends NotifynderRepository implements No
                         ->limit($limit)
                         ->get()->parse();
     }
+
+    /**
+     * get number Notifications
+     * not read
+     *
+     * @param $to_id
+     * @return mixed
+     */
+    public function countNotRead($to_id)
+    {
+        return $this->notificationModel->where('to_id',$to_id)
+            ->where('read',0)
+            ->where('to_type',$this->entity)
+            ->select($this->db->raw('Count(*) as notRead'))
+            ->first();
+    }
 }

@@ -18,21 +18,42 @@ class NotifynderRepository implements NotifynderEloquentRepositoryInterface
     protected $notificationModel;
 
     /**
+     * @var $app
+     */
+    protected $app;
+
+    /**
     * @var Application
     */
     public $db;
 
+    /**
+     * @var $entity
+     */
+    protected $entity;
+
+    /**
+     * @param Notification $notificationModel
+     * @param DB $db
+     */
     function __construct(Notification $notificationModel, DB $db)
     {
         $this->notificationModel = $notificationModel;
         $this->db = $db;
     }
 
+    /**
+     * @return mixed
+     */
     public function app()
     {
         return $this->app;
     }
 
+    /**
+     * @param $entity
+     * @return $this
+     */
     public function entity($entity)
     {
         $this->entity = $entity;
@@ -141,12 +162,13 @@ class NotifynderRepository implements NotifynderEloquentRepositoryInterface
     }
 
     /**
-    * Delete a notification giving the id
-    * of it
-    *
-    * @param $id (int)
-    * @return Boolean
-    */
+     * Delete a notification giving the id
+     * of it
+     *
+     * @param $notification_id
+     * @internal param $id (int)
+     * @return Boolean
+     */
     public function delete($notification_id)
     {
 
@@ -185,7 +207,6 @@ class NotifynderRepository implements NotifynderEloquentRepositoryInterface
     */
     public function deleteLimit($user_id, $number, $order)
     {
-
         $notifications_id = $this->notificationModel->where('to_id',$user_id)
                             ->orderBy('id',$order)
                             ->select('id')
@@ -249,7 +270,7 @@ class NotifynderRepository implements NotifynderEloquentRepositoryInterface
     * @param $to_id     (int)
     * @param $limit     (int)
     * @param $paginate    (Boolean)
-    * @return \Fenos\Notyfinder\Models\Notification Collection
+    * @return \Fenos\Notifynder\Models\Notification Collection
     */
     public function getAll($to_id,$limit = null, $paginate = false)
     {
@@ -275,5 +296,20 @@ class NotifynderRepository implements NotifynderEloquentRepositoryInterface
                         ->orderBy('read','ASC')
                         ->limit($limit)
                         ->get()->parse();
+    }
+
+    /**
+     * get number Notifications
+     * not read
+     *
+     * @param $to_id
+     * @return mixed
+     */
+    public function countNotRead($to_id)
+    {
+        return $this->notificationModel->where('to_id',$to_id)
+                    ->where('read',0)
+                    ->select($this->db->raw('Count(*) as notRead'))
+                    ->first();
     }
 }

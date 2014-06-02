@@ -491,4 +491,35 @@ class NofitynderRepositoryTest extends PHPUnit_Framework_TestCase
         $this->assertInstanceOf('Fenos\Notifynder\Models\Notification',$result);
     }
 
+    public function test_it_get_get_number_of_notification_not_read()
+    {
+        $this->notification_model->shouldReceive('where')
+                ->once()
+                ->with('to_id',1)
+                ->andReturn($this->notification_model);
+
+        $this->notification_model->shouldReceive('where')
+            ->once()
+            ->with('read',0)
+            ->andReturn($this->notification_model);
+
+        $this->notification_model->shouldReceive('select')
+            ->once()
+            ->with('Count(*) as notRead')
+            ->andReturn($this->notification_model);
+
+        $this->dbBuilder->shouldReceive('raw')
+            ->once()
+            ->with('Count(*) as notRead')
+            ->andReturn('Count(*) as notRead');
+
+        $this->notification_model->shouldReceive('first')
+            ->once()
+            ->andReturn($this->notification_model);
+
+        $result = $this->notifynderRepository->countNotRead(1);
+
+        $this->assertInstanceOf('Fenos\Notifynder\Models\Notification',$result);
+    }
+
 }
