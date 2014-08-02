@@ -23,27 +23,29 @@ With this solid API you will implent the notifications system in no time.
 * [Notifynder Polymorphic](#notifynder-polymorphic)
 
 #####Release 2.0.0#####
-* Re Built from scratch the library, All the futures are compatible
-with the older versions, **Only the handler has been completely changed**
+* Re Built from scratch the library, All the futures are compatible with the older versions
+* **Only the handler has been completely changed** Will be compatible with >= 2.0
 * New Futures:
     * [Artisan Commands](#artisan-commands)
     * [Queue Notifications](#notifications-queue)
     * [Group Notifications](#notifications-groups)
     * [New Notifications Handler](#notifications-handler)
-    * [New Senders methods](#notifications-new-senders)
+    * [New Senders methods](#send)
 * Good architecture of the classes
 * Heavily Tested with Unit and Integration
+
 - - -
 
 * [Installation](#installation)
 * [Documentation](#documentation)
-* [Artisan Commands](#artisan-commands)
+* [Artisan Commands](#artisan-commands) (new 2.0)
 * [Notification Categories](#notification-categories)
     * [Add](#add-categories)
     * [Update](#update-categories)
     * [Delete](#delete-categories)
     * [Advanced Categories](#advanced-categories)
 * [Send Notification/s](#send-notification-s)
+    * [Send](#send) (new 2.0)
     * [Send single notification](#send-single-notification)
     * [Send multiple notifications](#send-multiple-notifications)
 * [Read Notification/s](#read-notifications)
@@ -57,10 +59,16 @@ with the older versions, **Only the handler has been completely changed**
     * [Delete single](#delete-single)
     * [Delete All](#delete-all)
     * [Delete Limit](#delete-limit)
+* [Notifications Handler](#notifications-handler) (new 2.0)
+   * [Listeners](#listeners) (new 2.0)
+   * [Fire Methods](#fire-methods) (new 2.0)
+   * [Handler Class](#handler-class) (new 2.0)
+   * [Delegate Events](#delegate-events) (new 2.0)
+* [Group Notifications](#group-notifications) (new 2.0)
 * [Method Category()](#method-category)
+* [Notifications Queue](#notifications-queue) (new 2.0)
 * [Notifynder Polymorphic](#notifynder-polymorphic)
 * [Translations](#translations)
-* [Notifications Handler](#notifications-handler)
 * [Extends Model Class](#extend-the-model-class)
 * [Upgrade Release](#upgrade-release)
 
@@ -107,13 +115,15 @@ php artisan migrate --package="fenos/notifynder"
 
 #### Connecting to the user Model ####
 
-Notifynder use a user model to get informations from who sent the notification and who receive the notification, so if you have a different name of user model, publish the configurations files and fill the path of your model.
+Notifynder use a user model to get informations from who sent the notification and who receive the notification, so if you have a different name of User model, publish the configurations files and fill the path of your model.
 
 ~~~
 php artisan config:publish fenos/notifynder
 ~~~
 
 That's it! we have done with the installation!
+
+- - -
 
 ## Documentation ##
 
@@ -126,9 +136,9 @@ Once you installed Notifynder you should see 4 new commands
 * php artisan notifynder:group-add
 * php artisan notifynder:group-add-category
 
-### Category Commans ###
+#### Category Commans ####
 
-#### Add Category ###
+**Add Category**
 
 This command add a category in your database it has 2 arguments
 
@@ -139,7 +149,7 @@ This command add a category in your database it has 2 arguments
 php artisan notifynder:category-add name.category "text of the category"
 ~~~
 
-#### Delete Category ###
+**Delete Category**
 
 This command will delete a category created it has 1 argument
 
@@ -149,9 +159,9 @@ This command will delete a category created it has 1 argument
 php artisan notifynder:category-delete name.category
 ~~~
 
-### Groups Commands ###
+#### Groups Commands ####
 
-#### Group Add ####
+**Group Add**
 
 This command will create a group in your database it has 1 argument
 
@@ -161,7 +171,7 @@ This command will create a group in your database it has 1 argument
 php artisan notifynder:group-add name.group
 ~~~
 
-#### Group Add Category ####
+**Group Add Category**
 
 It add a category in a group (In your pivot table) it has 1 argument and 1 option
 
@@ -171,6 +181,8 @@ It add a category in a group (In your pivot table) it has 1 argument and 1 optio
 ~~~
 php artisan notifynder:group-add-category name.group --categories="category.A, categoryB"
 ~~~
+
+- - -
 
 ### Notification Categories ###
 
@@ -269,9 +281,30 @@ This two values are really different, because the first one get the value from t
 Instead the `{extra}` value a static special value and it will be replaced from the value `extra` in your table notifications.
 So for now you are limited to have as many as you want for relation values and 1 **extra** value on your body text. on the future release this limit will be deleted.
 
+- - -
+
 ### Send Notification / s ###
 
-Notifynder permit to send a single notification or multiple notifications at once. Let's see how:
+Notifynder allow to send a single notification or multiple notifications at once. Let's see how:
+
+#### Send ####
+
+With the new version 2.0 the only method you need to use is the `send` method. Doesn't matter if is a single o multiple
+notifications notifynder will take care of it. The others methods are still available for the older versions.
+
+~~~
+
+$notification_information = array(
+
+    'from_id'     => 1, // ID user that send the notification
+    'to_id'       => 2, // ID user that receive the notification
+    'category_id' => 1, // category notification ID
+    'url'         => 'www.urlofnotification.com', // Url of your notification
+);
+
+Notifynder::send($notification_information); // it just send!
+
+~~~
 
 #### Send Single Notification ####
 
@@ -497,6 +530,178 @@ Notifynder::deleteLimit( 1, 10, 'ASC' )
 
 as first parameter you will pass the id of the user, as second parameter you will pass the number of notifications to delete, as third parameter you will pass the order that will start to count the number of notifications `"ASC" - "DESC"`
 
+- - -
+
+### Notifications Handler ###
+
+The Notifynder handler is a gold resource when your application has many notifications to handle.
+The scope of this handler is just return the array with the right information for send the notification.
+
+**Scenario when the handler is useful:**
+
+I created an `sport event` in the my application, and i want send notifications to all my followers.
+The handler will be responsable to get the followers of the user and build the tipical array that notifynder will store
+in the database.
+
+Let's see how to use it.
+
+#### Listeners ####
+
+in your `app/start/global.php` Initialize the listeners that you will go to listen, like so.
+
+~~~
+Notifynder::bootListeners();
+~~~
+
+Next in the configuration of your package you will see a `listeners.php` file. It will store all your listeners for the notifications.
+
+**Add a listener**
+The handler use the `EventDispatcher` that laravel provide, so for add a listener use the following convention:
+
+~~~
+return [
+
+   'listeners' => [
+      
+      'event.*' => 'EventHandler' // full namespace of the class
+      
+   ]
+];
+~~~
+
+it means that for every event that start with `event` "namespace" it will Trigger the `EventHandler` Class.
+That's it we have the listener set up.
+
+**Create the class handler**
+
+Now you need to create the class that will fire every time the event has been fired. 
+**Make sure that the class extends** `Fenos\Notifynder\Handler\NotifynderDispatcher`
+
+#### Fire a listener ####
+
+At this point we need to fire the event listener. Again the handler will be responsable only to **return** the array that notifynder need to send the notifications.
+
+When you fire a method it will get the built array and will **send automatically** the notifications.
+
+For fire a method you'll use the `fire()` method.
+
+~~~
+Notifynder::fire($key,$name_category,$extraData)
+~~~
+
+it except 3 arguments:
+
+- `$key` will be the key that will fire the listener
+- `$name_category` will be the name of the category you wish to send
+- `$extraData` will be the data you will pass in the handler method
+
+Continuing with our example let's say that we fire the key `event.users.followers`
+
+#### Handler Class ####
+
+Let's create out Handler Class for this example:
+
+~~~
+use Fenos\Notifynder\Handler\NotifynderDispatcher;
+
+class EventHandler extends NotifynderDispatcher
+{
+   public function usersFollowers($extraData,$name_category,Notifynder $notifynder)
+   {
+      $followers = // same logic for get the followers;
+      
+      $notifications = [];
+      
+      foreach($followers as $follower)
+      {
+         $notifications[] = [
+             'from_id'     => 1, 
+             'from_type'   => "User", 
+             'to_id'       => 2, 
+             'to_type'     => "User",  
+             'category_id' => 1, 
+             'url'         => 'www.urlofnotification.com',
+         ];
+      }
+      
+      return $notifications;
+   }
+}
+~~~
+
+The event that fire with the given key `event.users.followers` will fire the method `UsersFollowers`.
+
+**How the convention work?**
+
+In this case `event` is only the namespace of our event. After the first `dot` will be the name of the method in camel case so `UsersFollowers`.
+
+**The method fired**
+
+The method will have 3 arguments to work with:
+
+- `$extraData` : The extra data you passed on the fire method
+- `$category_name` : name of the category to send
+- `$notifynder`: Notifynder Object
+
+if It return `false` or an empty `array` the notifications will be not sent.
+
+#### Delegate Events ####
+
+Another beautiful future of notifynder is the delegation of events. It will be useful when a given action you need
+to send differents categories of notifications. It use extacly the same logic of the handler but just the method `fire` change.
+
+**Scenario:**
+
+Coninuing the event example, when I create an event I want notify even the admin that an event has been created with a differnt notification.
+
+I will another method called `admins` on the event class
+
+so now is time to delegate the notifictions
+
+~~~
+Notifynder::delegate($extraData,[
+
+'user.follower' => 'event.users.followers',
+'admin'         => 'event.admins'
+
+]);
+~~~
+
+The `delegate` method accept 2 arguments:
+
+- `$extraData` : the data passed to the handler class,
+-  array: Associative array with the **key** name of the category and value the **key** of the event
+
+Now the followers will receive the notification with the body of the category `user.follower` and the admins with the category `admin`
+
+- - -
+
+### Group Notifications ###
+
+The group of notifications are useful when you want send the differents notifications to the same member, not be confused with the `delegate method`.
+
+The difference is that this method will send *differents categories* to **the same member**.
+Instead the delegation send *differents or same categories* to *differents members*.
+
+**Group Categories**
+
+To get started you have to create the group by `artisan` command [see section commands](#artisan-commands), and add even
+categories to group created always with the `artisan` command.
+
+** Send Group **
+
+Now we want to send the categories of the group to a member:
+
+~~~
+$info = [
+    'from_id'     => 1,
+    'to_id'       => 2,
+    'url'         => 'www.urlofnotification.com',
+];
+
+Notifynder::sendGroup($info); // will send to the member 2 all the categories associated with group
+~~~
+
 ### Method Category() ###
 
 The method category before used on the documentation give you the possibility to don't hard code the id of the category but instead write the name of it.
@@ -519,6 +724,23 @@ catch(Fenos\Notifynder\Exceptions\NotificationCategoryNotFoundException $e)
 
 }
 ~~~
+
+- - -
+
+## Notifications Queue ##
+
+Notifynder use a easily approch to send notifications via queue. We all know that the notifications are strongly associated to a queue system. If you want enable automatically the queue when send notifications, go in the **config.php** file of the package
+
+change the `queue` value to **true** That's it! (Obviously make sure your queue settings are correct)
+Every time you send a notification notifynder will push the job to a queue.
+
+if instead you have the queue enabled and you don't want send the notification via queue but send it immediately.
+use the **sendNow()** method.
+
+~~~
+Notifynder::sendNow(array);
+~~~
+- - -
 
 ## Notifynder Polymorphic ##
 
@@ -633,136 +855,7 @@ Notifynder::getAll( 2 )->translate('it');
 
 It will return to you the body translated!
 
-
-### Notifications Handler ###
-
-What's this new future? Well notifynder handler is a simple class that permit you to have good separation of your logic for send notifications.
-Sometimes you wish to send a notification when something happen. Sometimes "how is happened to me" I found myself to write 100 rows and i didn't know where put that, just for determinate wich category send
-why, and when.
-
-Then this class will support us for separate our logic, let's see how it work:
-
-
-First you have to create a file called `notifications.php` on your `app` folder or whenever you feel right to create it. **It must be autoloaded** so let's adding it on your composer json:
-
-This will not be a class so you will use `files` under autoload section.
-~~~
-"files": [
-    "app/notifications.php"
-]
-~~~
-
-This file will be more or less similar to your route file where you'll listen this kind the event to be triggered.
-For determinate a listener of a behavior that a notification should have let's see the code of example:
-
-~~~
-Notifynder::listen(['key' => 'EventInvite', 'handler' => 'YourClass@YourMethod']);
-~~~
-
-Let's describe what's going on here, we are passing an array with 2 **main keys** `key` and `handler`.
-
-- The `key` will give you the possibility to trigger this event whenever has been called.
-- The `handler` will fill with your Class and the method that will contain your logic for the notification. It is separate with `@`
-
-When you set up this listener I'm going to create that class for make more clear the situation:
-
-~~~
-
-class YourClass {
-
-    // you can also use dependency Injection on your constructor the class
-    //will be resolved with App::make behind the scences
-
-    /**
-    * Logic for send a notification to users
-    * Excluding the session id user
-    *
-    * @param $array_user_id (Array)
-    * @return Array
-    */
-    public function YourMethod($array_user_id) // i pass a array of user id that will receive the notification
-    {                                          // you can pass any parameters you want
-        if ( count($array_user_id) > 0 )
-        {
-
-            // delete the id of the user logged that send the notification
-            if(($key = array_search(Auth::user()->id, $array_user_id)) !== false) {
-
-                unset($array_user_id[$key]);
-            }
-
-            // i set up the array to send for all the remain users
-            foreach ($array_user_id as $key => $value)
-            {
-                $notification_information[] = array(
-
-                    'from_id'     => Auth::user()->id,      // ID user that send the notification
-                    'to_id'       => $array_user_id[$key],  // ID user that receive the notification
-                    'category_id' => 1,                     // category id
-                    'url'         => 'www.urlofnotification.com', // Url of your notification
-                );
-            }
-
-            // return the array of the users
-            return $notification_information;
-
-        }
-
-        // return false if there is no user to send
-        return false;
-
-    }
-
-}
-~~~
-
-Well this is how you set up your logic for the notifications returning the array of the users that you want that the current notification will be sent.
-**Remember to return false in case no notifications will be sent** You will understand why in a bit.
-
-Now we had made listening our notification and set up our logic for make it send, now is time to **trigger** this notification.
-
-Instead to use directly the method `Notifynder::sendMultiple()` it will be used with a closure and it permit to invoke that method sending the notification as well.
-Let's see this:
-
-~~~
-Notifynder::fire('EventInvite',['values' => $myValues, 'use' => function($notifynder,$yourMethodCallBack){
-
-    return $notifynder->sendMultiple($yourMethodCallBack); // cool isn't?
-
-}]);
-~~~
-
-Let's describe it:
-
- - First Parameter is the `key` that had set on the listener
- - The second parameter is an array passing `values` if you have any extra values to pass a that function, if you haven't any you can not use it.
-   As `use` value you pass a closure, in this closure you'll find as first parameter the object of notifynder, and the second the parameter is that value that you
-   returned from your function
-
-If your method return false, the code Inside the closure will not be triggered and the clouse will return false as well.
-
-Now for complete this example let's see this in action:
-
-~~~
-
-class MyController extends BaseController
-{
-
-    public function inviteToEvent()
-    {
-        $users_selected = Input::get('users_selected'); // Array of users
-
-        Notifynder::fire('EventInvite',['values' => $users_selected, 'use' => function($notifynder, $users){
-
-            return $notifynder->sendMultiple($users); // it send to all your users!
-
-        }]);
-    }
-}
-
-~~~
-
-I hope you can see the benefits of that. Enjoy it.
+- - -
 
 ### Extend the model class ###
 
