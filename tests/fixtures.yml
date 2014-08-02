@@ -1,0 +1,25 @@
+Fenos\Notifynder\Models\Notification:
+  from_id: $integer
+  from_type: User
+  to_id: $integer
+  to_type: Team
+  category_id:
+    type: Fenos\Notifynder\Models\NotificationCategory
+  url: $string
+  extra: $string
+  read: 0
+  created_at: $date
+  updated_at: $date
+
+Fenos\Notifynder\Models\NotificationCategory:
+  name: $string
+  text: $string
+  created_at: $date
+  updated_at: $date
+
+Fenos\Notifynder\Models\NotificationGroup:
+  name: $string
+
+DummyModels\User:
+  name: $string,
+  surname: $string
