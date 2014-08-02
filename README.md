@@ -33,6 +33,7 @@ with the older versions, **Only the handler has been completely changed**
     * [New Senders methods](#notifications-new-senders)
 * Good architecture of the classes
 * Heavily Tested with Unit and Integration
+
 - - -
 
 * [Installation](#installation)
@@ -115,6 +116,8 @@ php artisan config:publish fenos/notifynder
 
 That's it! we have done with the installation!
 
+- - -
+
 ## Documentation ##
 
 ### Artisan Commands ###
@@ -171,6 +174,8 @@ It add a category in a group (In your pivot table) it has 1 argument and 1 optio
 ~~~
 php artisan notifynder:group-add-category name.group --categories="category.A, categoryB"
 ~~~
+
+- - -
 
 ### Notification Categories ###
 
@@ -268,6 +273,8 @@ The values between `{}` are the specials values but how you saw on the example I
 This two values are really different, because the first one get the value from the current relation of the user table so you can use all the felds about the user that sent the notification, example: `user.surname`.
 Instead the `{extra}` value a static special value and it will be replaced from the value `extra` in your table notifications.
 So for now you are limited to have as many as you want for relation values and 1 **extra** value on your body text. on the future release this limit will be deleted.
+
+- - -
 
 ### Send Notification / s ###
 
