@@ -30,7 +30,7 @@ With this solid API you will implent the notifications system in no time.
     * [Queue Notifications](#notifications-queue)
     * [Group Notifications](#notifications-groups)
     * [New Notifications Handler](#notifications-handler)
-    * [New Senders methods](#notifications-new-senders)
+    * [New Senders methods](#send)
 * Good architecture of the classes
 * Heavily Tested with Unit and Integration
 
@@ -38,13 +38,14 @@ With this solid API you will implent the notifications system in no time.
 
 * [Installation](#installation)
 * [Documentation](#documentation)
-* [Artisan Commands](#artisan-commands)
+* [Artisan Commands](#artisan-commands) (new 2.0)
 * [Notification Categories](#notification-categories)
     * [Add](#add-categories)
     * [Update](#update-categories)
     * [Delete](#delete-categories)
     * [Advanced Categories](#advanced-categories)
 * [Send Notification/s](#send-notification-s)
+    * [Send](#send) (new 2.0)
     * [Send single notification](#send-single-notification)
     * [Send multiple notifications](#send-multiple-notifications)
 * [Read Notification/s](#read-notifications)
@@ -58,13 +59,14 @@ With this solid API you will implent the notifications system in no time.
     * [Delete single](#delete-single)
     * [Delete All](#delete-all)
     * [Delete Limit](#delete-limit)
-* [Notifications Handler](#notifications-handler)
-   * [Listeners](#listeners)
-   * [Fire Methods](#fire-methods)
-   * [Handler Class(#handler-class)
-   * [Delegate Events](#delegate-events)
+* [Notifications Handler](#notifications-handler) (new 2.0)
+   * [Listeners](#listeners) (new 2.0)
+   * [Fire Methods](#fire-methods) (new 2.0)
+   * [Handler Class](#handler-class) (new 2.0)
+   * [Delegate Events](#delegate-events) (new 2.0)
+* [Group Notifications](#group-notifications) (new 2.0)
 * [Method Category()](#method-category)
-* [Notifications Queue](#notifications-queue)
+* [Notifications Queue](#notifications-queue) (new 2.0)
 * [Notifynder Polymorphic](#notifynder-polymorphic)
 * [Translations](#translations)
 * [Extends Model Class](#extend-the-model-class)
@@ -283,7 +285,26 @@ So for now you are limited to have as many as you want for relation values and 1
 
 ### Send Notification / s ###
 
-Notifynder permit to send a single notification or multiple notifications at once. Let's see how:
+Notifynder allow to send a single notification or multiple notifications at once. Let's see how:
+
+#### Send ####
+
+With the new version 2.0 the only method you need to use is the `send` method. Doesn't matter if is a single o multiple
+notifications notifynder will take care of it. The others methods are still available for the older versions.
+
+~~~
+
+$notification_information = array(
+
+    'from_id'     => 1, // ID user that send the notification
+    'to_id'       => 2, // ID user that receive the notification
+    'category_id' => 1, // category notification ID
+    'url'         => 'www.urlofnotification.com', // Url of your notification
+);
+
+Notifynder::send($notification_information); // it just send!
+
+~~~
 
 #### Send Single Notification ####
 
@@ -511,6 +532,176 @@ as first parameter you will pass the id of the user, as second parameter you wil
 
 - - -
 
+### Notifications Handler ###
+
+The Notifynder handler is a gold resource when your application has many notifications to handle.
+The scope of this handler is just return the array with the right information for send the notification.
+
+**Scenario when the handler is useful:**
+
+I created an `sport event` in the my application, and i want send notifications to all my followers.
+The handler will be responsable to get the followers of the user and build the tipical array that notifynder will store
+in the database.
+
+Let's see how to use it.
+
+#### Listeners ####
+
+in your `app/start/global.php` Initialize the listeners that you will go to listen, like so.
+
+~~~
+Notifynder::bootListeners();
+~~~
+
+Next in the configuration of your package you will see a `listeners.php` file. It will store all your listeners for the notifications.
+
+**Add a listener**
+The handler use the `EventDispatcher` that laravel provide, so for add a listener use the following convention:
+
+~~~
+return [
+
+   'listeners' => [
+      
+      'event.*' => 'EventHandler' // full namespace of the class
+      
+   ]
+];
+~~~
+
+it means that for every event that start with `event` "namespace" it will Trigger the `EventHandler` Class.
+That's it we have the listener set up.
+
+**Create the class handler**
+
+Now you need to create the class that will fire every time the event has been fired. 
+**Make sure that the class extends** `Fenos\Notifynder\Handler\NotifynderDispatcher`
+
+#### Fire a listener ####
+
+At this point we need to fire the event listener. Again the handler will be responsable only to **return** the array that notifynder need to send the notifications.
+
+When you fire a method it will get the built array and will **send automatically** the notifications.
+
+For fire a method you'll use the `fire()` method.
+
+~~~
+Notifynder::fire($key,$name_category,$extraData)
+~~~
+
+it except 3 arguments:
+
+- `$key` will be the key that will fire the listener
+- `$name_category` will be the name of the category you wish to send
+- `$extraData` will be the data you will pass in the handler method
+
+Continuing with our example let's say that we fire the key `event.users.followers`
+
+#### Handler Class ####
+
+Let's create out Handler Class for this example:
+
+~~~
+use Fenos\Notifynder\Handler\NotifynderDispatcher;
+
+class EventHandler extends NotifynderDispatcher
+{
+   public function usersFollowers($extraData,$name_category,Notifynder $notifynder)
+   {
+      $followers = // same logic for get the followers;
+      
+      $notifications = [];
+      
+      foreach($followers as $follower)
+      {
+         $notifications[] = [
+             'from_id'     => 1, 
+             'from_type'   => "User", 
+             'to_id'       => 2, 
+             'to_type'     => "User",  
+             'category_id' => 1, 
+             'url'         => 'www.urlofnotification.com',
+         ];
+      }
+      
+      return $notifications;
+   }
+}
+~~~
+
+The event that fire with the given key `event.users.followers` will fire the method `UsersFollowers`.
+
+**How the convention work?**
+
+In this case `event` is only the namespace of our event. After the first `dot` will be the name of the method in camel case so `UsersFollowers`.
+
+**The method fired**
+
+The method will have 3 arguments to work with:
+
+- `$extraData` : The extra data you passed on the fire method
+- `$category_name` : name of the category to send
+- `$notifynder`: Notifynder Object
+
+if It return `false` or an empty `array` the notifications will be not sent.
+
+#### Delegate Events ####
+
+Another beautiful future of notifynder is the delegation of events. It will be useful when a given action you need
+to send differents categories of notifications. It use extacly the same logic of the handler but just the method `fire` change.
+
+**Scenario:**
+
+Coninuing the event example, when I create an event I want notify even the admin that an event has been created with a differnt notification.
+
+I will another method called `admins` on the event class
+
+so now is time to delegate the notifictions
+
+~~~
+Notifynder::delegate($extraData,[
+
+'user.follower' => 'event.users.followers',
+'admin'         => 'event.admins'
+
+]);
+~~~
+
+The `delegate` method accept 2 arguments:
+
+- `$extraData` : the data passed to the handler class,
+-  array: Associative array with the **key** name of the category and value the **key** of the event
+
+Now the followers will receive the notification with the body of the category `user.follower` and the admins with the category `admin`
+
+- - -
+
+### Group Notifications ###
+
+The group of notifications are useful when you want send the differents notifications to the same member, not be confused with the `delegate method`.
+
+The difference is that this method will send *differents categories* to **the same member**.
+Instead the delegation send *differents or same categories* to *differents members*.
+
+**Group Categories**
+
+To get started you have to create the group by `artisan` command [see section commands](#artisan-commands), and add even
+categories to group created always with the `artisan` command.
+
+** Send Group **
+
+Now we want to send the categories of the group to a member:
+
+~~~
+$info = [
+    'from_id'     => 1,
+    'to_id'       => 2,
+    'url'         => 'www.urlofnotification.com',
+];
+
+Notifynder::sendGroup($info); // will send to the member 2 all the categories associated with group
+~~~
+
 ### Method Category() ###
 
 The method category before used on the documentation give you the possibility to don't hard code the id of the category but instead write the name of it.
@@ -663,120 +854,6 @@ Notifynder::getAll( 2 )->translate('it');
 ~~~
 
 It will return to you the body translated!
-
-
-### Notifications Handler ###
-
-The Notifynder handler is a gold resource when your application has many notifications to handle.
-The scope of this handler is just return the array with the right information for send the notification.
-
-**Tipical Scenario when the handler is useful:**
-
-I created an event in the my application, and i want send notifications to all my followers.
-The handler will be responsable to get the followers of the user and build the tipical array that notifynder will store
-in the database.
-
-Let's see how to use it.
-
-#### Listeners ####
-
-in your `app/start/global.php` Initialize the listeners that you will go to listen, like so.
-
-~~~
-Notifynder::bootListeners();
-~~~
-
-Next in the configuration of your package you will see a `listeners.php` file. It will store all your listeners for the notifications.
-
-**Add a listener**
-The handler use the `EventDispatcher` that laravel provide, so for add a listener use the following convention:
-
-~~~
-return [
-
-   'listeners' => [
-      
-      'event.*' => 'EventHandler' // full namespace of the class
-      
-   ]
-];
-~~~
-
-it means that for every event that start with `event` "namespace" it will Trigger the `EventHandler` Class.
-That's it we have the listener set up.
-
-**Create the class handler**
-
-Now you need to create the class that will fire every time the event has been fired. 
-**Make sure that the class extends** `Fenos\Notifynder\Handler\NotifynderDispatcher`
-
-#### Fire a listener ####
-
-At this point we need to fire the event listener. Again the handler will be responsable only to **return** the array that notifynder need to send the notifications.
-
-When you fire a method it will get the built array and will **send automatically** the notifications.
-
-For fire a method you'll use the `fire()` method.
-
-~~~
-Notifynder::fire($key,$name_category,$extraData)
-~~~
-
-it except 3 arguments:
-
-- `$key` will be the key that will fire the listener
-- `$name_category` will be the name of the category you wish to send
-- `$extraData` will be the data you will pass in the handler method
-
-Continuing with our example let's say that we fire the key `event.is.published`
-
-#### HandlerClass ####
-
-Let's create out Handler Class for this example:
-
-~~~
-use Fenos\Notifynder\Handler\NotifynderDispatcher;
-
-class EventHandler extends NotifynderDispatcher
-{
-   public function whenIsPublished($extraData,$name_category,Notifynder $notifynder)
-   {
-      $followers = // same logic for get the followers;
-      
-      $notifications = [];
-      
-      foreach($followers as $follower)
-      {
-         $notifications[] = [
-             'from_id'     => 1, 
-             'from_type'   => "User", 
-             'to_id'       => 2, 
-             'to_type'     => "User",  
-             'category_id' => 1, 
-             'url'         => 'www.urlofnotification.com',
-         ];
-      }
-      
-      return $notifications;
-   }
-}
-~~~
-
-The event that fire with the given key `event.is.published` will fire the method `whenIsPublished`.
-
-**How the convention work?**
-
-In this case `event` is only the namespace of our event. After the first `dot` will be the name of the method in camel case followed by `when` so `whenIsPublished`.
-
-**The method fired**
-
-The method will have 3 arguments to work with:
-
-- `$extraData` : The extra data you passed on the fire method
-- `$category_name` : name of the category to send
-- `$notifynder`: Notifynder Object
-
-if It return `false` or an empty `array` the notifications will be not sent.
 
 - - -
 
