@@ -47,7 +47,7 @@ class NotifynderHandler
         $values['eventName'] = $key;
         $notificationsResult = $this->event->fire($key,[$values,$category_name,$notifynder]);
 
-        if ($notificationsResult[0] !== false)
+        if ($notificationsResult[0] !== false and count($notificationsResult[0]) > 0)
         {
             return $notifynder->send($notificationsResult[0]);
         }
@@ -63,7 +63,7 @@ class NotifynderHandler
      * @param array      $events
      * @return mixed
      */
-    public function delegate(Notifynder $notifynder, $data,array $events)
+    public function delegate(Notifynder $notifynder, $data = null,array $events)
     {
         foreach($events as $category => $event)
         {
@@ -87,5 +87,7 @@ class NotifynderHandler
                 $this->event->listen($key,$listener);
             }
         }
+
+        return;
     }
 }

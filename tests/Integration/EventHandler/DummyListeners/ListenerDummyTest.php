@@ -5,12 +5,12 @@ use Fenos\Notifynder\Notifynder;
 
 class ListenerDummyTest extends NotifynderDispatcher {
 
-    public function whenNotifynderListener($values, $category_name,Notifynder $notifynder)
+    public function notifynderListener($values, $category_name,Notifynder $notifynder)
     {
         return $values;
     }
 
-    public function whenDelegationListener($values, $category_name,Notifynder $notifynder)
+    public function delegationListener($values, $category_name,Notifynder $notifynder)
     {
         return $values;
     }

@@ -22,7 +22,7 @@ abstract class NotifynderDispatcher {
         {
             unset($event['eventName']);
 
-            return call_user_func_array([$this,'when'.$eventName],[$event,$category_name,$notifynder]);
+            return call_user_func_array([$this,$eventName],[$event,$category_name,$notifynder]);
         }
     }
 
@@ -37,8 +37,7 @@ abstract class NotifynderDispatcher {
      */
     public function listenerIsRegistered($eventName)
     {
-        $method = "when".$eventName;
-        return method_exists($this, $method);
+        return method_exists($this, $eventName);
     }
 
     /**

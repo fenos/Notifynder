@@ -154,7 +154,11 @@ class NotifynderSenderTest extends \PHPUnit_Framework_TestCase {
         $infoNotifications = NotificationDataBuilder::singleNotificationData();
 
         $sendSingle = m::mock('Fenos\Notifynder\Senders\SendOne');
-        
+
+        $this->notifynderQueue->shouldReceive('isActive')
+            ->once()
+            ->andReturn(false);
+
         $this->senderFactory->shouldReceive('sendSingle')
              ->once()
              ->with($infoNotifications,null)
@@ -176,6 +180,10 @@ class NotifynderSenderTest extends \PHPUnit_Framework_TestCase {
         $infoNotifications = NotificationDataBuilder::multipleNotificationData();
 
         $sendMultiple = m::mock('Fenos\Notifynder\Senders\SendMultiple');
+
+        $this->notifynderQueue->shouldReceive('isActive')
+            ->once()
+            ->andReturn(false);
 
         $this->senderFactory->shouldReceive('sendMultiple')
             ->once()

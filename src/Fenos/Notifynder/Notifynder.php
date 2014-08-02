@@ -374,17 +374,19 @@ class Notifynder {
      * @param array $delegation
      * @return mixed
      */
-    public function delegate($data,array $delegation)
+    public function delegate($data = null,array $delegation)
     {
         return $this->notifynderHandler->delegate($this,$data,$delegation);
     }
 
     /**
      * Boot Listeners
+     *
+     * @return void
      */
     public function bootListeners()
     {
-        return $this->notifynderHandler->boot();
+        $this->notifynderHandler->boot();
     }
 
     /**
@@ -408,6 +410,16 @@ class Notifynder {
     public function setCategoriesContainer($name,$categoriesContainer)
     {
         $this->categoriesContainer[$name] = $categoriesContainer;
+    }
+
+    /**
+     * Return the Id of the category
+     *
+     * @return mixed
+     */
+    public function id()
+    {
+        return $this->category->id();
     }
 
     /**

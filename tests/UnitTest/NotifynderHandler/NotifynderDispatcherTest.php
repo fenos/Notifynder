@@ -8,7 +8,7 @@ use Mockery as m;
 
 class NotifynderDispatcherMock extends NotifynderDispatcher {
 
-    public function whenPostAdd()
+    public function postAdd()
     {
         return "addPost";
     }

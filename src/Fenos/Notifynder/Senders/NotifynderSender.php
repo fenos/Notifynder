@@ -85,6 +85,11 @@ class NotifynderSender {
      */
     public function sendOne(array $info, $category = null)
     {
+        if ($this->notifynderQueue->isActive())
+        {
+            return $this->notifynderQueue->push(['info' => $info, 'category' => $category]);
+        }
+
         return $this->senderFactory->sendSingle($info,$category)
             ->send($this->notification,$category);
     }
@@ -98,6 +103,11 @@ class NotifynderSender {
      */
     public function sendMultiple(array $info)
     {
+        if ($this->notifynderQueue->isActive())
+        {
+            return $this->notifynderQueue->push(['info' => $info, 'category' => null]);
+        }
+
         return $this->senderFactory->sendMultiple($info)->send($this->notification);
     }
 
