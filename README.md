@@ -7,8 +7,8 @@ Notifynder
 [![License](https://poser.pugx.org/fenos/Notifynder/license.png)](https://packagist.org/packages/fenos/Notifynder)
 [![Latest Stable Version](https://poser.pugx.org/fenos/notifynder/v/stable.png)](https://packagist.org/packages/fenos/notifynder)
 
-Notifynder is a package that implement on your application a management system of internal notifications. Similar to facebook notifications. You cand send, make read, and more stay tuned on the following documentation.
-This package has been released for Laravel 4 Framework.
+Notifynder is a package that implement on your application a management system of internal notifications. Similar to facebook notifications.
+With this solid API you will implent the notifications system in no time.
 
 - - -
 ####What's new####
@@ -25,20 +25,19 @@ This package has been released for Laravel 4 Framework.
 #####Release 2.0.0#####
 * Re Built from scratch the library, All the futures are compatible
 with the older versions, **Only the handler has been completely changed**
-
 * New Futures:
     * [Artisan Commands](#artisan-commands)
     * [Queue Notifications](#notifications-queue)
     * [Group Notifications](#notifications-groups)
     * [New Notifications Handler](#notifications-handler)
     * [New Senders methods](#notifications-new-senders)
-
 * Good architecture of the classes
 * Heavily Tested with Unit and Integration
 - - -
 
 * [Installation](#installation)
 * [Documentation](#documentation)
+* [Artisan Commands](#artisan-commands)
 * [Notification Categories](#notification-categories)
     * [Add](#add-categories)
     * [Update](#update-categories)
@@ -72,7 +71,7 @@ with the older versions, **Only the handler has been completely changed**
 Add it on your composer.json
 
 ~~~
-"fenos/notifynder": "1.6.*"
+"fenos/notifynder": "2.0.*"
 ~~~
 
 and run **composer update**
@@ -117,6 +116,61 @@ php artisan config:publish fenos/notifynder
 That's it! we have done with the installation!
 
 ## Documentation ##
+
+### Artisan Commands ###
+
+Once you installed Notifynder you should see 4 new commands
+
+* php artisan notifynder:category-add
+* php artisan notifynder:category-delete
+* php artisan notifynder:group-add
+* php artisan notifynder:group-add-category
+
+### Category Commans ###
+
+#### Add Category ###
+
+This command add a category in your database it has 2 arguments
+
+- name of the category : name.category
+- text of the category : "Text of the category"
+
+~~~
+php artisan notifynder:category-add name.category "text of the category"
+~~~
+
+#### Delete Category ###
+
+This command will delete a category created it has 1 argument
+
+- name of the category : name.category
+
+~~~
+php artisan notifynder:category-delete name.category
+~~~
+
+### Groups Commands ###
+
+#### Group Add ####
+
+This command will create a group in your database it has 1 argument
+
+- name of the group : name.group
+
+~~~
+php artisan notifynder:group-add name.group
+~~~
+
+#### Group Add Category ####
+
+It add a category in a group (In your pivot table) it has 1 argument and 1 option
+
+- argument - name of the group : name.group
+- option - categories : --categories="category.A, categoryB"
+
+~~~
+php artisan notifynder:group-add-category name.group --categories="category.A, categoryB"
+~~~
 
 ### Notification Categories ###
 

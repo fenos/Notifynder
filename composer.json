@@ -1,12 +1,8 @@
 {
     "name": "fenos/notifynder",
-    "description": "",
-    "authors": [
-        {
-            "name": "Fabrizio Fenoglio",
-            "email": "fabri_feno@yahoo.it"
-        }
-    ],
+    "description": "Management system of internal notifications for Laravel 4.*",
+    "keywords": ["notifications", "laravel"],
+    "license": "MIT",
     "require": {
         "php": ">=5.4.0",
         "illuminate/support": "~4.1"
