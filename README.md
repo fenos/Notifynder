@@ -23,8 +23,8 @@ With this solid API you will implent the notifications system in no time.
 * [Notifynder Polymorphic](#notifynder-polymorphic)
 
 #####Release 2.0.0#####
-* Re Built from scratch the library, All the futures are compatible
-with the older versions, **Only the handler has been completely changed**
+* Re Built from scratch the library, All the futures are compatible with the older versions
+* **Only the handler has been completely changed** Will be compatible with >= 2.0
 * New Futures:
     * [Artisan Commands](#artisan-commands)
     * [Queue Notifications](#notifications-queue)
@@ -59,6 +59,7 @@ with the older versions, **Only the handler has been completely changed**
     * [Delete All](#delete-all)
     * [Delete Limit](#delete-limit)
 * [Method Category()](#method-category)
+* [Notifications Queue](#notifications-queue)
 * [Notifynder Polymorphic](#notifynder-polymorphic)
 * [Translations](#translations)
 * [Notifications Handler](#notifications-handler)
@@ -108,7 +109,7 @@ php artisan migrate --package="fenos/notifynder"
 
 #### Connecting to the user Model ####
 
-Notifynder use a user model to get informations from who sent the notification and who receive the notification, so if you have a different name of user model, publish the configurations files and fill the path of your model.
+Notifynder use a user model to get informations from who sent the notification and who receive the notification, so if you have a different name of User model, publish the configurations files and fill the path of your model.
 
 ~~~
 php artisan config:publish fenos/notifynder
@@ -504,6 +505,8 @@ Notifynder::deleteLimit( 1, 10, 'ASC' )
 
 as first parameter you will pass the id of the user, as second parameter you will pass the number of notifications to delete, as third parameter you will pass the order that will start to count the number of notifications `"ASC" - "DESC"`
 
+- - -
+
 ### Method Category() ###
 
 The method category before used on the documentation give you the possibility to don't hard code the id of the category but instead write the name of it.
@@ -526,6 +529,23 @@ catch(Fenos\Notifynder\Exceptions\NotificationCategoryNotFoundException $e)
 
 }
 ~~~
+
+- - -
+
+## Notification Queue ##
+
+Notifynder use a easily approch to get your queue work sending notifications, we all know that the notifications are strongly associated a queue so if you want enable automatically queue when send notifications, go in the **config.php**
+
+change the queue value to **true** That's it! (Obviously make sure your queue settings are correct)
+Every time you send a notification notifynder will push the job to a queue.
+
+if instead you have the queue enabled and you don't want send the notification throw queue but send it immediately.
+use the **sendNow()** method.
+
+~~~
+Notifynder::sendNow(array);
+~~~
+- - -
 
 ## Notifynder Polymorphic ##
 
