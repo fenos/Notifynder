@@ -26,6 +26,15 @@ This package has been released for Laravel 4 Framework.
 * Re Built from scratch the library, All the futures are compatible
 with the older versions, **Only the handler has been completely changed**
 
+* New Futures:
+    * [Artisan Commands](#artisan-commands)
+    * [Queue Notifications](#notifications-queue)
+    * [Group Notifications](#notifications-groups)
+    * [New Notifications Handler](#notifications-handler)
+    * [New Senders methods](#notifications-new-senders)
+
+* Good architecture of the classes
+* Heavily Tested with Unit and Integration
 - - -
 
 * [Installation](#installation)
