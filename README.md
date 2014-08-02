@@ -126,9 +126,9 @@ Once you installed Notifynder you should see 4 new commands
 * php artisan notifynder:group-add
 * php artisan notifynder:group-add-category
 
-### Category Commans ###
+#### Category Commans ####
 
-#### Add Category ###
+**Add Category**
 
 This command add a category in your database it has 2 arguments
 
@@ -139,7 +139,7 @@ This command add a category in your database it has 2 arguments
 php artisan notifynder:category-add name.category "text of the category"
 ~~~
 
-#### Delete Category ###
+**Delete Category**
 
 This command will delete a category created it has 1 argument
 
@@ -149,9 +149,9 @@ This command will delete a category created it has 1 argument
 php artisan notifynder:category-delete name.category
 ~~~
 
-### Groups Commands ###
+#### Groups Commands ####
 
-#### Group Add ####
+**Group Add**
 
 This command will create a group in your database it has 1 argument
 
@@ -161,7 +161,7 @@ This command will create a group in your database it has 1 argument
 php artisan notifynder:group-add name.group
 ~~~
 
-#### Group Add Category ####
+**Group Add Category**
 
 It add a category in a group (In your pivot table) it has 1 argument and 1 option
 
