@@ -22,9 +22,10 @@ class NotifynderHandlerIntegrationTest extends IntegrationDBTest {
     public function it_fire_a_event_storing_2_notifications()
     {
         TestDummy::create('Fenos\Notifynder\Models\NotificationCategory',['name' => 'test']);
+
         $notificationData = [];
-        $notificationData[0] = TestDummy::build('Fenos\Notifynder\Models\Notification',['to_id' => 1,'category_id' => 1])->toArray();
-        $notificationData[1] = TestDummy::build('Fenos\Notifynder\Models\Notification',['to_id' => 1, 'category_id' => 1])->toArray();
+        $notificationData[0] = 1;
+        $notificationData[1] = 2;
 
         $this->notifynder->fire('test.notifynder.listener','test',$notificationData);
 
@@ -38,7 +39,7 @@ class NotifynderHandlerIntegrationTest extends IntegrationDBTest {
     {
         TestDummy::create('Fenos\Notifynder\Models\NotificationCategory',['name' => 'test']);
 
-        $notificationData[0] = TestDummy::build('Fenos\Notifynder\Models\Notification',['to_id' => 1,'category_id' => 1])->toArray();
+        $notificationData[0] = 1;
 
         $this->notifynder->fire('test.notifynder.listener','test',$notificationData);
 
@@ -55,7 +56,7 @@ class NotifynderHandlerIntegrationTest extends IntegrationDBTest {
 
         TestDummy::create('DummyModels\User');
 
-        $notificationData = TestDummy::build('Fenos\Notifynder\Models\Notification',['to_id' => 1,'category_id' => 1])->toArray();
+        $notificationData[0] = 1;
 
         $this->notifynder->delegate($notificationData,[
             'test' => 'test.notifynder.listener',
@@ -65,5 +66,7 @@ class NotifynderHandlerIntegrationTest extends IntegrationDBTest {
         $notifications = $this->notifynder->getAll(1);
 
         $this->assertCount(2,$notifications);
+        $this->assertEquals('test',$notifications[0]->body->name);
+        $this->assertEquals('test2',$notifications[1]->body->name);
     }
 } 

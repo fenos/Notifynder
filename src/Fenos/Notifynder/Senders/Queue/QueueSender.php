@@ -1,5 +1,7 @@
 <?php namespace Fenos\Notifynder\Senders\Queue;
 
+use Fenos\Notifynder\Senders\NotifynderSender;
+
 /**
  * Class QueueSender
  *

@@ -20,8 +20,8 @@ class CreateNotificationsTable extends Migration {
             $table->string('to_type');
             $table->smallInteger('category_id');
             $table->string('url');
-            $table->string('extra');
-            $table->tinyInteger('read');
+            $table->string('extra')->nullable();
+            $table->tinyInteger('read')->default(0);
             $table->timestamps();
 
             $table->index('from_id');

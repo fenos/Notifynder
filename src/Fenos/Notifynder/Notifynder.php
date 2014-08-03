@@ -98,6 +98,8 @@ class Notifynder {
         // it throw CategoryNotFoundException
         $category = $this->notifynderCategory->findByName($name);
 
+        $this->category = $category;
+
         // Set the category on the array
         $this->setCategoriesContainer($name,$category);
 
