@@ -36,13 +36,13 @@ class NotifynderHandler
      * It fire the event associated to the passed key,
      * trigging the listener method bound with
      *
-     * @param Notifynder $notifynder
-     * @param string     $key
-     * @param            $category_name
-     * @param array      $values
+     * @param Notifynder    $notifynder
+     * @param  string       $key
+     * @param  string       $category_name
+     * @param  mixed|null   $values
      * @return mixed|null
      */
-    public function fire(Notifynder $notifynder, $key, $category_name, array $values = [])
+    public function fire(Notifynder $notifynder, $key, $category_name, $values = null)
     {
         $values['eventName'] = $key;
 
@@ -106,6 +106,6 @@ class NotifynderHandler
      */
     public function hasNotificationToSend($notificationsResult)
     {
-        return $notificationsResult[0] !== false and count($notificationsResult[0]) > 0;
+        return is_array($notificationsResult) and $notificationsResult[0] !== false and count($notificationsResult[0]) > 0;
     }
 }

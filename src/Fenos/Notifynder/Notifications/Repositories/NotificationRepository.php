@@ -232,7 +232,7 @@ class NotificationRepository {
     {
         if ( is_null($limit) )
         {
-            return $this->notification
+            return $this->notification->with('body','from')
                 ->wherePolymorphic('to_id','to_type',$to_id,$this->entity)
                 ->orderBy('read','ASC')
                 ->get()
@@ -241,7 +241,7 @@ class NotificationRepository {
 
         if ($paginate)
         {
-            return $this->notification
+            return $this->notification->with('body','from')
                 ->wherePolymorphic('to_id','to_type',$to_id,$this->entity)
                 ->orderBy('read','ASC')
                 ->paginate($limit)
@@ -249,7 +249,7 @@ class NotificationRepository {
         }
         else
         {
-            return $this->notification
+            return $this->notification->with('body','from')
                 ->wherePolymorphic('to_id','to_type',$to_id,$this->entity)
                 ->orderBy('read','ASC')
                 ->limit($limit)

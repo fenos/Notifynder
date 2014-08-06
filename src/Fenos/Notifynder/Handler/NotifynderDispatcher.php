@@ -1,14 +1,10 @@
-<?php
-/**
- * Created by Fabrizio Fenoglio.
- */
-
-namespace Fenos\Notifynder\Handler;
-
+<?php namespace Fenos\Notifynder\Handler;
 
 abstract class NotifynderDispatcher {
 
     /**
+     * Handle the event to the given
+     *
      * @param $event
      * @param $category_name
      * @param $notifynder
@@ -24,6 +20,8 @@ abstract class NotifynderDispatcher {
 
             return call_user_func_array([$this,$eventName],[$event,$category_name,$notifynder]);
         }
+
+        return null;
     }
 
     /**

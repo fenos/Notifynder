@@ -1,5 +1,6 @@
 <?php namespace Fenos\Notifynder;
 
+use Fenos\Notifynder\Builder\NotifynderBuilder;
 use Fenos\Notifynder\Categories\NotifynderCategory;
 use Fenos\Notifynder\Groups\NotifynderGroup;
 use Fenos\Notifynder\Handler\NotifynderHandler;
@@ -359,12 +360,12 @@ class Notifynder {
      * Fire method for fire listeners
      * of logic
      *
-     * @param       $key
-     * @param       $category_name
-     * @param array $values
+     * @param  string     $key
+     * @param  string     $category_name
+     * @param  mixed|null $values
      * @return mixed|null
      */
-    public function fire($key,$category_name,array $values = [])
+    public function fire($key,$category_name, $values = null)
     {
         return $this->notifynderHandler->fire($this,$key,$category_name,$values);
     }
@@ -392,6 +393,18 @@ class Notifynder {
     }
 
     /**
+     * Get instance of the notifynder builder
+     *
+     * @return NotifynderBuilder
+     */
+    public function builder()
+    {
+        return new NotifynderBuilder(
+            $this->notifynderCategory
+        );
+    }
+
+    /**
      * Check if the category is eager Loaded
      *
      * @param $name
@@ -400,6 +413,16 @@ class Notifynder {
     public function isEagerLoaded($name)
     {
         return array_key_exists($name, $this->getCategoriesContainer());
+    }
+
+    /**
+     * Return the Id of the category
+     *
+     * @return mixed
+     */
+    public function id()
+    {
+        return $this->category->id();
     }
 
     /**
@@ -412,16 +435,6 @@ class Notifynder {
     public function setCategoriesContainer($name,$categoriesContainer)
     {
         $this->categoriesContainer[$name] = $categoriesContainer;
-    }
-
-    /**
-     * Return the Id of the category
-     *
-     * @return mixed
-     */
-    public function id()
-    {
-        return $this->category->id();
     }
 
     /**
