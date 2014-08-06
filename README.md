@@ -376,9 +376,9 @@ Notifynder::sendMultiple($notification_information);
 
 ### Notifynder Builder ###
 
-It is the resource for create **fast** and **readable data** passing it to a notifynder **sender**, to complete the action.
+The Builder is the resource for create **fast** and **readable data** that will passied to a notifynder **sender**, to complete the action. ( Very Usefeul associated to the [Notifynder Handler](#notifynder-handler) ).
 
-Each method is the equivalent of a property that notifynder can send. There are *4 required fields* to send a notification:
+Each method is the equivalent of a property that notifynder can send. There are *4 required fields* for send a notification:
 
 - from_id
 - to_id
@@ -388,7 +388,8 @@ Each method is the equivalent of a property that notifynder can send. There are 
 **Example:**
 
 ~~~
-Notifynder::builder()->from('User',1)->to('User',2)
+Notifynder::builder()->from('User',1)
+                     ->to('User',2)
                      ->category('test_category')
                      ->url('www.mynotification.dev')
                      ->extra('Super')
@@ -462,7 +463,7 @@ Notifynder::builder()->from(1)->to(2)->url('url')->category(1)->getArray();
 
 #### Build multiple notifications ####
 
-The `Loop` method iterate the aguments passed as `Collection` it permit you to built your multinotifications data to send in few readable lines.
+The `Loop` method iterate the aguments passed as one `Collection` or `array`. It permit you to built your multi-notifications data to send in few readable lines. Every thing inside the closure is like a `foreach` of the data passed.
 
 ~~~
 
