@@ -45,9 +45,10 @@ class NotifynderHandler
     public function fire(Notifynder $notifynder, $key, $category_name, array $values = [])
     {
         $values['eventName'] = $key;
+
         $notificationsResult = $this->event->fire($key,[$values,$category_name,$notifynder]);
 
-        if ($notificationsResult[0] !== false and count($notificationsResult[0]) > 0)
+        if ($this->hasNotificationToSend($notificationsResult))
         {
             return $notifynder->send($notificationsResult[0]);
         }
@@ -68,8 +69,13 @@ class NotifynderHandler
         foreach($events as $category => $event)
         {
             $data['eventName'] = $event;
+
             $infoNotification = $this->event->fire($event,[$data,$category,$notifynder]);
-            $notifynder->send($infoNotification[0]);
+
+            if ($this->hasNotificationToSend($infoNotification))
+            {
+                $notifynder->send($infoNotification[0]);
+            }
         }
     }
 
@@ -89,5 +95,17 @@ class NotifynderHandler
         }
 
         return;
+    }
+
+    /**
+     * Check if the fired method has some notifications
+     * to send
+     *
+     * @param $notificationsResult
+     * @return bool
+     */
+    public function hasNotificationToSend($notificationsResult)
+    {
+        return $notificationsResult[0] !== false and count($notificationsResult[0]) > 0;
     }
 }

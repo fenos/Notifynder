@@ -23,7 +23,6 @@ class NotifynderHandlerIntegrationTest extends IntegrationDBTest {
     {
         TestDummy::create('Fenos\Notifynder\Models\NotificationCategory',['name' => 'test']);
 
-        $notificationData = [];
         $notificationData[0] = 1;
         $notificationData[1] = 2;
 
