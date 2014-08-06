@@ -52,7 +52,7 @@ With this solid API you will implent the notifications system in no time.
     * [Send](#send) (new 2.0)
     * [Send single notification](#send-single-notification)
     * [Send multiple notifications](#send-multiple-notifications)
-* [Notifynder Builder](#notifynder-builder)
+* [Notifynder Builder](#notifynder-builder) (new 2.1)
     * [From](#from)
     * [To](#to)
     * [Url](#url)
