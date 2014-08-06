@@ -35,7 +35,7 @@ With this solid API you will implent the notifications system in no time.
 * Good architecture of the classes
 * Heavily Tested with Unit and Integration
 
-#####Release 2.0.1#####
+#####Release 2.1.0#####
 * [Notifynder Builder](#notifynder-builder)
 
 - - -
