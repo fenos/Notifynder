@@ -50,9 +50,17 @@ With this solid API you will implent the notifications system in no time.
     * [Advanced Categories](#advanced-categories)
 * [Send Notification/s](#send-notification-s)
     * [Send](#send) (new 2.0)
-    * [Notifynder Builder](#notifynder-builder)
     * [Send single notification](#send-single-notification)
     * [Send multiple notifications](#send-multiple-notifications)
+* [Notifynder Builder](#notifynder-builder)
+    *[From](#from)
+    *[To](#to)
+    *[Url](#url)
+    *[Category](#category)
+    *[Extra](#extra)
+    *[GetArray](#getarray)
+    *[Loop](#build-multiple-notifications]
+    *[Raw](#raw)
 * [Read Notification/s](#read-notifications)
     * [Read one](#read-one)
     * [Read All](#read-all)
@@ -311,8 +319,62 @@ Notifynder::send($notification_information); // it just send!
 
 ~~~
 
+#### Send Single Notification ####
 
-### Notifynder Builder ####
+~~~
+
+$notification_information = Notifynder::builder()->from('User',1)
+               ->to('Team',2)
+               ->category('name')
+               ->url('samurl.dev')->getArray();
+
+Notifynder::sendOne($notification_information); // it just send!
+
+~~~
+
+But remember you can always use the method `category()` and don't hard code the category id!
+
+~~~
+try
+{
+
+   $notification_information = Notifynder::builder()->from('User',1)
+               ->to('Team',2)
+               ->category('name')
+               ->url('samurl.dev')->getArray();
+
+    Notifynder::category('londonNews')->sendOne($notification_information); // it just send!
+}
+catch(Fenos\Notifynder\Exceptions\NotificationCategoryNotFoundException $e)
+{
+
+    // category not found
+
+}
+~~~
+
+
+#### Send multiple notifications ####
+
+Now it's time to send multiple notification at once! The only thing you need to keep attention is that `created_at` and `updated_at` are not updated automatically so just put it on your array :)
+
+~~~
+$notification_information = Notifynder::loop([1,2],function($builder,$key,$data){
+
+   return $builder->from('User',$data)
+               ->to('Team',2)
+               ->category('name')
+               ->url('samurl.dev')
+
+});
+
+
+Notifynder::sendMultiple($notification_information);
+~~~
+
+- - - 
+
+### Notifynder Builder ###
 
 It is the resource for create **fast** and **readable data** passing it to a notifynder **sender**, to complete the action.
 
@@ -437,60 +499,7 @@ $singleNotification = Notifynder::builder()->raw(function($builder) use ($user_i
 });
 ~~~
 
-#### Send Single Notification ####
-
-~~~
-
-$notification_information = Notifynder::builder()->from('User',1)
-               ->to('Team',2)
-               ->category('name')
-               ->url('samurl.dev')->getArray();
-
-Notifynder::sendOne($notification_information); // it just send!
-
-~~~
-
-But remember you can always use the method `category()` and don't hard code the category id!
-
-~~~
-try
-{
-
-   $notification_information = Notifynder::builder()->from('User',1)
-               ->to('Team',2)
-               ->category('name')
-               ->url('samurl.dev')->getArray();
-
-    Notifynder::category('londonNews')->sendOne($notification_information); // it just send!
-}
-catch(Fenos\Notifynder\Exceptions\NotificationCategoryNotFoundException $e)
-{
-
-    // category not found
-
-}
-~~~
-
-
-#### Send multiple notifications ####
-
-Now it's time to send multiple notification at once! The only thing you need to keep attention is that `created_at` and `updated_at` are not updated automatically so just put it on your array :)
-
-~~~
-$notification_information = Notifynder::loop([1,2],function($builder,$key,$data){
-
-   return $builder->from('User',$data)
-               ->to('Team',2)
-               ->category('name')
-               ->url('samurl.dev')
-
-});
-
-
-Notifynder::sendMultiple($notification_information);
-~~~
-
-- - - 
+- - -
 
 ### Read Notification/s ###
 
