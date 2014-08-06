@@ -35,6 +35,9 @@ With this solid API you will implent the notifications system in no time.
 * Good architecture of the classes
 * Heavily Tested with Unit and Integration
 
+#####Release 2.0.1#####
+* [Notifynder Builder](#notifynder-builder)
+
 - - -
 
 * [Installation](#installation)
@@ -47,6 +50,7 @@ With this solid API you will implent the notifications system in no time.
     * [Advanced Categories](#advanced-categories)
 * [Send Notification/s](#send-notification-s)
     * [Send](#send) (new 2.0)
+    * [Notifynder Builder](#notifynder-builder)
     * [Send single notification](#send-single-notification)
     * [Send multiple notifications](#send-multiple-notifications)
 * [Read Notification/s](#read-notifications)
@@ -307,17 +311,140 @@ Notifynder::send($notification_information); // it just send!
 
 ~~~
 
+
+### Notifynder Builder ####
+
+It is the resource for create **fast** and **readable data** passing it to a notifynder **sender**, to complete the action.
+
+Each method is the equivalent of a property that notifynder can send. There are *4 required fields* to send a notification:
+
+- from_id
+- to_id
+- url
+- category_id
+
+**Example:**
+
+~~~
+Notifynder::builder()->from('User',1)->to('User',2)
+                     ->category('test_category')
+                     ->url('www.mynotification.dev')
+                     ->extra('Super')
+                     ->getArray();
+~~~
+
+Let's strat seeing the methods:
+
+#### from ####
+
+This method set the entity that will **send** the notification.
+
+You can pass 1 or 2 arguments in this method, if you pass 2 arguments
+means that the first one is the **Name of the entity** second **id**
+
+~~~
+$entity_id = 1;
+$entity_name = "User;
+
+Notifynder::builder()->from($entity_name,$entity_id);
+~~~
+
+#### To ####
+
+This method set the entity that will **receive** the notification.
+
+You can pass 1 or 2 arguments in this method, if you pass 2 arguments
+means that the first one is the **Name of the entity** second **id**
+
+~~~
+$entity_id = 1;
+$entity_name = "User;
+
+Notifynder::builder()->to($entity_name,$entity_id);
+~~~
+
+#### Url ####
+
+This method set the url of the notification.
+
+It Accept only 1 argument, string of the url:
+
+~~~
+Notifynder::builder()->url("www.urlnotification.com");
+~~~
+
+#### Category ####
+
+This method set the category of the notification, you can pass the **name**
+or the **id** of it as first argument.
+
+~~~
+Notifynder::builder()->category($name_category);
+~~~
+
+#### Extra ####
+
+This method set the **extra** parameter of the notification, it accept 1 argument the string of the extra parameter.
+
+~~~
+Notifynder::builder()->extra('Extra Parameter');
+~~~
+
+#### Get Array ####
+
+This method get the array built from the builder, it's need it only when you build a single notification as the example above.
+
+~~~
+Notifynder::builder()->from(1)->to(2)->url('url')->category(1)->getArray();
+~~~
+
+#### Build multiple notifications ####
+
+The `Loop` method iterate the aguments passed as `Collection` it permit you to built your multinotifications data to send in few readable lines.
+
+~~~
+
+$dataToIterate = User::all();
+
+$MultiNotificationsArray = Notifynder::builder()->loop($dataToIterate,function($builder,$key,$data)
+{
+   if ($data == 1) // put the conditional if you wish
+   
+      return $builder->from('User',$data->id)
+               ->to('Team',2)
+               ->category('name')
+               ->url('samurl.dev');
+});
+~~~
+
+It simply create an array for all you users as example.
+
+#### Raw ####
+
+This method allow you to be a bit more flexible to create your notification if need it.All the builder method will be
+inside a closure and you don't need to call `getArray()`.
+
+~~~
+$user_id = 1;
+
+$singleNotification = Notifynder::builder()->raw(function($builder) use ($user_id){
+
+   return $builder->from('User',1)
+               ->to('Team',2)
+               ->category('name')
+               ->url('samurl.dev');
+
+});
+~~~
+
 #### Send Single Notification ####
 
 ~~~
 
-$notification_information = array(
-
-    'from_id'     => 1, // ID user that send the notification
-    'to_id'       => 2, // ID user that receive the notification
-    'category_id' => 1, // category notification ID
-    'url'         => 'www.urlofnotification.com', // Url of your notification
-);
+$notification_information = Notifynder::builder()->from('User',1)
+               ->to('Team',2)
+               ->category('name')
+               ->url('samurl.dev')->getArray();
 
 Notifynder::sendOne($notification_information); // it just send!
 
@@ -329,12 +456,10 @@ But remember you can always use the method `category()` and don't hard code the 
 try
 {
 
-    $notification_information = array(
-
-        'from_id'     => 1, // ID user that send the notification
-        'to_id'       => 2, // ID user that receive the notification
-        'url'         => 'www.urlofnotification.com', // Url of your notification
-    );
+   $notification_information = Notifynder::builder()->from('User',1)
+               ->to('Team',2)
+               ->category('name')
+               ->url('samurl.dev')->getArray();
 
     Notifynder::category('londonNews')->sendOne($notification_information); // it just send!
 }
@@ -352,62 +477,20 @@ catch(Fenos\Notifynder\Exceptions\NotificationCategoryNotFoundException $e)
 Now it's time to send multiple notification at once! The only thing you need to keep attention is that `created_at` and `updated_at` are not updated automatically so just put it on your array :)
 
 ~~~
-$notification_information = array(
+$notification_information = Notifynder::loop([1,2],function($builder,$key,$data){
 
-    array (
-        'from_id'     => 1, // ID user that send the notification
-        'to_id'       => 2, // ID user that receive the notification
-        'category_id' => 1, // ID category
-        'url'         => 'www.urlofnotification.com', // Url of your notification
-        'extra'       => 'extra value' // extra value that will be replace if present {extra} in the category body
-        'created_at'  => Carbon::now(),
-        'updated_at'  => Carbon::now()
-    ),
+   return $builder->from('User',$data)
+               ->to('Team',2)
+               ->category('name')
+               ->url('samurl.dev')
 
-    array (
-        'from_id'     => 1, // ID user that send the notification
-        'to_id'       => 4, // ID user that receive the notification
-        'category_id' => 2, // ID category
-        'url'         => 'www.urlofnotification.com', // Url of your notification
-        'extra'       => 'extra value' // extra value that will be replace if present {extra} in the category body
-        'created_at'  => Carbon::now(),
-        'updated_at'  => Carbon::now()
-    )
-);
+});
 
 
 Notifynder::sendMultiple($notification_information);
 ~~~
 
-In this method the `category()` method will not work on chaining, but instead let's see how can you use it here!
-
-~~~
-$notification_information = array(
-
-    array => (
-        'from_id'     => 1, // ID user that send the notification
-        'to_id'       => 2, // ID user that receive the notification
-        'category_id' => Notifynder::category('londonNews')->id(), // Will give you the notification ID
-        'url'         => 'www.urlofnotification.com', // Url of your notification
-        'extra'       => 'extra value' // extra value that will be replace if present {extra} in the category body
-        'created_at'  => Carbon::now(),
-        'updated_at'  => Carbon::now()
-    ),
-
-    array => (
-        'from_id'     => 1, // ID user that send the notification
-        'to_id'       => 4, // ID user that receive the notification
-        'category_id' => Notifynder::category('londonNews')->id(), // Will give you the notification ID
-        'url'         => 'www.urlofnotification.com', // Url of your notification
-        'extra'       => 'extra value' // extra value that will be replace if present {extra} in the category body
-        'created_at'  => Carbon::now(),
-        'updated_at'  => Carbon::now()
-    )
-);
-
-
-Notifynder::sendMultiple($notification_information);
-~~~
+- - - 
 
 ### Read Notification/s ###
 
