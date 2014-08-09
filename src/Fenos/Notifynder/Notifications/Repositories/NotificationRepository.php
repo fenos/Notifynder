@@ -1,9 +1,4 @@
-<?php
-/**
- * Created by Fabrizio Fenoglio.
- */
-
-namespace Fenos\Notifynder\Notifications\Repositories;
+<?php namespace Fenos\Notifynder\Notifications\Repositories;
 
 use Fenos\Notifynder\Models\Notification;
 use Fenos\Notifynder\Senders\StoreNotification;
@@ -43,6 +38,8 @@ class NotificationRepository {
     }
 
     /**
+     * Find notification by id
+     *
      * @param $notification_id
      * @return \Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model|static
      */
@@ -192,6 +189,7 @@ class NotificationRepository {
             $result = $this->notification->with('body','from')
                 ->wherePolymorphic('to_id','to_type',$to_id,$this->entity)
                 ->withNotRead()
+                ->orderBy('read','ASC')
                 ->get();
 
             return $result->parse(); // parse results
@@ -202,6 +200,7 @@ class NotificationRepository {
             $result = $this->notification->with('body','from')
                 ->wherePolymorphic('to_id','to_type',$to_id,$this->entity)
                 ->withNotRead()
+                ->orderBy('read','ASC')
                 ->paginate($limit);
         }
         else
@@ -210,6 +209,7 @@ class NotificationRepository {
                 ->wherePolymorphic('to_id','to_type',$to_id,$this->entity)
                 ->withNotRead()
                 ->limit($limit)
+                ->orderBy('read','ASC')
                 ->get();
         }
 
