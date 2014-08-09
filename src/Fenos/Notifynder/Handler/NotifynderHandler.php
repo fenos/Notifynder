@@ -3,7 +3,6 @@
 use Fenos\Notifynder\Notifynder;
 use Illuminate\Config\Repository;
 use Illuminate\Events\Dispatcher;
-use Illuminate\Foundation\Application;
 
 /**
  * Class NotifynderHandler
@@ -93,8 +92,6 @@ class NotifynderHandler
                 $this->event->listen($key,$listener);
             }
         }
-
-        return;
     }
 
     /**
@@ -106,6 +103,6 @@ class NotifynderHandler
      */
     public function hasNotificationToSend($notificationsResult)
     {
-        return is_array($notificationsResult) and $notificationsResult[0] !== false and count($notificationsResult[0]) > 0;
+        return is_array($notificationsResult) and count($notificationsResult) > 0 and $notificationsResult[0] !== false and count($notificationsResult[0]) > 0;
     }
 }
