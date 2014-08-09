@@ -84,6 +84,8 @@ With this solid API you will implent the notifications system in no time.
 * [Translations](#translations)
 * [Extends Model Class](#extend-the-model-class)
 * [Upgrade Release](#upgrade-release)
+* [Issues Knowed](#issues-knowed)
+* [Help](#help)
 
 ## Installation ##
 
@@ -989,9 +991,22 @@ foreach($allNotifications as $notification)
 }
 ~~~
 
+- - -
+
+#### Issues Knowed ####
+
+- Pagination Notifications, it doesn't parse correctly the special values. ( I will fix it, when I have a bit of free time).
+- The documentation is quite long and I hope understandable, my mother language is not english, I'm sorry for some spelling errors
+during your reading. If you want to correct it feel free to do it.
+
+#### Help ####
+
+If you don't understand how to use the library, please feel free to ask any question in the issues section.
+
 #### Tests ####
 
-For run the tests make sure to have phpUnit and Mockery installed
+I Made 2 type of tests, Unit Tests and Integration Tests.
+If you want to run them just go inside the package directory and run `phpunit`
 
 #### Package ####
 
