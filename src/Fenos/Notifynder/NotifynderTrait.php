@@ -21,7 +21,7 @@ trait NotifynderTrait {
         // check if on the configurations file there is the option
         // polymorphic setted to true, if so Notifynder will work
         // polymorphic.
-        if ( Config::get('notifynder::config.polymorphic') === false )
+        if ( \Config::get('notifynder::config.polymorphic') === false )
         {
             return $this->morphMany(Config::get('notifynder::config.model'),'to');
         }
