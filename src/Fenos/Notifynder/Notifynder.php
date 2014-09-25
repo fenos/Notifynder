@@ -14,7 +14,7 @@ use Fenos\Notifynder\Senders\NotifynderSender;
  *
  * @package Fenos\Notifynder
  */
-class Notifynder {
+class Notifynder implements NotifynderInterface {
 
     /**
      * @var NotifynderCategory
