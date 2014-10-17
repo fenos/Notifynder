@@ -232,7 +232,7 @@ As second paramenter you pass the id of the current category to update.
 
 **Second option**
 
-How second option if you don't want hardcode the id of the category you can update your row simply like so:
+On the second option, if you don't want hardcode the id of the category you can update your row simply like so:
 
 ~~~
 try
