@@ -53,7 +53,6 @@ class NotifynderServiceProvider extends ServiceProvider {
         $this->notifynderSender();
         $this->notifynderGroup();
         $this->notifynderHandler();
-//        $this->listeners();
 
         // Commands
         $this->CategoryAddCommand();
@@ -95,9 +94,11 @@ class NotifynderServiceProvider extends ServiceProvider {
 
         $this->app['notifynder.notification.repository'] = $this->app->share(function($app){
 
+            $model = $app['config']->get('notifynder::config.model');
+
             /** @var $app \Illuminate\Foundation\Application */
             return new NotificationRepository(
-                    new Notification(),
+                    new $model,
                     $app['db']
                 );
         });
@@ -180,9 +181,11 @@ class NotifynderServiceProvider extends ServiceProvider {
 
         $this->app['notifynder.sender.repository'] = $this->app->share(function($app){
 
+            $model = $app['config']->get('notifynder::config.model');
+
             /** @var $app \Illuminate\Foundation\Application */
             return new NotificationRepository(
-                  new Notification(),
+                  new $model,
                   $app['db']
                 );
         });
