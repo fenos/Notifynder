@@ -1,6 +1,6 @@
 {
     "name": "fenos/notifynder",
-    "description": "Management system of internal notifications for Laravel 4.*",
+    "description": "Management system of internal notifications for Laravel 4.*/ 5.*",
     "keywords": ["notifications", "laravel"],
     "license": "MIT",
     "require": {

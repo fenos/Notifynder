@@ -139,6 +139,6 @@ class NotifynderGroup {
      */
     public function isStringWithDots($name)
     {
-        return strpos('.',$name);
+        return strpos($name,'.');
     }
 } 

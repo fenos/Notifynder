@@ -1,6 +1,7 @@
 <?php namespace Fenos\Notifynder;
 
 use App;
+use Config;
 
 /**
  * Class NotifynderTrait
@@ -21,7 +22,7 @@ trait NotifynderTrait {
         // check if on the configurations file there is the option
         // polymorphic setted to true, if so Notifynder will work
         // polymorphic.
-        if ( \Config::get('notifynder::config.polymorphic') === false )
+        if ( Config::get('notifynder::config.polymorphic') === false )
         {
             return $this->morphMany(Config::get('notifynder::config.model'),'to');
         }
@@ -36,7 +37,7 @@ trait NotifynderTrait {
      */
     public function notifynderInstance()
     {
-        return \App::make('notifynder');
+        return App::make('notifynder');
     }
 
     /**
