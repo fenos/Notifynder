@@ -94,7 +94,7 @@ class NotifynderServiceProvider extends ServiceProvider {
 
         $this->app['notifynder.notification.repository'] = $this->app->share(function($app){
 
-            $model = $app['config']->get('notifynder::config.model');
+            $model = $app['config']->get('notifynder::config.notification_model');
 
             /** @var $app \Illuminate\Foundation\Application */
             return new NotificationRepository(
@@ -181,7 +181,7 @@ class NotifynderServiceProvider extends ServiceProvider {
 
         $this->app['notifynder.sender.repository'] = $this->app->share(function($app){
 
-            $model = $app['config']->get('notifynder::config.model');
+            $model = $app['config']->get('notifynder::config.notification_model');
 
             /** @var $app \Illuminate\Foundation\Application */
             return new NotificationRepository(
