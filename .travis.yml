@@ -11,4 +11,4 @@ before_script:
   - travis_retry composer install --no-interaction --prefer-source --dev
 
 script:
-  - vendor/bin/phpunit --verbose
+  - vendor/bin/phpunit --testsuite Unit
