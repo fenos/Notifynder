@@ -3,6 +3,7 @@
 use Config;
 
 use Fenos\Notifynder\Models\Collection\NotifynderCollection;
+use Fenos\Notifynder\Parse\NotifynderParse;
 use Fenos\Notifynder\Translator\NotifynderTranslator;
 use Illuminate\Database\Eloquent\Model;
 
@@ -11,7 +12,6 @@ use Illuminate\Database\Eloquent\Model;
  *
  * @method wherePolymorphic
  * @method withNotRead
- * @method parse
  *
  * @package Fenos\Notifynder\Models
  */
@@ -114,5 +114,14 @@ class Notification extends Model {
             return $query->where($table_id,$table_id_value)
                 ->where($table_type,$table_type_value);
         }
+    }
+
+    /**
+     * @return mixed
+     */
+    public function parse()
+    {
+        (new NotifynderParse($this))->parse();
+        return $this;
     }
 }

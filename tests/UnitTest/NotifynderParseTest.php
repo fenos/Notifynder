@@ -62,17 +62,9 @@ class NofitynderParseTest extends PHPUnit_Framework_TestCase
                         ->andReturn($special_values_parsed);
 
         $notifynderParse->shouldReceive('replaceSpecialValues')
-                        ->with($special_values_parsed,0)
+                        ->with($special_values_parsed,$this->items())
                         ->once()
                         ->andReturn($this->itemsParsed());
-
-        // i mocked the method replaceSpecialValues so it didn't set the property items with the new
-        // results updated so i specific that here using reflection I do this manually but the method that
-        // merge the results (replaceSpecialValues) has been unit tested correctly
-        $reflection = new \ReflectionClass($notifynderParse);
-        $reflection_property = $reflection->getProperty('items');
-        $reflection_property->setAccessible(true);
-        $reflection_property->setValue($notifynderParse, $this->itemsParsed());
 
         $result = $notifynderParse->parse();
         $this->assertEquals($this->itemsParsed(),$result);
@@ -80,7 +72,7 @@ class NofitynderParseTest extends PHPUnit_Framework_TestCase
 
     public function test_extract_special_values_from_a_string()
     {
-        $result = $this->notifynderParse->getValues($this->items()[0]['body']['text']);
+        $result = $this->notifynderParse->getValues($this->items()['body']['text']);
 
         $assert = [
 
@@ -91,23 +83,9 @@ class NofitynderParseTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($assert,$result);
     }
 
-    public function test_replace_special_value_with_new_value()
-    {
-        $special_values_parsed = [
-
-            0 => 'extra',
-            1 => 'user.name'
-
-        ];
-
-        $result = $this->notifynderParse->replaceSpecialValues($special_values_parsed,0);
-
-        $this->assertEquals($this->itemsParsed(),$result);
-    }
-
     public function items()
     {
-       return ["0" => array(
+       return [
                 "id" => 150,
                 "from_id" => 1,
                 "to_id" => 2,
@@ -131,15 +109,13 @@ class NofitynderParseTest extends PHPUnit_Framework_TestCase
                     "id" => 1,
                     "email" => "admin@admin.com",
                     "name" => "fabrizio"
-                )
-
             )
         ];
     }
 
     public function itemsParsed()
     {
-        return ["0" => array(
+        return [
                 "id" => 150,
                 "from_id" => 1,
                 "to_id" => 2,
@@ -164,8 +140,6 @@ class NofitynderParseTest extends PHPUnit_Framework_TestCase
                     "email" => "admin@admin.com",
                     "name" => "fabrizio"
                 )
-
-            )
         ];
     }
 }
