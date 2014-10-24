@@ -1,5 +1,7 @@
 <?php namespace Fenos\Notifynder\Parse;
 
+use Illuminate\Database\Eloquent\Collection;
+
 /**
  *
  * Class parse used on collection. It permit to decode the special
@@ -16,68 +18,73 @@ class NotifynderParse
     const RULE = '/\{(.+?)(?:\{(.+)\})?\}/';
 
     /**
-    * @var \Fenos\Notifynder\Models\Notification
-    */
-    protected $notification;
-
-    /**
-    * @var $items
-    */
-    protected $items;
-
-    /**
-    * @var $loader
-    */
-    protected $loader = array();
-
-    /**
-     * @param $items
+     * @var array
      */
-    function __construct( $items )
+    protected $item;
+
+    /**
+     * @var array
+     */
+    protected $container_values = [];
+
+    /**
+     * @param $item
+     */
+    function __construct($item)
     {
-        $this->items = $items;
+        $this->item = $item;
     }
 
     /**
-     * Parse the body of the notifications
-     * Replacing the default value with the
-     * right parameter
-     *
-     * @return mixed
+     * Parse special value from a noficiation
+     * Model or a collection
      */
     public function parse()
     {
-        // for each items of the collection
-        foreach ($this->items as $key => $notification) {
+        if ($this->item instanceof Collection)
+        {
+            return $this->parseCollection();
+        }
+        else
+        {
+            $valuesToParse = $this->getValues($this->item['body']['text']);
 
-            // get specials parameters between curly brachet
-            $values = $this->getValues($this->items[$key]['body']['text']);
-
-            // there are any?
-            if ( count($values) > 0 ) // yes
+            if ($valuesToParse > 0)
             {
-                $this->replaceSpecialValues($values,$key);
+                return $this->replaceSpecialValues($valuesToParse,$this->item);
+            }
+        }
+    }
+
+    /**
+     * Parse special values from a collection
+     */
+    public function parseCollection()
+    {
+        $collectionItems = $this->item->getCollectionItems();
+
+        foreach( $collectionItems as $key => $value)
+        {
+            $valuesToParse = $this->getValues($collectionItems[$key]['body']['text']);
+
+            if ($valuesToParse > 0)
+            {
+                $this->replaceSpecialValues($valuesToParse,$value);
             }
         }
 
-        return $this->items;
+        return $collectionItems;
     }
 
-
     /**
-     * Replace Special value of the body
-     * of the items I pass as secoond parameter
-     * The key of the main array of the result so it can
-     * merge the result properly
+     * Replace specialValues
      *
-     * @param $values
-     * @param $keyItems
-     * @return mixed
+     * @param $valuesToParse
+     * @param $item
      */
-    public function replaceSpecialValues($values,$keyItems)
+    public function replaceSpecialValues($valuesToParse,$item)
     {
-        // for each special values
-        foreach ($values as $value)
+        foreach($valuesToParse as $value)
         {
             // get an array of nested values, means that there is a relations
             // in progress
@@ -86,55 +93,63 @@ class NotifynderParse
             // get name relations
             $relation = array_shift($value_user);
 
-            // check if there is any value with the name of the relation just in case
-            if ( strpos($value, $relation.'.') !== false) // yes
+            if ( strpos($value, $relation . '.') !== false ) // yes
             {
-                $this->insertValues($keyItems, $value_user, $relation);
+                $this->insertValuesRelation($value_user, $relation,$item);
             }
             else
             {
-                // no values relations
-                $this->items[$keyItems]['body']['text'] = preg_replace(
-                    "{{".$value."}}",
-                    $this->items[$keyItems]['extra'],
-                    $this->items[$keyItems]['body']['text']
-                );
+                $this->replaceExtraParameter($value,$item);
             }
         }
 
-        return $this->items;
+        return $item;
     }
 
     /**
-     * @param $keyItems
+     * Replace relations values
+     *
      * @param $value_user
      * @param $relation
-     * @return mixed
+     * @param $item
      */
-    public function insertValues($keyItems, $value_user, $relation)
+    private function insertValuesRelation($value_user, $relation, $item)
     {
-        // for each values with relations
-        foreach ($value_user as $value)
+        foreach($value_user as $value)
         {
-            $keyName = $this->items[$keyItems]['body']['name'] . $relation . $value;
+            $key = $item['id'].$relation.$value;
 
-            if (! array_key_exists($keyName, $this->loader))
+            if ( ! array_key_exists($key,$this->container_values))
             {
-                // switch the special attribute with the right value
-                $this->items[$keyItems]['body']['text'] = preg_replace(
+                $item['body']['text'] = preg_replace(
                     "{{" . $relation . "." . $value . "}}",
-                    $this->items[$keyItems][$relation][$value],
-                    $this->items[$keyItems]['body']['text']
+                    $item[$relation][$value],
+                    $item['body']['text']
                 );
 
-                // eager loading
-                $this->loader[$keyName] = $this->items[$keyItems]['body']['text'];
+                $this->container_values[$key] = $item['body']['text'];
             }
-
-            $this->items[$keyItems]['body']['text'] = $this->loader[$keyName];
+            else
+            {
+                $item['body']['text'] = $this->container_values[$key];
+            }
         }
     }
 
+    /**
+     * Replace the Extra Parameter
+     *
+     * @param $value
+     * @param $item
+     */
+    public function replaceExtraParameter($value,$item)
+    {
+        $item['body']['text'] = preg_replace(
+            "{{".$value."}}",
+            $item['extra'],
+            $item['body']['text']
+        );
+    }
 
     /**
      * Get the values between {}

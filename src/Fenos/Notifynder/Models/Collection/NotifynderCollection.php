@@ -117,10 +117,17 @@ class NotifynderCollection extends Collection {
      */
     public function parse()
     {
-        $notifynderParse = new NotifynderParse($this->items);
+        $notifynderParse = new NotifynderParse($this);
         $notifynderParse->parse();
 
         return $this;
     }
 
+    /**
+     * @return array
+     */
+    public function getCollectionItems()
+    {
+        return $this->items;
+    }
 } 
