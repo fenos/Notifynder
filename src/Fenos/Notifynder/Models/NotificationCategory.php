@@ -6,6 +6,7 @@
 namespace Fenos\Notifynder\Models;
 
 
+use Fenos\Notifynder\Parse\NotifynderParse;
 use Illuminate\Database\Eloquent\Model;
 
 /**

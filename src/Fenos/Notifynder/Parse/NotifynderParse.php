@@ -23,16 +23,18 @@ class NotifynderParse
     protected $item;
 
     /**
-     * @var array
+     * @var string
      */
-    protected $container_values = [];
+    protected $extra;
 
     /**
      * @param $item
+     * @param $extra
      */
-    function __construct($item)
+    function __construct($item,$extra)
     {
         $this->item = $item;
+        $this->extra = $extra;
     }
 
     /**
@@ -41,39 +43,14 @@ class NotifynderParse
      */
     public function parse()
     {
-        if ($this->item instanceof Collection)
+        $body = $this->item->body->text;
+
+        $valuesToParse = $this->getValues($body);
+
+        if ($valuesToParse > 0)
         {
-            return $this->parseCollection();
+            return $this->replaceSpecialValues($valuesToParse,$this->item,$body);
         }
-        else
-        {
-            $valuesToParse = $this->getValues($this->item['body']['text']);
-
-            if ($valuesToParse > 0)
-            {
-                return $this->replaceSpecialValues($valuesToParse,$this->item);
-            }
-        }
-    }
-
-    /**
-     * Parse special values from a collection
-     */
-    public function parseCollection()
-    {
-        $collectionItems = $this->item->getCollectionItems();
-
-        foreach( $collectionItems as $key => $value)
-        {
-            $valuesToParse = $this->getValues($collectionItems[$key]['body']['text']);
-
-            if ($valuesToParse > 0)
-            {
-                $this->replaceSpecialValues($valuesToParse,$value);
-            }
-        }
-
-        return $collectionItems;
     }
 
     /**
@@ -81,8 +58,10 @@ class NotifynderParse
      *
      * @param $valuesToParse
      * @param $item
+     * @param $body
+     * @return mixed
      */
-    public function replaceSpecialValues($valuesToParse,$item)
+    public function replaceSpecialValues($valuesToParse,$item,$body)
     {
         foreach($valuesToParse as $value)
         {
@@ -95,15 +74,16 @@ class NotifynderParse
 
             if ( strpos($value, $relation . '.') !== false ) // yes
             {
-                $this->insertValuesRelation($value_user, $relation,$item);
+                $body = $this->insertValuesRelation($value_user, $relation,$body,$item);
             }
-            else
+
+            if( ! is_null($this->extra))
             {
-                $this->replaceExtraParameter($value,$item);
+                $body = $this->replaceExtraParameter($value,$body);
             }
         }
 
-        return $item;
+        return $body;
     }
 
     /**
@@ -111,43 +91,37 @@ class NotifynderParse
      *
      * @param $value_user
      * @param $relation
+     * @param $body
      * @param $item
+     * @return mixed
      */
-    private function insertValuesRelation($value_user, $relation, $item)
+    private function insertValuesRelation($value_user, $relation,$body, $item)
     {
         foreach($value_user as $value)
         {
-            $key = $item['id'].$relation.$value;
-
-            if ( ! array_key_exists($key,$this->container_values))
-            {
-                $item['body']['text'] = preg_replace(
-                    "{{" . $relation . "." . $value . "}}",
-                    $item[$relation][$value],
-                    $item['body']['text']
-                );
-
-                $this->container_values[$key] = $item['body']['text'];
-            }
-            else
-            {
-                $item['body']['text'] = $this->container_values[$key];
-            }
+            $body = preg_replace(
+                "{{" . $relation . "." . $value . "}}",
+                $item[$relation][$value],
+                $body
+            );
         }
+
+        return $body;
     }
 
     /**
      * Replace the Extra Parameter
      *
      * @param $value
-     * @param $item
+     * @param $body
+     * @return mixed
      */
-    public function replaceExtraParameter($value,$item)
+    public function replaceExtraParameter($value,$body)
     {
-        $item['body']['text'] = preg_replace(
+        return $item['body']['text'] = preg_replace(
             "{{".$value."}}",
-            $item['extra'],
-            $item['body']['text']
+            $this->extra,
+            $body
         );
     }
 

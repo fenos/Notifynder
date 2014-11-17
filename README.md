@@ -996,7 +996,7 @@ foreach($allNotifications as $notification)
 
 #### Issues Knowed ####
 
-- Pagination Notifications, it doesn't parse correctly the special values. ( I will fix it, when I have a bit of free time).
+- (Fixed) Pagination Notifications, it doesn't parse correctly the special values. ( I will fix it, when I have a bit of free time).
 - The documentation is quite long and I hope understandable, my mother language is not english, I'm sorry for some spelling errors
 during your reading. If you want to correct it feel free to do it.
 

@@ -25,7 +25,15 @@ class Notification extends Model {
     protected $fillable = ['to_id','to_type','from_id','from_type','category_id','read','url','extra'];
 
     /**
+     * @var array
+     */
+    protected $appends = ['notify_body'];
+
+    /**
      * Custom Collection
+     *
+     * @param array $models
+     * @return NotifynderCollection|\Illuminate\Database\Eloquent\Collection
      */
     public function newCollection(array $models = array())
     {
@@ -119,9 +127,8 @@ class Notification extends Model {
     /**
      * @return mixed
      */
-    public function parse()
+    public function getNotifyBodyAttribute()
     {
-        (new NotifynderParse($this))->parse();
-        return $this;
+        return (new NotifynderParse($this,$this->extra))->parse();
     }
 }
