@@ -25,11 +25,6 @@ class Notification extends Model {
     protected $fillable = ['to_id','to_type','from_id','from_type','category_id','read','url','extra'];
 
     /**
-     * @var array
-     */
-    protected $appends = ['notify_body'];
-
-    /**
      * Custom Collection
      *
      * @param array $models
