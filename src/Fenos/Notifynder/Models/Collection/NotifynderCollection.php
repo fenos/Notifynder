@@ -76,8 +76,6 @@ class NotifynderCollection extends Collection {
             }
         }
 
-        $this->parse();
-
         return $this;
     }
 
@@ -104,30 +102,6 @@ class NotifynderCollection extends Collection {
             }
         }
 
-        $this->parse();
-
         return $this;
-    }
-
-    /**
-     * Parse the final result changing the special
-     * values with the right value
-     *
-     * @return Collection
-     */
-    public function parse()
-    {
-        $notifynderParse = new NotifynderParse($this);
-        $notifynderParse->parse();
-
-        return $this;
-    }
-
-    /**
-     * @return array
-     */
-    public function getCollectionItems()
-    {
-        return $this->items;
     }
 } 

@@ -191,8 +191,6 @@ class NotificationRepository {
                 ->withNotRead()
                 ->orderBy('read','ASC')
                 ->get();
-
-            return $result->parse(); // parse results
         }
 
         if ($paginate)
@@ -213,7 +211,7 @@ class NotificationRepository {
                 ->get();
         }
 
-        return $result->parse(); // parse results
+        return $result;
     }
 
 
@@ -232,30 +230,29 @@ class NotificationRepository {
     {
         if ( is_null($limit) )
         {
-            return $this->notification->with('body','from')
+            $result = $this->notification->with('body','from')
                 ->wherePolymorphic('to_id','to_type',$to_id,$this->entity)
                 ->orderBy('read','ASC')
-                ->get()
-                ->parse();
+                ->get();
         }
 
         if ($paginate)
         {
-            return $this->notification->with('body','from')
+            $result = $this->notification->with('body','from')
                 ->wherePolymorphic('to_id','to_type',$to_id,$this->entity)
                 ->orderBy('read','ASC')
-                ->paginate($limit)
-                ->parse();
+                ->paginate($limit);
         }
         else
         {
-            return $this->notification->with('body','from')
+            $result = $this->notification->with('body','from')
                 ->wherePolymorphic('to_id','to_type',$to_id,$this->entity)
                 ->orderBy('read','ASC')
                 ->limit($limit)
-                ->get()
-                ->parse();
+                ->get();
         }
+
+        return $result;
     }
 
     /**
