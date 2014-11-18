@@ -12,6 +12,11 @@ Notifynder is a package that implement on your application a management system o
 With this solid API you will implent the notifications system in no time.
 
 - - -
+
+####Working Progress####
+- Version 3 of Notifynder Working in progress, for any suggest on futures to implement feel free to contact me.
+- Documentation will be Higly Improved.
+
 ####What's new####
 
 #####Release 1.4.0#####
