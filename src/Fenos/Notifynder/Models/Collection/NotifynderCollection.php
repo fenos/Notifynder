@@ -49,6 +49,8 @@ class NotifynderCollection extends Collection {
             $this->translateCategory( $language );
         }
 
+        $this->parse();
+
         return $this;
     }
 
@@ -75,6 +77,8 @@ class NotifynderCollection extends Collection {
                 $this->items[$key]['text'];
             }
         }
+
+        $this->parse();
 
         return $this;
     }
