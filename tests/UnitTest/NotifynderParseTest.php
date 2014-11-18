@@ -27,11 +27,7 @@ class NofitynderParseTest extends PHPUnit_Framework_TestCase
     {
         $eloquent = m::mock('Illuminate\Database\Eloquent\Model');
 
-        $this->notifynderParse = new NotifynderParse(
-
-            $this->notifynder_model =  m::mock('Fenos\Notifynder\Models\Notification'),
-            $this->extra = "is cool"
-        );
+        $this->notifynderParse = new NotifynderParse();
 
     }
 
@@ -46,21 +42,23 @@ class NofitynderParseTest extends PHPUnit_Framework_TestCase
 
     public function test_parse_notification()
     {
-        $notifynderParse = m::mock('Fenos\Notifynder\Parse\NotifynderParse[getValues,replaceSpecialValues]',[$this->notifynder_model,$this->extra]);
+        $notifynderParse = m::mock('Fenos\Notifynder\Parse\NotifynderParse[getValues,replaceSpecialValues]');
 
         $body = $this->item()['body']['text'];
         $valuesToParse = [0,['extra' => $this->extra]];
-        $categoryModel = m::mock('Illuminate\Database\Eloquent\Model');
+        $item = m::mock('Fenos\Notifynder\Models\Notification');
+        $model = m::mock('Illuminate\Database\Eloquent\Model');
 
-        $this->notifynder_model->shouldReceive('getAttribute')
+
+        $item->shouldReceive('getAttribute')
              ->once()
              ->with('body')
-             ->andReturn($categoryModel);
+             ->andReturn($model);
 
-        $categoryModel->shouldReceive('getAttribute')
-            ->once()
-            ->with('text')
-            ->andReturn($body);
+        $model->shouldReceive('getAttribute')
+             ->once()
+             ->with('text')
+             ->andReturn($body);
 
         $notifynderParse->shouldReceive('getValues')
              ->once()
@@ -69,26 +67,44 @@ class NofitynderParseTest extends PHPUnit_Framework_TestCase
 
         $notifynderParse->shouldReceive('replaceSpecialValues')
              ->once()
-             ->with($valuesToParse,$this->notifynder_model,$body)
+             ->with($valuesToParse,$item,$body,$this->item()['extra'])
              ->andReturn($this->itemParsed()['body']['text']);
 
-        $result = $notifynderParse->parse();
+        $result = $notifynderParse->parse($item,$this->item()['extra']);
 
         $this->assertEquals($this->itemParsed()['body']['text'],$result);
     }
 
-    public function test_replace_special_values()
+    public function test_replace_extra_special_values()
     {
-        $notifynderParse = m::mock('Fenos\Notifynder\Parse\NotifynderParse[insertValuesRelation,replaceExtraParameter]',[$this->notifynder_model,$this->extra]);
+        $notifynderParse = m::mock('Fenos\Notifynder\Parse\NotifynderParse[insertValuesRelation,replaceExtraParameter]');
         $valuesToParse = ['is cool'];
         $body = $this->item()['body']['text'];
+        $item = m::mock('Fenos\Notifynder\Models\Notification');
 
         $notifynderParse->shouldReceive('replaceExtraParameter')
              ->once()
-             ->with('is cool',$body)
+             ->with('is cool',$body,$this->item()['extra'])
              ->andReturn($this->itemParsed()['body']['text']);
 
-        $result = $notifynderParse->replaceSpecialValues($valuesToParse,$this->notifynder_model,$body);
+        $result = $notifynderParse->replaceSpecialValues($valuesToParse,$item,$body,$this->item()['extra']);
+
+        $this->assertEquals($this->itemParsed()['body']['text'],$result);
+    }
+
+    public function test_replace_values_relation_special_values()
+    {
+        $notifynderParse = m::mock('Fenos\Notifynder\Parse\NotifynderParse[insertValuesRelation,replaceExtraParameter]');
+        $valuesToParse = ['from.hello'];
+        $body = $this->item()['body']['text'];
+        $item = m::mock('Fenos\Notifynder\Models\Notification');
+
+        $notifynderParse->shouldReceive('insertValuesRelation')
+            ->once()
+            ->with(['hello'],'from',$body,$item)
+            ->andReturn($this->itemParsed()['body']['text']);
+
+        $result = $notifynderParse->replaceSpecialValues($valuesToParse,$item,$body,null);
 
         $this->assertEquals($this->itemParsed()['body']['text'],$result);
     }

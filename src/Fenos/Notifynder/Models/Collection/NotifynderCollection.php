@@ -104,4 +104,26 @@ class NotifynderCollection extends Collection {
 
         return $this;
     }
+
+    /**
+     * Parse the body of the notification
+     *
+     * @return $this
+     */
+    public function parse()
+    {
+        $parse = new NotifynderParse();
+
+        $notifications = [];
+
+        foreach($this->items as $key => $item)
+        {
+            $notifications[$key] = $item->toArray();
+            $notifications[$key]['body']['text'] = $parse->parse($item,$item->extra);
+        }
+
+        $this->items = $notifications;
+
+        return $this;
+    }
 } 

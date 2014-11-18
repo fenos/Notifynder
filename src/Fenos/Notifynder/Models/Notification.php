@@ -124,6 +124,8 @@ class Notification extends Model {
      */
     public function getNotifyBodyAttribute()
     {
-        return (new NotifynderParse($this,$this->extra))->parse();
+        $notifynderParse = new NotifynderParse();
+
+        return $notifynderParse->parse($this,$this->extra);
     }
 }

@@ -18,38 +18,22 @@ class NotifynderParse
     const RULE = '/\{(.+?)(?:\{(.+)\})?\}/';
 
     /**
-     * @var array
-     */
-    protected $item;
-
-    /**
-     * @var string
-     */
-    protected $extra;
-
-    /**
-     * @param $item
-     * @param $extra
-     */
-    function __construct($item,$extra)
-    {
-        $this->item = $item;
-        $this->extra = $extra;
-    }
-
-    /**
      * Parse special value from a noficiation
      * Model or a collection
+     *
+     * @param $item
+     * @param $extra
+     * @return mixed
      */
-    public function parse()
+    public function parse($item,$extra)
     {
-        $body = $this->item->body->text;
+        $body = $item->body->text;
 
         $valuesToParse = $this->getValues($body);
 
         if ($valuesToParse > 0)
         {
-            return $this->replaceSpecialValues($valuesToParse,$this->item,$body);
+            return $this->replaceSpecialValues($valuesToParse,$item,$body,$extra);
         }
     }
 
@@ -59,9 +43,10 @@ class NotifynderParse
      * @param $valuesToParse
      * @param $item
      * @param $body
+     * @param $extra
      * @return mixed
      */
-    public function replaceSpecialValues($valuesToParse,$item,$body)
+    public function replaceSpecialValues($valuesToParse,$item,$body,$extra)
     {
         foreach($valuesToParse as $value)
         {
@@ -77,9 +62,9 @@ class NotifynderParse
                 $body = $this->insertValuesRelation($value_user, $relation,$body,$item);
             }
 
-            if( ! is_null($this->extra))
+            if( ! is_null($extra))
             {
-                $body = $this->replaceExtraParameter($value,$body);
+                $body = $this->replaceExtraParameter($value,$body,$extra);
             }
         }
 
@@ -95,7 +80,7 @@ class NotifynderParse
      * @param $item
      * @return mixed
      */
-    private function insertValuesRelation($value_user, $relation,$body, $item)
+    public function insertValuesRelation($value_user, $relation,$body, $item)
     {
         foreach($value_user as $value)
         {
@@ -116,11 +101,11 @@ class NotifynderParse
      * @param $body
      * @return mixed
      */
-    public function replaceExtraParameter($value,$body)
+    public function replaceExtraParameter($value,$body,$extra)
     {
         return $item['body']['text'] = preg_replace(
             "{{".$value."}}",
-            $this->extra,
+            $extra,
             $body
         );
     }
