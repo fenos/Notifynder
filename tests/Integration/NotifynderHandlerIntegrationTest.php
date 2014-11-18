@@ -65,7 +65,7 @@ class NotifynderHandlerIntegrationTest extends IntegrationDBTest {
         $notifications = $this->notifynder->getAll(1);
 
         $this->assertCount(2,$notifications);
-        $this->assertEquals('test',$notifications[0]->body->name);
-        $this->assertEquals('test2',$notifications[1]->body->name);
+        $this->assertEquals('test',$notifications[0]['body']['name']);
+        $this->assertEquals('test2',$notifications[1]['body']['name']);
     }
 } 

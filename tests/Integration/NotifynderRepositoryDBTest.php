@@ -41,6 +41,8 @@ class NotifynderRepositoryDBTest extends IntegrationDBTest {
     /** @test */
     public function it_send_a_single_notification_using_send()
     {
+        TestDummy::create('Fenos\Notifynder\Models\NotificationCategory');
+
         $info = TestDummy::build('Fenos\Notifynder\Models\Notification',['category_id' => 1]);
 
         $this->notifynderRepository->sendSingle($info->toArray());
@@ -53,6 +55,8 @@ class NotifynderRepositoryDBTest extends IntegrationDBTest {
     /** @test */
     public function it_send_multiple_notifications_using_send()
     {
+        TestDummy::create('Fenos\Notifynder\Models\NotificationCategory');
+
         for($i = 0; $i < 6; $i++)
         {
             $info[$i] = TestDummy::build('Fenos\Notifynder\Models\Notification',['category_id' => 1])->toArray();
@@ -229,7 +233,7 @@ class NotifynderRepositoryDBTest extends IntegrationDBTest {
 
         $this->assertCount(15,$notificationGetAll);
         $this->assertCount(15,$notificationAll);
-        $this->assertEquals(0,$notificationGetAll[0]->read);
+        $this->assertEquals(0,$notificationGetAll[0]['read']);
     }
 
     /** @test */
@@ -243,7 +247,7 @@ class NotifynderRepositoryDBTest extends IntegrationDBTest {
 
         $this->assertCount(10,$notificationGetAll);
         $this->assertCount(15,$notificationAll);
-        $this->assertEquals(0,$notificationGetAll[0]->read);
+        $this->assertEquals(0,$notificationGetAll[0]['read']);
     }
 
 //    /** @test */

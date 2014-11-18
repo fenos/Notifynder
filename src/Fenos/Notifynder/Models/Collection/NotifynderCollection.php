@@ -110,15 +110,23 @@ class NotifynderCollection extends Collection {
     }
 
     /**
-     * Parse the final result changing the special
-     * values with the right value
+     * Parse the body of the notification
      *
-     * @return Collection
+     * @return $this
      */
     public function parse()
     {
-        $notifynderParse = new NotifynderParse($this);
-        $notifynderParse->parse();
+        $parse = new NotifynderParse();
+
+        $notifications = [];
+
+        foreach($this->items as $key => $item)
+        {
+            $notifications[$key] = $item->toArray();
+            $notifications[$key]['body']['text'] = $parse->parse($item,$item->extra);
+        }
+
+        $this->items = $notifications;
 
         return $this;
     }

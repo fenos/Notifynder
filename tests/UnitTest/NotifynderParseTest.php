@@ -11,11 +11,6 @@ class NofitynderParseTest extends PHPUnit_Framework_TestCase
     /**
     * @var
     */
-    protected $notifynderTranslator;
-
-    /**
-    * @var
-    */
     protected $notifynder_model;
 
     /**
@@ -23,17 +18,16 @@ class NofitynderParseTest extends PHPUnit_Framework_TestCase
     */
     protected $notifynderParse;
 
+    /**
+     * @var
+     */
+    protected $extra;
+
     public function setUp()
     {
-        $collectionMock = m::mock('Illuminate\Database\Eloquent\Collection');
+        $eloquent = m::mock('Illuminate\Database\Eloquent\Model');
 
-        $this->notifynderTranslator = m::mock('Fenos\Notifynder\Models\Collections\NotifynderTranslationCollection');
-
-        $this->notifynderParse = new NotifynderParse(
-
-            $this->notifynder_model =  $this->items()
-
-        );
+        $this->notifynderParse = new NotifynderParse();
 
     }
 
@@ -48,98 +42,124 @@ class NofitynderParseTest extends PHPUnit_Framework_TestCase
 
     public function test_parse_notification()
     {
-        $notifynderParse = m::mock('Fenos\Notifynder\Parse\NotifynderParse[getValues,replaceSpecialValues]',[$this->items()]);
+        $notifynderParse = m::mock('Fenos\Notifynder\Parse\NotifynderParse[getValues,replaceSpecialValues]');
 
-        $special_values_parsed = [
+        $body = $this->item()['body']['text'];
+        $valuesToParse = [0,['extra' => $this->extra]];
+        $item = m::mock('Fenos\Notifynder\Models\Notification');
+        $model = m::mock('Illuminate\Database\Eloquent\Model');
 
-            0 => 'extra',
-            1 => 'user.name'
 
-        ];
+        $item->shouldReceive('getAttribute')
+             ->once()
+             ->with('body')
+             ->andReturn($model);
+
+        $model->shouldReceive('getAttribute')
+             ->once()
+             ->with('text')
+             ->andReturn($body);
 
         $notifynderParse->shouldReceive('getValues')
-                        ->once()
-                        ->andReturn($special_values_parsed);
+             ->once()
+             ->with($body)
+             ->andReturn($valuesToParse);
 
         $notifynderParse->shouldReceive('replaceSpecialValues')
-                        ->with($special_values_parsed,$this->items())
-                        ->once()
-                        ->andReturn($this->itemsParsed());
+             ->once()
+             ->with($valuesToParse,$item,$body,$this->item()['extra'])
+             ->andReturn($this->itemParsed()['body']['text']);
 
-        $result = $notifynderParse->parse();
-        $this->assertEquals($this->itemsParsed(),$result);
+        $result = $notifynderParse->parse($item,$this->item()['extra']);
+
+        $this->assertEquals($this->itemParsed()['body']['text'],$result);
     }
 
-    public function test_extract_special_values_from_a_string()
+    public function test_replace_extra_special_values()
     {
-        $result = $this->notifynderParse->getValues($this->items()['body']['text']);
+        $notifynderParse = m::mock('Fenos\Notifynder\Parse\NotifynderParse[insertValuesRelation,replaceExtraParameter]');
+        $valuesToParse = ['is cool'];
+        $body = $this->item()['body']['text'];
+        $item = m::mock('Fenos\Notifynder\Models\Notification');
 
-        $assert = [
+        $notifynderParse->shouldReceive('replaceExtraParameter')
+             ->once()
+             ->with('is cool',$body,$this->item()['extra'])
+             ->andReturn($this->itemParsed()['body']['text']);
 
-            0 => 'extra',
-            1 => 'user.name'
-        ];
+        $result = $notifynderParse->replaceSpecialValues($valuesToParse,$item,$body,$this->item()['extra']);
 
-        $this->assertEquals($assert,$result);
+        $this->assertEquals($this->itemParsed()['body']['text'],$result);
     }
 
-    public function items()
+    public function test_replace_values_relation_special_values()
     {
-       return [
-                "id" => 150,
-                "from_id" => 1,
-                "to_id" => 2,
-                "category_id" => 4,
-                "url" => "www.foo.com",
-                "extra" => "is cool",
-                "read" => 0,
-                "created_at" => "2014-04-16 23:23:49",
-                "updated_at" => "2014-04-16 23:23:49",
-                "body" => array(
+        $notifynderParse = m::mock('Fenos\Notifynder\Parse\NotifynderParse[insertValuesRelation,replaceExtraParameter]');
+        $valuesToParse = ['from.hello'];
+        $body = $this->item()['body']['text'];
+        $item = m::mock('Fenos\Notifynder\Models\Notification');
 
-                    "id" => 4,
-                    "name" => "notifynder",
-                    "text" => "notifynder is {extra} build by {user.name}",
-                    "created_at" => "2014-04-16 23:23:36",
-                    "updated_at" => "2014-04-16 23:23:36",
-                ),
+        $notifynderParse->shouldReceive('insertValuesRelation')
+            ->once()
+            ->with(['hello'],'from',$body,$item)
+            ->andReturn($this->itemParsed()['body']['text']);
 
-                "user" => array(
+        $result = $notifynderParse->replaceSpecialValues($valuesToParse,$item,$body,null);
 
-                    "id" => 1,
-                    "email" => "admin@admin.com",
-                    "name" => "fabrizio"
-                )
-        ];
+        $this->assertEquals($this->itemParsed()['body']['text'],$result);
     }
 
-    public function itemsParsed()
+    protected function item()
     {
         return [
-                "id" => 150,
-                "from_id" => 1,
-                "to_id" => 2,
-                "category_id" => 4,
-                "url" => "www.foo.com",
-                "extra" => "is cool",
-                "read" => 0,
-                "created_at" => "2014-04-16 23:23:49",
-                "updated_at" => "2014-04-16 23:23:49",
-                "body" => array(
+            "id" => 150,
+            "from_id" => 1,
+            "to_id" => 2,
+            "category_id" => 4,
+            "url" => "www.foo.com",
+            "extra" => "is cool",
+            "read" => 0,
+            "created_at" => "2014-04-16 23:23:49",
+            "updated_at" => "2014-04-16 23:23:49",
+            "body" => array(
+                "id" => 4,
+                "name" => "notifynder",
+                "text" => "notifynder is {extra} build by {user.name}",
+                "created_at" => "2014-04-16 23:23:36",
+                "updated_at" => "2014-04-16 23:23:36",
+            ),
+            "user" => array(
+                "id" => 1,
+                "email" => "admin@admin.com",
+                "name" => "fabrizio"
+            )
+        ];
+    }
 
-                    "id" => 4,
-                    "name" => "notifynder",
-                    "text" => "notifynder is is cool build by fabrizio",
-                    "created_at" => "2014-04-16 23:23:36",
-                    "updated_at" => "2014-04-16 23:23:36",
-                ),
-
-                "user" => array(
-
-                    "id" => 1,
-                    "email" => "admin@admin.com",
-                    "name" => "fabrizio"
-                )
+    public function itemParsed()
+    {
+        return [
+            "id" => 150,
+            "from_id" => 1,
+            "to_id" => 2,
+            "category_id" => 4,
+            "url" => "www.foo.com",
+            "extra" => "is cool",
+            "read" => 0,
+            "created_at" => "2014-04-16 23:23:49",
+            "updated_at" => "2014-04-16 23:23:49",
+            "body" => array(
+                "id" => 4,
+                "name" => "notifynder",
+                "text" => "notifynder is is cool build by fabrizio",
+                "created_at" => "2014-04-16 23:23:36",
+                "updated_at" => "2014-04-16 23:23:36",
+            ),
+            "user" => array(
+                "id" => 1,
+                "email" => "admin@admin.com",
+                "name" => "fabrizio"
+            )
         ];
     }
 }
