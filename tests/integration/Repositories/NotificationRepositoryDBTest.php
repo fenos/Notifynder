@@ -1,0 +1,177 @@
+<?php
+
+use Fenos\Notifynder\Models\Notification;
+use Fenos\Notifynder\Notifications\NotificationRepository;
+use Laracasts\TestDummy\Factory;
+
+class NotificationRepositoryDBTest extends TestCaseDB {
+
+    use CreateModels;
+
+    /**
+     * @var NotificationRepository
+     */
+    protected $notificationRepo;
+
+    /**
+     * @var array
+     */
+    protected $to = [
+        'id' => 1,
+        'type' => 'User'
+    ];
+
+    /**
+     * @var int
+     */
+    protected $multiNotificationsNumber = 10;
+
+    /**
+     * @var int
+     */
+    protected $to_id = 1;
+
+    /**
+     * SetUp Tests
+     */
+    public function setUp()
+    {
+        parent::setUp();
+
+        $this->notificationRepo = app('notifynder.notification.repository');
+    }
+
+    /** @test */
+    function it_find_a_notification_by_id()
+    {
+        $notificationToSearch = $this->createNotification();
+
+        $notification = $this->notificationRepo->find($notificationToSearch->id);
+
+        $this->assertEquals($notificationToSearch->id,$notification->id);
+    }
+
+    /** @test */
+    function it_send_a_single_notification()
+    {
+        $notificationToSend = $this->buildNotification();
+
+        $notification = $this->notificationRepo->storeSingle($notificationToSend);
+
+        $this->assertEquals($notificationToSend['to_id'],$notification->to_id);
+        $this->assertEquals($notificationToSend['to_type'],$notification->to_type);
+    }
+
+    /** @test */
+    function it_send_multiple_notification()
+    {
+        $notificationsToSend[0] = $this->buildNotification();
+        $notificationsToSend[1] = $this->buildNotification();
+
+        $storeMultipleNotificaations = $this->notificationRepo->storeMultiple($notificationsToSend);
+
+        $notifications = Notification::all();
+
+        $this->assertCount(2,$notifications);
+        $this->assertEquals(2,$storeMultipleNotificaations);
+    }
+
+    /** @test */
+    function it_read_one_notification_by_id()
+    {
+        $notificationToRead = $this->createNotification();
+
+        $notificationRead = $this->notificationRepo->readOne($notificationToRead);
+
+        $this->assertEquals(1,$notificationRead->read);
+    }
+
+    /** @test */
+    function it_read_limit_the_number_of_notifications_of_the_given_entity()
+    {
+        $this->createMultipleNotifications();
+
+        $readFive = $this->notificationRepo->readLimit(
+            $this->to['id'],$this->to['type'],5,'asc'
+        );
+
+        $notificationsRead = Notification::whereRead(1)->get();
+
+        $this->assertEquals(5,$readFive);
+        $this->assertCount(5,$notificationsRead);
+    }
+
+    /** @test */
+    function it_read_all_the_notifications_of_the_given_entity()
+    {
+        $this->createMultipleNotifications();
+
+        $notificationRead = $this->notificationRepo->readAll(
+            $this->to['id'],$this->to['type']
+        );
+
+        $this->assertEquals(10,$notificationRead);
+    }
+
+    /** @test */
+    function it_delete_a_notification_by_id()
+    {
+        $notificationToDelete = $this->createNotification();
+
+        $deleted = $this->notificationRepo->delete($notificationToDelete->id);
+
+        $this->assertEquals(1,$deleted);
+        $this->assertCount(0,Notification::all());
+    }
+
+    /** @test */
+    function it_delete_all_the_notification_of_the_given_entity()
+    {
+        $this->createMultipleNotifications();
+
+        $deleted = $this->notificationRepo->deleteAll(
+            $this->to['id'],$this->to['type']
+        );
+
+        $this->assertEquals(10,$deleted);
+        $this->assertCount(0,Notification::all());
+    }
+
+    /** @test */
+    function it_delete_notifications_limit_the_number_of_the_given_entity()
+    {
+        $this->createMultipleNotifications();
+
+        $notificationsDeleted = $this->notificationRepo->deleteLimit(
+            $this->to['id'],$this->to['type'],5,'asc'
+        );
+
+        $this->assertEquals(5,$notificationsDeleted);
+        $this->assertCount(5,Notification::all());
+    }
+
+    /** @test */
+    function it_count_notification_not_read()
+    {
+        $this->createMultipleNotifications();
+
+        $countNotRead = $this->notificationRepo->countNotRead(
+            $this->to['id'],$this->to['type']
+        );
+
+        $this->assertEquals($this->multiNotificationsNumber,$countNotRead);
+    }
+
+    /**
+     * Shortcut to build a new notification
+     *
+     * @param array $data
+     * @return array
+     */
+    protected function buildNotification(array $data = [])
+    {
+        return Factory::build(Notification::class,$data)->toArray();
+    }
+
+
+}

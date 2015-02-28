@@ -1,0 +1,5 @@
+suites:
+  notifynder_suite:
+      namespace: Fenos\Notifynder
+      src_path: src/Notifynder
+#      psr4_prefix: Fenos\Notifynder
