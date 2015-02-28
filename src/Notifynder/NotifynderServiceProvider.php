@@ -35,6 +35,9 @@ use Illuminate\Support\ServiceProvider;
 
 class NotifynderServiceProvider extends ServiceProvider {
 
+    /**
+     * Register Bindings
+     */
     public function register()
     {
         $this->notifynder();
@@ -46,8 +49,15 @@ class NotifynderServiceProvider extends ServiceProvider {
         $this->translator();
         $this->events();
         $this->contracts();
-        $this->config();
         $this->artisan();
+    }
+
+    /*
+     * Boot the publishing config
+     */
+    public function boot()
+    {
+        $this->config();
     }
 
     /**
@@ -233,8 +243,8 @@ class NotifynderServiceProvider extends ServiceProvider {
     {
         $this->publishes([
             __DIR__.'/../config/notifynder.php' => config_path('notifynder.php'),
-            __DIR__.'/../migrations/' => config_path('/database/migrations'),
-        ],'notifynder');
+            __DIR__.'/../migrations/' => base_path('/database/migrations'),
+        ]);
     }
 
     /**
