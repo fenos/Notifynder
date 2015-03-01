@@ -218,6 +218,9 @@ class NotifynderServiceProvider extends ServiceProvider {
      */
     protected function contracts()
     {
+        // Notifynder
+        $this->app->bind(Notifynder::class,'notifynder');
+
         // Repositories
         $this->app->bind(CategoryDB::class,'notifynder.category.repository');
         $this->app->bind(NotificationDB::class,'notifynder.notification.repository');
