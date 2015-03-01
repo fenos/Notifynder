@@ -38,6 +38,12 @@ Notifynder v. 3.0 Change log:
     - Get extra data from the NotifynderEvent Object $event->get('name'), $event->name
     - Events are now registered under the Notifynder.* wildcard
     - Events can be called with . or @ convention ex: user.registerd - user@registered
+    - Listeners are defined in the EventServiceProvider with a different property, ex. $notifications
+      and those listeners are booted with Notifynder::bootListeners($this->notifications)
 
 - Removed queue system at the moment, I want to think something cool for it, using
-  The way of laravel 5 will be implementer in notifynder v 3.1.0
+  The way of laravel 5 will be implemented in notifynder v 3.1.0
+
+- fixed method on issue: https://github.com/fenos/Notifynder/issues/22
+
+- Added order be date when retrieving notifications, issue: https://github.com/fenos/Notifynder/issues/19
