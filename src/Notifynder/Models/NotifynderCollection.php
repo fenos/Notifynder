@@ -5,6 +5,11 @@ use Fenos\Notifynder\Exceptions\NotificationTranslationNotFoundException;
 use Fenos\Notifynder\Parsers\NotifynderParser;
 use Illuminate\Database\Eloquent\Collection;
 
+/**
+ * Class NotifynderCollection
+ *
+ * @package Fenos\Notifynder\Models
+ */
 class NotifynderCollection extends Collection {
 
     /**
@@ -16,7 +21,7 @@ class NotifynderCollection extends Collection {
      * @param array                $models
      * @param NotifynderTranslator $notifynderTranslator
      */
-    function __construct($models,$notifynderTranslator)
+    function __construct($models,NotifynderTranslator $notifynderTranslator)
     {
         parent::__construct($models);
         $this->notifynderTranslator = $notifynderTranslator;
