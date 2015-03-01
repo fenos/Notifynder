@@ -41,9 +41,7 @@ class Notification extends Model {
      */
     public function newCollection(array $models = array())
     {
-        $notifynderTranslator = app('notifynder.translator');
-
-        return new NotifynderCollection($models, $notifynderTranslator);
+        return new NotifynderCollection($models);
     }
 
     /**

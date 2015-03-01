@@ -19,12 +19,20 @@ class NotifynderCollection extends Collection {
 
     /**
      * @param array                $models
-     * @param NotifynderTranslator $notifynderTranslator
      */
-    function __construct($models,NotifynderTranslator $notifynderTranslator)
+    function __construct($models)
     {
         parent::__construct($models);
-        $this->notifynderTranslator = $notifynderTranslator;
+    }
+
+    /**
+     * Translator instance
+     *
+     * @return NotifynderTranslator
+     */
+    public function translator()
+    {
+        return app('notifynder.translator');
     }
 
     /**
@@ -41,7 +49,7 @@ class NotifynderCollection extends Collection {
         {
             try
             {
-                $translation = $this->notifynderTranslator
+                $translation = $this->translator()
                     ->translate( $language,$this->items[$key]['body']['name'] );
 
                 $this->items[$key]['body']['text'] = $translation;
