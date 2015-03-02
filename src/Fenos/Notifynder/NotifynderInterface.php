@@ -30,6 +30,24 @@ interface NotifynderInterface {
      * @return $this
      */
     public function entity($name);
+    
+    /**
+     * Add a category
+     *
+     * @param $name
+     * @param $text
+     * @return static
+     */
+    public function addCategory($name, $text);
+    
+    /**
+     * Update a category
+     *
+     * @param array $updates
+     * @param       $id
+     * @return mixed
+     */
+    public function updateCategory(array $updates, $id);
 
     /**
      * Send notifications
