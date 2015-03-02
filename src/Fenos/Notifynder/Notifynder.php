@@ -120,6 +120,29 @@ class Notifynder implements NotifynderInterface {
 
         return $this;
     }
+    
+    /**
+     * Add a category
+     *
+     * @param $name
+     * @param $text
+     * @return static
+     */
+    public function addCategory($name,$text)
+    {
+        return $this->notifynderCategory->add(compact('name','text'));
+    }
+    /**
+     * Update a category
+     *
+     * @param array $updates
+     * @param       $id
+     * @return mixed
+     */
+    public function updateCategory(array $updates, $id)
+    {
+        return $this->notifynderCategory->update($updates,$id);
+    }
 
     /**
      * Send notifications
