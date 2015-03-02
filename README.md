@@ -99,7 +99,7 @@ With this solid API you will implent the notifications system in no time.
 Add it on your composer.json
 
 ~~~
-"fenos/notifynder": "2.1.*"
+"fenos/notifynder": "2.5.*"
 ~~~
 
 and run **composer update**
