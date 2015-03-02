@@ -43,10 +43,11 @@ interface NotifynderCategory {
     /**
      * Add a category to the DB
      *
-     * @param array $info
+     * @param $name
+     * @param $text
      * @return \Fenos\Notifynder\Models\NotificationCategory
      */
-    public function add(array $info);
+    public function add($name,$text);
 
     /**
      * Delete category by ID

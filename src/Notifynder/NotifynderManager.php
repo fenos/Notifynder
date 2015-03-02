@@ -144,7 +144,7 @@ class NotifynderManager implements Notifynder {
      */
     public function addCategory($name,$text)
     {
-        return $this->notifynderCategory->add(compact('name','text'));
+        return $this->notifynderCategory->add($name,$text);
     }
 
     /**

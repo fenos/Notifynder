@@ -46,12 +46,13 @@ class CategoryManagerSpec extends ObjectBehavior
     /** @test */
     function it_store_a_category(CategoryDB $categoryRepository)
     {
-        $categoryData = [];
+        $categoryName = 'hello';
+        $categoryText = 'wow';
 
-        $categoryRepository->add($categoryData)->shouldBeCalled()
+        $categoryRepository->add($categoryName,$categoryText)->shouldBeCalled()
                            ->willReturn(new NotificationCategory());
 
-        $this->add($categoryData)->shouldReturnAnInstanceOf(NotificationCategory::class);
+        $this->add($categoryName,$categoryText)->shouldReturnAnInstanceOf(NotificationCategory::class);
     }
 
     /** @test */

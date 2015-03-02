@@ -38,10 +38,11 @@ interface CategoryDB {
     /**
      * Add a category to the DB
      *
-     * @param array $info
+     * @param array $name
+     * @param       $text
      * @return static
      */
-    public function add(array $info);
+    public function add($name,$text);
 
     /**
      * Delete category by ID

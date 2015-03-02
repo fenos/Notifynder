@@ -66,7 +66,7 @@ class NotificationCategoryRepositoryTest extends TestCaseDB {
     {
         $categoryData = Factory::build('Fenos\Notifynder\Models\NotificationCategory');
 
-        $createCategory = $this->categoryRepo->add($categoryData->toArray());
+        $createCategory = $this->categoryRepo->add($categoryData->name,$categoryData->text);
 
         $this->assertEquals($categoryData->name,$createCategory->name);
     }

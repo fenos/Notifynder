@@ -66,12 +66,13 @@ class CategoryRepository implements CategoryDB {
     /**
      * Add a category to the DB
      *
-     * @param array $info
+     * @param array $name
+     * @param       $text
      * @return static
      */
-    public function add(array $info)
+    public function add($name,$text)
     {
-        return $this->categoryModel->create($info);
+        return $this->categoryModel->create(compact('name','text'));
     }
 
     /**

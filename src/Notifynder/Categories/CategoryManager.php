@@ -84,15 +84,17 @@ class CategoryManager implements NotifynderCategory {
 
         return $category;
     }
+
     /**
      * Add a category to the DB
      *
-     * @param array $info
+     * @param array $name
+     * @param       $text
      * @return \Fenos\Notifynder\Models\NotificationCategory
      */
-    public function add(array $info)
+    public function add($name,$text)
     {
-        return $this->categoryRepo->add($info);
+        return $this->categoryRepo->add($name,$text);
     }
     /**
      * Delete category by ID
