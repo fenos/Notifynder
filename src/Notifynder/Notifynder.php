@@ -155,23 +155,25 @@ interface Notifynder {
      * Get Notifications not read
      * of the given entity
      *
-     * @param      $to_id
-     * @param null $limit
-     * @param bool $paginate
+     * @param        $to_id
+     * @param null   $limit
+     * @param bool   $paginate
+     * @param string $order
      * @return mixed
      */
-    public function getNotRead($to_id, $limit = null, $paginate = false);
+    public function getNotRead($to_id, $limit = null, $paginate = false,$order = "desc");
 
     /**
      * Get all notifications of the
      * given entity
      *
-     * @param      $to_id
-     * @param null $limit
-     * @param bool $paginate
+     * @param        $to_id
+     * @param null   $limit
+     * @param bool   $paginate
+     * @param string $order
      * @return mixed
      */
-    public function getAll($to_id, $limit = null, $paginate = false);
+    public function getAll($to_id, $limit = null, $paginate = false,$order = "desc");
 
     /**
      * Get number of notification not read

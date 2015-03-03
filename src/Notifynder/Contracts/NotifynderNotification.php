@@ -89,22 +89,24 @@ interface NotifynderNotification {
      * Get notifications not read
      * of the entity given
      *
-     * @param $to_id
-     * @param $limit
-     * @param $paginate
+     * @param        $to_id
+     * @param        $limit
+     * @param        $paginate
+     * @param string $orderDate
      * @return mixed
      */
-    public function getNotRead($to_id, $limit, $paginate);
+    public function getNotRead($to_id, $limit, $paginate,$orderDate = "desc");
 
     /**
      * Get All notifications
      *
-     * @param $to_id
-     * @param $limit
-     * @param $paginate
+     * @param        $to_id
+     * @param        $limit
+     * @param        $paginate
+     * @param string $orderDate
      * @return mixed
      */
-    public function getAll($to_id, $limit, $paginate);
+    public function getAll($to_id, $limit, $paginate,$orderDate = "desc");
 
     /**
      * Send single notification
