@@ -122,7 +122,7 @@ class NotifynderCollection extends Collection {
 
         foreach($this->items as $key => $item)
         {
-            $notifications[$key] = $item->toArray();
+            $notifications[$key] = $item;
             $notifications[$key]['body']['text'] = $parse->parse($item,$item->extra);
         }
 
