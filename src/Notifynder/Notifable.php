@@ -9,7 +9,8 @@
  *
  * @package Fenos\Notifynder
  */
-trait Notifable {
+trait Notifable
+{
 
     /**
      * Notification Relation
@@ -21,12 +22,10 @@ trait Notifable {
         // check if on the configurations file there is the option
         // polymorphic setted to true, if so Notifynder will work
         // polymorphic.
-        if ( config('notifynder.polymorphic') == false )
-        {
-            return $this->morphMany(config('notifynder.notification_model'),'to');
-        }
-        else {
-            return $this->hasMany(config('notifynder.notification_model'),'to_id');
+        if (config('notifynder.polymorphic') == false) {
+            return $this->morphMany(config('notifynder.notification_model'), 'to');
+        } else {
+            return $this->hasMany(config('notifynder.notification_model'), 'to_id');
         }
     }
     /**
@@ -50,26 +49,26 @@ trait Notifable {
     /**
      * Read Limit
      *
-     * @param int    $numbers
-     * @param string $order
+     * @param  int    $numbers
+     * @param  string $order
      * @return mixed
      */
     public function readLimit($numbers = 10, $order = "ASC")
     {
         return $this->notifynderInstance()->entity(
             get_class($this)
-        )->readLimit($this->id,$numbers,$order);
+        )->readLimit($this->id, $numbers, $order);
     }
     /**
      * Delete Limit
      *
-     * @param int    $numbers
-     * @param string $order
+     * @param  int    $numbers
+     * @param  string $order
      * @return mixed
      */
     public function deleteLimit($numbers = 10, $order = "ASC")
     {
-        return $this->notifynderInstance()->entity(get_class($this))->deleteLimit($this->id,$numbers,$order);
+        return $this->notifynderInstance()->entity(get_class($this))->deleteLimit($this->id, $numbers, $order);
     }
     /**
      * Delete all
@@ -86,31 +85,31 @@ trait Notifable {
     /**
      * Get Not Read
      *
-     * @param null   $limit
-     * @param bool   $paginate
-     * @param string $order
+     * @param  null   $limit
+     * @param  bool   $paginate
+     * @param  string $order
      * @return mixed
      */
-    public function getNotRead($limit = null, $paginate = false,$order = 'desc')
+    public function getNotRead($limit = null, $paginate = false, $order = 'desc')
     {
         return $this->notifynderInstance()->entity(
             get_class($this)
-        )->getNotRead($this->id,$limit,$paginate,$order);
+        )->getNotRead($this->id, $limit, $paginate, $order);
     }
 
     /**
      * Get all notifications
      *
-     * @param null   $limit
-     * @param bool   $paginate
-     * @param string $order
+     * @param  null   $limit
+     * @param  bool   $paginate
+     * @param  string $order
      * @return mixed
      */
     public function getAll($limit = null, $paginate = false, $order = 'desc')
     {
         return $this->notifynderInstance()->entity(
             get_class($this)
-        )->getAll($this->id,$limit,$paginate,$order);
+        )->getAll($this->id, $limit, $paginate, $order);
     }
     /**
      * Count Not read notification

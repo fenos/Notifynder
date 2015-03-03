@@ -7,7 +7,8 @@ use Fenos\Notifynder\Models\Notification as NotificationModel;
  *
  * @package Fenos\Notifynder\Notifications
  */
-interface NotifynderNotification {
+interface NotifynderNotification
+{
 
     /**
      * Set the entity for polymorphic
@@ -39,9 +40,9 @@ interface NotifynderNotification {
      * Read notifications in base the number
      * Given
      *
-     * @param        $to_id
-     * @param        $numbers
-     * @param string $order
+     * @param         $to_id
+     * @param         $numbers
+     * @param  string $order
      * @return mixed
      */
     public function readLimit($to_id, $numbers, $order = "ASC");
@@ -86,32 +87,42 @@ interface NotifynderNotification {
     public function deleteAll($entity_id);
 
     /**
+     * Delete All notifications from a
+     * defined category
+     *
+     * @param $category_name string
+     * @param $expired Bool
+     * @return Bool
+     */
+    public function deleteByCategory($category_name, $expired = false);
+
+    /**
      * Get notifications not read
      * of the entity given
      *
-     * @param        $to_id
-     * @param        $limit
-     * @param        $paginate
-     * @param string $orderDate
+     * @param         $to_id
+     * @param         $limit
+     * @param         $paginate
+     * @param  string $orderDate
      * @return mixed
      */
-    public function getNotRead($to_id, $limit, $paginate,$orderDate = "desc");
+    public function getNotRead($to_id, $limit, $paginate, $orderDate = "desc");
 
     /**
      * Get All notifications
      *
-     * @param        $to_id
-     * @param        $limit
-     * @param        $paginate
-     * @param string $orderDate
+     * @param         $to_id
+     * @param         $limit
+     * @param         $paginate
+     * @param  string $orderDate
      * @return mixed
      */
-    public function getAll($to_id, $limit, $paginate,$orderDate = "desc");
+    public function getAll($to_id, $limit, $paginate, $orderDate = "desc");
 
     /**
      * Send single notification
      *
-     * @param array $info
+     * @param  array  $info
      * @return static
      */
     public function sendOne(array $info);
@@ -119,7 +130,7 @@ interface NotifynderNotification {
     /**
      * Send multiple notifications
      *
-     * @param array $info
+     * @param  array $info
      * @return mixed
      */
     public function sendMultiple(array $info);

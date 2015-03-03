@@ -12,7 +12,8 @@ use LogicException;
  *
  * @package Fenos\Notifynder\Senders
  */
-class SenderManager implements NotifynderSender {
+class SenderManager implements NotifynderSender
+{
 
     /**
      * @var SenderFactory
@@ -39,7 +40,7 @@ class SenderManager implements NotifynderSender {
      * @param StoreNotification $storeNotification
      * @param Application       $app
      */
-    function __construct(SenderFactory $senderFactory,
+    public function __construct(SenderFactory $senderFactory,
                          StoreNotification $storeNotification,
                          Application $app)
     {
@@ -51,8 +52,8 @@ class SenderManager implements NotifynderSender {
     /**
      * Send any notifications
      *
-     * @param array $info
-     * @param null  $category
+     * @param  array $info
+     * @param  null  $category
      * @return mixed
      */
     public function send(array $info, $category = null)
@@ -63,8 +64,8 @@ class SenderManager implements NotifynderSender {
     /**
      * Send now whatever data passed
      *
-     * @param array $info
-     * @param       $category
+     * @param  array $info
+     * @param        $category
      * @return mixed
      */
     public function sendNow(array $info, $category = null)
@@ -84,8 +85,8 @@ class SenderManager implements NotifynderSender {
      */
     public function sendOne(array $info, $category)
     {
-        return $this->senderFactory->sendSingle($info,$category)
-            ->send($this->storeNotification,$category);
+        return $this->senderFactory->sendSingle($info, $category)
+            ->send($this->storeNotification, $category);
     }
 
     /**
@@ -105,8 +106,8 @@ class SenderManager implements NotifynderSender {
      * Send a group of notifications
      * at once
      *
-     * @param               $group_name
-     * @param array         $info
+     * @param        $group_name
+     * @param  array $info
      * @return mixed
      */
     public function sendGroup($group_name, array $info = [])
@@ -121,8 +122,8 @@ class SenderManager implements NotifynderSender {
      * This method allow to Extend
      * notifynder with custom sender
      *
-     * @param          $name
-     * @param callable $extendSender
+     * @param           $name
+     * @param  callable $extendSender
      * @return $this
      */
     public function extend($name, $extendSender)
@@ -140,26 +141,23 @@ class SenderManager implements NotifynderSender {
      * @param $arguments
      * @return mixed
      */
-    function __call($name, $arguments)
+    public function __call($name, $arguments)
     {
         // Check if the method called exists on the extended methods
-        if (array_key_exists($name, $this->senders))
-        {
+        if (array_key_exists($name, $this->senders)) {
             // get the extended method
             $extendedSender = $this->senders[$name];
 
-            if (is_string($extendedSender))
-            {
-//                dd($arguments);
-                return $this->app->make($extendedSender,$arguments)
+            if (is_string($extendedSender)) {
+                //                dd($arguments);
+                return $this->app->make($extendedSender, $arguments)
                             ->send($this->storeNotification);
             }
 
             // If is a closure means that i'll return an instance
             // with the
-            if ($extendedSender instanceof Closure)
-            {
-                array_unshift($arguments,[$this->app]);
+            if ($extendedSender instanceof Closure) {
+                array_unshift($arguments, [$this->app]);
 
                 $invoker = call_user_func_array($extendedSender, $arguments);
 
@@ -170,7 +168,7 @@ class SenderManager implements NotifynderSender {
             throw new LogicException($error);
         }
 
-        $error = "The method $name does not exists on the class " . get_class($this);
+        $error = "The method $name does not exists on the class ".get_class($this);
         throw new BadMethodCallException($error);
     }
 }

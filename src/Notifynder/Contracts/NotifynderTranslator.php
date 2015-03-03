@@ -21,7 +21,8 @@ use Fenos\Notifynder\Exceptions\NotificationTranslationNotFoundException;
  *
  * @package Fenos\Notifynder\Translator
  */
-interface NotifynderTranslator {
+interface NotifynderTranslator
+{
 
     /**
      * Translate the given category

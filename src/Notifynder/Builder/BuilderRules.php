@@ -9,7 +9,8 @@
  *
  * @package Fenos\Notifynder\Builder
  */
-trait BuilderRules {
+trait BuilderRules
+{
 
     /**
      * @var array
@@ -24,8 +25,7 @@ trait BuilderRules {
      */
     protected function isString($value)
     {
-        if ( ! is_string($value))
-        {
+        if (! is_string($value)) {
             throw new \InvalidArgumentException("The value Passed is not a string");
         }
 
@@ -40,8 +40,7 @@ trait BuilderRules {
      */
     protected function isNumeric($value)
     {
-        if ( ! is_numeric($value))
-        {
+        if (! is_numeric($value)) {
             throw new \InvalidArgumentException("The value Passed must be a number");
         }
 
@@ -58,10 +57,8 @@ trait BuilderRules {
      */
     public function hasRequiredFields($array)
     {
-        foreach($this->requiredFields as $field)
-        {
-            if (! array_key_exists($field,$array))
-            {
+        foreach ($this->requiredFields as $field) {
+            if (! array_key_exists($field, $array)) {
                 return false;
             }
         }

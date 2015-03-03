@@ -5,13 +5,14 @@
  *
  * @package Fenos\Notifynder\Groups\Repositories
  */
-interface NotifynderGroupCategoryDB {
+interface NotifynderGroupCategoryDB
+{
 
     /**
      * Add a category in a group
      *
-     * @param                      $group_id
-     * @param                      $category_id
+     * @param                                                                                      $group_id
+     * @param                                                                                      $category_id
      * @internal param \Fenos\Notifynder\Models\NotificationCategory $category
      * @return \Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model|static
      */

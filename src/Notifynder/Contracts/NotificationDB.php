@@ -7,7 +7,8 @@ use Fenos\Notifynder\Models\Notification;
  *
  * @package Fenos\Notifynder\Senders
  */
-interface NotificationDB {
+interface NotificationDB
+{
 
     /**
      * Find notification by id
@@ -20,7 +21,7 @@ interface NotificationDB {
     /**
      * Save a single notification sent
      *
-     * @param array $info
+     * @param  array  $info
      * @return static
      */
     public function storeSingle(array $info);
@@ -29,7 +30,7 @@ interface NotificationDB {
      * Save multiple notifications sent
      * at once
      *
-     * @param array $info
+     * @param  array $info
      * @return mixed
      */
     public function storeMultiple(array $info);
@@ -37,7 +38,7 @@ interface NotificationDB {
     /**
      * Make Read One Notification
      *
-     * @param Notification $notification
+     * @param  Notification      $notification
      * @return bool|Notification
      */
     public function readOne(Notification $notification);
@@ -83,6 +84,16 @@ interface NotificationDB {
     public function deleteAll($to_id, $entity);
 
     /**
+     * Delete All notifications from a
+     * defined category
+     *
+     * @param $categoryName string
+     * @param $expired Bool
+     * @return Bool
+     */
+    public function deleteByCategory($category_name, $expired = false);
+
+    /**
      * // Todo: make flexible the selection of the notifications
      *
      * Delete numbers of notifications equals
@@ -103,14 +114,14 @@ interface NotificationDB {
      * You can also limit the number of
      * Notification if you don't it will get all
      *
-     * @param        $to_id
-     * @param        $entity
-     * @param        $limit
-     * @param        $paginate
-     * @param string $orderDate
+     * @param         $to_id
+     * @param         $entity
+     * @param         $limit
+     * @param         $paginate
+     * @param  string $orderDate
      * @return mixed
      */
-    public function getNotRead($to_id, $entity, $limit, $paginate,$orderDate = 'desc');
+    public function getNotRead($to_id, $entity, $limit, $paginate, $orderDate = 'desc');
 
     /**
      * Retrive all notifications, not read
@@ -118,14 +129,14 @@ interface NotificationDB {
      * You can also limit the number of
      * Notifications if you don't, it will get all
      *
-     * @param        $to_id
-     * @param        $entity
-     * @param null   $limit
-     * @param bool   $paginate
-     * @param string $orderDate
+     * @param         $to_id
+     * @param         $entity
+     * @param  null   $limit
+     * @param  bool   $paginate
+     * @param  string $orderDate
      * @return mixed
      */
-    public function getAll($to_id, $entity, $limit = null, $paginate = false,$orderDate = 'desc');
+    public function getAll($to_id, $entity, $limit = null, $paginate = false, $orderDate = 'desc');
 
     /**
      * get number Notifications

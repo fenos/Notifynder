@@ -7,6 +7,6 @@ use Exception;
  *
  * @package Fenos\Notifynder\Exceptions
  */
-class NotificationLanguageNotFoundException extends Exception {
-
-} 
+class NotificationLanguageNotFoundException extends Exception
+{
+}

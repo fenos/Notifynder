@@ -11,7 +11,8 @@ use InvalidArgumentException;
  *
  * @package Fenos\Notifynder\Groups
  */
-class GroupManager implements NotifynderGroup {
+class GroupManager implements NotifynderGroup
+{
 
     /**
      * @var NotifynderGroupCategoryDB
@@ -27,7 +28,7 @@ class GroupManager implements NotifynderGroup {
      * @param NotifynderGroupDB         $groupRepo
      * @param NotifynderGroupCategoryDB $groupCategory
      */
-    function __construct(NotifynderGroupDB $groupRepo,
+    public function __construct(NotifynderGroupDB $groupRepo,
                          NotifynderGroupCategoryDB $groupCategory)
     {
         $this->groupRepo = $groupRepo;
@@ -45,8 +46,7 @@ class GroupManager implements NotifynderGroup {
     {
         $group = $this->groupRepo->find($group_id);
 
-        if ( is_null($group) )
-        {
+        if (is_null($group)) {
             $error = "Group Not Found";
             throw new NotifynderGroupNotFoundException($error);
         }
@@ -65,8 +65,7 @@ class GroupManager implements NotifynderGroup {
     {
         $group = $this->groupRepo->findByName($group_name);
 
-        if ( is_null($group) )
-        {
+        if (is_null($group)) {
             $error = "Group Not Found";
             throw new NotifynderGroupNotFoundException($error);
         }
@@ -84,7 +83,7 @@ class GroupManager implements NotifynderGroup {
      */
     public function addCategoryToGroupById($gorup_id, $category_id)
     {
-        return $this->groupCategory->addCategoryToGroupById($gorup_id,$category_id);
+        return $this->groupCategory->addCategoryToGroupById($gorup_id, $category_id);
     }
 
     /**
@@ -97,7 +96,7 @@ class GroupManager implements NotifynderGroup {
      */
     public function addCategoryToGroupByName($gorup_name, $category_name)
     {
-        return $this->groupCategory->addCategoryToGroupByName($gorup_name,$category_name);
+        return $this->groupCategory->addCategoryToGroupByName($gorup_name, $category_name);
     }
 
     /**
@@ -118,7 +117,7 @@ class GroupManager implements NotifynderGroup {
 
         $names = (is_array($names[1])) ? $names[1] : $names;
 
-        return $this->groupCategory->addMultipleCategoriesToGroup($group_name,$names);
+        return $this->groupCategory->addMultipleCategoriesToGroup($group_name, $names);
     }
 
     /**
@@ -130,8 +129,7 @@ class GroupManager implements NotifynderGroup {
      */
     public function addGroup($name)
     {
-        if ($this->isStringWithDots($name))
-        {
+        if ($this->isStringWithDots($name)) {
             return $this->groupRepo->create($name);
         }
 
@@ -147,6 +145,6 @@ class GroupManager implements NotifynderGroup {
      */
     protected function isStringWithDots($name)
     {
-        return strpos($name,'.');
+        return strpos($name, '.');
     }
-} 
+}

@@ -9,7 +9,8 @@ use Illuminate\Database\Eloquent\Builder;
  *
  * @package Fenos\Notifynder\Groups\Repositories
  */
-class GroupRepository implements NotifynderGroupDB {
+class GroupRepository implements NotifynderGroupDB
+{
 
     /**
      * @var NotificationGroup | Builder
@@ -19,7 +20,7 @@ class GroupRepository implements NotifynderGroupDB {
     /**
      * @param NotificationGroup $groupModel
      */
-    function __construct(NotificationGroup $groupModel)
+    public function __construct(NotificationGroup $groupModel)
     {
         $this->groupModel = $groupModel;
     }
@@ -43,7 +44,7 @@ class GroupRepository implements NotifynderGroupDB {
      */
     public function findByName($name)
     {
-        return $this->groupModel->where('name',$name)->first();
+        return $this->groupModel->where('name', $name)->first();
     }
 
     /**
@@ -65,6 +66,6 @@ class GroupRepository implements NotifynderGroupDB {
      */
     public function delete($group_id)
     {
-        return  $this->groupModel->where('id',$group_id)->delete();
+        return  $this->groupModel->where('id', $group_id)->delete();
     }
 }

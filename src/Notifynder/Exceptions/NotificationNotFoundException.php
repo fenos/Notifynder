@@ -7,6 +7,6 @@ use Exception;
  *
  * @package Fenos\Notifynder\Exceptions
  */
-class NotificationNotFoundException extends Exception {
-
-} 
+class NotificationNotFoundException extends Exception
+{
+}

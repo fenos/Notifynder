@@ -10,7 +10,8 @@ use Fenos\Notifynder\Exceptions\CategoryNotFoundException;
  *
  * @package Fenos\Notifynder\Categories
  */
-interface NotifynderCategory {
+interface NotifynderCategory
+{
 
     /**
      * Find a category by name
@@ -47,7 +48,7 @@ interface NotifynderCategory {
      * @param $text
      * @return \Fenos\Notifynder\Models\NotificationCategory
      */
-    public function add($name,$text);
+    public function add($name, $text);
 
     /**
      * Delete category by ID
@@ -68,8 +69,8 @@ interface NotifynderCategory {
     /**
      * Update a category
      *
-     * @param array $data
-     * @param       $id
+     * @param  array $data
+     * @param        $id
      * @return mixed
      */
     public function update(array $data, $id);

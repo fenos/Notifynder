@@ -11,7 +11,8 @@ use Fenos\Notifynder\NotifynderManager;
  *
  * @package Fenos\Notifynder\Senders
  */
-class SendGroup implements Sender {
+class SendGroup implements Sender
+{
 
     /**
      * @var NotifynderManager
@@ -39,10 +40,10 @@ class SendGroup implements Sender {
      * @param string             $nameGroup
      * @param array | \Closure   $info
      */
-    function __construct(NotifynderGroup $notifynderGroup,
+    public function __construct(NotifynderGroup $notifynderGroup,
                          NotifynderCategory $notifynderCategory,
                          $nameGroup,
-                         array $info )
+                         array $info)
     {
         $this->info = $info;
         $this->nameGroup = $nameGroup;
@@ -53,7 +54,7 @@ class SendGroup implements Sender {
     /**
      * Send group notifications
      *
-     * @param StoreNotification $storeNotification
+     * @param  StoreNotification $storeNotification
      * @return mixed
      */
     public function send(StoreNotification $storeNotification)
@@ -65,8 +66,7 @@ class SendGroup implements Sender {
         $categoriesAssociated = $group->categories;
 
         // Send a notification for each category
-        foreach($categoriesAssociated as $category)
-        {
+        foreach ($categoriesAssociated as $category) {
             // Category name
             $categoryModel = $this->notifynderCategory->findByName($category->name);
 

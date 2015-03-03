@@ -11,7 +11,8 @@ use Illuminate\Database\Eloquent\Model;
  *
  * @package Fenos\Notifynder\Models
  */
-class NotificationCategory extends Model {
+class NotificationCategory extends Model
+{
 
     /**
      * @var string
@@ -35,7 +36,7 @@ class NotificationCategory extends Model {
      */
     public function notifications()
     {
-        return $this->hasMany('Fenos\Notifynder\Models\Notification','category_id');
+        return $this->hasMany('Fenos\Notifynder\Models\Notification', 'category_id');
     }
 
     /**
@@ -52,4 +53,4 @@ class NotificationCategory extends Model {
             'group_id'
         );
     }
-} 
+}

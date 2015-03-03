@@ -5,7 +5,8 @@
  *
  * @package Fenos\Notifynder\Handler
  */
-class NotifynderEvent {
+class NotifynderEvent
+{
 
     /**
      * @var string
@@ -27,7 +28,7 @@ class NotifynderEvent {
      * @param       $category
      * @param array $values
      */
-    function __construct($event,$category,array $values)
+    public function __construct($event, $category, array $values)
     {
         $this->event = $event;
         $this->values = $values;
@@ -51,12 +52,11 @@ class NotifynderEvent {
      */
     public function get($name)
     {
-        if (array_key_exists($name,$this->values))
-        {
+        if (array_key_exists($name, $this->values)) {
             return $this->values[$name];
         }
 
-        return null;
+        return;
     }
 
     /**
@@ -71,7 +71,7 @@ class NotifynderEvent {
      * @param $name
      * @return mixed
      */
-    function __get($name)
+    public function __get($name)
     {
         return $this->get($name);
     }

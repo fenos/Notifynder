@@ -1,4 +1,4 @@
-<?php namespace Fenos\Notifynder\Models; 
+<?php namespace Fenos\Notifynder\Models;
 
 use Fenos\Notifynder\Contracts\NotifynderTranslator;
 use Fenos\Notifynder\Exceptions\NotificationTranslationNotFoundException;
@@ -10,7 +10,8 @@ use Illuminate\Database\Eloquent\Collection;
  *
  * @package Fenos\Notifynder\Models
  */
-class NotifynderCollection extends Collection {
+class NotifynderCollection extends Collection
+{
 
     /**
      * @var NotifynderTranslator
@@ -18,9 +19,9 @@ class NotifynderCollection extends Collection {
     protected $notifynderTranslator;
 
     /**
-     * @param array                $models
+     * @param array $models
      */
-    function __construct($models)
+    public function __construct($models)
     {
         parent::__construct($models);
     }
@@ -42,20 +43,16 @@ class NotifynderCollection extends Collection {
      * @param $language (String)
      * @return Collection
      */
-    public function translate( $language )
+    public function translate($language)
     {
         // Loop throught the notifications
-        foreach ($this->items as $key => $item)
-        {
-            try
-            {
+        foreach ($this->items as $key => $item) {
+            try {
                 $translation = $this->translator()
-                    ->translate( $language,$this->items[$key]['body']['name'] );
+                    ->translate($language, $this->items[$key]['body']['name']);
 
                 $this->items[$key]['body']['text'] = $translation;
-            }
-            catch(NotificationTranslationNotFoundException $e)
-            {
+            } catch (NotificationTranslationNotFoundException $e) {
                 $this->items[$key]['body']['text'];
             }
         }
@@ -76,8 +73,7 @@ class NotifynderCollection extends Collection {
 
         $notifications = [];
 
-        foreach($this->items as $key => $item)
-        {
+        foreach ($this->items as $key => $item) {
             $notifications[$key] = $item;
             $notifications[$key]['body']['text'] = $parse->parse($item);
         }

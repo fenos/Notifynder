@@ -7,6 +7,6 @@ use Exception;
  *
  * @package Fenos\Notifynder\Exceptions
  */
-class EntityNotSpecifiedException extends Exception {
-
-} 
+class EntityNotSpecifiedException extends Exception
+{
+}

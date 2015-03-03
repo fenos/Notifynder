@@ -1,8 +1,9 @@
-<?php namespace Fenos\Notifynder\Translator; 
+<?php namespace Fenos\Notifynder\Translator;
 
 use Illuminate\Contracts\Filesystem\Filesystem;
 
-class Compiler {
+class Compiler
+{
 
     /**
      * The Filesystem instance.
@@ -34,7 +35,7 @@ class Compiler {
     /**
      * Get the path to the compiled version of a view.
      *
-     * @param  string  $filename
+     * @param  string $filename
      * @return string
      */
     public function getCompiledPath($filename)
@@ -54,8 +55,7 @@ class Compiler {
         // If the compiled file doesn't exist we will indicate that the view is expired
         // so that it can be re-compiled. Else, we will verify the last modification
         // of the views is less than the modification times of the compiled views.
-        if ( ! $this->cachePath() || ! $this->files->exists($compiled))
-        {
+        if (! $this->cachePath() || ! $this->files->exists($compiled)) {
             return true;
         }
 
@@ -77,13 +77,13 @@ class Compiler {
     /**
      * Cache the file in json format
      *
-     * @param array $contents
+     * @param  array    $contents
      * @return bool|int
      */
     public function cacheFile(array $contents)
     {
         $contents = json_encode($contents);
 
-        return $this->files->put($this->getFilePath(),$contents);
+        return $this->files->put($this->getFilePath(), $contents);
     }
 }

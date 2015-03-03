@@ -7,7 +7,8 @@ use Illuminate\Database\Eloquent\Model;
  *
  * @package Fenos\Notifynder\Models
  */
-class NotificationGroup extends Model {
+class NotificationGroup extends Model
+{
 
     /**
      * @var array
@@ -27,7 +28,7 @@ class NotificationGroup extends Model {
         return $this->belongsToMany(
             'Fenos\Notifynder\Models\NotificationCategory',
             'notifications_categories_in_groups',
-            'group_id','category_id'
+            'group_id', 'category_id'
         );
     }
-} 
+}

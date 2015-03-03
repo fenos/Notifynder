@@ -1,10 +1,11 @@
-<?php namespace Fenos\Notifynder\Handler; 
+<?php namespace Fenos\Notifynder\Handler;
 
 use Fenos\Notifynder\Contracts\NotifynderDispatcher;
 use Fenos\Notifynder\NotifynderManager;
 use Illuminate\Contracts\Events\Dispatcher as LaravelDispatcher;
 
-class Dispatcher implements NotifynderDispatcher {
+class Dispatcher implements NotifynderDispatcher
+{
 
     /**
      * @var \Illuminate\Events\Dispatcher
@@ -19,9 +20,9 @@ class Dispatcher implements NotifynderDispatcher {
     protected $defaultWildcard = 'Notifynder';
 
     /**
-     * @param LaravelDispatcher     $event
+     * @param LaravelDispatcher $event
      */
-    function __construct(LaravelDispatcher $event)
+    public function __construct(LaravelDispatcher $event)
     {
         $this->event = $event;
     }
@@ -30,10 +31,10 @@ class Dispatcher implements NotifynderDispatcher {
      * It fire the event associated to the passed key,
      * trigging the listener method bound with
      *
-     * @param NotifynderManager    $notifynder
-     * @param  string       $eventName
-     * @param  string       $category_name
-     * @param  mixed|null   $values
+     * @param  NotifynderManager $notifynder
+     * @param  string            $eventName
+     * @param  string            $category_name
+     * @param  mixed|null        $values
      * @return mixed|null
      */
     public function fire(NotifynderManager $notifynder, $eventName, $category_name = null, $values = [])
@@ -44,35 +45,33 @@ class Dispatcher implements NotifynderDispatcher {
         // Instantiate the Notifynder event Object that will provide
         // nice way to get your data on the handler. It will be the first
         // parameter
-        $event = new NotifynderEvent($eventName,$category_name,$values);
+        $event = new NotifynderEvent($eventName, $category_name, $values);
 
         // Fire the event given expecting an array of notifications or falsy
         // value to not send the notification
-        $notificationsResult = $this->event->fire($eventName,[$event,$notifynder]);
+        $notificationsResult = $this->event->fire($eventName, [$event, $notifynder]);
 
         // if the event return an array of notifications then it will
         // send automatically
-        if ($this->hasNotificationToSend($notificationsResult))
-        {
+        if ($this->hasNotificationToSend($notificationsResult)) {
             return $notifynder->send($notificationsResult[0]);
         }
 
-        return null;
+        return;
     }
 
     /**
      * Deletegate events to categories
      *
-     * @param NotifynderManager $notifynder
-     * @param array      $data
-     * @param array      $events
+     * @param  NotifynderManager $notifynder
+     * @param  array             $data
+     * @param  array             $events
      * @return mixed
      */
-    public function delegate(NotifynderManager $notifynder, $data = [],array $events)
+    public function delegate(NotifynderManager $notifynder, $data = [], array $events)
     {
-        foreach($events as $category => $event)
-        {
-           $this->fire($notifynder,$event,$category,$data);
+        foreach ($events as $category => $event) {
+            $this->fire($notifynder, $event, $category, $data);
         }
     }
 
@@ -83,13 +82,11 @@ class Dispatcher implements NotifynderDispatcher {
      */
     public function boot(array $listeners)
     {
-        if (count($listeners) > 0)
-        {
-            foreach($listeners as $key => $listener)
-            {
+        if (count($listeners) > 0) {
+            foreach ($listeners as $key => $listener) {
                 // Notifynder.name.*
                 $event = $this->generateEventName($key);
-                $this->event->listen($event,$listener);
+                $this->event->listen($event, $listener);
             }
         }
     }
@@ -117,7 +114,6 @@ class Dispatcher implements NotifynderDispatcher {
      */
     protected function generateEventName($eventName)
     {
-        return $this->defaultWildcard . "." . str_replace('@', '.', $eventName);
+        return $this->defaultWildcard.".".str_replace('@', '.', $eventName);
     }
-
 }

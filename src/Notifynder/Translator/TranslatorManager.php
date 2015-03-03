@@ -23,7 +23,8 @@ use Illuminate\Contracts\Config\Repository;
  *
  * @package Fenos\Notifynder\Translator
  */
-class TranslatorManager implements NotifynderTranslator {
+class TranslatorManager implements NotifynderTranslator
+{
 
     /**
      * @var Compiler
@@ -39,7 +40,7 @@ class TranslatorManager implements NotifynderTranslator {
      * @param Compiler   $compiler
      * @param Repository $config
      */
-    function __construct(Compiler $compiler,Repository $config)
+    public function __construct(Compiler $compiler, Repository $config)
     {
         $this->compiler = $compiler;
         $this->config = $config;
@@ -54,12 +55,11 @@ class TranslatorManager implements NotifynderTranslator {
      * @throws NotificationLanguageNotFoundException
      * @throws NotificationTranslationNotFoundException
      */
-    public function translate($language,$nameCategory)
+    public function translate($language, $nameCategory)
     {
         $translations = $this->getLanguage($language);
 
-        if ( array_key_exists($nameCategory, $translations) )
-        {
+        if (array_key_exists($nameCategory, $translations)) {
             return $translations[$nameCategory];
         }
 
@@ -78,8 +78,7 @@ class TranslatorManager implements NotifynderTranslator {
     {
         $translations = $this->getTranslations();
 
-        if ( array_key_exists($language, $translations) )
-        {
+        if (array_key_exists($language, $translations)) {
             return $translations[$language];
         }
 
@@ -98,11 +97,9 @@ class TranslatorManager implements NotifynderTranslator {
         $filePath = $this->compiler->getFilePath();
 
         // If the file exists
-        if (file_exists($filePath))
-        {
+        if (file_exists($filePath)) {
             // Check if is not expired
-            if ( ! $this->compiler->isExpired())
-            {
+            if (! $this->compiler->isExpired()) {
                 // Return the cached file in
                 // an array
                 return json_decode(

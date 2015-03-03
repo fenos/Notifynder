@@ -7,7 +7,6 @@ use InvalidArgumentException;
 use Traversable;
 use Closure;
 
-
 /**
  * Class NotifynderBuilder
  *
@@ -18,7 +17,8 @@ use Closure;
  *
  * @package Fenos\Notifynder\Builder
  */
-class NotifynderBuilder {
+class NotifynderBuilder
+{
 
     use BuilderRules;
 
@@ -42,7 +42,7 @@ class NotifynderBuilder {
     /**
      * @param NotifynderCategory $notifynderCategory
      */
-    function __construct(NotifynderCategory $notifynderCategory)
+    public function __construct(NotifynderCategory $notifynderCategory)
     {
         $this->notifynderCategory = $notifynderCategory;
     }
@@ -56,7 +56,7 @@ class NotifynderBuilder {
     {
         $from = func_get_args();
 
-        $this->setEntityAction($from,'from');
+        $this->setEntityAction($from, 'from');
 
         return $this;
     }
@@ -70,7 +70,7 @@ class NotifynderBuilder {
     {
         $from = func_get_args();
 
-        $this->setEntityAction($from,'to');
+        $this->setEntityAction($from, 'to');
 
         return $this;
     }
@@ -85,7 +85,7 @@ class NotifynderBuilder {
     {
         $this->isString($url);
 
-        $this->setBuilderData('url',$url);
+        $this->setBuilderData('url', $url);
 
         return $this;
     }
@@ -99,14 +99,12 @@ class NotifynderBuilder {
      */
     public function category($category)
     {
-
-        if (is_string($category))
-        {
+        if (is_string($category)) {
             $category = $this->notifynderCategory
                             ->findByName($category)->id;
         }
 
-        $this->setBuilderData('category_id',$category);
+        $this->setBuilderData('category_id', $category);
 
         return $this;
     }
@@ -132,15 +130,14 @@ class NotifynderBuilder {
      * the generation of your array
      *
      *
-     * @param callable $closure
-     * @return array | false
+     * @param  callable $closure
+     * @return array    | false
      */
     public function raw(Closure $closure)
     {
         $builder = $closure($this);
 
-        if (! is_null($builder))
-        {
+        if (! is_null($builder)) {
             return $this->toArray();
         }
 
@@ -151,22 +148,19 @@ class NotifynderBuilder {
      * Loop the datas for create
      * multi notifications array
      *
-     * @param          $dataToIterate
-     * @param callable $builder
+     * @param           $dataToIterate
+     * @param  callable $builder
      * @return $this
      */
-    public function loop($dataToIterate,\Closure $builder)
+    public function loop($dataToIterate, \Closure $builder)
     {
-        if ($this->isIterable($dataToIterate))
-        {
+        if ($this->isIterable($dataToIterate)) {
             $arrayOfData = [];
 
-            foreach($dataToIterate as $key => $data)
-            {
-                $dataBuilt = $builder($this, $data,$key);
+            foreach ($dataToIterate as $key => $data) {
+                $dataBuilt = $builder($this, $data, $key);
 
-                if ( $dataBuilt )
-                {
+                if ($dataBuilt) {
                     $arrayOfData[] = $this->toArray();
                 }
             }
@@ -189,8 +183,7 @@ class NotifynderBuilder {
     {
         $this->setDate();
 
-        if ($this->hasRequiredFields($this->builder))
-        {
+        if ($this->hasRequiredFields($this->builder)) {
             return $this->builder;
         }
 
@@ -216,22 +209,19 @@ class NotifynderBuilder {
      * @param $property
      * @return array
      */
-    protected function setEntityAction($from,$property)
+    protected function setEntityAction($from, $property)
     {
         // Check if has the entity as parameter
         // it should be the firstOne
-        if ($this->hasEntity($from))
-        {
+        if ($this->hasEntity($from)) {
             $this->isString($from[0]);
             $this->isNumeric($from[1]);
 
-            $this->setBuilderData("{$property}_type",$from[0]);
-            $this->setBuilderData("{$property}_id",$from[1]);
-
-        } else
-        {
+            $this->setBuilderData("{$property}_type", $from[0]);
+            $this->setBuilderData("{$property}_id", $from[1]);
+        } else {
             $this->isNumeric($from[0]);
-            $this->setBuilderData("{$property}_id",$from[0]);
+            $this->setBuilderData("{$property}_id", $from[0]);
         }
     }
 
@@ -240,7 +230,7 @@ class NotifynderBuilder {
      * it means that you spefied the entity
      * over then the id
      *
-     * @param array $info
+     * @param  array $info
      * @return bool
      */
     protected function hasEntity(array $info)
@@ -273,7 +263,7 @@ class NotifynderBuilder {
      * @param $field
      * @param $data
      */
-    protected function setBuilderData($field,$data)
+    protected function setBuilderData($field, $data)
     {
         return $this->builder[$field] = $data;
     }

@@ -10,7 +10,8 @@ use Fenos\Notifynder\Models\NotificationGroup;
  *
  * @package Fenos\Notifynder\Groups\Repositories
  */
-class GroupCategoryRepository implements NotifynderGroupCategoryDB {
+class GroupCategoryRepository implements NotifynderGroupCategoryDB
+{
 
     /**
      * @var NotificationGroup
@@ -26,7 +27,7 @@ class GroupCategoryRepository implements NotifynderGroupCategoryDB {
      * @param NotifynderCategory $notificationCategory
      * @param NotificationGroup  $notificationGropup
      */
-    function __construct(NotifynderCategory $notificationCategory,
+    public function __construct(NotifynderCategory $notificationCategory,
                          NotificationGroup $notificationGropup)
     {
         $this->notificationCategory = $notificationCategory;
@@ -36,11 +37,11 @@ class GroupCategoryRepository implements NotifynderGroupCategoryDB {
     /**
      * Add a category in a group
      *
-     * @param                      $group_id
-     * @param                      $category_id
+     * @param                                                                                      $group_id
+     * @param                                                                                      $category_id
      * @return \Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model|static
      */
-    public function addCategoryToGroupById($group_id,$category_id)
+    public function addCategoryToGroupById($group_id, $category_id)
     {
         $group = $this->notificationGropup->find($group_id);
         $group->categories()->attach($category_id);
@@ -58,7 +59,7 @@ class GroupCategoryRepository implements NotifynderGroupCategoryDB {
      */
     public function addCategoryToGroupByName($group_name, $category_name)
     {
-        $group = $this->notificationGropup->where('name',$group_name)->first();
+        $group = $this->notificationGropup->where('name', $group_name)->first();
 
         $category = $this->notificationCategory->findByName($category_name);
 
@@ -77,15 +78,14 @@ class GroupCategoryRepository implements NotifynderGroupCategoryDB {
      */
     public function addMultipleCategoriesToGroup($group_name, array $names)
     {
-        $group = $this->notificationGropup->where('name',$group_name)->first();
+        $group = $this->notificationGropup->where('name', $group_name)->first();
 
         $categories = $this->notificationCategory->findByNames($names);
 
-        foreach($categories as $category)
-        {
+        foreach ($categories as $category) {
             $group->categories()->attach($category->id);
         }
 
         return $group;
     }
-} 
+}

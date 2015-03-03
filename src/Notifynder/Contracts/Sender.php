@@ -9,12 +9,13 @@
  *
  * @package Fenos\Notifynder\Senders
  */
-interface Sender {
+interface Sender
+{
 
     /**
      * Send notification
      *
-     * @param StoreNotification $storeNotification
+     * @param  StoreNotification $storeNotification
      * @return mixed
      */
     public function send(StoreNotification $storeNotification);

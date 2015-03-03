@@ -7,12 +7,13 @@ use Fenos\Notifynder\Models\Notification;
  *
  * @package Fenos\Notifynder\Senders
  */
-interface StoreNotification {
+interface StoreNotification
+{
 
     /**
      * Save a single notification sent
      *
-     * @param array $info
+     * @param  array        $info
      * @return Notification
      */
     public function storeSingle(array $info);
@@ -21,7 +22,7 @@ interface StoreNotification {
      * Save multiple notifications sent
      * at once
      *
-     * @param array $info
+     * @param  array $info
      * @return mixed
      */
     public function storeMultiple(array $info);

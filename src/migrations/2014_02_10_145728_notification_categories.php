@@ -1,9 +1,9 @@
 <?php
 
-use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
 
-class CreateNotificationGroupsTable extends Migration
+class NotificationCategories extends Migration
 {
 
     /**
@@ -13,9 +13,10 @@ class CreateNotificationGroupsTable extends Migration
      */
     public function up()
     {
-        Schema::create('notification_groups', function (Blueprint $table) {
+        Schema::create('notification_categories', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name', 50)->index()->unique();
+            $table->string('name')->index();
+            $table->string('text');
         });
     }
 
@@ -26,6 +27,6 @@ class CreateNotificationGroupsTable extends Migration
      */
     public function down()
     {
-        Schema::drop('notification_groups');
+        Schema::drop('notification_categories');
     }
 }

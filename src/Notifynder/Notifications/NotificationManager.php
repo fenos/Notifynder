@@ -14,7 +14,8 @@ use Illuminate\Pagination\Paginator;
  *
  * @package Fenos\Notifynder\Notifications
  */
-class NotificationManager implements NotifynderNotification {
+class NotificationManager implements NotifynderNotification
+{
 
     /**
      * @var NotificationDB
@@ -29,7 +30,7 @@ class NotificationManager implements NotifynderNotification {
     /**
      * @param NotificationDB $notifynderRepo
      */
-    function __construct(NotificationDB $notifynderRepo)
+    public function __construct(NotificationDB $notifynderRepo)
     {
         $this->notifynderRepo = $notifynderRepo;
     }
@@ -58,8 +59,7 @@ class NotificationManager implements NotifynderNotification {
     {
         $notification = $this->notifynderRepo->find($notification_id);
 
-        if ( is_null($notification) )
-        {
+        if (is_null($notification)) {
             $error = "Notification Not found";
             throw new NotificationNotFoundException($error);
         }
@@ -85,14 +85,14 @@ class NotificationManager implements NotifynderNotification {
      * Read notifications in base the number
      * Given
      *
-     * @param        $to_id
-     * @param        $numbers
-     * @param string $order
+     * @param         $to_id
+     * @param         $numbers
+     * @param  string $order
      * @return mixed
      */
-    public function readLimit($to_id,$numbers,$order = "ASC")
+    public function readLimit($to_id, $numbers, $order = "ASC")
     {
-        return $this->notifynderRepo->readLimit($to_id,$this->entity,$numbers,$order);
+        return $this->notifynderRepo->readLimit($to_id, $this->entity, $numbers, $order);
     }
 
     /**
@@ -104,7 +104,7 @@ class NotificationManager implements NotifynderNotification {
      */
     public function readAll($to_id)
     {
-        return $this->notifynderRepo->readAll($to_id,$this->entity);
+        return $this->notifynderRepo->readAll($to_id, $this->entity);
     }
 
     /**
@@ -131,7 +131,7 @@ class NotificationManager implements NotifynderNotification {
      */
     public function deleteLimit($entity_id, $number, $order = 'asc')
     {
-        return $this->notifynderRepo->deleteLimit($entity_id,$this->entity,$number,$order);
+        return $this->notifynderRepo->deleteLimit($entity_id, $this->entity, $number, $order);
     }
 
     /**
@@ -143,30 +143,42 @@ class NotificationManager implements NotifynderNotification {
      */
     public function deleteAll($entity_id)
     {
-        return $this->notifynderRepo->deleteAll($entity_id,$this->entity);
+        return $this->notifynderRepo->deleteAll($entity_id, $this->entity);
+    }
+
+    /**
+     * Delete All notifications from a
+     * defined category
+     *
+     * @param $category_name string
+     * @param $expired Bool
+     * @return Bool
+     */
+    public function deleteByCategory($category_name, $expired = false)
+    {
+        return $this->notifynderRepo->deleteByCategory($category_name, $expired);
     }
 
     /**
      * Get notifications not read
      * of the entity given
      *
-     * @param        $to_id
-     * @param        $limit
-     * @param        $paginate
-     * @param string $orderDate
+     * @param         $to_id
+     * @param         $limit
+     * @param         $paginate
+     * @param  string $orderDate
      * @return mixed
      */
-    public function getNotRead($to_id,$limit = null,$paginate = false,$orderDate = 'desc')
+    public function getNotRead($to_id, $limit = null, $paginate = false, $orderDate = 'desc')
     {
         $notifications = $this->notifynderRepo->getNotRead(
-            $to_id,$this->entity,
-            $limit,$paginate, $orderDate
+            $to_id, $this->entity,
+            $limit, $paginate, $orderDate
         );
 
-        if ($paginate)
-        {
+        if ($paginate) {
             return (new Paginator(
-                $notifications->parse()->toArray(),$limit
+                $notifications->parse()->toArray(), $limit
             ))->toArray();
         }
 
@@ -176,23 +188,22 @@ class NotificationManager implements NotifynderNotification {
     /**
      * Get All notifications
      *
-     * @param        $to_id
-     * @param        $limit
-     * @param        $paginate
-     * @param string $orderDate
+     * @param         $to_id
+     * @param         $limit
+     * @param         $paginate
+     * @param  string $orderDate
      * @return mixed
      */
-    public function getAll($to_id,$limit = null,$paginate = false,$orderDate = 'desc')
+    public function getAll($to_id, $limit = null, $paginate = false, $orderDate = 'desc')
     {
         $notifications = $this->notifynderRepo->getAll(
-            $to_id,$this->entity,
-            $limit,$paginate,$orderDate
+            $to_id, $this->entity,
+            $limit, $paginate, $orderDate
         );
 
-        if ($paginate)
-        {
+        if ($paginate) {
             return (new Paginator(
-                $notifications->parse()->toArray(),$limit
+                $notifications->parse()->toArray(), $limit
             ))->toArray();
         }
 
@@ -202,7 +213,7 @@ class NotificationManager implements NotifynderNotification {
     /**
      * Send single notification
      *
-     * @param array $info
+     * @param  array  $info
      * @return static
      */
     public function sendOne(array $info)
@@ -213,7 +224,7 @@ class NotificationManager implements NotifynderNotification {
     /**
      * Send multiple notifications
      *
-     * @param array $info
+     * @param  array $info
      * @return mixed
      */
     public function sendMultiple(array $info)
@@ -230,6 +241,6 @@ class NotificationManager implements NotifynderNotification {
      */
     public function countNotRead($to_id)
     {
-        return $this->notifynderRepo->countNotRead($to_id,$this->entity);
+        return $this->notifynderRepo->countNotRead($to_id, $this->entity);
     }
-} 
+}

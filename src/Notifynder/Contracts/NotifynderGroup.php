@@ -7,7 +7,8 @@ use InvalidArgumentException;
  *
  * @package Fenos\Notifynder\Groups
  */
-interface NotifynderGroup {
+interface NotifynderGroup
+{
 
     /**
      * Find a group by id

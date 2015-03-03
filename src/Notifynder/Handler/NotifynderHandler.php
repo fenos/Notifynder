@@ -1,6 +1,7 @@
-<?php namespace Fenos\Notifynder\Handler; 
+<?php namespace Fenos\Notifynder\Handler;
 
-class NotifynderHandler {
+class NotifynderHandler
+{
 
     /**
      * Handle the event to the given
@@ -9,16 +10,15 @@ class NotifynderHandler {
      * @param $notifynder
      * @return mixed
      */
-    public function handle(NotifynderEvent $event,$notifynder)
+    public function handle(NotifynderEvent $event, $notifynder)
     {
         $eventName = $this->getEventName($event->getEvent());
 
-        if ($this->listenerIsRegistered($eventName))
-        {
-            return call_user_func_array([$this,$eventName],[$event,$notifynder]);
+        if ($this->listenerIsRegistered($eventName)) {
+            return call_user_func_array([$this, $eventName], [$event, $notifynder]);
         }
 
-        return null;
+        return;
     }
 
     /**
@@ -49,11 +49,11 @@ class NotifynderHandler {
     {
         // Remove the Notiynder namespaces for
         // the find the method
-        $event = str_replace('Notifynder.','',$event);
+        $event = str_replace('Notifynder.', '', $event);
 
-        $eventNameSpace = (strpos($event,'@'))
+        $eventNameSpace = (strpos($event, '@'))
             ? explode('@', $event)
-            : explode('.',$event);
+            : explode('.', $event);
 
         array_shift($eventNameSpace);
 

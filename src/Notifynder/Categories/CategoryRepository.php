@@ -12,7 +12,8 @@ use Illuminate\Database\Eloquent\Builder;
  *
  * @package Fenos\Notifynder\Categories
  */
-class CategoryRepository implements CategoryDB {
+class CategoryRepository implements CategoryDB
+{
 
     /**
      * @var NotificationCategory | Builder
@@ -22,7 +23,7 @@ class CategoryRepository implements CategoryDB {
     /**
      * @param NotificationCategory $categoryModel
      */
-    function __construct(NotificationCategory $categoryModel)
+    public function __construct(NotificationCategory $categoryModel)
     {
         $this->categoryModel = $categoryModel;
     }
@@ -46,7 +47,7 @@ class CategoryRepository implements CategoryDB {
      */
     public function findByName($name)
     {
-        return $this->categoryModel->where('name',$name)
+        return $this->categoryModel->where('name', $name)
                     ->first();
     }
 
@@ -59,20 +60,20 @@ class CategoryRepository implements CategoryDB {
      */
     public function findByNames(array $name)
     {
-        return $this->categoryModel->whereIn('name',$name)
+        return $this->categoryModel->whereIn('name', $name)
                     ->get();
     }
 
     /**
      * Add a category to the DB
      *
-     * @param array $name
-     * @param       $text
+     * @param  array  $name
+     * @param         $text
      * @return static
      */
-    public function add($name,$text)
+    public function add($name, $text)
     {
-        return $this->categoryModel->create(compact('name','text'));
+        return $this->categoryModel->create(compact('name', 'text'));
     }
 
     /**
@@ -83,7 +84,7 @@ class CategoryRepository implements CategoryDB {
      */
     public function delete($id)
     {
-        return $this->categoryModel->where('id',$id)
+        return $this->categoryModel->where('id', $id)
                     ->delete();
     }
 
@@ -95,20 +96,20 @@ class CategoryRepository implements CategoryDB {
      */
     public function deleteByName($name)
     {
-        return $this->categoryModel->where('name',$name)
+        return $this->categoryModel->where('name', $name)
                     ->delete();
     }
 
     /**
      * Update a category by id
      *
-     * @param array $data
-     * @param       $id
+     * @param  array $data
+     * @param        $id
      * @return mixed
      */
     public function update(array $data, $id)
     {
-        return $this->categoryModel->where('id',$id)
+        return $this->categoryModel->where('id', $id)
                     ->update($data);
     }
 }

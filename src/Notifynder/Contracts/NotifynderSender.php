@@ -1,6 +1,5 @@
 <?php namespace Fenos\Notifynder\Contracts;
 
-use Closure;
 use Fenos\Notifynder\Senders\SendOne;
 use Fenos\Notifynder\Senders\SendMultiple;
 
@@ -9,13 +8,14 @@ use Fenos\Notifynder\Senders\SendMultiple;
  *
  * @package Fenos\Notifynder\Senders
  */
-interface NotifynderSender {
+interface NotifynderSender
+{
 
     /**
      * Send any notifications
      *
-     * @param array $info
-     * @param null  $category
+     * @param  array $info
+     * @param  null  $category
      * @return mixed
      */
     public function send(array $info, $category = null);
@@ -23,8 +23,8 @@ interface NotifynderSender {
     /**
      * Send now whatever data passed
      *
-     * @param array $info
-     * @param       $category
+     * @param  array $info
+     * @param        $category
      * @return mixed
      */
     public function sendNow(array $info, $category = null);
@@ -52,8 +52,8 @@ interface NotifynderSender {
      * Send a group of notifications
      * at once
      *
-     * @param               $group_name
-     * @param array         $info
+     * @param        $group_name
+     * @param  array $info
      * @return mixed
      */
     public function sendGroup($group_name, array $info = []);
@@ -62,9 +62,9 @@ interface NotifynderSender {
      * This method allow to Extend
      * notifynder with custom sender
      *
-     * @param          $name
-     * @param callable $extendSender
+     * @param           $name
+     * @param  callable $extendSender
      * @return $this
      */
-    public function extend($name,$extendSender);
+    public function extend($name, $extendSender);
 }

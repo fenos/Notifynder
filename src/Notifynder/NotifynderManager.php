@@ -1,4 +1,4 @@
-<?php namespace Fenos\Notifynder; 
+<?php namespace Fenos\Notifynder;
 
 use BadMethodCallException;
 use Fenos\Notifynder\Builder\NotifynderBuilder;
@@ -21,7 +21,8 @@ use InvalidArgumentException;
  *
  * @package Fenos\Notifynder
  */
-class NotifynderManager implements Notifynder {
+class NotifynderManager implements Notifynder
+{
 
     /**
      * Version Notifynder
@@ -77,7 +78,7 @@ class NotifynderManager implements Notifynder {
      * @param NotifynderDispatcher   $notifynderDispatcher
      * @param NotifynderGroup        $notifynderGroup
      */
-    function __construct(NotifynderCategory $notifynderCategory,
+    public function __construct(NotifynderCategory $notifynderCategory,
                          NotifynderSender $notifynderSender,
                          NotifynderNotification $notification,
                          NotifynderDispatcher $notifynderDispatcher,
@@ -100,8 +101,7 @@ class NotifynderManager implements Notifynder {
     public function category($name)
     {
         // Check if the category is eager loaded
-        if ($this->isLazyLoaded($name))
-        {
+        if ($this->isLazyLoaded($name)) {
             // Yes it is, split out the value from the array
             $this->category = $this->getCategoriesContainer()[$name];
 
@@ -116,7 +116,7 @@ class NotifynderManager implements Notifynder {
         $this->category = $category;
 
         // Set the category on the array
-        $this->setCategoriesContainer($name,$category);
+        $this->setCategoriesContainer($name, $category);
 
         return $this;
     }
@@ -142,67 +142,67 @@ class NotifynderManager implements Notifynder {
      * @param $text
      * @return static
      */
-    public function addCategory($name,$text)
+    public function addCategory($name, $text)
     {
-        return $this->notifynderCategory->add($name,$text);
+        return $this->notifynderCategory->add($name, $text);
     }
 
     /**
      * Update a category
      *
-     * @param array $updates
-     * @param       $id
+     * @param  array $updates
+     * @param        $id
      * @return mixed
      */
     public function updateCategory(array $updates, $id)
     {
-        return $this->notifynderCategory->update($updates,$id);
+        return $this->notifynderCategory->update($updates, $id);
     }
 
     /**
      * Send notifications
      * Both multiple and single
      *
-     * @param array $info
+     * @param  array $info
      * @return mixed
      */
     public function send(array $info)
     {
-        return $this->notifynderSender->send($info,$this->category);
+        return $this->notifynderSender->send($info, $this->category);
     }
 
     /**
      * Send immediately the notification
      * even if the queue is enabled
      *
-     * @param array $info
+     * @param  array $info
      * @return mixed
      */
     public function sendNow(array $info)
     {
-        return $this->notifynderSender->sendNow($info,$this->category);
+        return $this->notifynderSender->sendNow($info, $this->category);
     }
 
     /**
      * Send One notification
      *
-     * @param array $info
+     * @param  array $info
      * @return mixed
      */
     public function sendOne(array $info)
     {
-        return $this->notifynderSender->sendOne($info,$this->category);
+        return $this->notifynderSender->sendOne($info, $this->category);
     }
 
     /**
      * Send multiple notifications
      *
-     * @param array $info
+     * @param  array                $info
      * @return Senders\SendMultiple
      */
     public function sendMultiple(array $info)
     {
-        return $this->notifynderSender->sendMultiple($info,$this->category);
+        return $this->notifynderSender->sendMultiple($info, $this->category);
     }
 
     /**
@@ -214,7 +214,7 @@ class NotifynderManager implements Notifynder {
      */
     public function sendGroup($group_name, $info)
     {
-        return $this->notifynderSender->sendGroup($this,$group_name,$info);
+        return $this->notifynderSender->sendGroup($this, $group_name, $info);
     }
 
     /**
@@ -232,16 +232,16 @@ class NotifynderManager implements Notifynder {
      * Read notification in base the number
      * Given
      *
-     * @param        $to_id
-     * @param        $numbers
-     * @param string $order
+     * @param         $to_id
+     * @param         $numbers
+     * @param  string $order
      * @return mixed
      */
-    public function readLimit($to_id,$numbers, $order = "ASC")
+    public function readLimit($to_id, $numbers, $order = "ASC")
     {
         $notification = $this->notification->entity($this->entity);
 
-        return $notification->readLimit($to_id,$numbers,$order);
+        return $notification->readLimit($to_id, $numbers, $order);
     }
 
     /**
@@ -273,16 +273,16 @@ class NotifynderManager implements Notifynder {
      * Delete number of notifications
      * secified of the given entity
      *
-     * @param        $to_id
-     * @param        $number
-     * @param string $order
+     * @param         $to_id
+     * @param         $number
+     * @param  string $order
      * @return mixed
      */
-    public function deleteLimit($to_id,$number,$order = "ASC")
+    public function deleteLimit($to_id, $number, $order = "ASC")
     {
         $notifications = $this->notification->entity($this->entity);
 
-        return $notifications->deleteLimit($to_id,$number,$order);
+        return $notifications->deleteLimit($to_id, $number, $order);
     }
 
     /**
@@ -300,37 +300,50 @@ class NotifynderManager implements Notifynder {
     }
 
     /**
+     * Delete All notifications from a
+     * defined category
+     *
+     * @param $category_name string
+     * @param $expired Bool
+     * @return Bool
+     */
+    public function deleteByCategory($category_name, $expired = false)
+    {
+        return $this->notification->deleteByCategory($category_name, $expired);
+    }
+
+    /**
      * Get Notifications not read
      * of the given entity
      *
-     * @param        $to_id
-     * @param null   $limit
-     * @param bool   $paginate
-     * @param string $order
+     * @param         $to_id
+     * @param  null   $limit
+     * @param  bool   $paginate
+     * @param  string $order
      * @return mixed
      */
-    public function getNotRead($to_id, $limit = null, $paginate = false,$order = "desc")
+    public function getNotRead($to_id, $limit = null, $paginate = false, $order = "desc")
     {
         $notifications = $this->notification->entity($this->entity);
 
-        return $notifications->getNotRead($to_id,$limit,$paginate,$order);
+        return $notifications->getNotRead($to_id, $limit, $paginate, $order);
     }
 
     /**
      * Get all notifications of the
      * given entity
      *
-     * @param        $to_id
-     * @param null   $limit
-     * @param bool   $paginate
-     * @param string $order
+     * @param         $to_id
+     * @param  null   $limit
+     * @param  bool   $paginate
+     * @param  string $order
      * @return mixed
      */
-    public function getAll($to_id, $limit = null, $paginate = false,$order = "desc")
+    public function getAll($to_id, $limit = null, $paginate = false, $order = "desc")
     {
         $notifications = $this->notification->entity($this->entity);
 
-        return $notifications->getAll($to_id,$limit,$paginate);
+        return $notifications->getAll($to_id, $limit, $paginate);
     }
 
     /**
@@ -366,9 +379,9 @@ class NotifynderManager implements Notifynder {
      * @param $category_name
      * @return mixed
      */
-    public function addCategoryToGroupByName($gorup_name,$category_name)
+    public function addCategoryToGroupByName($gorup_name, $category_name)
     {
-        return $this->notifynderGroup->addCategoryToGroupByName($gorup_name,$category_name);
+        return $this->notifynderGroup->addCategoryToGroupByName($gorup_name, $category_name);
     }
 
     /**
@@ -379,9 +392,9 @@ class NotifynderManager implements Notifynder {
      * @param $category_id
      * @return mixed
      */
-    public function addCategoryToGroupById($gorup_id,$category_id)
+    public function addCategoryToGroupById($gorup_id, $category_id)
     {
-        return $this->notifynderGroup->addCategoryToGroupById($gorup_id,$category_id);
+        return $this->notifynderGroup->addCategoryToGroupById($gorup_id, $category_id);
     }
 
     /**
@@ -405,21 +418,21 @@ class NotifynderManager implements Notifynder {
      * @param  mixed|null $values
      * @return mixed|null
      */
-    public function fire($key,$category_name, $values = [])
+    public function fire($key, $category_name, $values = [])
     {
-        return $this->notifynderDispatcher->fire($this,$key,$category_name,$values);
+        return $this->notifynderDispatcher->fire($this, $key, $category_name, $values);
     }
 
     /**
      * Associate events to categories
      *
-     * @param       $data
-     * @param array $delegation
+     * @param        $data
+     * @param  array $delegation
      * @return mixed
      */
-    public function delegate(array $delegation,$data = [])
+    public function delegate(array $delegation, $data = [])
     {
-        return $this->notifynderDispatcher->delegate($this,$data,$delegation);
+        return $this->notifynderDispatcher->delegate($this, $data, $delegation);
     }
 
     /**
@@ -447,19 +460,18 @@ class NotifynderManager implements Notifynder {
     /**
      * Extend a custom sender method
      *
-     * @param          $name
-     * @param callable $registrar
+     * @param           $name
+     * @param  callable $registrar
      * @return $this
      */
     public function extend($name, $registrar)
     {
-        if (! starts_with($name,'send'))
-        {
+        if (! starts_with($name, 'send')) {
             $error = "The sender method must start with [send]";
             throw new InvalidArgumentException($error);
         }
 
-        $this->notifynderSender->extend($name,$registrar);
+        $this->notifynderSender->extend($name, $registrar);
 
         return $this;
     }
@@ -492,7 +504,7 @@ class NotifynderManager implements Notifynder {
      * @param       $name
      * @param array $categoriesContainer
      */
-    protected function setCategoriesContainer($name,$categoriesContainer)
+    protected function setCategoriesContainer($name, $categoriesContainer)
     {
         $this->categoriesContainer[$name] = $categoriesContainer;
     }
@@ -514,17 +526,16 @@ class NotifynderManager implements Notifynder {
      * @param $arguments
      * @return void|mixed
      */
-    function __call($name, $arguments)
+    public function __call($name, $arguments)
     {
-        if (starts_with($name,'send'))
-        {
+        if (starts_with($name, 'send')) {
             return call_user_func_array(
-                [$this->notifynderSender,$name],
-                array_merge($arguments,['category' => $this->category])
+                [$this->notifynderSender, $name],
+                array_merge($arguments, ['category' => $this->category])
             );
         }
 
-        $error = "method [$name] not found in the class ". self::class;
+        $error = "method [$name] not found in the class ".self::class;
         throw new BadMethodCallException($error);
     }
 }

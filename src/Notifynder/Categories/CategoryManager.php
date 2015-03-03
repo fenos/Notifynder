@@ -12,7 +12,8 @@ use Fenos\Notifynder\Exceptions\CategoryNotFoundException;
  *
  * @package Fenos\Notifynder\Categories
  */
-class CategoryManager implements NotifynderCategory {
+class CategoryManager implements NotifynderCategory
+{
 
     /**
      * @var CategoryDB
@@ -22,7 +23,7 @@ class CategoryManager implements NotifynderCategory {
     /**
      * @param CategoryDB $categoryRepo
      */
-    function __construct(CategoryDB $categoryRepo)
+    public function __construct(CategoryDB $categoryRepo)
     {
         $this->categoryRepo = $categoryRepo;
     }
@@ -37,8 +38,7 @@ class CategoryManager implements NotifynderCategory {
     {
         $category = $this->categoryRepo->findByName($name);
 
-        if ( is_null($category))
-        {
+        if (is_null($category)) {
             $error = "Category Not Found";
             throw new CategoryNotFoundException($error);
         }
@@ -57,8 +57,7 @@ class CategoryManager implements NotifynderCategory {
     {
         $category = $this->categoryRepo->findByNames($name);
 
-        if ( count($category) == 0)
-        {
+        if (count($category) == 0) {
             $error = "Category Not Found";
             throw new CategoryNotFoundException($error);
         }
@@ -76,8 +75,7 @@ class CategoryManager implements NotifynderCategory {
     {
         $category = $this->categoryRepo->find($id);
 
-        if ( is_null($category))
-        {
+        if (is_null($category)) {
             $error = "Category Not Found";
             throw new CategoryNotFoundException($error);
         }
@@ -88,13 +86,13 @@ class CategoryManager implements NotifynderCategory {
     /**
      * Add a category to the DB
      *
-     * @param array $name
-     * @param       $text
+     * @param  array                                         $name
+     * @param                                                $text
      * @return \Fenos\Notifynder\Models\NotificationCategory
      */
-    public function add($name,$text)
+    public function add($name, $text)
     {
-        return $this->categoryRepo->add($name,$text);
+        return $this->categoryRepo->add($name, $text);
     }
     /**
      * Delete category by ID
@@ -120,12 +118,12 @@ class CategoryManager implements NotifynderCategory {
     /**
      * Update a category
      *
-     * @param array $data
-     * @param       $id
+     * @param  array $data
+     * @param        $id
      * @return mixed
      */
     public function update(array $data, $id)
     {
-        return $this->categoryRepo->update($data,$id);
+        return $this->categoryRepo->update($data, $id);
     }
 }

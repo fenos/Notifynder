@@ -11,7 +11,8 @@ use Fenos\Notifynder\Exceptions\CategoryNotFoundException;
  *
  * @package Fenos\Notifynder\Senders
  */
-class SendOne implements Sender {
+class SendOne implements Sender
+{
 
     /**
      * @var array
@@ -19,9 +20,9 @@ class SendOne implements Sender {
     protected $infoNotification = [];
 
     /**
-     * @param      $infoNotification
+     * @param   $infoNotification
      */
-    function __construct($infoNotification)
+    public function __construct($infoNotification)
     {
         $this->infoNotification = $infoNotification;
     }
@@ -29,7 +30,7 @@ class SendOne implements Sender {
     /**
      * Send Single notification
      *
-     * @param StoreNotification $storeNotification
+     * @param  StoreNotification $storeNotification
      * @return mixed
      */
     public function send(StoreNotification $storeNotification)
@@ -48,8 +49,7 @@ class SendOne implements Sender {
      */
     protected function hasCategory()
     {
-        if (! array_key_exists('category_id', $this->infoNotification))
-        {
+        if (! array_key_exists('category_id', $this->infoNotification)) {
             $error = "Category not found please provide one,
                      you can not store a notification without category id";
 

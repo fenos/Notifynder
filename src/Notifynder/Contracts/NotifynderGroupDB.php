@@ -5,7 +5,8 @@
  *
  * @package Fenos\Notifynder\Groups\Repositories
  */
-interface NotifynderGroupDB {
+interface NotifynderGroupDB
+{
 
     /**
      * Find a group by ID

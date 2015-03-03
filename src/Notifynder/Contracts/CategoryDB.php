@@ -8,7 +8,8 @@
  *
  * @package Fenos\Notifynder\Categories
  */
-interface CategoryDB {
+interface CategoryDB
+{
 
     /**
      * Find By Id
@@ -38,11 +39,11 @@ interface CategoryDB {
     /**
      * Add a category to the DB
      *
-     * @param array $name
-     * @param       $text
+     * @param  array  $name
+     * @param         $text
      * @return static
      */
-    public function add($name,$text);
+    public function add($name, $text);
 
     /**
      * Delete category by ID
@@ -63,8 +64,8 @@ interface CategoryDB {
     /**
      * Update a category by id
      *
-     * @param array $data
-     * @param       $id
+     * @param  array $data
+     * @param        $id
      * @return mixed
      */
     public function update(array $data, $id);

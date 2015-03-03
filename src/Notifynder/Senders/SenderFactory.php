@@ -13,7 +13,8 @@ use Fenos\Notifynder\Contracts\NotifynderGroup;
  *
  * @package Fenos\Notifynder\Senders
  */
-class SenderFactory {
+class SenderFactory
+{
 
     /**
      * @var NotifynderGroup
@@ -26,10 +27,10 @@ class SenderFactory {
     private $notifynderCategory;
 
     /**
-     * @param NotifynderGroup       $notifynderGroup
-     * @param NotifynderCategory    $notifynderCategory
+     * @param NotifynderGroup    $notifynderGroup
+     * @param NotifynderCategory $notifynderCategory
      */
-    function __construct(NotifynderGroup $notifynderGroup,
+    public function __construct(NotifynderGroup $notifynderGroup,
                          NotifynderCategory $notifynderCategory)
     {
         $this->notifynderGroup = $notifynderGroup;
@@ -40,21 +41,18 @@ class SenderFactory {
      * Get the right sender when the data is
      * passed
      *
-     * @param array $infoNotifications
-     * @param       $category
+     * @param  array                $infoNotifications
+     * @param                       $category
      * @return SendMultiple|SendOne
      */
-    function getSender(array $infoNotifications,$category = null)
+    public function getSender(array $infoNotifications, $category = null)
     {
         // if the array is multidimesional
         // it means that we want to send
         // multiple notifications
-        if ($this->isMultiArray($infoNotifications))
-        {
+        if ($this->isMultiArray($infoNotifications)) {
             return $this->sendMultiple($infoNotifications);
-        }
-        else
-        {
+        } else {
             return $this->sendSingle($infoNotifications, $category);
         }
     }
@@ -62,8 +60,8 @@ class SenderFactory {
     /**
      * Send Single Notification Sender
      *
-     * @param array $infoNotifications
-     * @param       $category
+     * @param  array   $infoNotifications
+     * @param          $category
      * @return SendOne
      */
     public function sendSingle(array $infoNotifications, $category)
@@ -74,7 +72,7 @@ class SenderFactory {
     /**
      * Send Multiple Notification Sender
      *
-     * @param array $infoNotifications
+     * @param  array        $infoNotifications
      * @return SendMultiple
      */
     public function sendMultiple(array $infoNotifications)
@@ -85,8 +83,8 @@ class SenderFactory {
     /**
      * Get the the send group instance
      *
-     * @param string            $group_name
-     * @param array | \Closure  $info
+     * @param  string           $group_name
+     * @param  array | \Closure $info
      * @return SendGroup
      */
     public function sendGroup($group_name, array $info)
@@ -106,10 +104,13 @@ class SenderFactory {
      * @param $arr
      * @return bool
      */
-    protected function isMultiArray( array $arr )
+    protected function isMultiArray(array $arr)
     {
-        $rv = array_filter($arr,'is_array');
-        if ( count($rv) > 0 ) return true;
+        $rv = array_filter($arr, 'is_array');
+        if (count($rv) > 0) {
+            return true;
+        }
+
         return false;
     }
 }

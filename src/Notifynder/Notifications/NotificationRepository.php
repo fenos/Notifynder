@@ -7,15 +7,14 @@ use Illuminate\Database\DatabaseManager;
 use Illuminate\Database\Connection;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Query\Builder as BuilderDB;
-use Illuminate\Pagination\LengthAwarePaginator;
-use Illuminate\Pagination\Paginator;
 
 /**
  * Class NotificationRepository
  *
  * @package Fenos\Notifynder\Senders
  */
-class NotificationRepository implements NotificationDB, StoreNotification {
+class NotificationRepository implements NotificationDB, StoreNotification
+{
 
     /**
      * @var Notification | Builder | BuilderDB
@@ -31,7 +30,7 @@ class NotificationRepository implements NotificationDB, StoreNotification {
      * @param Notification                         $notification
      * @param \Illuminate\Database\DatabaseManager $db
      */
-    function __construct(Notification $notification,
+    public function __construct(Notification $notification,
                          DatabaseManager $db)
     {
         $this->notification = $notification;
@@ -52,7 +51,7 @@ class NotificationRepository implements NotificationDB, StoreNotification {
     /**
      * Save a single notification sent
      *
-     * @param array $info
+     * @param  array        $info
      * @return Notification
      */
     public function storeSingle(array $info)
@@ -64,7 +63,7 @@ class NotificationRepository implements NotificationDB, StoreNotification {
      * Save multiple notifications sent
      * at once
      *
-     * @param array $info
+     * @param  array $info
      * @return mixed
      */
     public function storeMultiple(array $info)
@@ -77,15 +76,14 @@ class NotificationRepository implements NotificationDB, StoreNotification {
     /**
      * Make Read One Notification
      *
-     * @param Notification $notification
+     * @param  Notification      $notification
      * @return bool|Notification
      */
     public function readOne(Notification $notification)
     {
         $notification->read = 1;
 
-        if ($notification->save())
-        {
+        if ($notification->save()) {
             return $notification;
         }
 
@@ -102,15 +100,15 @@ class NotificationRepository implements NotificationDB, StoreNotification {
      * @param $order
      * @return int
      */
-    public function readLimit($to_id,$entity,$numbers, $order)
+    public function readLimit($to_id, $entity, $numbers, $order)
     {
         $notifications = $this->notification->withNotRead()
-            ->wherePolymorphic($to_id,$entity)
+            ->wherePolymorphic($to_id, $entity)
             ->limit($numbers)
-            ->orderBy('id',$order)
+            ->orderBy('id', $order)
             ->lists('id');
 
-        return $this->notification->whereIn('id',$notifications)
+        return $this->notification->whereIn('id', $notifications)
              ->update(['read' => 1]);
     }
 
@@ -121,10 +119,10 @@ class NotificationRepository implements NotificationDB, StoreNotification {
      * @param $entity
      * @return int
      */
-    public function readAll($to_id,$entity)
+    public function readAll($to_id, $entity)
     {
         return $this->notification->withNotRead()
-            ->wherePolymorphic($to_id,$entity)
+            ->wherePolymorphic($to_id, $entity)
             ->update(['read' => 1]);
     }
 
@@ -137,7 +135,7 @@ class NotificationRepository implements NotificationDB, StoreNotification {
      */
     public function delete($notification_id)
     {
-        return $this->notification->where('id',$notification_id)->delete();
+        return $this->notification->where('id', $notification_id)->delete();
     }
 
     /**
@@ -148,14 +146,35 @@ class NotificationRepository implements NotificationDB, StoreNotification {
      * @param $entity
      * @return Bool
      */
-    public function deleteAll($to_id,$entity)
+    public function deleteAll($to_id, $entity)
     {
         $query =  $this->db->table(
             $this->notification->getTable()
         );
 
-        return $this->notification->scopeWherePolymorphic($query,$to_id,$entity)
+        return $this->notification->scopeWherePolymorphic($query, $to_id, $entity)
                     ->delete();
+    }
+
+    /**
+     * Delete All notifications from a
+     * defined category
+     *
+     * @param $category_name int
+     * @param $expired Bool
+     * @return Bool
+     */
+    public function deleteByCategory($category_name, $expired = false)
+    {
+        $query = $this->notification->whereHas('body', function ($q) use ($category_name) {
+            $q->where('name', $category_name);
+        });
+
+        if ($expired == true) {
+            return $query->onlyExpired()->delete();
+        }
+
+        return $query->delete();
     }
 
     /**
@@ -171,17 +190,19 @@ class NotificationRepository implements NotificationDB, StoreNotification {
      * @return int
      * @throws \Exception
      */
-    public function deleteLimit($user_id,$entity, $number, $order)
+    public function deleteLimit($user_id, $entity, $number, $order)
     {
         $notifications_ids = $this->notification
-            ->wherePolymorphic($user_id,$entity)
-            ->orderBy('id',$order)
+            ->wherePolymorphic($user_id, $entity)
+            ->orderBy('id', $order)
             ->select('id')
             ->limit($number)->lists('id');
 
-        if ( count($notifications_ids) == 0 ) return false;
+        if (count($notifications_ids) == 0) {
+            return false;
+        }
 
-        return $this->notification->whereIn('id',$notifications_ids)
+        return $this->notification->whereIn('id', $notifications_ids)
                     ->delete();
     }
 
@@ -190,30 +211,27 @@ class NotificationRepository implements NotificationDB, StoreNotification {
      * You can also limit the number of
      * Notification if you don't it will get all
      *
-     * @param        $to_id
-     * @param        $entity
-     * @param        $limit
-     * @param        $paginate
-     * @param string $orderDate
+     * @param         $to_id
+     * @param         $entity
+     * @param         $limit
+     * @param         $paginate
+     * @param  string $orderDate
      * @return mixed
      */
-    public function getNotRead($to_id,$entity, $limit = null, $paginate = false,$orderDate = 'desc')
+    public function getNotRead($to_id, $entity, $limit = null, $paginate = false, $orderDate = 'desc')
     {
-
-        $result = $this->notification->with('body','from')
-            ->wherePolymorphic($to_id,$entity)
+        $result = $this->notification->with('body', 'from')
+            ->wherePolymorphic($to_id, $entity)
             ->withNotRead()
-            ->orderBy('read','ASC')
-            ->orderBy('created_at',$orderDate);
+            ->orderBy('read', 'ASC')
+            ->orderBy('created_at', $orderDate);
 
-        if (! is_null($limit))
-        {
+        if (! is_null($limit)) {
             $result->limit($limit);
         }
 
         return $result->get();
     }
-
 
     /**
      * Retrive all notifications, not read
@@ -221,23 +239,22 @@ class NotificationRepository implements NotificationDB, StoreNotification {
      * You can also limit the number of
      * Notifications if you don't, it will get all
      *
-     * @param        $to_id
-     * @param        $entity
-     * @param null   $limit
-     * @param bool   $paginate
-     * @param string $orderDate
+     * @param         $to_id
+     * @param         $entity
+     * @param  null   $limit
+     * @param  bool   $paginate
+     * @param  string $orderDate
      * @return mixed
      */
-    public function getAll($to_id,$entity,$limit = null, $paginate = false,$orderDate = 'desc')
+    public function getAll($to_id, $entity, $limit = null, $paginate = false, $orderDate = 'desc')
     {
-        $result = $this->notification->with('body','from')
-            ->wherePolymorphic($to_id,$entity)
-            ->orderBy('read','ASC')
-            ->orderBy('created_at',$orderDate);
+        $result = $this->notification->with('body', 'from')
+            ->wherePolymorphic($to_id, $entity)
+            ->orderBy('read', 'ASC')
+            ->orderBy('created_at', $orderDate);
 
         // if the limit is set
-        if (! is_null($limit))
-        {
+        if (! is_null($limit)) {
             $result->limit($limit);
         }
 
@@ -252,11 +269,11 @@ class NotificationRepository implements NotificationDB, StoreNotification {
      * @param $entity
      * @return mixed
      */
-    public function countNotRead($to_id,$entity)
+    public function countNotRead($to_id, $entity)
     {
-        return $this->notification->wherePolymorphic($to_id,$entity)
+        return $this->notification->wherePolymorphic($to_id, $entity)
             ->withNotRead()
             ->select($this->db->raw('Count(*) as notRead'))
             ->count();
     }
-} 
+}
