@@ -13,7 +13,7 @@ class AddExpireTimeColumnToNotificationTable extends Migration
     public function up()
     {
         Schema::table('notifications', function ($table) {
-            $table->timestamp('expire_time');
+            $table->timestamp('expire_time')->nullable();
         });
     }
 
