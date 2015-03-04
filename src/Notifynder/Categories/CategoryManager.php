@@ -27,6 +27,7 @@ class CategoryManager implements NotifynderCategory
     {
         $this->categoryRepo = $categoryRepo;
     }
+
     /**
      * Find a category by name
      *
@@ -45,6 +46,7 @@ class CategoryManager implements NotifynderCategory
 
         return $category;
     }
+
     /**
      * Find categories by names,
      * pass the name as an array
@@ -64,6 +66,7 @@ class CategoryManager implements NotifynderCategory
 
         return $category;
     }
+
     /**
      * Find a category by id
      *
@@ -94,6 +97,7 @@ class CategoryManager implements NotifynderCategory
     {
         return $this->categoryRepo->add($name, $text);
     }
+
     /**
      * Delete category by ID
      *
@@ -104,6 +108,7 @@ class CategoryManager implements NotifynderCategory
     {
         return $this->categoryRepo->delete($id);
     }
+
     /**
      * Delete category by name
      *

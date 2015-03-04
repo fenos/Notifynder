@@ -87,15 +87,13 @@ interface NotificationDB
      * Delete All notifications from a
      * defined category
      *
-     * @param $categoryName string
+     * @param $category_name
      * @param $expired Bool
      * @return Bool
      */
     public function deleteByCategory($category_name, $expired = false);
 
     /**
-     * // Todo: make flexible the selection of the notifications
-     *
      * Delete numbers of notifications equals
      * to the number passing as 2 parameter of
      * the current user

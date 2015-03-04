@@ -187,4 +187,15 @@ class NotificationManagerSpec extends ObjectBehavior
 
         $this->countNotRead($entity_id)->shouldReturn($notificationCount);
     }
+
+    /** @test */
+    function it_delete_notification_by_categories(NotificationDB $notificationRepo)
+    {
+        $categoryName = 'notifynder.test';
+
+        $notificationRepo->deleteByCategory($categoryName,false)->shouldBeCalled()
+                ->willReturn(1);
+
+        $this->deleteByCategory($categoryName)->shouldReturn(1);
+    }
 }

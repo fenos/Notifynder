@@ -23,6 +23,7 @@ $factory('Fenos\Notifynder\Models\Notification',[
     'url' => $faker->url,
     'extra' => $faker->name,
     'read' => 0,
+    'expire_time' => null,
     'created_at' => $faker->dateTime,
     'updated_at' => $faker->dateTime,
 ]);

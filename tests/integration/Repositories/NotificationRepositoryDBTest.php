@@ -162,6 +162,50 @@ class NotificationRepositoryDBTest extends TestCaseDB {
         $this->assertEquals($this->multiNotificationsNumber,$countNotRead);
     }
 
+    /** @test */
+    function it_delete_all_notification_by_category()
+    {
+        $category = $this->createCategory(['name' => 'test']);
+
+        $this->createNotification(['category_id' => $category->id]);
+        $this->createNotification(['category_id' => $category->id]);
+        $this->createNotification();
+
+        $this->notificationRepo->deleteByCategory($category->name);
+
+        $this->assertCount(1, Notification::all());
+    }
+
+    /** @test */
+    function it_delete_all_notification_expired_by_category_name()
+    {
+        $category = $this->createCategory(['name' => 'test']);
+
+        $this->createNotification([
+            'category_id' => $category->id,
+            'expire_time' => Carbon\Carbon::now()->subDays(1)
+        ]);
+
+        $this->createNotification([
+            'category_id' => $category->id,
+            'expire_time' => Carbon\Carbon::now()->subDays(1)
+        ]);
+
+        $this->createNotification([
+            'category_id' => $category->id,
+            'expire_time' => Carbon\Carbon::now()->subDays(1)
+        ]);
+
+        $this->createNotification([
+            'category_id' => $category->id,
+            'expire_time' => Carbon\Carbon::now()->addDays(1)
+        ]);
+
+        $this->notificationRepo->deleteByCategory($category->name,true);
+
+        $this->assertCount(1, Notification::all());
+    }
+
     /**
      * Shortcut to build a new notification
      *
