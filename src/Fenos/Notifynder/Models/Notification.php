@@ -1,7 +1,6 @@
 <?php namespace Fenos\Notifynder\Models;
 
 use Config;
-
 use Fenos\Notifynder\Models\Collection\NotifynderCollection;
 use Fenos\Notifynder\Parse\NotifynderParse;
 use Fenos\Notifynder\Translator\NotifynderTranslator;
@@ -15,7 +14,8 @@ use Illuminate\Database\Eloquent\Model;
  *
  * @package Fenos\Notifynder\Models
  */
-class Notification extends Model {
+class Notification extends Model
+{
 
     /**
      * @var array
@@ -27,7 +27,7 @@ class Notification extends Model {
      */
     public function newCollection(array $models = array())
     {
-        return new NotifynderCollection($models, new NotifynderTranslator);
+        return new NotifynderCollection($models, new NotifynderTranslator());
     }
 
     /**
@@ -35,7 +35,7 @@ class Notification extends Model {
      */
     public function body()
     {
-        return $this->belongsTo('Fenos\Notifynder\Models\NotificationCategory','category_id');
+        return $this->belongsTo('Fenos\Notifynder\Models\NotificationCategory', 'category_id');
     }
 
     /**
@@ -46,12 +46,9 @@ class Notification extends Model {
         // check if on the configurations file there is the option
         // polymorphic setted to true, if so Notifynder will work
         // polymorphic.
-        if ( Config::get('notifynder::config.polymorphic') === false )
-        {
-            return $this->belongsTo(Config::get('notifynder::config.model'),'from_id');
-        }
-        else {
-
+        if (Config::get('notifynder::config.polymorphic') === false) {
+            return $this->belongsTo(Config::get('notifynder::config.model'), 'from_id');
+        } else {
             return $this->morphTo();
         }
     }
@@ -64,12 +61,9 @@ class Notification extends Model {
         // check if on the configurations file there is the option
         // polymorphic setted to true, if so Notifynder will work
         // polymorphic.
-        if ( Config::get('notifynder::config.polymorphic') === false )
-        {
-            return $this->belongsTo(Config::get('notifynder::config.model'),'to_id');
-        }
-        else {
-
+        if (Config::get('notifynder::config.polymorphic') === false) {
+            return $this->belongsTo(Config::get('notifynder::config.model'), 'to_id');
+        } else {
             return $this->morphTo();
         }
     }
@@ -82,7 +76,7 @@ class Notification extends Model {
      */
     public function scopeWithNotRead($query)
     {
-        return $query->where('read',0);
+        return $query->where('read', 0);
     }
 
     /**
@@ -96,21 +90,17 @@ class Notification extends Model {
      * @param $isBuilder
      * @return mixed
      */
-    public function scopeWherePolymorphic($query,$table_id,$table_type,$table_id_value, $table_type_value,$isBuilder = null)
+    public function scopeWherePolymorphic($query, $table_id, $table_type, $table_id_value, $table_type_value, $isBuilder = null)
     {
-        if ( !is_null($isBuilder))
-        {
+        if (!is_null($isBuilder)) {
             $query = $isBuilder;
         }
 
-        if ( ! $table_type_value)
-        {
-            return $query->where($table_id,$table_id_value);
-        }
-        else
-        {
-            return $query->where($table_id,$table_id_value)
-                ->where($table_type,$table_type_value);
+        if (! $table_type_value) {
+            return $query->where($table_id, $table_id_value);
+        } else {
+            return $query->where($table_id, $table_id_value)
+                ->where($table_type, $table_type_value);
         }
     }
 
@@ -120,6 +110,7 @@ class Notification extends Model {
     public function parse()
     {
         (new NotifynderParse($this))->parse();
+
         return $this;
     }
 
@@ -128,7 +119,6 @@ class Notification extends Model {
      */
     public function getNotifyBodyAttribute()
     {
-        return (new NotifynderParse($this,$this->extra))->parse();
+        return (new NotifynderParse($this, $this->extra))->parse();
     }
-
 }

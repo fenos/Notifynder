@@ -2,11 +2,11 @@
 
 use Carbon\Carbon;
 use Fenos\Notifynder\Builder\NotifynderBuilder;
-use Mockery as m;
 /**
  * Class NotifynderBuilderTest
  */
-class NotifynderBuilderTest extends IntegrationDBTest {
+class NotifynderBuilderTest extends IntegrationDBTest
+{
 
     /**
      * @var NotifynderBuilder
@@ -37,7 +37,6 @@ class NotifynderBuilderTest extends IntegrationDBTest {
             ->extra('hello')
             ->getArray();
 
-
         $arrayThatShouldBeBuilt = [
             'from_id'     => 1,
             'to_id'       => 2,
@@ -48,8 +47,8 @@ class NotifynderBuilderTest extends IntegrationDBTest {
             'updated_at'  => Carbon::now(),
         ];
 
-        $this->assertEquals($build,$arrayThatShouldBeBuilt);
-        $this->assertArrayHasKey('category_id',$build);
+        $this->assertEquals($build, $arrayThatShouldBeBuilt);
+        $this->assertArrayHasKey('category_id', $build);
     }
 
     /**
@@ -75,9 +74,9 @@ class NotifynderBuilderTest extends IntegrationDBTest {
     {
         $data = [1,2];
 
-        $this->notifynderBuilder->loop($data, function($builder,$key,$data){
+        $this->notifynderBuilder->loop($data, function ($builder, $key, $data) {
 
-            return $builder->to('Team',$data)
+            return $builder->to('Team', $data)
                 ->category(1)
                 ->url('same')
                 ->extra('hello');
@@ -90,13 +89,12 @@ class NotifynderBuilderTest extends IntegrationDBTest {
     public function it_build_a_notifynder_Array_Polymorphic()
     {
         $build = $this->notifynderBuilder
-            ->from('User',1)
-            ->to('Team',2)
+            ->from('User', 1)
+            ->to('Team', 2)
             ->category(1)
             ->url('same')
             ->extra('hello')
             ->getArray();
-
 
         $arrayThatShouldBeBuilt = [
             'from_id'     => 1,
@@ -107,10 +105,10 @@ class NotifynderBuilderTest extends IntegrationDBTest {
             'url'         => "same",
             'extra'       => 'hello',
             'created_at'  => Carbon::now(),
-            'updated_at'  => Carbon::now()
+            'updated_at'  => Carbon::now(),
         ];
 
-        $this->assertEquals($build,$arrayThatShouldBeBuilt);
+        $this->assertEquals($build, $arrayThatShouldBeBuilt);
     }
 
     /**
@@ -118,19 +116,15 @@ class NotifynderBuilderTest extends IntegrationDBTest {
      * */
     public function it_build_a_notifynder_Array_a_condition_given()
     {
-        $build = $this->notifynderBuilder->raw(function($builder)
-        {
-            if (1 == 1)
-            {
-                return $builder->from('User',1)
-                    ->to('Team',2)
+        $build = $this->notifynderBuilder->raw(function ($builder) {
+            if (1 == 1) {
+                return $builder->from('User', 1)
+                    ->to('Team', 2)
                     ->category(1)
                     ->url('same')
                     ->extra('hello');
             }
         });
-
-
 
         $arrayThatShouldBeBuilt = [
             'from_id'     => 1,
@@ -141,10 +135,10 @@ class NotifynderBuilderTest extends IntegrationDBTest {
             'url'         => "same",
             'extra'       => 'hello',
             'created_at'  => Carbon::now(),
-            'updated_at'  => Carbon::now()
+            'updated_at'  => Carbon::now(),
         ];
 
-        $this->assertEquals($build,$arrayThatShouldBeBuilt);
+        $this->assertEquals($build, $arrayThatShouldBeBuilt);
     }
 
     /**
@@ -154,10 +148,10 @@ class NotifynderBuilderTest extends IntegrationDBTest {
     {
         $data = [1,2];
 
-        $build = $this->notifynderBuilder->loop($data, function($builder,$key,$data){
+        $build = $this->notifynderBuilder->loop($data, function ($builder, $key, $data) {
 
-            return $builder->from('User',1)
-                ->to('Team',$data)
+            return $builder->from('User', 1)
+                ->to('Team', $data)
                 ->category(1)
                 ->url('same')
                 ->extra('hello');
@@ -173,7 +167,7 @@ class NotifynderBuilderTest extends IntegrationDBTest {
                 'url'         => "same",
                 'extra'       => 'hello',
                 'created_at'  => Carbon::now(),
-                'updated_at'  => Carbon::now()
+                'updated_at'  => Carbon::now(),
             ],
             [
                 'from_id'     => 1,
@@ -184,11 +178,11 @@ class NotifynderBuilderTest extends IntegrationDBTest {
                 'url'         => "same",
                 'extra'       => 'hello',
                 'created_at'  => Carbon::now(),
-                'updated_at'  => Carbon::now()
+                'updated_at'  => Carbon::now(),
             ],
         ];
 
-        $this->assertEquals($build,$arrayThatShouldBeBuilt);
+        $this->assertEquals($build, $arrayThatShouldBeBuilt);
     }
 
     /**
@@ -198,12 +192,11 @@ class NotifynderBuilderTest extends IntegrationDBTest {
     {
         $data = [1,2,3];
 
-        $build = $this->notifynderBuilder->loop($data, function($builder,$key,$data){
+        $build = $this->notifynderBuilder->loop($data, function ($builder, $key, $data) {
 
-            if ($data == 1)
-            {
-                return $builder->from('User',1)
-                    ->to('Team',$data)
+            if ($data == 1) {
+                return $builder->from('User', 1)
+                    ->to('Team', $data)
                     ->category(1)
                     ->url('same')
                     ->extra('hello');
@@ -220,10 +213,10 @@ class NotifynderBuilderTest extends IntegrationDBTest {
                 'url'         => "same",
                 'extra'       => 'hello',
                 'created_at'  => Carbon::now(),
-                'updated_at'  => Carbon::now()
-            ]
+                'updated_at'  => Carbon::now(),
+            ],
         ];
 
-        $this->assertEquals($build,$arrayThatShouldBeBuilt);
+        $this->assertEquals($build, $arrayThatShouldBeBuilt);
     }
-} 
+}

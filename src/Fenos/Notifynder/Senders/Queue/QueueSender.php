@@ -7,7 +7,8 @@ use Fenos\Notifynder\Senders\NotifynderSender;
  *
  * @package Fenos\Notifynder\Senders
  */
-class QueueSender {
+class QueueSender
+{
 
     /**
      * @var NotifynderSender
@@ -17,7 +18,7 @@ class QueueSender {
     /**
      * @param NotifynderSender $notifynderSender
      */
-    function __construct(NotifynderSender $notifynderSender)
+    public function __construct(NotifynderSender $notifynderSender)
     {
         $this->notifynderSender = $notifynderSender;
     }
@@ -28,10 +29,10 @@ class QueueSender {
      * @param $job
      * @param $data
      */
-    public function fire($job,$data)
+    public function fire($job, $data)
     {
-        $this->notifynderSender->sendNow($data['info'],$data['category']);
+        $this->notifynderSender->sendNow($data['info'], $data['category']);
 
         $job->delete();
     }
-} 
+}

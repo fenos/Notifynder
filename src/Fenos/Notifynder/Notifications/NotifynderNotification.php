@@ -3,13 +3,15 @@
 use Fenos\Notifynder\Exceptions\NotificationNotFoundException;
 use Fenos\Notifynder\Notifications\Repositories\NotificationRepository;
 use Fenos\Notifynder\Senders\StoreNotification;
+use Illuminate\Support\Facades\Paginator;
 
 /**
  * Class NotifynderNotification
  *
  * @package Fenos\Notifynder\Notifications
  */
-class NotifynderNotification implements StoreNotification {
+class NotifynderNotification implements StoreNotification
+{
 
     /**
      * @var NotificationRepository
@@ -24,7 +26,7 @@ class NotifynderNotification implements StoreNotification {
     /**
      * @param NotificationRepository $notifynderRepo
      */
-    function __construct(NotificationRepository $notifynderRepo)
+    public function __construct(NotificationRepository $notifynderRepo)
     {
         $this->notifynderRepo = $notifynderRepo;
     }
@@ -53,8 +55,7 @@ class NotifynderNotification implements StoreNotification {
     {
         $notification = $this->notifynderRepo->find($notification_id);
 
-        if ( is_null($notification) )
-        {
+        if (is_null($notification)) {
             throw new NotificationNotFoundException("Notification Not found");
         }
 
@@ -79,16 +80,16 @@ class NotifynderNotification implements StoreNotification {
      * Read notifications in base the number
      * Given
      *
-     * @param        $to_id
-     * @param        $numbers
-     * @param string $order
+     * @param         $to_id
+     * @param         $numbers
+     * @param  string $order
      * @return mixed
      */
-    public function readLimit($to_id,$numbers,$order = "ASC")
+    public function readLimit($to_id, $numbers, $order = "ASC")
     {
         $notifications = $this->notifynderRepo->entity($this->entity);
 
-        return $notifications->readLimit($to_id,$numbers,$order);
+        return $notifications->readLimit($to_id, $numbers, $order);
     }
 
     /**
@@ -131,7 +132,7 @@ class NotifynderNotification implements StoreNotification {
     {
         $notifications = $this->notifynderRepo->entity($this->entity);
 
-        return $notifications->deleteLimit($entity_id,$number,$order);
+        return $notifications->deleteLimit($entity_id, $number, $order);
     }
 
     /**
@@ -157,11 +158,23 @@ class NotifynderNotification implements StoreNotification {
      * @param $paginate
      * @return mixed
      */
-    public function getNotRead($to_id,$limit,$paginate)
+    public function getNotRead($to_id, $limit, $paginate)
     {
-        $notifications =  $this->notifynderRepo->entity($this->entity);
+        $notifications = $this->notifynderRepo->getNotRead(
+            $to_id, $this->entity,
+            $limit, $paginate
+        );
 
-        return $notifications->getNotRead($to_id,$limit,$paginate);
+        if ($paginate) {
+            $offset = (Paginator::getCurrentPage() * $limit) - $limit;
+            $items = array_slice($notifications->parse()->getCollectionItems(), $offset, $limit);
+
+            return Paginator::make(
+                 $items, count($notifications->parse()), $limit
+            );
+        }
+
+        return $notifications->parse();
     }
 
     /**
@@ -172,17 +185,29 @@ class NotifynderNotification implements StoreNotification {
      * @param $paginate
      * @return mixed
      */
-    public function getAll($to_id,$limit,$paginate)
+    public function getAll($to_id, $limit, $paginate)
     {
-        $notifications =  $this->notifynderRepo->entity($this->entity);
+        $notifications = $this->notifynderRepo->getAll(
+            $to_id, $this->entity,
+            $limit, $paginate
+        );
 
-        return $notifications->getAll($to_id,$limit,$paginate);
+        if ($paginate) {
+            $offset = (Paginator::getCurrentPage() * $limit) - $limit;
+            $items = array_slice($notifications->parse()->getCollectionItems(), $offset, $limit);
+
+            return Paginator::make(
+                 $items, count($notifications->parse()), $limit
+            );
+        }
+
+        return $notifications->parse();
     }
 
     /**
      * Send single notification
      *
-     * @param array $info
+     * @param  array  $info
      * @return static
      */
     public function sendOne(array $info)
@@ -193,7 +218,7 @@ class NotifynderNotification implements StoreNotification {
     /**
      * Send multiple notifications
      *
-     * @param array $info
+     * @param  array $info
      * @return mixed
      */
     public function sendMultiple(array $info)
@@ -214,4 +239,4 @@ class NotifynderNotification implements StoreNotification {
 
         return $notifications->countNotRead($to_id);
     }
-} 
+}

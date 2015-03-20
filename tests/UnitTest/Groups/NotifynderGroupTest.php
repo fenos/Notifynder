@@ -6,7 +6,8 @@ use Mockery as m;
 /**
  * Class NotifynderGroupTest
  */
-class NotifynderGroupTest extends \PHPUnit_Framework_TestCase {
+class NotifynderGroupTest extends \PHPUnit_Framework_TestCase
+{
 
     /**
      * @var NotifynderGroup
@@ -69,7 +70,7 @@ class NotifynderGroupTest extends \PHPUnit_Framework_TestCase {
 
         $result = $this->notifynderGroup->findGroupById($group_id);
 
-        $this->assertInstanceOf('Fenos\Notifynder\Models\NotificationGroup',$result);
+        $this->assertInstanceOf('Fenos\Notifynder\Models\NotificationGroup', $result);
     }
 
     /** @test */
@@ -84,7 +85,7 @@ class NotifynderGroupTest extends \PHPUnit_Framework_TestCase {
 
         $result = $this->notifynderGroup->findGroupByName($group_name);
 
-        $this->assertInstanceOf('Fenos\Notifynder\Models\NotificationGroup',$result);
+        $this->assertInstanceOf('Fenos\Notifynder\Models\NotificationGroup', $result);
     }
 
     /** @test */
@@ -95,12 +96,12 @@ class NotifynderGroupTest extends \PHPUnit_Framework_TestCase {
 
         $this->groupCategory->shouldReceive('addCategoryToGroupById')
              ->once()
-             ->with($group_id,$category_id)
+             ->with($group_id, $category_id)
              ->andReturn(m::mock('Fenos\Notifynder\Models\NotificationGroup'));
 
-        $result = $this->notifynderGroup->addCategoryToGroupById($group_id,$category_id);
+        $result = $this->notifynderGroup->addCategoryToGroupById($group_id, $category_id);
 
-        $this->assertInstanceOf('Fenos\Notifynder\Models\NotificationGroup',$result);
+        $this->assertInstanceOf('Fenos\Notifynder\Models\NotificationGroup', $result);
     }
 
     /** @test */
@@ -111,12 +112,12 @@ class NotifynderGroupTest extends \PHPUnit_Framework_TestCase {
 
         $this->groupCategory->shouldReceive('addCategoryToGroupByName')
             ->once()
-            ->with($group_name,$category_name)
+            ->with($group_name, $category_name)
             ->andReturn(m::mock('Fenos\Notifynder\Models\NotificationGroup'));
 
-        $result = $this->notifynderGroup->addCategoryToGroupByName($group_name,$category_name);
+        $result = $this->notifynderGroup->addCategoryToGroupByName($group_name, $category_name);
 
-        $this->assertInstanceOf('Fenos\Notifynder\Models\NotificationGroup',$result);
+        $this->assertInstanceOf('Fenos\Notifynder\Models\NotificationGroup', $result);
     }
 
     /** @test */
@@ -124,7 +125,7 @@ class NotifynderGroupTest extends \PHPUnit_Framework_TestCase {
     {
         $name = "notifynder.hello";
 
-        $mockGroup = m::mock('Fenos\Notifynder\Groups\NotifynderGroup[isStringWithDots]',$this->dependency);
+        $mockGroup = m::mock('Fenos\Notifynder\Groups\NotifynderGroup[isStringWithDots]', $this->dependency);
 
         $mockGroup->shouldReceive('isStringWithDots')
              ->once()
@@ -138,7 +139,7 @@ class NotifynderGroupTest extends \PHPUnit_Framework_TestCase {
 
         $result = $mockGroup->addGroup($name);
 
-        $this->assertInstanceOf('Fenos\Notifynder\Models\NotificationGroup',$result);
+        $this->assertInstanceOf('Fenos\Notifynder\Models\NotificationGroup', $result);
     }
 
     public function setDependency()
@@ -146,4 +147,3 @@ class NotifynderGroupTest extends \PHPUnit_Framework_TestCase {
         return [$this->groupRepo,$this->groupCategory];
     }
 }
- 

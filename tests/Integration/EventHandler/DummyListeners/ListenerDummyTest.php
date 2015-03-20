@@ -4,16 +4,16 @@ use Carbon\Carbon;
 use Fenos\Notifynder\Handler\NotifynderDispatcher;
 use Fenos\Notifynder\Notifynder;
 
-class ListenerDummyTest extends NotifynderDispatcher {
+class ListenerDummyTest extends NotifynderDispatcher
+{
 
-    public function notifynderListener($values, $category_name,Notifynder $notifynder)
+    public function notifynderListener($values, $category_name, Notifynder $notifynder)
     {
         $notifications = [];
 
         $date = Carbon::now();
 
-        foreach($values as $key => $value)
-        {
+        foreach ($values as $key => $value) {
             $notifications[] = [
                 'from_id'     => 2,
                 'from_type'   => "User",
@@ -30,14 +30,13 @@ class ListenerDummyTest extends NotifynderDispatcher {
         return $notifications;
     }
 
-    public function delegationListener($values, $category_name,Notifynder $notifynder)
+    public function delegationListener($values, $category_name, Notifynder $notifynder)
     {
         $notifications = [];
 
         $date = Carbon::now();
 
-        foreach($values as $key => $value)
-        {
+        foreach ($values as $key => $value) {
             $notifications[] = [
                 'from_id'     => 2,
                 'from_type'   => "User",
@@ -53,4 +52,4 @@ class ListenerDummyTest extends NotifynderDispatcher {
 
         return $notifications;
     }
-} 
+}

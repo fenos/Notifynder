@@ -2,10 +2,8 @@
 /**
  * Created by Fabrizio Fenoglio.
  */
-
 namespace Fenos\Notifynder\Exceptions;
 
-
-class EntityNotSpecifiedException extends \Exception {
-
-} 
+class EntityNotSpecifiedExcepti extends \Exception
+{
+}

@@ -3,7 +3,8 @@
 use Fenos\Notifynder\Senders\SendOne;
 use Mockery as m;
 
-class SendSingleTest extends PHPUnit_Framework_TestCase {
+class SendSingleTest extends PHPUnit_Framework_TestCase
+{
 
     /**
      * @var SendOne
@@ -45,13 +46,13 @@ class SendSingleTest extends PHPUnit_Framework_TestCase {
 
         $result = $this->sendSingle->send($storeNotification);
 
-        $this->assertInstanceOf('Fenos\Notifynder\Models\Notification',$result);
+        $this->assertInstanceOf('Fenos\Notifynder\Models\Notification', $result);
     }
 
     /** @test */
     public function it_check_if_the_category_id_is_present_on_the_information()
     {
-        $mockSenderSingle = m::mock('Fenos\Notifynder\Senders\SendOne[hasCategoryIdInInformation]',[$this->dataNotification]);
+        $mockSenderSingle = m::mock('Fenos\Notifynder\Senders\SendOne[hasCategoryIdInInformation]', [$this->dataNotification]);
 
         $mockSenderSingle->shouldReceive('hasCategoryIdInInformation')
              ->once()
@@ -101,9 +102,8 @@ class SendSingleTest extends PHPUnit_Framework_TestCase {
      * */
     public function it_check_if_the_category_id_has_been_inserted_but_it_is_not()
     {
-        $classSender = new SendOne([],null);
+        $classSender = new SendOne([], null);
 
         $classSender->hasCategoryIdInInformation();
     }
 }
- 

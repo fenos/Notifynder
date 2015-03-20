@@ -3,7 +3,8 @@
 use Fenos\Notifynder\Models\NotificationGroup;
 use Laracasts\TestDummy\Factory as TestDummy;
 
-class NotifynderGroupDBTest extends IntegrationDBTest {
+class NotifynderGroupDBTest extends IntegrationDBTest
+{
 
     /**
      * @var NotificationGroup
@@ -35,7 +36,7 @@ class NotifynderGroupDBTest extends IntegrationDBTest {
 
         $groups = $this->groupModel->all();
 
-        $this->assertCount(1,$groups);
+        $this->assertCount(1, $groups);
     }
 
     /** @test */
@@ -45,19 +46,19 @@ class NotifynderGroupDBTest extends IntegrationDBTest {
 
         $group = $this->groupRepository->find(1);
 
-        $this->assertEquals(1,$group->count());
-        $this->assertInstanceOf('Fenos\Notifynder\Models\NotificationGroup',$group);
+        $this->assertEquals(1, $group->count());
+        $this->assertInstanceOf('Fenos\Notifynder\Models\NotificationGroup', $group);
     }
 
     /** @test */
     public function it_find_a_group_by_name()
     {
-        TestDummy::create('Fenos\Notifynder\Models\NotificationGroup',['name' => 'notifynder.pro']);
+        TestDummy::create('Fenos\Notifynder\Models\NotificationGroup', ['name' => 'notifynder.pro']);
 
         $group = $this->groupRepository->findByName('notifynder.pro');
 
-        $this->assertEquals(1,$group->count());
-        $this->assertInstanceOf('Fenos\Notifynder\Models\NotificationGroup',$group);
+        $this->assertEquals(1, $group->count());
+        $this->assertInstanceOf('Fenos\Notifynder\Models\NotificationGroup', $group);
     }
 
     /** @test */
@@ -69,8 +70,8 @@ class NotifynderGroupDBTest extends IntegrationDBTest {
 
         $groups = $this->groupModel->all();
 
-        $this->assertEquals(1,$group);
+        $this->assertEquals(1, $group);
 
-        $this->assertCount(0,$groups);
+        $this->assertCount(0, $groups);
     }
 }

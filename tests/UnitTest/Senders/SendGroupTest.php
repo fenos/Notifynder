@@ -6,7 +6,8 @@ use Mockery as m;
 /**
  * Class SendGroupTest
  */
-class SendGroupTest extends PHPUnit_Framework_TestCase {
+class SendGroupTest extends PHPUnit_Framework_TestCase
+{
 
     /**
      * @var SendGroup
@@ -60,7 +61,7 @@ class SendGroupTest extends PHPUnit_Framework_TestCase {
     /** @test */
     public function it_send_a_group_of_notifications()
     {
-        $mockSendGroup = m::mock('Fenos\Notifynder\Senders\SendGroup[sendLoop]',$this->dependency);
+        $mockSendGroup = m::mock('Fenos\Notifynder\Senders\SendGroup[sendLoop]', $this->dependency);
 
         $notification = m::mock('Fenos\Notifynder\Notifications\NotifynderNotification');
 
@@ -76,7 +77,7 @@ class SendGroupTest extends PHPUnit_Framework_TestCase {
         $groupModel->shouldReceive('getAttribute')
              ->once()
              ->with('categories')
-             ->andReturn([$category,$category]);
+             ->andReturn([$category, $category]);
 
         $mockSendGroup->shouldReceive('sendLoop')
              ->times(2)
@@ -85,7 +86,7 @@ class SendGroupTest extends PHPUnit_Framework_TestCase {
 
         $result = $mockSendGroup->send($notification);
 
-        $this->assertInstanceOf('Fenos\Notifynder\Models\NotificationGroup',$result);
+        $this->assertInstanceOf('Fenos\Notifynder\Models\NotificationGroup', $result);
     }
 
     /** @test */
@@ -112,18 +113,17 @@ class SendGroupTest extends PHPUnit_Framework_TestCase {
 
         $result = $this->sendGroup->sendLoop($category);
 
-        $this->assertEquals(2,$result);
+        $this->assertEquals(2, $result);
     }
 
     /** @test */
     public function it_send_loops_the_notifications_giving_an_closure()
     {
-        $closure = function($notifynder)
-        {
+        $closure = function ($notifynder) {
             return true;
         };
 
-        $mockSendGroup = m::mock('Fenos\Notifynder\Senders\SendGroup',$this->setDependecy($closure))->makePartial();
+        $mockSendGroup = m::mock('Fenos\Notifynder\Senders\SendGroup', $this->setDependecy($closure))->makePartial();
 
         $category_name = "category.to.send";
 
@@ -142,17 +142,15 @@ class SendGroupTest extends PHPUnit_Framework_TestCase {
     /**
      * Set depenency class
      *
-     * @param null $dataNotification
+     * @param  null  $dataNotification
      * @return array
      */
     private function setDependecy($dataNotification = null)
     {
-        if ( is_null($dataNotification) )
-        {
+        if (is_null($dataNotification)) {
             $dataNotification = $this->dataNotification;
         }
 
         return [$this->notifynder,$this->notifynderGroup,$this->groupName,$dataNotification];
     }
 }
- 

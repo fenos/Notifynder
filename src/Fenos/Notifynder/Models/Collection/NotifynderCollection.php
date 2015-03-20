@@ -10,7 +10,8 @@ use Illuminate\Database\Eloquent\Collection;
  *
  * @package Fenos\Notifynder\Models\Collection
  */
-class NotifynderCollection extends Collection {
+class NotifynderCollection extends Collection
+{
 
     /**
      * @var NotifynderTranslator
@@ -26,7 +27,7 @@ class NotifynderCollection extends Collection {
      * @param array                $models
      * @param NotifynderTranslator $notifynderTranslator
      */
-    function __construct($models,NotifynderTranslator $notifynderTranslator)
+    public function __construct($models, NotifynderTranslator $notifynderTranslator)
     {
         parent::__construct($models);
         $this->notifynderTranslator = $notifynderTranslator;
@@ -38,15 +39,12 @@ class NotifynderCollection extends Collection {
      * @param $language (String)
      * @return Collection
      */
-    public function translate( $language )
+    public function translate($language)
     {
-        if ( !is_null($this->items[0]['body'] ) )
-        {
-            $this->translateFromNotifications( $language );
-        }
-        else
-        {
-            $this->translateCategory( $language );
+        if (!is_null($this->items[0]['body'])) {
+            $this->translateFromNotifications($language);
+        } else {
+            $this->translateCategory($language);
         }
 
         return $this;
@@ -60,18 +58,14 @@ class NotifynderCollection extends Collection {
      * @param $language (String)
      * @return Collection
      */
-    public function translateCategory( $language )
+    public function translateCategory($language)
     {
-        foreach ($this->items as $key => $item)
-        {
-            try
-            {
-                $translation = $this->notifynderTranslator->translate( $language,$this->items[$key]['name'] );
+        foreach ($this->items as $key => $item) {
+            try {
+                $translation = $this->notifynderTranslator->translate($language, $this->items[$key]['name']);
 
                 $this->items[$key]['text'] = $translation;
-            }
-            catch(NotificationTranslationNotFoundException $e)
-            {
+            } catch (NotificationTranslationNotFoundException $e) {
                 $this->items[$key]['text'];
             }
         }
@@ -88,18 +82,14 @@ class NotifynderCollection extends Collection {
      * @param $language (String)
      * @return Collection
      */
-    public function translateFromNotifications( $language )
+    public function translateFromNotifications($language)
     {
-        foreach ($this->items as $key => $item)
-        {
-            try
-            {
-                $translation = $this->notifynderTranslator->translate( $language,$this->items[$key]['body']['name'] );
+        foreach ($this->items as $key => $item) {
+            try {
+                $translation = $this->notifynderTranslator->translate($language, $this->items[$key]['body']['name']);
 
                 $this->items[$key]['body']['text'] = $translation;
-            }
-            catch(NotificationTranslationNotFoundException $e)
-            {
+            } catch (NotificationTranslationNotFoundException $e) {
                 $this->items[$key]['body']['text'];
             }
         }
@@ -120,10 +110,9 @@ class NotifynderCollection extends Collection {
 
         $notifications = [];
 
-        foreach($this->items as $key => $item)
-        {
+        foreach ($this->items as $key => $item) {
             $notifications[$key] = $item;
-            $notifications[$key]['body']['text'] = $parse->parse($item,$item->extra);
+            $notifications[$key]['body']['text'] = $parse->parse($item, $item->extra);
         }
 
         $this->items = $notifications;
@@ -138,4 +127,4 @@ class NotifynderCollection extends Collection {
     {
         return $this->items;
     }
-} 
+}

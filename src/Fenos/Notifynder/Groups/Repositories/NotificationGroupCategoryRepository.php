@@ -9,7 +9,8 @@ use Fenos\Notifynder\Models\NotificationGroup;
  *
  * @package Fenos\Notifynder\Groups\Repositories
  */
-class NotificationGroupCategoryRepository {
+class NotificationGroupCategoryRepository
+{
 
     /**
      * @var NotificationGroup
@@ -23,9 +24,9 @@ class NotificationGroupCategoryRepository {
 
     /**
      * @param \Fenos\Notifynder\Categories\NotifynderCategory $notificationCategory
-     * @param NotificationGroup                                $notificationGropup
+     * @param NotificationGroup                               $notificationGropup
      */
-    function __construct(NotifynderCategory $notificationCategory,
+    public function __construct(NotifynderCategory $notificationCategory,
                          NotificationGroup $notificationGropup)
     {
         $this->notificationCategory = $notificationCategory;
@@ -35,12 +36,12 @@ class NotificationGroupCategoryRepository {
     /**
      * Add a category in a group
      *
-     * @param                      $group_id
-     * @param                      $category_id
+     * @param                                                                                      $group_id
+     * @param                                                                                      $category_id
      * @internal param \Fenos\Notifynder\Models\NotificationCategory $category
      * @return \Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model|static
      */
-    public function addCategoryToGroupById($group_id,$category_id)
+    public function addCategoryToGroupById($group_id, $category_id)
     {
         $group = $this->notificationGropup->find($group_id);
         $group->categories()->attach($category_id);
@@ -58,7 +59,7 @@ class NotificationGroupCategoryRepository {
      */
     public function addCategoryToGroupByName($group_name, $category_name)
     {
-        $group = $this->notificationGropup->where('name',$group_name)->first();
+        $group = $this->notificationGropup->where('name', $group_name)->first();
 
         $category = $this->notificationCategory->findByName($category_name);
 
@@ -77,15 +78,14 @@ class NotificationGroupCategoryRepository {
      */
     public function addMultipleCategoriesToGroup($group_name, $names)
     {
-        $group = $this->notificationGropup->where('name',$group_name)->first();
+        $group = $this->notificationGropup->where('name', $group_name)->first();
 
         $categories = $this->notificationCategory->findByNames($names);
 
-        foreach($categories as $category)
-        {
+        foreach ($categories as $category) {
             $group->categories()->attach($category->id);
         }
 
         return $group;
     }
-} 
+}

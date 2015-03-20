@@ -1,7 +1,6 @@
 <?php namespace Fenos\Notifynder\Notifications\Repositories;
 
 use Fenos\Notifynder\Models\Notification;
-use Fenos\Notifynder\Senders\StoreNotification;
 use Illuminate\Database\DatabaseManager;
 use Illuminate\Database\Connection;
 use Illuminate\Database\Eloquent\Builder;
@@ -12,7 +11,8 @@ use Illuminate\Database\Query\Builder as BuilderDB;
  *
  * @package Fenos\Notifynder\Senders
  */
-class NotificationRepository {
+class NotificationRepository
+{
 
     use PolymorphicRepository;
 
@@ -30,7 +30,7 @@ class NotificationRepository {
      * @param Notification                         $notification
      * @param \Illuminate\Database\DatabaseManager $db
      */
-    function __construct(Notification $notification,
+    public function __construct(Notification $notification,
                          DatabaseManager $db)
     {
         $this->notification = $notification;
@@ -51,7 +51,7 @@ class NotificationRepository {
     /**
      * Save a single notification sent
      *
-     * @param array $info
+     * @param  array  $info
      * @return static
      */
     public function sendSingle(array $info)
@@ -63,7 +63,7 @@ class NotificationRepository {
      * Save multiple notifications sent
      * at once
      *
-     * @param array $info
+     * @param  array $info
      * @return mixed
      */
     public function sendMultiple(array $info)
@@ -74,15 +74,14 @@ class NotificationRepository {
     /**
      * Make Read One Notification
      *
-     * @param Notification $notification
+     * @param  Notification      $notification
      * @return bool|Notification
      */
     public function readOne(Notification $notification)
     {
         $notification->read = 1;
 
-        if ($notification->save())
-        {
+        if ($notification->save()) {
             return $notification;
         }
 
@@ -98,12 +97,12 @@ class NotificationRepository {
      * @param $order
      * @return mixed
      */
-    public function readLimit($to_id,$numbers, $order)
+    public function readLimit($to_id, $numbers, $order)
     {
         return $this->notification->withNotRead()
             ->limit($numbers)
-            ->orderBy('id',$order)
-            ->wherePolymorphic('to_id','to_type',$to_id,$this->entity)
+            ->orderBy('id', $order)
+            ->wherePolymorphic('to_id', 'to_type', $to_id, $this->entity)
             ->update(['read' => 1]);
     }
 
@@ -116,7 +115,7 @@ class NotificationRepository {
     public function readAll($to_id)
     {
         return $this->notification->withNotRead()
-            ->wherePolymorphic('to_id','to_type',$to_id,$this->entity)
+            ->wherePolymorphic('to_id', 'to_type', $to_id, $this->entity)
             ->update(['read' => 1]);
     }
 
@@ -129,7 +128,7 @@ class NotificationRepository {
      */
     public function delete($notification_id)
     {
-        return $this->notification->where('id',$notification_id)->delete();
+        return $this->notification->where('id', $notification_id)->delete();
     }
 
     /**
@@ -143,7 +142,7 @@ class NotificationRepository {
     {
         $query =  $this->db->table('notifications');
 
-        return $this->wherePolymorphic('to_id','to_type',$to_id,$this->entity,$query)->delete();
+        return $this->wherePolymorphic('to_id', 'to_type', $to_id, $this->entity, $query)->delete();
     }
 
     /**
@@ -159,17 +158,19 @@ class NotificationRepository {
     public function deleteLimit($user_id, $number, $order)
     {
         $notifications_id = $this->notification
-            ->wherePolymorphic('to_id','to_type',$user_id,$this->entity)
-            ->orderBy('id',$order)
+            ->wherePolymorphic('to_id', 'to_type', $user_id, $this->entity)
+            ->orderBy('id', $order)
             ->select('id')
             ->limit($number)->get();
 
-        if ( $notifications_id->count() == 0 ) return false;
+        if ($notifications_id->count() == 0) {
+            return false;
+        }
 
         $makeItArray = $notifications_id->toArray();
         $array_id = array_flatten($makeItArray);
 
-        return $this->notification->whereIn('id',$array_id)->delete();
+        return $this->notification->whereIn('id', $array_id)->delete();
     }
 
     /**
@@ -184,36 +185,23 @@ class NotificationRepository {
      */
     public function getNotRead($to_id, $limit, $paginate)
     {
-        if ( is_null($limit) )
-        {
-            $result = $this->notification->with('body','from')
-                ->wherePolymorphic('to_id','to_type',$to_id,$this->entity)
+        if (is_null($limit)) {
+            $result = $this->notification->with('body', 'from')
+                ->wherePolymorphic('to_id', 'to_type', $to_id, $this->entity)
                 ->withNotRead()
-                ->orderBy('read','ASC')
-                ->get()->parse();
-        }
-
-        if ($paginate)
-        {
-            $result = $this->notification->with('body','from')
-                ->wherePolymorphic('to_id','to_type',$to_id,$this->entity)
+                ->orderBy('read', 'ASC')
+                ->get();
+        } else {
+            $result = $this->notification->with('body', 'from')
+                ->wherePolymorphic('to_id', 'to_type', $to_id, $this->entity)
                 ->withNotRead()
-                ->orderBy('read','ASC')
-                ->paginate($limit);
-        }
-        else
-        {
-            $result = $this->notification->with('body','from')
-                ->wherePolymorphic('to_id','to_type',$to_id,$this->entity)
-                ->withNotRead()
+                ->orderBy('read', 'ASC')
                 ->limit($limit)
-                ->orderBy('read','ASC')
-                ->get()->parse();
+                ->get();
         }
 
         return $result;
     }
-
 
     /**
      * Retrive all notifications, not read
@@ -221,35 +209,24 @@ class NotificationRepository {
      * You can also limit the number of
      * Notifications if you don't, it will get all
      *
-     * @param      $to_id
-     * @param null $limit
-     * @param bool $paginate
+     * @param        $to_id
+     * @param  null  $limit
+     * @param  bool  $paginate
      * @return mixed
      */
-    public function getAll($to_id,$limit = null, $paginate = false)
+    public function getAll($to_id, $limit = null, $paginate = false)
     {
-        if ( is_null($limit) )
-        {
-            return $this->notification->with('body','from')
-                ->wherePolymorphic('to_id','to_type',$to_id,$this->entity)
-                ->orderBy('read','ASC')
-                ->get()->parse();
-        }
-
-        if ($paginate)
-        {
-            return $this->notification->with('body','from')
-                ->wherePolymorphic('to_id','to_type',$to_id,$this->entity)
-                ->orderBy('read','ASC')
-                ->paginate($limit);
-        }
-        else
-        {
-            return $this->notification->with('body','from')
-                ->wherePolymorphic('to_id','to_type',$to_id,$this->entity)
-                ->orderBy('read','ASC')
+        if (is_null($limit)) {
+            return $this->notification->with('body', 'from')
+                ->wherePolymorphic('to_id', 'to_type', $to_id, $this->entity)
+                ->orderBy('read', 'ASC')
+                ->get();
+        } else {
+            return $this->notification->with('body', 'from')
+                ->wherePolymorphic('to_id', 'to_type', $to_id, $this->entity)
+                ->orderBy('read', 'ASC')
                 ->limit($limit)
-                ->get()->parse();
+                ->get();
         }
     }
 
@@ -262,9 +239,9 @@ class NotificationRepository {
      */
     public function countNotRead($to_id)
     {
-        return $this->notification->wherePolymorphic('to_id','to_type',$to_id,$this->entity)
+        return $this->notification->wherePolymorphic('to_id', 'to_type', $to_id, $this->entity)
             ->withNotRead()
             ->select($this->db->raw('Count(*) as notRead'))
             ->first();
     }
-} 
+}

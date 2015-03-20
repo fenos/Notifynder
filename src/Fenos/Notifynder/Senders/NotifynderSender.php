@@ -4,15 +4,14 @@ use Fenos\Notifynder\Notifications\NotifynderNotification;
 use Fenos\Notifynder\Notifications\Repositories\NotificationRepository;
 use Fenos\Notifynder\Notifynder;
 use Fenos\Notifynder\Senders\Queue\NotifynderQueue;
-use Illuminate\Config\Repository;
-use Illuminate\Queue\QueueManager;
 
 /**
  * Class NotifynderSender
  *
  * @package Fenos\Notifynder\Senders
  */
-class NotifynderSender {
+class NotifynderSender
+{
 
     /**
      * @var NotifynderSenderFactory
@@ -34,7 +33,7 @@ class NotifynderSender {
      * @param NotifynderNotification  $notification
      * @param NotifynderQueue         $notifynderQueue
      */
-    function __construct(NotifynderSenderFactory $senderFactory,
+    public function __construct(NotifynderSenderFactory $senderFactory,
                          NotifynderNotification $notification,
                          NotifynderQueue $notifynderQueue)
     {
@@ -47,14 +46,13 @@ class NotifynderSender {
      * Delegate the notification to store
      * on the DB
      *
-     * @param array $info
-     * @param null  $category
+     * @param  array $info
+     * @param  null  $category
      * @return mixed
      */
     public function send(array $info, $category = null)
     {
-        if ($this->notifynderQueue->isActive())
-        {
+        if ($this->notifynderQueue->isActive()) {
             return $this->notifynderQueue->push(['info' => $info, 'category' => $category]);
         }
 
@@ -64,8 +62,8 @@ class NotifynderSender {
     /**
      * Send now whichever data passed
      *
-     * @param array $info
-     * @param       $category
+     * @param  array $info
+     * @param        $category
      * @return mixed
      */
     public function sendNow(array $info, $category = null)
@@ -85,13 +83,12 @@ class NotifynderSender {
      */
     public function sendOne(array $info, $category = null)
     {
-        if ($this->notifynderQueue->isActive())
-        {
+        if ($this->notifynderQueue->isActive()) {
             return $this->notifynderQueue->push(['info' => $info, 'category' => $category]);
         }
 
-        return $this->senderFactory->sendSingle($info,$category)
-            ->send($this->notification,$category);
+        return $this->senderFactory->sendSingle($info, $category)
+            ->send($this->notification, $category);
     }
 
     /**
@@ -103,8 +100,7 @@ class NotifynderSender {
      */
     public function sendMultiple(array $info)
     {
-        if ($this->notifynderQueue->isActive())
-        {
+        if ($this->notifynderQueue->isActive()) {
             return $this->notifynderQueue->push(['info' => $info, 'category' => null]);
         }
 
@@ -115,9 +111,9 @@ class NotifynderSender {
      * Send a group of notifications
      * at once
      *
-     * @param Notifynder    $notifynder
-     * @param               $group_name
-     * @param array         $info
+     * @param  Notifynder $notifynder
+     * @param             $group_name
+     * @param  array      $info
      * @return mixed
      */
     public function sendGroup(Notifynder $notifynder, $group_name, $info = [])
@@ -127,6 +123,5 @@ class NotifynderSender {
             $group_name,
             $info
         )->send($this->notification);
-
     }
 }

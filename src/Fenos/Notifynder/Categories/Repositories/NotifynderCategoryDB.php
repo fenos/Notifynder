@@ -9,7 +9,8 @@ use Illuminate\Database\Eloquent\Builder;
  *
  * @package Fenos\Notifynder\Categories\Repositories
  */
-class NotifynderCategoryDB implements CategoryRepository {
+class NotifynderCategoryDB implements CategoryRepository
+{
 
     /**
      * @var NotificationCategory | Builder
@@ -19,7 +20,7 @@ class NotifynderCategoryDB implements CategoryRepository {
     /**
      * @param NotificationCategory $categoryModel
      */
-    function __construct(NotificationCategory $categoryModel)
+    public function __construct(NotificationCategory $categoryModel)
     {
         $this->categoryModel = $categoryModel;
     }
@@ -43,7 +44,7 @@ class NotifynderCategoryDB implements CategoryRepository {
      */
     public function findByName($name)
     {
-        return $this->categoryModel->where('name',$name)->first();
+        return $this->categoryModel->where('name', $name)->first();
     }
 
     /**
@@ -56,13 +57,13 @@ class NotifynderCategoryDB implements CategoryRepository {
      */
     public function findByNames(array $name)
     {
-        return $this->categoryModel->whereIn('name',$name)->get();
+        return $this->categoryModel->whereIn('name', $name)->get();
     }
 
     /**
      * Add a category to the DB
      *
-     * @param array $info
+     * @param  array  $info
      * @return static
      */
     public function add(array $info)
@@ -78,7 +79,7 @@ class NotifynderCategoryDB implements CategoryRepository {
      */
     public function delete($id)
     {
-        return $this->categoryModel->where('id',$id)->delete();
+        return $this->categoryModel->where('id', $id)->delete();
     }
 
     /**
@@ -89,6 +90,6 @@ class NotifynderCategoryDB implements CategoryRepository {
      */
     public function deleteByName($name)
     {
-        return $this->categoryModel->where('name',$name)->delete();
+        return $this->categoryModel->where('name', $name)->delete();
     }
 }

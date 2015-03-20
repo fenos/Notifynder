@@ -4,8 +4,8 @@ use Fenos\Notifynder\Exceptions\NotificationLanguageNotFoundException;
 use Fenos\Notifynder\Exceptions\NotificationTranslationNotFoundException;
 
 /**
-*
-*/
+ *
+ */
 class NotifynderTranslator
 {
     /**
@@ -18,7 +18,7 @@ class NotifynderTranslator
      */
     public $app;
 
-    function __construct()
+    public function __construct()
     {
         $this->app = app();
         $this->loadTranslations();
@@ -41,12 +41,11 @@ class NotifynderTranslator
      * @return mixed
      * @throws \Fenos\Notifynder\Exceptions\NotificationTranslationNotFoundException
      */
-    public function translate($language,$name)
+    public function translate($language, $name)
     {
         $language = $this->getLanguage($language);
 
-        if ( array_key_exists($name, $language) )
-        {
+        if (array_key_exists($name, $language)) {
             return $language[$name];
         }
 
@@ -62,8 +61,7 @@ class NotifynderTranslator
      */
     public function getLanguage($language)
     {
-        if ( array_key_exists($language, $this->languages) )
-        {
+        if (array_key_exists($language, $this->languages)) {
             return $this->languages[$language];
         }
 
@@ -71,14 +69,13 @@ class NotifynderTranslator
     }
 
     /**
-    * Load the array content the translations
-    *
-    * @return Array
-    */
+     * Load the array content the translations
+     *
+     * @return Array
+     */
     public function loadTranslations()
     {
-        if ( !is_null( $this->languages ) )
-        {
+        if (!is_null($this->languages)) {
             return $this->languages;
         }
 

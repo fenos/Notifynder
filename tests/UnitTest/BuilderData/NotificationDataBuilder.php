@@ -2,15 +2,15 @@
 /**
  * Created by Fabrizio Fenoglio.
  */
-
-class NotificationDataBuilder {
+class NotificationDataBuilder
+{
 
     /**
      * @var int
      */
     protected static $times;
 
-    function __construct($times = null)
+    public function __construct($times = null)
     {
         self::$times = $times;
     }
@@ -31,39 +31,37 @@ class NotificationDataBuilder {
      */
     public static function singleNotificationData()
     {
-         return self::dataNotification(
-                    rand(10,30),
+        return self::dataNotification(
+                    rand(10, 30),
                     str_random(12),
-                    rand(31,42),
+                    rand(31, 42),
                     str_random(12),
-                    rand(43,60),
+                    rand(43, 60),
                     str_random(24),
                     str_random(12)
                 );
     }
 
     /**
-     * @param      $from_id
-     * @param      $from_type
-     * @param      $to_id
-     * @param      $to_type
-     * @param      $category_id
-     * @param      $url
-     * @param null $extra
+     * @param        $from_id
+     * @param        $from_type
+     * @param        $to_id
+     * @param        $to_type
+     * @param        $category_id
+     * @param        $url
+     * @param  null  $extra
      * @return array
      */
-    public static function dataNotification($from_id, $from_type,$to_id,$to_type,$category_id, $url,$extra = null)
+    public static function dataNotification($from_id, $from_type, $to_id, $to_type, $category_id, $url, $extra = null)
     {
         $times = self::$times;
 
         $data = [];
 
-        $date = new \DateTime;
+        $date = new \DateTime();
 
-        if ( !is_null($times))
-        {
-            for($i = 0; $i <= $times; $i++)
-            {
+        if (!is_null($times)) {
+            for ($i = 0; $i <= $times; $i++) {
                 $data[$i] = [
                     'from_id'     => $from_id,
                     'from_type'   => $from_type,
@@ -74,7 +72,7 @@ class NotificationDataBuilder {
                     'read'        => 0,
                     'extra'       => $extra,
                     'created_at'  => $date,
-                    'updated_at'  => $date
+                    'updated_at'  => $date,
                 ];
             }
 
@@ -91,24 +89,24 @@ class NotificationDataBuilder {
             'read'        => 0,
             'extra'       => $extra,
             'created_at'  => $date,
-            'updated_at'  => $date
+            'updated_at'  => $date,
         ];
     }
 
     /**
      * Data for multiple notification
      *
-     * @param int $times
+     * @param  int   $times
      * @return array
      */
     public static function multipleNotificationData($times = 3)
     {
         $array = self::times($times)->dataNotification(
-            rand(10,30),
+            rand(10, 30),
             str_random(12),
-            rand(31,42),
+            rand(31, 42),
             str_random(12),
-            rand(43,60),
+            rand(43, 60),
             str_random(20),
             str_random(12)
         );

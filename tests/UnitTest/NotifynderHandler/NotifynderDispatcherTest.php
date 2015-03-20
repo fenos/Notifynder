@@ -2,20 +2,20 @@
 /**
  * Created by Fabrizio Fenoglio.
  */
-
 use Fenos\Notifynder\Handler\NotifynderDispatcher;
 use Mockery as m;
 
-class NotifynderDispatcherMock extends NotifynderDispatcher {
+class NotifynderDispatcherMock extends NotifynderDispatcher
+{
 
     public function postAdd()
     {
         return "addPost";
     }
-
 }
 
-class NotifynderDispatcherTest extends PHPUnit_Framework_TestCase {
+class NotifynderDispatcherTest extends PHPUnit_Framework_TestCase
+{
 
     /**
      * @var NotifynderDispatcherMock
@@ -60,9 +60,9 @@ class NotifynderDispatcherTest extends PHPUnit_Framework_TestCase {
              ->with('postAdd')
              ->andReturn(true);
 
-        $result = $mockDispatcher->handle(['eventName' => $eventName],$categoryName,$notifynder);
+        $result = $mockDispatcher->handle(['eventName' => $eventName], $categoryName, $notifynder);
 
-        $this->assertEquals('addPost',$result);
+        $this->assertEquals('addPost', $result);
     }
 
     /** @test */
@@ -80,7 +80,6 @@ class NotifynderDispatcherTest extends PHPUnit_Framework_TestCase {
 
         $result = $this->notifynderDispatcher->getEventName($nameEvent);
 
-        $this->assertEquals('postAdd',$result);
+        $this->assertEquals('postAdd', $result);
     }
 }
- 

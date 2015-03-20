@@ -2,7 +2,8 @@
 
 use Laracasts\TestDummy\Factory as TestDummy;
 
-abstract class IntegrationDBTest extends Orchestra\Testbench\TestCase {
+abstract class IntegrationDBTest extends Orchestra\Testbench\TestCase
+{
 
     /**
      * Add package Provider
@@ -24,7 +25,7 @@ abstract class IntegrationDBTest extends Orchestra\Testbench\TestCase {
     protected function getPackageAliases()
     {
         return array(
-            'Notifynder' => 'Fenos\Notifynder\Facades\Notifynder'
+            'Notifynder' => 'Fenos\Notifynder\Facades\Notifynder',
         );
     }
 
@@ -36,7 +37,7 @@ abstract class IntegrationDBTest extends Orchestra\Testbench\TestCase {
     protected function getEnvironmentSetUp($app)
     {
         // reset base path to point to our package's src directory
-        $app['path.base'] = __DIR__ . '/../../src';
+        $app['path.base'] = __DIR__.'/../../src';
 
         $app['config']->set('database.default', 'testbench');
         $app['config']->set('database.connections.testbench', array(
@@ -59,7 +60,7 @@ abstract class IntegrationDBTest extends Orchestra\Testbench\TestCase {
         $artisan->call('migrate', array(
             '--database' => 'testbench',
             '--path' => 'migrations',
-            '--bench'    => 'fenos/notifynder'
+            '--bench'    => 'fenos/notifynder',
         ));
 
         // I created the migration on the tests directory
@@ -67,12 +68,11 @@ abstract class IntegrationDBTest extends Orchestra\Testbench\TestCase {
         $artisan->call('migrate', array(
             '--database' => 'testbench',
             '--path'     => '../tests/Integration/tests_migrations',
-            '--bench'    => 'fenos/notifynder'
+            '--bench'    => 'fenos/notifynder',
         ));
 
         // Change path of the test dummy directory
         // it now search in the tests directory of the package
         TestDummy::setFixtures(base_path()."/../tests");
     }
-
-} 
+}
