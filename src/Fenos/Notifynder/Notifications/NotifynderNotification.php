@@ -3,6 +3,7 @@
 use Fenos\Notifynder\Exceptions\NotificationNotFoundException;
 use Fenos\Notifynder\Notifications\Repositories\NotificationRepository;
 use Fenos\Notifynder\Senders\StoreNotification;
+use Illuminate\Support\Facades\Paginator;
 
 /**
  * Class NotifynderNotification
@@ -172,11 +173,19 @@ class NotifynderNotification implements StoreNotification {
      * @param $paginate
      * @return mixed
      */
-    public function getAll($to_id,$limit,$paginate)
+    public function getAll($to_id, $limit = null, $paginate = false)
     {
-        $notifications =  $this->notifynderRepo->entity($this->entity);
-
-        return $notifications->getAll($to_id,$limit,$paginate);
+        $notifications = $this->notifynderRepo->getAll(
+            $to_id, $this->entity,
+            $limit, $paginate
+        );
+        
+        if ($paginate) {
+            return Paginator::make(
+                $notifications->parse()->getCollectionItems(), $limit
+            );
+        }
+        return $notifications->parse();
     }
 
     /**
