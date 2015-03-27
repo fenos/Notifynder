@@ -2,15 +2,16 @@
 /**
  * Created by Fabrizio Fenoglio.
  */
+
 namespace Fenos\Notifynder\Senders;
+
 
 /**
  * Class SendMultiple
  *
  * @package Fenos\Notifynder\Senders
  */
-class SendMultiple implements Sender
-{
+class SendMultiple implements Sender {
 
     /**
      * @var array
@@ -20,7 +21,7 @@ class SendMultiple implements Sender
     /**
      * @param $infoNotifications
      */
-    public function __construct($infoNotifications)
+    function __construct($infoNotifications)
     {
         $this->infoNotifications = $infoNotifications;
     }
@@ -28,11 +29,11 @@ class SendMultiple implements Sender
     /**
      * Send multiple notifications
      *
-     * @param  StoreNotification $storeNotification
+     * @param StoreNotification $storeNotification
      * @return mixed
      */
     public function send(StoreNotification $storeNotification)
     {
         return $storeNotification->sendMultiple($this->infoNotifications);
     }
-}
+} 

@@ -1,7 +1,6 @@
 <?php namespace Fenos\Notifynder\Handler;
 
-abstract class NotifynderDispatcher
-{
+abstract class NotifynderDispatcher {
 
     /**
      * Handle the event to the given
@@ -11,17 +10,18 @@ abstract class NotifynderDispatcher
      * @param $notifynder
      * @return mixed
      */
-    public function handle($event, $category_name, $notifynder)
+    public function handle($event,$category_name,$notifynder)
     {
         $eventName = $this->getEventName($event['eventName']);
 
-        if ($this->listenerIsRegistered($eventName)) {
+        if ($this->listenerIsRegistered($eventName))
+        {
             unset($event['eventName']);
 
-            return call_user_func_array([$this, $eventName], [$event, $category_name, $notifynder]);
+            return call_user_func_array([$this,$eventName],[$event,$category_name,$notifynder]);
         }
 
-        return;
+        return null;
     }
 
     /**
@@ -49,12 +49,13 @@ abstract class NotifynderDispatcher
      */
     public function getEventName($event)
     {
-        $eventNameSpace = explode('.', $event);
+        $eventNameSpace = explode('.',$event);
 
         array_shift($eventNameSpace);
 
-        $nameMethod = implode('_', $eventNameSpace);
+        $nameMethod = implode('_',$eventNameSpace);
 
         return camel_case($nameMethod);
     }
-}
+
+} 

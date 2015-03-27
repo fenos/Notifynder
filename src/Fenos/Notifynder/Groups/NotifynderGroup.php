@@ -9,8 +9,7 @@ use Fenos\Notifynder\Groups\Repositories\NotificationGroupsRepository;
  *
  * @package Fenos\Notifynder\Groups
  */
-class NotifynderGroup
-{
+class NotifynderGroup {
 
     /**
      * @var NotificationGroupCategoryRepository
@@ -26,7 +25,7 @@ class NotifynderGroup
      * @param NotificationGroupsRepository        $groupRepo
      * @param NotificationGroupCategoryRepository $notificationPivot
      */
-    public function __construct(NotificationGroupsRepository $groupRepo,
+    function __construct(NotificationGroupsRepository $groupRepo,
                          NotificationGroupCategoryRepository$notificationPivot)
     {
         $this->groupRepo = $groupRepo;
@@ -44,7 +43,8 @@ class NotifynderGroup
     {
         $group = $this->groupRepo->find($group_id);
 
-        if (is_null($group)) {
+        if ( is_null($group) )
+        {
             throw new NotifynderGroupNotFoundException("Group Not Found");
         }
 
@@ -62,7 +62,8 @@ class NotifynderGroup
     {
         $group = $this->groupRepo->findByName($group_name);
 
-        if (is_null($group)) {
+        if ( is_null($group) )
+        {
             throw new NotifynderGroupNotFoundException("Group Not Found");
         }
 
@@ -79,7 +80,7 @@ class NotifynderGroup
      */
     public function addCategoryToGroupById($gorup_id, $category_id)
     {
-        return $this->notificationPivot->addCategoryToGroupById($gorup_id, $category_id);
+        return $this->notificationPivot->addCategoryToGroupById($gorup_id,$category_id);
     }
 
     /**
@@ -92,7 +93,7 @@ class NotifynderGroup
      */
     public function addCategoryToGroupByName($gorup_name, $category_name)
     {
-        return $this->notificationPivot->addCategoryToGroupByName($gorup_name, $category_name);
+        return $this->notificationPivot->addCategoryToGroupByName($gorup_name,$category_name);
     }
 
     /**
@@ -110,7 +111,7 @@ class NotifynderGroup
 
         $names = (is_array($names[1])) ? $names[1] : $names;
 
-        return $this->notificationPivot->addMultipleCategoriesToGroup($group_name, $names);
+        return $this->notificationPivot->addMultipleCategoriesToGroup($group_name,$names);
     }
 
     /**
@@ -122,7 +123,8 @@ class NotifynderGroup
      */
     public function addGroup($name)
     {
-        if ($this->isStringWithDots($name)) {
+        if ($this->isStringWithDots($name))
+        {
             return $this->groupRepo->create($name);
         }
 
@@ -137,6 +139,6 @@ class NotifynderGroup
      */
     public function isStringWithDots($name)
     {
-        return strpos($name, '.');
+        return strpos($name,'.');
     }
-}
+} 

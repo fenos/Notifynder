@@ -2,14 +2,14 @@
 /**
  * Created by Fabrizio Fenoglio.
  */
+
 use Fenos\Notifynder\Categories\NotifynderCategory;
 use Mockery as m;
 
 /**
  * Class NotifynderCategoryTest
  */
-class NotifynderCategoryTest extends PHPUnit_Framework_TestCase
-{
+class NotifynderCategoryTest extends PHPUnit_Framework_TestCase {
 
     /**
      * @var NotifynderCategory
@@ -55,7 +55,7 @@ class NotifynderCategoryTest extends PHPUnit_Framework_TestCase
 
         $result = $this->notifynderCategory->findByName($nameCategory);
 
-        $this->assertInstanceOf('Fenos\Notifynder\Models\NotificationCategory', $result);
+        $this->assertInstanceOf('Fenos\Notifynder\Models\NotificationCategory',$result);
     }
 
     /** @test */
@@ -72,7 +72,7 @@ class NotifynderCategoryTest extends PHPUnit_Framework_TestCase
 
         $result = $this->notifynderCategory->findByNames($namesCategory);
 
-        $this->assertInstanceOf('Fenos\Notifynder\Models\NotificationCategory', $result);
+        $this->assertInstanceOf('Fenos\Notifynder\Models\NotificationCategory',$result);
     }
 
     /**
@@ -105,7 +105,7 @@ class NotifynderCategoryTest extends PHPUnit_Framework_TestCase
 
         $result = $this->notifynderCategory->find($idCategory);
 
-        $this->assertInstanceOf('Fenos\Notifynder\Models\NotificationCategory', $result);
+        $this->assertInstanceOf('Fenos\Notifynder\Models\NotificationCategory',$result);
     }
 
     /**
@@ -138,7 +138,7 @@ class NotifynderCategoryTest extends PHPUnit_Framework_TestCase
 
         $result = $this->notifynderCategory->add($categoryInfo);
 
-        $this->assertInstanceOf('Fenos\Notifynder\Models\NotificationCategory', $result);
+        $this->assertInstanceOf('Fenos\Notifynder\Models\NotificationCategory',$result);
     }
 
     /** @test */
@@ -171,3 +171,4 @@ class NotifynderCategoryTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($result);
     }
 }
+ 

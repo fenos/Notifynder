@@ -6,13 +6,13 @@ namespace Fenos\Notifynder\Categories\Repositories;
 
 use Fenos\Notifynder\Exceptions\CategoryNotFoundException;
 
+
 /**
  * Class NotifynderCategoryDB
  *
  * @package Fenos\Notifynder\Categories\Repositories
  */
-interface CategoryRepository
-{
+interface CategoryRepository {
 
     /**
      * Delete category by ID
@@ -49,7 +49,7 @@ interface CategoryRepository
     /**
      * Add a category to the DB
      *
-     * @param  array                                         $info
+     * @param array $info
      * @return \Fenos\Notifynder\Models\NotificationCategory
      */
     public function add(array $info);

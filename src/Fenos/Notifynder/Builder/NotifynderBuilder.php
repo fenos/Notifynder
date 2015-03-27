@@ -1,6 +1,7 @@
 <?php namespace Fenos\Notifynder\Builder;
 
 use Carbon\Carbon;
+use App;
 use Fenos\Notifynder\Categories\NotifynderCategory;
 use Fenos\Notifynder\Exceptions\NotificationBuilderException;
 use Traversable;
@@ -8,8 +9,7 @@ use Traversable;
 /**
  * Class NotifynderBuilder
  */
-class NotifynderBuilder
-{
+class NotifynderBuilder {
 
     use BuilderRules,ObjectHelper;
 
@@ -53,8 +53,10 @@ class NotifynderBuilder
      */
     private $notifynderCategory;
 
-    public function __construct(NotifynderCategory $notifynderCategory)
+
+    function __construct(NotifynderCategory $notifynderCategory)
     {
+
         $this->notifynderCategory = $notifynderCategory;
     }
 
@@ -71,7 +73,8 @@ class NotifynderBuilder
 
         $builtArray = $this->getPropertiesToArray($this);
 
-        if ($this->hasRequiredFields($builtArray)) {
+        if ($this->hasRequiredFields($builtArray))
+        {
             return $builtArray;
         }
 
@@ -88,7 +91,7 @@ class NotifynderBuilder
     {
         $from = func_get_args();
 
-        $this->setEntityAction($from, 'from');
+        $this->setEntityAction($from,'from');
 
         return $this;
     }
@@ -102,7 +105,7 @@ class NotifynderBuilder
     {
         $from = func_get_args();
 
-        $this->setEntityAction($from, 'to');
+        $this->setEntityAction($from,'to');
 
         return $this;
     }
@@ -131,7 +134,9 @@ class NotifynderBuilder
      */
     public function category($category)
     {
-        if (is_string($category)) {
+
+        if (is_string($category))
+        {
             $category = $this->notifynderCategory->findByName($category)->id();
         }
 
@@ -146,14 +151,15 @@ class NotifynderBuilder
      * the generation of your array
      *
      *
-     * @param  callable $closure
-     * @return array    | false
+     * @param callable $closure
+     * @return array | false
      */
     public function raw(\Closure $closure)
     {
         $builder = $closure($this);
 
-        if (! is_null($builder)) {
+        if (! is_null($builder))
+        {
             return $this->getArray();
         }
 
@@ -179,19 +185,22 @@ class NotifynderBuilder
      * Loop the datas for create
      * multi notifications array
      *
-     * @param           $dataToIterate
-     * @param  callable $builder
+     * @param          $dataToIterate
+     * @param callable $builder
      * @return $this
      */
-    public function loop($dataToIterate, \Closure $builder)
+    public function loop($dataToIterate,\Closure $builder)
     {
-        if ($this->isIterable($dataToIterate)) {
+        if ($this->isIterable($dataToIterate))
+        {
             $arrayOfData = [];
 
-            foreach ($dataToIterate as $key => $data) {
+            foreach($dataToIterate as $key => $data)
+            {
                 $dataBuilt = $builder($this, $key, $data);
 
-                if ($dataBuilt) {
+                if ( $dataBuilt )
+                {
                     $arrayOfData[] = $this->getArray();
                 }
             }
@@ -220,18 +229,20 @@ class NotifynderBuilder
      * @param $property
      * @return array
      */
-    public function setEntityAction($from, $property)
+    public function setEntityAction($from,$property)
     {
         // Check if has the entity as parameter
         // it should be the firstOne
-        if ($this->hasEntity($from)) {
+        if ($this->hasEntity($from))
+        {
             $this->isString($from[0]);
             $this->isNumeric($from[1]);
 
             return $this->{$property} = ["{$property}_type" => $from[0], "{$property}_id" => $from[1]];
-        } else {
-            $this->isNumeric($from[0]);
 
+        } else
+        {
+            $this->isNumeric($from[0]);
             return $this->{$property} = ["{$property}_id" => $from[0]];
         }
     }
@@ -241,7 +252,7 @@ class NotifynderBuilder
      * it means that you spefied the entity
      * over then the id
      *
-     * @param  array $info
+     * @param array $info
      * @return bool
      */
     public function hasEntity(array $info)

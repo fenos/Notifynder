@@ -9,14 +9,13 @@ use ReflectionProperty;
  *
  * @package Fenos\Notifynder\Builder
  */
-trait ObjectHelper
-{
+trait ObjectHelper {
 
     /**
      * Set properties of a object
      * in an array
      *
-     * @param        $command
+     * @param       $command
      * @return array
      */
     public function getPropertiesToArray($command)
@@ -25,7 +24,8 @@ trait ObjectHelper
 
         $propertiesInArray = [];
 
-        foreach ($propertiesReflection as $property) {
+        foreach($propertiesReflection as $property)
+        {
             $nameProperty = $property->getName();
 
             $valuesProperty = $command->{$nameProperty};
@@ -58,16 +58,21 @@ trait ObjectHelper
      */
     public function setPropertyArray($valuesProperty, $properties, $nameProperty)
     {
-        if (is_array($valuesProperty)) {
-            foreach ($valuesProperty as $key => $value) {
+        if (is_array($valuesProperty))
+        {
+            foreach ($valuesProperty as $key => $value)
+            {
                 $properties[$key] = $value;
             }
 
             return $properties;
-        } else {
+
+        } else
+        {
             $properties[$nameProperty] = $valuesProperty;
 
             return $properties;
         }
     }
-}
+
+} 

@@ -8,8 +8,7 @@ use Fenos\Notifynder\Exceptions\CategoryNotFoundException;
  *
  * @package Fenos\Notifynder\Categories
  */
-class NotifynderCategory
-{
+class NotifynderCategory {
 
     /**
      * @var CategoryRepository
@@ -19,7 +18,7 @@ class NotifynderCategory
     /**
      * @param CategoryRepository $categoryRepo
      */
-    public function __construct(CategoryRepository $categoryRepo)
+    function __construct(CategoryRepository $categoryRepo)
     {
         $this->categoryRepo = $categoryRepo;
     }
@@ -35,7 +34,8 @@ class NotifynderCategory
     {
         $category = $this->categoryRepo->findByName($name);
 
-        if (is_null($category)) {
+        if ( is_null($category))
+        {
             throw new CategoryNotFoundException("Category Not Found");
         }
 
@@ -54,7 +54,8 @@ class NotifynderCategory
     {
         $category = $this->categoryRepo->findByNames($name);
 
-        if (count($category) == 0) {
+        if ( count($category) == 0)
+        {
             throw new CategoryNotFoundException("Category Not Found");
         }
 
@@ -72,7 +73,8 @@ class NotifynderCategory
     {
         $category = $this->categoryRepo->find($id);
 
-        if (is_null($category)) {
+        if ( is_null($category))
+        {
             throw new CategoryNotFoundException("Category Not Found");
         }
 
@@ -82,7 +84,7 @@ class NotifynderCategory
     /**
      * Add a category to the DB
      *
-     * @param  array                                         $info
+     * @param array $info
      * @return \Fenos\Notifynder\Models\NotificationCategory
      */
     public function add(array $info)

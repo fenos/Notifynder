@@ -8,8 +8,7 @@ use Illuminate\Database\Eloquent\Builder;
  *
  * @package Fenos\Notifynder\Groups\Repositories
  */
-class NotificationGroupsRepository
-{
+class NotificationGroupsRepository {
 
     /**
      * @var NotificationGroup | Builder
@@ -19,7 +18,7 @@ class NotificationGroupsRepository
     /**
      * @param NotificationGroup $groupModel
      */
-    public function __construct(NotificationGroup $groupModel)
+    function __construct(NotificationGroup $groupModel)
     {
         $this->groupModel = $groupModel;
     }
@@ -43,7 +42,7 @@ class NotificationGroupsRepository
      */
     public function findByName($name)
     {
-        return $this->groupModel->where('name', $name)->first();
+        return $this->groupModel->where('name',$name)->first();
     }
 
     /**
@@ -65,6 +64,6 @@ class NotificationGroupsRepository
      */
     public function delete($group_id)
     {
-        return  $this->groupModel->where('id', $group_id)->delete();
+        return  $this->groupModel->where('id',$group_id)->delete();
     }
 }

@@ -3,8 +3,7 @@
 use Fenos\Notifynder\Senders\SendMultiple;
 use Mockery as m;
 
-class SendMultipleTest extends PHPUnit_Framework_TestCase
-{
+class SendMultipleTest extends PHPUnit_Framework_TestCase {
 
     /**
      * @var SendMultiple
@@ -46,6 +45,7 @@ class SendMultipleTest extends PHPUnit_Framework_TestCase
 
         $result = $this->sendMultiple->send($storeNotification);
 
-        $this->assertInstanceOf('Fenos\Notifynder\Models\Notification', $result);
+        $this->assertInstanceOf('Fenos\Notifynder\Models\Notification',$result);
     }
 }
+ 

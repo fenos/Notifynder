@@ -25,14 +25,15 @@ class NotifynderParse
      * @param $extra
      * @return mixed
      */
-    public function parse($item, $extra)
+    public function parse($item,$extra)
     {
         $body = $item->body->text;
 
         $valuesToParse = $this->getValues($body);
 
-        if ($valuesToParse > 0) {
-            return $this->replaceSpecialValues($valuesToParse, $item, $body, $extra);
+        if ($valuesToParse > 0)
+        {
+            return $this->replaceSpecialValues($valuesToParse,$item,$body,$extra);
         }
     }
 
@@ -45,9 +46,10 @@ class NotifynderParse
      * @param $extra
      * @return mixed
      */
-    public function replaceSpecialValues($valuesToParse, $item, $body, $extra)
+    public function replaceSpecialValues($valuesToParse,$item,$body,$extra)
     {
-        foreach ($valuesToParse as $value) {
+        foreach($valuesToParse as $value)
+        {
             // get an array of nested values, means that there is a relations
             // in progress
             $value_user = explode('.', $value);
@@ -55,14 +57,14 @@ class NotifynderParse
             // get name relations
             $relation = array_shift($value_user);
 
-            if (strpos($value, $relation.'.') !== false) {
-                // yes
-
-                $body = $this->insertValuesRelation($value_user, $relation, $body, $item);
+            if ( strpos($value, $relation . '.') !== false ) // yes
+            {
+                $body = $this->insertValuesRelation($value_user, $relation,$body,$item);
             }
 
-            if (! is_null($extra)) {
-                $body = $this->replaceExtraParameter($value, $body, $extra);
+            if( ! is_null($extra))
+            {
+                $body = $this->replaceExtraParameter($value,$body,$extra);
             }
         }
 
@@ -78,11 +80,12 @@ class NotifynderParse
      * @param $item
      * @return mixed
      */
-    public function insertValuesRelation($value_user, $relation, $body, $item)
+    public function insertValuesRelation($value_user, $relation,$body, $item)
     {
-        foreach ($value_user as $value) {
+        foreach($value_user as $value)
+        {
             $body = preg_replace(
-                "{{".$relation.".".$value."}}",
+                "{{" . $relation . "." . $value . "}}",
                 $item[$relation][$value],
                 $body
             );
@@ -98,7 +101,7 @@ class NotifynderParse
      * @param $body
      * @return mixed
      */
-    public function replaceExtraParameter($value, $body, $extra)
+    public function replaceExtraParameter($value,$body,$extra)
     {
         return $item['body']['text'] = preg_replace(
             "{{".$value."}}",
@@ -118,7 +121,6 @@ class NotifynderParse
     {
         $values = [];
         preg_match_all(self::RULE, $body, $values);
-
         return $values[1];
     }
 }

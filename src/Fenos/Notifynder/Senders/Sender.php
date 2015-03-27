@@ -4,18 +4,18 @@
  */
 namespace Fenos\Notifynder\Senders;
 
+
 /**
  * Class SendMultiple
  *
  * @package Fenos\Notifynder\Senders
  */
-interface Sender
-{
+interface Sender {
 
     /**
      * Send multiple notifications
      *
-     * @param  StoreNotification $storeNotification
+     * @param StoreNotification $storeNotification
      * @return mixed
      */
     public function send(StoreNotification $storeNotification);

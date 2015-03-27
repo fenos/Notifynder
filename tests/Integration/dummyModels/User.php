@@ -2,7 +2,8 @@
 /**
  * Created by Fabrizio Fenoglio.
  */
-namespace dummyModels;
+
+namespace DummyModels;
 
 use Illuminate\Auth\Reminders\RemindableInterface;
 use Illuminate\Auth\Reminders\RemindableTrait;
@@ -10,8 +11,7 @@ use Illuminate\Auth\UserInterface;
 use Illuminate\Auth\UserTrait;
 use Illuminate\Database\Eloquent\Model;
 
-class User extends Model implements UserInterface, RemindableInterface
-{
+class User extends Model implements UserInterface, RemindableInterface {
 
     use UserTrait, RemindableTrait;
 

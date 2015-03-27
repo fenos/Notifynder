@@ -6,8 +6,7 @@ use Mockery as m;
 /**
  * Class NotifynderBuilderTest
  */
-class NotifynderUnitBuilderTest extends PHPUnit_Framework_TestCase
-{
+class NotifynderUnitBuilderTest extends PHPUnit_Framework_TestCase {
 
     /**
      * @var NotifynderBuilder
@@ -37,7 +36,7 @@ class NotifynderUnitBuilderTest extends PHPUnit_Framework_TestCase
     /** @test */
     public function it_get_the_built_array_adding_the_timeStamp()
     {
-        $mockBuilder = m::mock('Fenos\Notifynder\Builder\NotifynderBuilder[setDate,getPropertiesToArray,hasRequiredFields]', [$this->mockCategory]);
+        $mockBuilder = m::mock('Fenos\Notifynder\Builder\NotifynderBuilder[setDate,getPropertiesToArray,hasRequiredFields]',[$this->mockCategory]);
 
         $mockBuilder->shouldReceive('setDate')
              ->once()
@@ -58,7 +57,7 @@ class NotifynderUnitBuilderTest extends PHPUnit_Framework_TestCase
 
         $result = $mockBuilder->getArray();
 
-        $this->assertEquals($arrayGenerated, $result);
+        $this->assertEquals($arrayGenerated,$result);
     }
 
     /**
@@ -67,7 +66,7 @@ class NotifynderUnitBuilderTest extends PHPUnit_Framework_TestCase
      * */
     public function it_get_the_built_array_adding_the_timeStamp_but_it_missing_required_data()
     {
-        $mockBuilder = m::mock('Fenos\Notifynder\Builder\NotifynderBuilder[setDate,getPropertiesToArray,hasRequiredFields]', [$this->mockCategory]);
+        $mockBuilder = m::mock('Fenos\Notifynder\Builder\NotifynderBuilder[setDate,getPropertiesToArray,hasRequiredFields]',[$this->mockCategory]);
 
         $mockBuilder->shouldReceive('setDate')
             ->once()
@@ -94,16 +93,16 @@ class NotifynderUnitBuilderTest extends PHPUnit_Framework_TestCase
     {
         $jhon = 1;
 
-        $mockBuilder = m::mock('Fenos\Notifynder\Builder\NotifynderBuilder[setEntityAction]', [$this->mockCategory]);
+        $mockBuilder = m::mock('Fenos\Notifynder\Builder\NotifynderBuilder[setEntityAction]',[$this->mockCategory]);
 
         $mockBuilder->shouldReceive('setEntityAction')
              ->once()
-             ->with([0 => $jhon], 'from')
+             ->with([0 => $jhon],'from')
              ->andReturn(['from' => 'jhon']);
 
         $result = $mockBuilder->from($jhon);
 
-        $this->assertInstanceOf('Fenos\Notifynder\Builder\NotifynderBuilder', $result);
+        $this->assertInstanceOf('Fenos\Notifynder\Builder\NotifynderBuilder',$result);
     }
 
     /** @test */
@@ -111,16 +110,16 @@ class NotifynderUnitBuilderTest extends PHPUnit_Framework_TestCase
     {
         $elis = 1;
 
-        $mockBuilder = m::mock('Fenos\Notifynder\Builder\NotifynderBuilder[setEntityAction]', [$this->mockCategory]);
+        $mockBuilder = m::mock('Fenos\Notifynder\Builder\NotifynderBuilder[setEntityAction]',[$this->mockCategory]);
 
         $mockBuilder->shouldReceive('setEntityAction')
             ->once()
-            ->with([0 => $elis], 'to')
+            ->with([0 => $elis],'to')
             ->andReturn(['to' => 'jhon']);
 
         $result = $mockBuilder->to($elis);
 
-        $this->assertInstanceOf('Fenos\Notifynder\Builder\NotifynderBuilder', $result);
+        $this->assertInstanceOf('Fenos\Notifynder\Builder\NotifynderBuilder',$result);
     }
 
     /** @test */
@@ -128,7 +127,7 @@ class NotifynderUnitBuilderTest extends PHPUnit_Framework_TestCase
     {
         $url = 1;
 
-        $mockBuilder = m::mock('Fenos\Notifynder\Builder\NotifynderBuilder[isString]', [$this->mockCategory]);
+        $mockBuilder = m::mock('Fenos\Notifynder\Builder\NotifynderBuilder[isString]',[$this->mockCategory]);
 
         $mockBuilder->shouldReceive('isString')
             ->once()
@@ -137,7 +136,7 @@ class NotifynderUnitBuilderTest extends PHPUnit_Framework_TestCase
 
         $result = $mockBuilder->url($url);
 
-        $this->assertInstanceOf('Fenos\Notifynder\Builder\NotifynderBuilder', $result);
+        $this->assertInstanceOf('Fenos\Notifynder\Builder\NotifynderBuilder',$result);
     }
 
     /** @test */
@@ -147,7 +146,7 @@ class NotifynderUnitBuilderTest extends PHPUnit_Framework_TestCase
 
         $result = $this->notifynderBuilder->category($category);
 
-        $this->assertInstanceOf('Fenos\Notifynder\Builder\NotifynderBuilder', $result);
+        $this->assertInstanceOf('Fenos\Notifynder\Builder\NotifynderBuilder',$result);
     }
 
     /** @test */
@@ -155,7 +154,7 @@ class NotifynderUnitBuilderTest extends PHPUnit_Framework_TestCase
     {
         $category = "test";
 
-        $mockBuilder = m::mock('Fenos\Notifynder\Builder\NotifynderBuilder[isString]', [$this->mockCategory]);
+        $mockBuilder = m::mock('Fenos\Notifynder\Builder\NotifynderBuilder[isString]',[$this->mockCategory]);
 
         $categoryModel = m::mock('Fenos\Notifynder\Models\NotificationjCategory');
 
@@ -171,33 +170,33 @@ class NotifynderUnitBuilderTest extends PHPUnit_Framework_TestCase
 
         $result = $mockBuilder->category($category);
 
-        $this->assertInstanceOf('Fenos\Notifynder\Builder\NotifynderBuilder', $result);
+        $this->assertInstanceOf('Fenos\Notifynder\Builder\NotifynderBuilder',$result);
     }
 
     /** @test */
     public function it_allow_to_build_the_array_in_a_closure_for_more_flexibility()
     {
-        $mockBuilder = m::mock('Fenos\Notifynder\Builder\NotifynderBuilder[getArray]', [$this->mockCategory]);
+        $mockBuilder = m::mock('Fenos\Notifynder\Builder\NotifynderBuilder[getArray]',[$this->mockCategory]);
 
         $mockBuilder->shouldReceive('getArray')
              ->once()
              ->with()
              ->andReturn(['array' => 1]);
 
-        $result = $mockBuilder->raw(function ($builder) {
+        $result = $mockBuilder->raw(function($builder){
            return ['array'];
         });
 
-        $this->assertEquals(['array' => 1], $result);
+        $this->assertEquals(['array' => 1],$result);
     }
 
     /** @test */
     public function it_allow_to_build_the_array_in_a_closure_for_more_flexibility_returning_null()
     {
-        $mockBuilder = m::mock('Fenos\Notifynder\Builder\NotifynderBuilder[getArray]', [$this->mockCategory]);
+        $mockBuilder = m::mock('Fenos\Notifynder\Builder\NotifynderBuilder[getArray]',[$this->mockCategory]);
 
-        $result = $mockBuilder->raw(function ($builder) {
-            return;
+        $result = $mockBuilder->raw(function($builder){
+            return null;
         });
 
         $this->assertFalse($result);
@@ -208,7 +207,7 @@ class NotifynderUnitBuilderTest extends PHPUnit_Framework_TestCase
     {
         $extra = 1;
 
-        $mockBuilder = m::mock('Fenos\Notifynder\Builder\NotifynderBuilder[isString]', [$this->mockCategory]);
+        $mockBuilder = m::mock('Fenos\Notifynder\Builder\NotifynderBuilder[isString]',[$this->mockCategory]);
 
         $mockBuilder->shouldReceive('isString')
             ->once()
@@ -217,13 +216,13 @@ class NotifynderUnitBuilderTest extends PHPUnit_Framework_TestCase
 
         $result = $mockBuilder->extra($extra);
 
-        $this->assertInstanceOf('Fenos\Notifynder\Builder\NotifynderBuilder', $result);
+        $this->assertInstanceOf('Fenos\Notifynder\Builder\NotifynderBuilder',$result);
     }
 
     /** @test */
     public function it_loop_an_notifynder_build_for_make_multinotifications_easyly()
     {
-        $mockBuilder = m::mock('Fenos\Notifynder\Builder\NotifynderBuilder[isIterable,getArray]', [$this->mockCategory]);
+        $mockBuilder = m::mock('Fenos\Notifynder\Builder\NotifynderBuilder[isIterable,getArray]',[$this->mockCategory]);
 
         $dataToIterate = [1, 1, 1];
         $edataIterated = [[1],[1],[1]];
@@ -238,11 +237,11 @@ class NotifynderUnitBuilderTest extends PHPUnit_Framework_TestCase
             ->with()
             ->andReturn([1]);
 
-        $result = $mockBuilder->loop($dataToIterate, function () {
+        $result = $mockBuilder->loop($dataToIterate,function(){
            return 1;
         });
 
-        $this->assertEquals($edataIterated, $result);
+        $this->assertEquals($edataIterated,$result);
         $this->assertTrue(is_array($result));
     }
 
@@ -252,7 +251,7 @@ class NotifynderUnitBuilderTest extends PHPUnit_Framework_TestCase
         $from = [1];
         $property = "from";
 
-        $mockBuilder = m::mock('Fenos\Notifynder\Builder\NotifynderBuilder[hasEntity,isNumeric]', [$this->mockCategory]);
+        $mockBuilder = m::mock('Fenos\Notifynder\Builder\NotifynderBuilder[hasEntity,isNumeric]',[$this->mockCategory]);
 
         $mockBuilder->shouldReceive('hasEntity')
             ->once()
@@ -264,9 +263,10 @@ class NotifynderUnitBuilderTest extends PHPUnit_Framework_TestCase
             ->with($from[0])
             ->andReturn(false);
 
-        $result = $mockBuilder->setEntityAction($from, $property);
 
-        $this->assertEquals(['from_id' => 1], $result);
+        $result = $mockBuilder->setEntityAction($from,$property);
+
+        $this->assertEquals(['from_id' => 1],$result);
     }
 
     /** @test */
@@ -276,7 +276,7 @@ class NotifynderUnitBuilderTest extends PHPUnit_Framework_TestCase
         $from = [$fromType,1];
         $property = "from";
 
-        $mockBuilder = m::mock('Fenos\Notifynder\Builder\NotifynderBuilder[hasEntity,isNumeric,isString]', [$this->mockCategory]);
+        $mockBuilder = m::mock('Fenos\Notifynder\Builder\NotifynderBuilder[hasEntity,isNumeric,isString]',[$this->mockCategory]);
 
         $mockBuilder->shouldReceive('hasEntity')
             ->once()
@@ -293,16 +293,17 @@ class NotifynderUnitBuilderTest extends PHPUnit_Framework_TestCase
             ->with($from[1])
             ->andReturn(false);
 
-        $result = $mockBuilder->setEntityAction($from, $property);
+        $result = $mockBuilder->setEntityAction($from,$property);
 
-        $this->assertEquals(['from_type' => $fromType, 'from_id' => 1], $result);
+        $this->assertEquals(['from_type' => $fromType, 'from_id' => 1],$result);
     }
 
     /** @test */
     public function it_check_if_as_entity_counting_the_parameters()
     {
-        $result = $this->notifynderBuilder->hasEntity([1, 2]);
+        $result = $this->notifynderBuilder->hasEntity([1,2]);
 
         $this->assertTrue($result);
     }
 }
+ 

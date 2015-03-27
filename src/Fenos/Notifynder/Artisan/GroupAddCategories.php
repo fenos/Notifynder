@@ -6,8 +6,7 @@ use Illuminate\Console\Command;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
 
-class GroupAddCategories extends Command
-{
+class GroupAddCategories extends Command {
 
     /**
      * The console command name.
@@ -36,8 +35,8 @@ class GroupAddCategories extends Command
     /**
      * Create a new command instance.
      *
-     * @param  \Fenos\Notifynder\Groups\NotifynderGroup     $notifynderGroup
-     * @param  ArtisanOptionsParser                         $artisanOptionsParser
+     * @param \Fenos\Notifynder\Groups\NotifynderGroup $notifynderGroup
+     * @param ArtisanOptionsParser                     $artisanOptionsParser
      * @return \Fenos\Notifynder\Artisan\GroupAddCategories
      */
     public function __construct(NotifynderGroup $notifynderGroup,
@@ -59,11 +58,15 @@ class GroupAddCategories extends Command
 
         $groupCategories = $this->notifynderGroup->addMultipleCategoriesToGroup($arguments);
 
-        if ($groupCategories) {
-            foreach ($groupCategories->categories as $category) {
+        if ($groupCategories)
+        {
+            foreach($groupCategories->categories as $category)
+            {
                 $this->info("Category {$category->name} has been associated to the group {$groupCategories->name}");
             }
-        } else {
+        }
+        else
+        {
             $this->error('The name must be a string with dots as namespaces');
         }
     }

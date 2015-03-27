@@ -8,8 +8,7 @@ use Mockery as m;
  *
  * @package Notifications
  */
-class NotifynderNotificationTest extends \PHPUnit_Framework_TestCase
-{
+class NotifynderNotificationTest extends \PHPUnit_Framework_TestCase {
 
     /**
      * @var \Fenos\Notifynder\Notifications\Repositories\NotificationRepository
@@ -65,7 +64,7 @@ class NotifynderNotificationTest extends \PHPUnit_Framework_TestCase
 
         $result = $this->notifynderNotification->find($notification_id);
 
-        $this->assertInstanceOf('Fenos\Notifynder\Models\Notification', $result);
+        $this->assertInstanceOf('Fenos\Notifynder\Models\Notification',$result);
     }
 
     /**
@@ -89,7 +88,7 @@ class NotifynderNotificationTest extends \PHPUnit_Framework_TestCase
     {
         $notification_id = 1;
 
-        $mockNotifynderNotification = m::mock('Fenos\Notifynder\Notifications\NotifynderNotification[find]', $this->dependency);
+        $mockNotifynderNotification = m::mock('Fenos\Notifynder\Notifications\NotifynderNotification[find]',$this->dependency);
 
         $mockNotifynderNotification->shouldReceive('find')
             ->once()
@@ -103,7 +102,7 @@ class NotifynderNotificationTest extends \PHPUnit_Framework_TestCase
 
         $result = $mockNotifynderNotification->readOne($notification_id);
 
-        $this->assertInstanceOf('Fenos\Notifynder\Models\Notification', $result);
+        $this->assertInstanceOf('Fenos\Notifynder\Models\Notification',$result);
     }
 
     /** @test */
@@ -120,12 +119,12 @@ class NotifynderNotificationTest extends \PHPUnit_Framework_TestCase
 
         $this->notificationRepo->shouldReceive('readLimit')
             ->once()
-            ->with($to_id, $numbers, $orders)
+            ->with($to_id,$numbers,$orders)
             ->andReturn($this->notificationModel);
 
-        $result = $this->notifynderNotification->readLimit($to_id, $numbers, $orders);
+        $result = $this->notifynderNotification->readLimit($to_id,$numbers,$orders);
 
-        $this->assertInstanceOf('Fenos\Notifynder\Models\Notification', $result);
+        $this->assertInstanceOf('Fenos\Notifynder\Models\Notification',$result);
     }
 
     /** @test */
@@ -145,7 +144,7 @@ class NotifynderNotificationTest extends \PHPUnit_Framework_TestCase
 
         $result = $this->notifynderNotification->readAll($to_id);
 
-        $this->assertInstanceOf('Fenos\Notifynder\Models\Notification', $result);
+        $this->assertInstanceOf('Fenos\Notifynder\Models\Notification',$result);
     }
 
     /** @test */
@@ -177,12 +176,12 @@ class NotifynderNotificationTest extends \PHPUnit_Framework_TestCase
 
         $this->notificationRepo->shouldReceive('deleteLimit')
             ->once()
-            ->with($to_id, $numbers, $orders)
+            ->with($to_id,$numbers,$orders)
             ->andReturn($this->notificationModel);
 
-        $result = $this->notifynderNotification->deleteLimit($to_id, $numbers, $orders);
+        $result = $this->notifynderNotification->deleteLimit($to_id,$numbers,$orders);
 
-        $this->assertInstanceOf('Fenos\Notifynder\Models\Notification', $result);
+        $this->assertInstanceOf('Fenos\Notifynder\Models\Notification',$result);
     }
 
     /** @test */
@@ -202,7 +201,7 @@ class NotifynderNotificationTest extends \PHPUnit_Framework_TestCase
 
         $result = $this->notifynderNotification->deleteAll($to_id);
 
-        $this->assertInstanceOf('Fenos\Notifynder\Models\Notification', $result);
+        $this->assertInstanceOf('Fenos\Notifynder\Models\Notification',$result);
     }
 
     /** @test */
@@ -219,12 +218,12 @@ class NotifynderNotificationTest extends \PHPUnit_Framework_TestCase
 
         $this->notificationRepo->shouldReceive('getNotRead')
             ->once()
-            ->with($to_id, $limit, $paginate)
+            ->with($to_id,$limit,$paginate)
             ->andReturn($this->notificationModel);
 
-        $result = $this->notifynderNotification->getNotRead($to_id, $limit, $paginate);
+        $result = $this->notifynderNotification->getNotRead($to_id,$limit,$paginate);
 
-        $this->assertInstanceOf('Fenos\Notifynder\Models\Notification', $result);
+        $this->assertInstanceOf('Fenos\Notifynder\Models\Notification',$result);
     }
 
     /** @test */
@@ -241,12 +240,12 @@ class NotifynderNotificationTest extends \PHPUnit_Framework_TestCase
 
         $this->notificationRepo->shouldReceive('getAll')
             ->once()
-            ->with($to_id, $limit, $paginate)
+            ->with($to_id,$limit,$paginate)
             ->andReturn($this->notificationModel);
 
-        $result = $this->notifynderNotification->getAll($to_id, $limit, $paginate);
+        $result = $this->notifynderNotification->getAll($to_id,$limit,$paginate);
 
-        $this->assertInstanceOf('Fenos\Notifynder\Models\Notification', $result);
+        $this->assertInstanceOf('Fenos\Notifynder\Models\Notification',$result);
     }
 
     /** @test */
@@ -261,7 +260,7 @@ class NotifynderNotificationTest extends \PHPUnit_Framework_TestCase
 
         $result = $this->notifynderNotification->sendOne($info);
 
-        $this->assertInstanceOf('Fenos\Notifynder\Models\Notification', $result);
+        $this->assertInstanceOf('Fenos\Notifynder\Models\Notification',$result);
     }
 
     /** @test */
@@ -276,7 +275,7 @@ class NotifynderNotificationTest extends \PHPUnit_Framework_TestCase
 
         $result = $this->notifynderNotification->sendMultiple($info);
 
-        $this->assertEquals(3, $result);
+        $this->assertEquals(3,$result);
     }
 
     private function setDependency()
@@ -284,3 +283,4 @@ class NotifynderNotificationTest extends \PHPUnit_Framework_TestCase
         return [$this->notificationRepo];
     }
 }
+ 

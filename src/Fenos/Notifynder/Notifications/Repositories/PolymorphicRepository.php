@@ -1,7 +1,7 @@
 <?php namespace Fenos\Notifynder\Notifications\Repositories;
 
-trait PolymorphicRepository
-{
+
+trait PolymorphicRepository {
 
     /**
      * @var string
@@ -16,7 +16,8 @@ trait PolymorphicRepository
      */
     public function entity($entity)
     {
-        if (is_null($entity)) {
+        if ( is_null($entity))
+        {
             $this->entity = false;
 
             return $this;
@@ -39,8 +40,8 @@ trait PolymorphicRepository
      * @param $table_type_value
      * @return mixed
      */
-    public function wherePolymorphic($table_id, $table_type, $table_id_value, $table_type_value, $query = null)
+    public function wherePolymorphic($table_id,$table_type,$table_id_value, $table_type_value, $query = null)
     {
-        return $this->notification->scopeWherePolymorphic(null, $table_id, $table_type, $table_id_value, $table_type_value, $query);
+        return $this->notification->scopeWherePolymorphic(null,$table_id,$table_type,$table_id_value, $table_type_value,$query);
     }
-}
+} 

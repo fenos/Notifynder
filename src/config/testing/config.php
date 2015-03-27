@@ -2,5 +2,5 @@
 
 return [
 
-    'model' => 'DummyModels\User',
+    'model' => 'DummyModels\User'
 ];

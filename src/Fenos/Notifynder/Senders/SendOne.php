@@ -2,6 +2,7 @@
 /**
  * Created by Fabrizio Fenoglio.
  */
+
 namespace Fenos\Notifynder\Senders;
 
 use Fenos\Notifynder\Exceptions\CategoryNotFoundException;
@@ -13,8 +14,7 @@ use Fenos\Notifynder\Exceptions\CategoryNotFoundException;
  *
  * @package Fenos\Notifynder\Senders
  */
-class SendOne implements Sender
-{
+class SendOne implements Sender {
 
     /**
      * @var array
@@ -30,7 +30,7 @@ class SendOne implements Sender
      * @param      $infoNotification
      * @param null $category
      */
-    public function __construct($infoNotification, $category = null)
+    function __construct($infoNotification,$category = null)
     {
         $this->infoNotification = $infoNotification;
         $this->category = $category;
@@ -39,7 +39,7 @@ class SendOne implements Sender
     /**
      * Send Single notification
      *
-     * @param  StoreNotification $storeNotification
+     * @param StoreNotification $storeNotification
      * @return mixed
      */
     public function send(StoreNotification $storeNotification)
@@ -58,11 +58,14 @@ class SendOne implements Sender
      */
     public function hasCategory()
     {
-        if (is_null($this->category)) {
+        if ( is_null($this->category) )
+        {
             $this->hasCategoryIdInInformation();
 
             return true;
-        } else {
+        }
+        else
+        {
             $this->infoNotification['category_id'] = $this->category->id;
 
             return true;
@@ -77,7 +80,8 @@ class SendOne implements Sender
      */
     public function hasCategoryIdInInformation()
     {
-        if (! array_key_exists('category_id', $this->infoNotification)) {
+        if (! array_key_exists('category_id', $this->infoNotification))
+        {
             $error = "Category not found please provide one,
                      you can not store a notification without category id";
 

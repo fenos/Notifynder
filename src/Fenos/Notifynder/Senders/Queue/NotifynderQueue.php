@@ -2,6 +2,7 @@
 /**
  * Created by Fabrizio Fenoglio.
  */
+
 namespace Fenos\Notifynder\Senders\Queue;
 
 use Illuminate\Config\Repository;
@@ -12,8 +13,7 @@ use Illuminate\Queue\QueueManager;
  *
  * @package Fenos\Notifynder\Senders\Queue
  */
-class NotifynderQueue
-{
+class NotifynderQueue {
 
     /**
      * @var QueueManager
@@ -29,7 +29,7 @@ class NotifynderQueue
      * @param Repository   $config
      * @param QueueManager $queueManager
      */
-    public function __construct(Repository $config, QueueManager $queueManager)
+    function __construct(Repository $config, QueueManager $queueManager)
     {
         $this->config = $config;
         $this->queueManager = $queueManager;
@@ -38,7 +38,7 @@ class NotifynderQueue
     /**
      * Push tje job to a queue
      *
-     * @param  array $info
+     * @param array $info
      * @internal param $category
      * @return mixed
      */
@@ -56,4 +56,4 @@ class NotifynderQueue
     {
         return $this->config->get('notifynder::config.queue');
     }
-}
+} 

@@ -25,7 +25,7 @@ class NotifynderHandler
      * @param Dispatcher                    $event
      * @param \Illuminate\Config\Repository $config
      */
-    public function __construct(Dispatcher $event, Repository $config)
+    function __construct(Dispatcher $event, Repository $config)
     {
         $this->event = $event;
         $this->config = $config;
@@ -35,41 +35,44 @@ class NotifynderHandler
      * It fire the event associated to the passed key,
      * trigging the listener method bound with
      *
-     * @param  Notifynder $notifynder
-     * @param  string     $key
-     * @param  string     $category_name
-     * @param  mixed|null $values
+     * @param Notifynder    $notifynder
+     * @param  string       $key
+     * @param  string       $category_name
+     * @param  mixed|null   $values
      * @return mixed|null
      */
     public function fire(Notifynder $notifynder, $key, $category_name, $values = null)
     {
         $values['eventName'] = $key;
 
-        $notificationsResult = $this->event->fire($key, [$values, $category_name, $notifynder]);
+        $notificationsResult = $this->event->fire($key,[$values,$category_name,$notifynder]);
 
-        if ($this->hasNotificationToSend($notificationsResult)) {
+        if ($this->hasNotificationToSend($notificationsResult))
+        {
             return $notifynder->send($notificationsResult[0]);
         }
 
-        return;
+        return null;
     }
 
     /**
      * Deletegate events to categories
      *
-     * @param  Notifynder $notifynder
-     * @param             $data
-     * @param  array      $events
+     * @param Notifynder $notifynder
+     * @param            $data
+     * @param array      $events
      * @return mixed
      */
-    public function delegate(Notifynder $notifynder, $data = null, array $events)
+    public function delegate(Notifynder $notifynder, $data = null,array $events)
     {
-        foreach ($events as $category => $event) {
+        foreach($events as $category => $event)
+        {
             $data['eventName'] = $event;
 
-            $infoNotification = $this->event->fire($event, [$data, $category, $notifynder]);
+            $infoNotification = $this->event->fire($event,[$data,$category,$notifynder]);
 
-            if ($this->hasNotificationToSend($infoNotification)) {
+            if ($this->hasNotificationToSend($infoNotification))
+            {
                 $notifynder->send($infoNotification[0]);
             }
         }
@@ -82,9 +85,11 @@ class NotifynderHandler
     {
         $listeners = $this->config->get('notifynder::listeners.listeners');
 
-        if (count($listeners) > 0) {
-            foreach ($listeners as $key => $listener) {
-                $this->event->listen($key, $listener);
+        if (count($listeners) > 0)
+        {
+            foreach($listeners as $key => $listener)
+            {
+                $this->event->listen($key,$listener);
             }
         }
     }
