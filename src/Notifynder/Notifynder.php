@@ -60,7 +60,7 @@ interface Notifynder
      * @param  array $info
      * @return mixed
      */
-    public function send(array $info);
+    public function send($info = []);
 
     /**
      * Send immediately the notification
@@ -69,7 +69,7 @@ interface Notifynder
      * @param  array $info
      * @return mixed
      */
-    public function sendNow(array $info);
+    public function sendNow($info = []);
 
     /**
      * Send One notification
@@ -77,7 +77,7 @@ interface Notifynder
      * @param  array $info
      * @return mixed
      */
-    public function sendOne(array $info);
+    public function sendOne($info = []);
 
     /**
      * Send multiple notifications
@@ -85,7 +85,7 @@ interface Notifynder
      * @param  array                $info
      * @return Senders\SendMultiple
      */
-    public function sendMultiple(array $info);
+    public function sendMultiple($info = []);
 
     /**
      * Send a group of notifications
@@ -94,7 +94,7 @@ interface Notifynder
      * @param $info
      * @return mixed
      */
-    public function sendGroup($group_name, $info);
+    public function sendGroup($group_name, $info = []);
 
     /**
      * Read one notification

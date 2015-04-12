@@ -18,7 +18,7 @@ interface NotifynderSender
      * @param  null  $category
      * @return mixed
      */
-    public function send(array $info, $category = null);
+    public function send($info, $category = null);
 
     /**
      * Send now whatever data passed
@@ -27,7 +27,7 @@ interface NotifynderSender
      * @param        $category
      * @return mixed
      */
-    public function sendNow(array $info, $category = null);
+    public function sendNow($info, $category = null);
 
     /**
      * Send one method to get fully working
@@ -37,7 +37,7 @@ interface NotifynderSender
      * @param $category
      * @return SendOne
      */
-    public function sendOne(array $info, $category);
+    public function sendOne($info, $category);
 
     /**
      * Send Multiple method to get fully working
@@ -46,7 +46,7 @@ interface NotifynderSender
      * @param $info
      * @return SendMultiple
      */
-    public function sendMultiple(array $info);
+    public function sendMultiple($info);
 
     /**
      * Send a group of notifications
@@ -56,7 +56,7 @@ interface NotifynderSender
      * @param  array $info
      * @return mixed
      */
-    public function sendGroup($group_name, array $info = []);
+    public function sendGroup($group_name, $info = []);
 
     /**
      * This method allow to Extend
@@ -67,4 +67,13 @@ interface NotifynderSender
      * @return $this
      */
     public function extend($name, $extendSender);
+
+    /**
+     * Call a custom method
+     *
+     * @param $customMethod
+     * @param $notification
+     * @return mixed
+     */
+    public function customSender($customMethod,$notification);
 }

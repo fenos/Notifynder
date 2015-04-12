@@ -47,3 +47,6 @@ Notifynder v. 3.0 Change log:
 - fixed method on issue: https://github.com/fenos/Notifynder/issues/22
 
 - Added order be date when retrieving notifications, issue: https://github.com/fenos/Notifynder/issues/19
+
+- Builder is now part of the Notifynder class, you can access to the builder directly from the Notifynder
+  class and you can chain your custom and default method for send the notification! Cool!

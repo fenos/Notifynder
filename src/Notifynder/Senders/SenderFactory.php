@@ -5,6 +5,7 @@
  *
  * @package Fenos\Notifynder
  */
+use Fenos\Notifynder\Builder\NotifynderBuilder;
 use Fenos\Notifynder\Contracts\NotifynderCategory;
 use Fenos\Notifynder\Contracts\NotifynderGroup;
 
@@ -45,14 +46,22 @@ class SenderFactory
      * @param                       $category
      * @return SendMultiple|SendOne
      */
-    public function getSender(array $infoNotifications, $category = null)
+    public function getSender($infoNotifications, $category = null)
     {
+        if ($infoNotifications instanceof NotifynderBuilder)
+        {
+            $infoNotifications = $infoNotifications->toArray();
+        }
+
         // if the array is multidimesional
         // it means that we want to send
         // multiple notifications
-        if ($this->isMultiArray($infoNotifications)) {
+        if ($this->isMultiArray($infoNotifications))
+        {
             return $this->sendMultiple($infoNotifications);
-        } else {
+        }
+        else
+        {
             return $this->sendSingle($infoNotifications, $category);
         }
     }

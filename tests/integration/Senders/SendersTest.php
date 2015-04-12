@@ -92,7 +92,7 @@ class SendersTest extends TestCaseDB {
     /** @test */
     function it_send_a_group_of_notification()
     {
-        $group = $this->createGroup(['name' => 'mygroup']);
+        $group = $this->createGroup(['name' => 'mygroud']);
         $category1 = $this->createCategory();
         $category2 = $this->createCategory();
         $category3 = $this->createCategory();
@@ -115,7 +115,9 @@ class SendersTest extends TestCaseDB {
     /** @test */
     function it_send_with_an_custom_sender()
     {
-        $this->senders->extend('sendCustom','CustomSender');
+        $this->senders->extend('sendCustom', function($notification,$app) {
+            return new CustomSender($notification,$app->make('notifynder'));
+        });
 
         $category_name = 'my.category';
         $this->createCategory(['name' => $category_name]);

@@ -1,5 +1,6 @@
 <?php namespace Fenos\Notifynder\Builder;
 
+use ArrayAccess;
 use Carbon\Carbon;
 use Fenos\Notifynder\Contracts\NotifynderCategory;
 use Fenos\Notifynder\Exceptions\NotificationBuilderException;
@@ -17,9 +18,8 @@ use Closure;
  *
  * @package Fenos\Notifynder\Builder
  */
-class NotifynderBuilder
+class NotifynderBuilder implements ArrayAccess
 {
-
     use BuilderRules;
 
     /**
@@ -42,7 +42,7 @@ class NotifynderBuilder
     /**
      * @param NotifynderCategory $notifynderCategory
      */
-    public function __construct(NotifynderCategory $notifynderCategory)
+    function __construct(NotifynderCategory $notifynderCategory)
     {
         $this->notifynderCategory = $notifynderCategory;
     }
@@ -99,7 +99,7 @@ class NotifynderBuilder
      */
     public function category($category)
     {
-        if (is_string($category)) {
+        if (!is_numeric($category)) {
             $category = $this->notifynderCategory
                             ->findByName($category)->id;
         }
@@ -267,4 +267,43 @@ class NotifynderBuilder
     {
         return $this->builder[$field] = $data;
     }
-}
+
+
+    /**
+     * @param mixed $offset
+     * @return bool
+     */
+    public function offsetExists($offset)
+    {
+        return array_key_exists($offset,$this->builder);
+    }
+
+
+    /**
+     * @param mixed $offset
+     * @return mixed
+     */
+    public function offsetGet($offset)
+    {
+        return $this->builder[$offset];
+    }
+
+
+    /**
+     * @param mixed $offset
+     * @param mixed $value
+     */
+    public function offsetSet($offset, $value)
+    {
+        unset($this->builder[$offset]);
+    }
+
+
+    /**
+     * @param mixed $offset
+     * @return null
+     */
+    public function offsetUnset($offset)
+    {
+        return isset($this->builder[$offset]) ? $this->builder[$offset] : null;
+}}

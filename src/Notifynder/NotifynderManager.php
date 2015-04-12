@@ -21,7 +21,7 @@ use InvalidArgumentException;
  *
  * @package Fenos\Notifynder
  */
-class NotifynderManager implements Notifynder
+class NotifynderManager extends NotifynderBuilder implements Notifynder
 {
 
     /**
@@ -89,6 +89,8 @@ class NotifynderManager implements Notifynder
         $this->notification = $notification;
         $this->notifynderDispatcher = $notifynderDispatcher;
         $this->notifynderGroup = $notifynderGroup;
+
+        parent::__construct($notifynderCategory);
     }
 
     /**
@@ -105,6 +107,9 @@ class NotifynderManager implements Notifynder
             // Yes it is, split out the value from the array
             $this->category = $this->getCategoriesContainer()[$name];
 
+            // set category on the builder
+            parent::category($this->category->id);
+
             return $this;
         }
 
@@ -117,6 +122,9 @@ class NotifynderManager implements Notifynder
 
         // Set the category on the array
         $this->setCategoriesContainer($name, $category);
+
+        // set category on the builder
+        parent::category($category->id);
 
         return $this;
     }
@@ -166,8 +174,10 @@ class NotifynderManager implements Notifynder
      * @param  array $info
      * @return mixed
      */
-    public function send(array $info)
+    public function send($info = [])
     {
+        $info = (count($info) > 0) ? $info : $this;
+
         return $this->notifynderSender->send($info, $this->category);
     }
 
@@ -178,8 +188,10 @@ class NotifynderManager implements Notifynder
      * @param  array $info
      * @return mixed
      */
-    public function sendNow(array $info)
+    public function sendNow($info = [])
     {
+        $info = (count($info) > 0) ? $info : $this;
+
         return $this->notifynderSender->sendNow($info, $this->category);
     }
 
@@ -189,8 +201,10 @@ class NotifynderManager implements Notifynder
      * @param  array $info
      * @return mixed
      */
-    public function sendOne(array $info)
+    public function sendOne($info = [])
     {
+        $info = (count($info) > 0) ? $info : $this;
+
         return $this->notifynderSender->sendOne($info, $this->category);
     }
 
@@ -200,8 +214,10 @@ class NotifynderManager implements Notifynder
      * @param  array                $info
      * @return Senders\SendMultiple
      */
-    public function sendMultiple(array $info)
+    public function sendMultiple($info = [])
     {
+        $info = (count($info) > 0) ? $info : $this;
+
         return $this->notifynderSender->sendMultiple($info, $this->category);
     }
 
@@ -212,8 +228,10 @@ class NotifynderManager implements Notifynder
      * @param $info
      * @return mixed
      */
-    public function sendGroup($group_name, $info)
+    public function sendGroup($group_name, $info = [])
     {
+        $info = (count($info) > 0) ? $info : $this;
+
         return $this->notifynderSender->sendGroup($this, $group_name, $info);
     }
 
@@ -452,9 +470,7 @@ class NotifynderManager implements Notifynder
      */
     public function builder()
     {
-        return new NotifynderBuilder(
-            $this->notifynderCategory
-        );
+        return $this;
     }
 
     /**
@@ -529,10 +545,10 @@ class NotifynderManager implements Notifynder
     public function __call($name, $arguments)
     {
         if (starts_with($name, 'send')) {
-            return call_user_func_array(
-                [$this->notifynderSender, $name],
-                array_merge($arguments, ['category' => $this->category])
-            );
+
+            $arguments = (isset($arguments[0])) ? $arguments[0] : $this->toArray();
+
+            return $this->notifynderSender->customSender($name,$arguments);
         }
 
         $error = "method [$name] not found in the class ".self::class;

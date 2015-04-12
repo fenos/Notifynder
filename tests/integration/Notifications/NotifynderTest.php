@@ -25,17 +25,34 @@ class NotifynderTest extends TestCaseDB {
     /** @test */
     function it_call_an_extended_method()
     {
-        $this->createCategory(['name' => 'custom']);
+        $this->createCategory(['name' => 'customs']);
 
-        $this->notifynder->extend('sendCustom', 'CustomSender');
+        $this->notifynder->extend('sendCustom', function($notification,$app) {
+            return new CustomSender($notification,$app->make('notifynder'));
+        });
 
-        $notifications = $this->notifynder->builder()
-                                ->category('custom')
+        $notifications = $this->notifynder
+                                ->category('customs')
                                 ->url('w')
                                 ->from(1)
                                 ->to(1)
-                                ->toArray();
+                                ->sendCustom();
 
-        $this->notifynder->sendCustom($notifications);
+        $this->assertEquals('w',$notifications->url);
+    }
+
+    /** @test */
+    function it_send_a_notification_with_the_new_way()
+    {
+        $this->createCategory(['name' => 'custom']);
+
+        $notifications = $this->notifynder
+            ->category('custom')
+            ->url('w')
+            ->from(1)
+            ->to(1);
+
+        $notifications = $this->notifynder->send($notifications);
+        $this->assertEquals('w',$notifications->url);
     }
 }

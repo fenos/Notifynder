@@ -28,6 +28,7 @@ trait Notifable
             return $this->hasMany(config('notifynder.notification_model'), 'to_id');
         }
     }
+
     /**
      * @return \Fenos\Notifynder\NotifynderManager
      */
@@ -35,6 +36,7 @@ trait Notifable
     {
         return app('notifynder');
     }
+
     /**
      * Read all notification
      *
@@ -46,6 +48,7 @@ trait Notifable
             get_class($this)
         )->readAll($this->id);
     }
+
     /**
      * Read Limit
      *
@@ -59,6 +62,7 @@ trait Notifable
             get_class($this)
         )->readLimit($this->id, $numbers, $order);
     }
+
     /**
      * Delete Limit
      *
@@ -70,6 +74,7 @@ trait Notifable
     {
         return $this->notifynderInstance()->entity(get_class($this))->deleteLimit($this->id, $numbers, $order);
     }
+
     /**
      * Delete all
      *
@@ -111,6 +116,7 @@ trait Notifable
             get_class($this)
         )->getAll($this->id, $limit, $paginate, $order);
     }
+
     /**
      * Count Not read notification
      *

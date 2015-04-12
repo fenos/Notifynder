@@ -2,6 +2,7 @@
 
 use BadMethodCallException;
 use Closure;
+use Fenos\Notifynder\Builder\NotifynderBuilder;
 use Fenos\Notifynder\Contracts\NotifynderSender;
 use Fenos\Notifynder\Contracts\StoreNotification;
 use Illuminate\Contracts\Foundation\Application;
@@ -56,7 +57,7 @@ class SenderManager implements NotifynderSender
      * @param  null  $category
      * @return mixed
      */
-    public function send(array $info, $category = null)
+    public function send($info, $category = null)
     {
         return $this->sendNow($info, $category);
     }
@@ -68,7 +69,7 @@ class SenderManager implements NotifynderSender
      * @param        $category
      * @return mixed
      */
-    public function sendNow(array $info, $category = null)
+    public function sendNow($info, $category = null)
     {
         $sender = $this->senderFactory->getSender($info, $category);
 
@@ -83,7 +84,7 @@ class SenderManager implements NotifynderSender
      * @param $category
      * @return SendOne
      */
-    public function sendOne(array $info, $category)
+    public function sendOne($info, $category)
     {
         return $this->senderFactory->sendSingle($info, $category)
             ->send($this->storeNotification, $category);
@@ -96,7 +97,7 @@ class SenderManager implements NotifynderSender
      * @param $info
      * @return SendMultiple
      */
-    public function sendMultiple(array $info)
+    public function sendMultiple($info)
     {
         return $this->senderFactory->sendMultiple($info)
                     ->send($this->storeNotification);
@@ -110,7 +111,7 @@ class SenderManager implements NotifynderSender
      * @param  array $info
      * @return mixed
      */
-    public function sendGroup($group_name, array $info = [])
+    public function sendGroup($group_name, $info = [])
     {
         return $this->senderFactory->sendGroup(
             $group_name,
@@ -134,41 +135,38 @@ class SenderManager implements NotifynderSender
     }
 
     /**
-     * Call the extended method
-     * when calling a undefined method
+     * Call a custom method
      *
-     * @param $name
-     * @param $arguments
+     * @param $customMethod
+     * @param $notification
      * @return mixed
      */
-    public function __call($name, $arguments)
+    public function customSender($customMethod,$notification)
     {
-        // Check if the method called exists on the extended methods
-        if (array_key_exists($name, $this->senders)) {
-            // get the extended method
-            $extendedSender = $this->senders[$name];
+        if (array_key_exists($customMethod, $this->senders)) {
 
-            if (is_string($extendedSender)) {
-                //                dd($arguments);
-                return $this->app->make($extendedSender, $arguments)
-                            ->send($this->storeNotification);
-            }
+            // get the extended method
+            $extendedSender = $this->senders[$customMethod];
 
             // If is a closure means that i'll return an instance
             // with the
             if ($extendedSender instanceof Closure) {
-                array_unshift($arguments, [$this->app]);
 
-                $invoker = call_user_func_array($extendedSender, $arguments);
+                $invoker = call_user_func_array($extendedSender, [$notification,$this->app]);
 
                 return $invoker->send($this->storeNotification);
             }
 
-            $error = "The custom method must implement Sender Contract";
+            $error = "The extention must be an instance of Closure";
             throw new LogicException($error);
         }
-
-        $error = "The method $name does not exists on the class ".get_class($this);
+//        dd($extendedSender);
+        $error = "The method $customMethod does not exists on the class ".get_class($this);
         throw new BadMethodCallException($error);
+    }
+
+    function __call($name, $arguments)
+    {
+        return $this->customSender($name,$arguments[0]);
     }
 }

@@ -13,24 +13,17 @@ class CustomSender implements Sender
     protected $notifications;
 
     /**
-     * @var string
-     */
-    private $category;
-
-    /**
      * @var \Fenos\Notifynder\NotifynderManager
      */
     private $notifynder;
 
     /**
      * @param array                        $notifications
-     * @param null                         $category
      * @param \Fenos\Notifynder\NotifynderManager $notifynder
      */
-    function __construct(array $notifications,$category = null,\Fenos\Notifynder\NotifynderManager $notifynder)
+    function __construct(array $notifications,\Fenos\Notifynder\NotifynderManager $notifynder)
     {
         $this->notifications = $notifications;
-        $this->category = $category;
         $this->notifynder = $notifynder;
     }
 
@@ -42,7 +35,7 @@ class CustomSender implements Sender
      */
     public function send(StoreNotification $storeNotification)
     {
-//        dd($this->notifynder);
+//        dd($storeNotification);
         return $storeNotification->storeSingle($this->notifications);
     }
 }
