@@ -44,7 +44,7 @@ class NotifynderManager extends NotifynderBuilder implements Notifynder
     /**
      * @var Models\NotificationCategory|null
      */
-    protected $category;
+    protected $defaultCategory;
 
     /**
      * @var NotifynderSender
@@ -105,10 +105,10 @@ class NotifynderManager extends NotifynderBuilder implements Notifynder
         // Check if the category is eager loaded
         if ($this->isLazyLoaded($name)) {
             // Yes it is, split out the value from the array
-            $this->category = $this->getCategoriesContainer()[$name];
+            $this->defaultCategory = $this->getCategoriesContainer()[$name];
 
             // set category on the builder
-            parent::category($this->category->id);
+            parent::category($this->defaultCategory->id);
 
             return $this;
         }
@@ -118,7 +118,7 @@ class NotifynderManager extends NotifynderBuilder implements Notifynder
         // it throw CategoryNotFoundException
         $category = $this->notifynderCategory->findByName($name);
 
-        $this->category = $category;
+        $this->defaultCategory = $category;
 
         // Set the category on the array
         $this->setCategoriesContainer($name, $category);
@@ -178,7 +178,7 @@ class NotifynderManager extends NotifynderBuilder implements Notifynder
     {
         $info = (count($info) > 0) ? $info : $this;
 
-        return $this->notifynderSender->send($info, $this->category);
+        return $this->notifynderSender->send($info, $this->defaultCategory);
     }
 
     /**
@@ -192,7 +192,7 @@ class NotifynderManager extends NotifynderBuilder implements Notifynder
     {
         $info = (count($info) > 0) ? $info : $this;
 
-        return $this->notifynderSender->sendNow($info, $this->category);
+        return $this->notifynderSender->sendNow($info, $this->defaultCategory);
     }
 
     /**
@@ -205,7 +205,7 @@ class NotifynderManager extends NotifynderBuilder implements Notifynder
     {
         $info = (count($info) > 0) ? $info : $this;
 
-        return $this->notifynderSender->sendOne($info, $this->category);
+        return $this->notifynderSender->sendOne($info, $this->defaultCategory);
     }
 
     /**
@@ -218,7 +218,7 @@ class NotifynderManager extends NotifynderBuilder implements Notifynder
     {
         $info = (count($info) > 0) ? $info : $this;
 
-        return $this->notifynderSender->sendMultiple($info, $this->category);
+        return $this->notifynderSender->sendMultiple($info, $this->defaultCategory);
     }
 
     /**
@@ -390,6 +390,26 @@ class NotifynderManager extends NotifynderBuilder implements Notifynder
     }
 
     /**
+     * Get last notification of the given
+     * entity, second parameter can filter by
+     * category
+     *
+     * @param      $to_id
+     * @param null $category
+     * @return mixed
+     */
+    public function getLastNotification($to_id,$category = null)
+    {
+        $notification = $this->notification->entity($this->entity);
+
+        if ( is_null($category)) {
+            return $notification->getLastNotification($to_id);
+        }
+
+        return $notification->getLastNotificationByCategory($category,$to_id);
+    }
+
+    /**
      * Add category to a group
      * giving the names of them
      *
@@ -510,7 +530,7 @@ class NotifynderManager extends NotifynderBuilder implements Notifynder
      */
     public function id()
     {
-        return $this->category->id;
+        return $this->defaultCategory->id;
     }
 
     /**
@@ -553,5 +573,29 @@ class NotifynderManager extends NotifynderBuilder implements Notifynder
 
         $error = "method [$name] not found in the class ".self::class;
         throw new BadMethodCallException($error);
+    }
+
+    /**
+     * Set builder properties
+     * When setting dynamic properties
+     *
+     * @param $name
+     * @param $value
+     */
+    function __set($name, $value)
+    {
+        $this->offsetSet($name,$value);
+    }
+
+    /**
+     * Get property from the
+     * builder
+     *
+     * @param $name
+     * @return mixed
+     */
+    function __get($name)
+    {
+        return $this->offsetGet($name);
     }
 }

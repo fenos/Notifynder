@@ -211,6 +211,31 @@ class NotificationManager implements NotifynderNotification
     }
 
     /**
+     * Get last notification of the
+     * given entity
+     *
+     * @param $to_id
+     * @return mixed
+     */
+    public function getLastNotification($to_id)
+    {
+        return $this->notifynderRepo->getLastNotification($to_id,$this->entity);
+    }
+
+    /**
+     * Get last notification of the
+     * given entity of the specific category
+     *
+     * @param $category
+     * @param $to_id
+     * @return mixed
+     */
+    public function getLastNotificationByCategory($category,$to_id)
+    {
+        return $this->notifynderRepo->getLastNotificationByCategory($category,$to_id,$this->entity);
+    }
+
+    /**
      * Send single notification
      *
      * @param  array  $info

@@ -2,10 +2,11 @@
 
 use BadMethodCallException;
 use Closure;
-use Fenos\Notifynder\Builder\NotifynderBuilder;
+use Fenos\Notifynder\Contracts\DefaultSender;
 use Fenos\Notifynder\Contracts\NotifynderSender;
+use Fenos\Notifynder\Contracts\Sender;
 use Fenos\Notifynder\Contracts\StoreNotification;
-use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\Container\Container;
 use LogicException;
 
 /**
@@ -32,22 +33,22 @@ class SenderManager implements NotifynderSender
     protected $senders = [];
 
     /**
-     * @var Application
+     * @var Container
      */
-    protected $app;
+    protected $container;
 
     /**
      * @param SenderFactory     $senderFactory
      * @param StoreNotification $storeNotification
-     * @param Application       $app
+     * @param Container       $container
      */
     public function __construct(SenderFactory $senderFactory,
                          StoreNotification $storeNotification,
-                         Application $app)
+                         Container $container)
     {
         $this->senderFactory = $senderFactory;
         $this->storeNotification = $storeNotification;
-        $this->app = $app;
+        $this->container = $container;
     }
 
     /**
@@ -84,7 +85,7 @@ class SenderManager implements NotifynderSender
      * @param $category
      * @return SendOne
      */
-    public function sendOne($info, $category)
+    public function sendOne($info, $category = null)
     {
         return $this->senderFactory->sendSingle($info, $category)
             ->send($this->storeNotification, $category);
@@ -152,21 +153,50 @@ class SenderManager implements NotifynderSender
             // with the
             if ($extendedSender instanceof Closure) {
 
-                $invoker = call_user_func_array($extendedSender, [$notification,$this->app]);
+                // I invoke the closue expecting an Instance of a custorm
+                // Sender
+                $invoker = call_user_func_array($extendedSender, [$notification,$this->container]);
 
-                return $invoker->send($this->storeNotification);
+                // If the invoker is a custom sender
+                // then I invoke it passing the sender class
+                if ($invoker instanceof Sender) {
+
+                    return $invoker->send($this);
+                }
+
+                // If the dev is attemping to create a custom
+                // way of storing notifications then
+                // i'll pass the storenotification contract
+                if ($invoker instanceof DefaultSender) {
+
+                    return $invoker->send($this->storeNotification);
+                }
             }
 
             $error = "The extention must be an instance of Closure";
             throw new LogicException($error);
         }
-//        dd($extendedSender);
+
         $error = "The method $customMethod does not exists on the class ".get_class($this);
         throw new BadMethodCallException($error);
     }
 
+    /**
+     * When calling a not existing method
+     * try to resolve with an exteded
+     *
+     * @param $name
+     * @param $arguments
+     * @return mixed
+     */
     function __call($name, $arguments)
     {
-        return $this->customSender($name,$arguments[0]);
+        if (isset($arguments[0])) {
+            return $this->customSender($name,$arguments[0]);
+        }
+
+        $error = "No argument passed to the custom sender,
+                 please provide notifications array";
+        throw new BadMethodCallException($error);
     }
 }

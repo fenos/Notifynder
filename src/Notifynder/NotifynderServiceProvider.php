@@ -31,6 +31,7 @@ use Fenos\Notifynder\Senders\SenderFactory;
 use Fenos\Notifynder\Senders\SenderManager;
 use Fenos\Notifynder\Translator\Compiler;
 use Fenos\Notifynder\Translator\TranslatorManager;
+use Illuminate\Container\Container;
 use Illuminate\Support\ServiceProvider;
 
 class NotifynderServiceProvider extends ServiceProvider
@@ -152,7 +153,7 @@ class NotifynderServiceProvider extends ServiceProvider
              return new SenderManager(
                  $app['notifynder.sender.factory'],
                  $app['notifynder.store'],
-                 $app
+                 $app[Container::class]
              );
         });
 

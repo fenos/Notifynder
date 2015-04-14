@@ -3,7 +3,7 @@
 namespace spec\Fenos\Notifynder\Senders;
 
 use BadMethodCallException;
-use Fenos\Notifynder\Contracts\Sender;
+use Fenos\Notifynder\Contracts\DefaultSender;
 use Fenos\Notifynder\Contracts\StoreNotification;
 use Fenos\Notifynder\Senders\SenderFactory;
 use Illuminate\Contracts\Foundation\Application;
@@ -24,7 +24,7 @@ class SenderManagerSpec extends ObjectBehavior
 
     /** @test */
     function it_send_now_a_notification(SenderFactory $senderFactory,
-                                        Sender $sender,
+                                        DefaultSender $sender,
                                         StoreNotification $storeNotification)
     {
         $notifications = [];
@@ -41,7 +41,7 @@ class SenderManagerSpec extends ObjectBehavior
 
     /** @test */
     function it_send_one_notification(SenderFactory $senderFactory,
-                                      Sender $sender,
+                                      DefaultSender $sender,
                                       StoreNotification $storeNotification)
     {
         $notifications = [];
@@ -58,7 +58,7 @@ class SenderManagerSpec extends ObjectBehavior
 
     /** @test */
     function it_send_multiple_notification(SenderFactory $senderFactory,
-                                      Sender $sender,
+                                      DefaultSender $sender,
                                       StoreNotification $storeNotification)
     {
         $notifications = [];
@@ -74,7 +74,7 @@ class SenderManagerSpec extends ObjectBehavior
 
     /** @test */
     function it_call_an_extended_method(SenderFactory $senderFactory,
-                                        Sender $sender,
+                                        DefaultSender $sender,
                                         StoreNotification $storeNotification)
     {
         $notifications = [];
@@ -100,16 +100,16 @@ class SenderManagerSpec extends ObjectBehavior
 | Test Extender sender class
 --------------------------------------------------------------------------*/
 
-class TestExtender implements Sender
+class TestExtender implements DefaultSender
 {
 
     /**
      * Send Single notification
      *
-     * @param StoreNotification $storeNotification
+     * @param StoreNotification $sender
      * @return mixed
      */
-    public function send(StoreNotification $storeNotification)
+    public function send(StoreNotification $sender)
     {
         return [];
     }

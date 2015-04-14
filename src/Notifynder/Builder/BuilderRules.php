@@ -1,5 +1,7 @@
 <?php namespace Fenos\Notifynder\Builder;
 
+use InvalidArgumentException;
+
 /**
  * Class BuilderRules
  *
@@ -26,7 +28,7 @@ trait BuilderRules
     protected function isString($value)
     {
         if (! is_string($value)) {
-            throw new \InvalidArgumentException("The value Passed is not a string");
+            throw new InvalidArgumentException("The value Passed is not a string");
         }
 
         return true;
@@ -41,7 +43,7 @@ trait BuilderRules
     protected function isNumeric($value)
     {
         if (! is_numeric($value)) {
-            throw new \InvalidArgumentException("The value Passed must be a number");
+            throw new InvalidArgumentException("The value Passed must be a number");
         }
 
         return true;
@@ -64,5 +66,16 @@ trait BuilderRules
         }
 
         return true;
+    }
+
+    /**
+     * Check if is a required field
+     *
+     * @param $offset
+     * @return bool
+     */
+    public function isRequiredField($offset)
+    {
+        return (in_array($offset,$this->requiredFields));
     }
 }

@@ -206,6 +206,64 @@ class NotificationRepositoryDBTest extends TestCaseDB {
         $this->assertCount(1, Notification::all());
     }
 
+    /** @test */
+    function it_get_the_last_notificiation_sent()
+    {
+        $category = $this->createCategory(['name' => 'test']);
+
+        $this->createNotification([
+            'category_id' => $category->id,
+            'url' => 'first',
+            'to_id' => 1,
+            'created_at' => Carbon\Carbon::now()->addDay(1)
+        ]);
+
+        $this->createNotification([
+            'category_id' => $category->id,
+            'url' => 'second',
+            'to_id' => 1,
+            'created_at' => Carbon\Carbon::now()->addDay(2)
+        ]);
+
+        $notification = $this->notificationRepo->getLastNotification(1,null);
+
+        $this->assertEquals('second',$notification->url);
+    }
+
+    /** @test */
+    function it_get_the_last_notificiation_sent_by_category()
+    {
+        $category1 = $this->createCategory(['name' => 'test']);
+        $category2 = $this->createCategory(['name' => 'test2']);
+
+        $this->createNotification([
+            'category_id' => $category1->id,
+            'url' => 'first',
+            'to_id' => 1,
+            'created_at' => Carbon\Carbon::now()->addDay(1)
+        ]);
+
+        $this->createNotification([
+            'category_id' => $category1->id,
+            'url' => 'second',
+            'to_id' => 1,
+            'created_at' => Carbon\Carbon::now()->addDay(2)
+        ]);
+
+        $this->createNotification([
+            'category_id' => $category2->id,
+            'url' => 'third',
+            'to_id' => 1,
+            'created_at' => Carbon\Carbon::now()->addDay(3)
+        ]);
+
+        $notificationByName = $this->notificationRepo->getLastNotificationByCategory('test',1,null);
+        $notificationById = $this->notificationRepo->getLastNotificationByCategory($category1->id,1,null);
+
+        $this->assertEquals('second',$notificationByName->url);
+        $this->assertEquals('second',$notificationById->url);
+    }
+
     /**
      * Shortcut to build a new notification
      *

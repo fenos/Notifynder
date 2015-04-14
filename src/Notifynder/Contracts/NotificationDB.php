@@ -145,4 +145,25 @@ interface NotificationDB
      * @return mixed
      */
     public function countNotRead($to_id, $entity);
+
+    /**
+     * Get last notification of the current
+     * entity
+     *
+     * @param $to_id
+     * @param $entity
+     * @return mixed
+     */
+    public function getLastNotification($to_id,$entity);
+
+    /**
+     * Get last notification of the current
+     * entity of a specific category
+     *
+     * @param $category
+     * @param $to_id
+     * @param $entity
+     * @return mixed
+     */
+    public function getLastNotificationByCategory($category,$to_id,$entity);
 }

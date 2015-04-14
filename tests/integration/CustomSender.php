@@ -1,11 +1,13 @@
 <?php
+
+use Fenos\Notifynder\Contracts\NotifynderSender;
 use Fenos\Notifynder\Contracts\Sender;
 use Fenos\Notifynder\Contracts\StoreNotification;
 
 /**
  * Class CustomSender
  */
-class CustomSender implements Sender
+class CustomDefaultSender implements Sender
 {
     /**
      * @var array
@@ -30,12 +32,12 @@ class CustomSender implements Sender
     /**
      * Send notification
      *
-     * @param StoreNotification $storeNotification
+     * @param NotifynderSender $sender
      * @return mixed
      */
-    public function send(StoreNotification $storeNotification)
+    public function send(NotifynderSender $sender)
     {
 //        dd($storeNotification);
-        return $storeNotification->storeSingle($this->notifications);
+        return $sender->send($this->notifications);
     }
 }

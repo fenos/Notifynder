@@ -276,4 +276,43 @@ class NotificationRepository implements NotificationDB, StoreNotification
             ->select($this->db->raw('Count(*) as notRead'))
             ->count();
     }
+
+    /**
+     * Get last notification of the current
+     * entity
+     *
+     * @param $to_id
+     * @param $entity
+     * @return mixed
+     */
+    public function getLastNotification($to_id,$entity)
+    {
+        return $this->notification->wherePolymorphic($to_id, $entity)
+                    ->orderBy('created_at','DESC')
+                    ->first();
+    }
+
+    /**
+     * Get last notification of the current
+     * entity of a specific category
+     *
+     * @param $category
+     * @param $to_id
+     * @param $entity
+     * @return mixed
+     */
+    public function getLastNotificationByCategory($category,$to_id,$entity)
+    {
+        $query = $this->notification->wherePolymorphic($to_id, $entity);
+
+        if (is_numeric($category)) {
+
+            return $query->orderBy('created_at','desc')
+                    ->where('category_id',$category)->first();
+        }
+
+        return $query->whereHas('body', function($categoryQuery) use ($category) {
+            $categoryQuery->where('name',$category);
+        })->orderBy('created_at','desc')->first();
+    }
 }

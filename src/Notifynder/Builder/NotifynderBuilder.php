@@ -295,7 +295,9 @@ class NotifynderBuilder implements ArrayAccess
      */
     public function offsetSet($offset, $value)
     {
-        unset($this->builder[$offset]);
+        if ($this->isRequiredField($offset)) {
+            $this->builder[$offset] = $value;
+        }
     }
 
 
@@ -305,5 +307,5 @@ class NotifynderBuilder implements ArrayAccess
      */
     public function offsetUnset($offset)
     {
-        return isset($this->builder[$offset]) ? $this->builder[$offset] : null;
+        unset($this->builder[$offset]);
 }}

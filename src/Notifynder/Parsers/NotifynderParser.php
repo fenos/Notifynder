@@ -2,7 +2,7 @@
 
 /**
  *
- * Class parse used on collection. It permit to decode the special
+ * Class parse used on collection. It allow to decode the special
  * values inserted on the notification
  *
  * @package Fenos\Notifynder\Parse

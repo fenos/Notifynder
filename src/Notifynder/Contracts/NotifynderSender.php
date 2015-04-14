@@ -37,7 +37,7 @@ interface NotifynderSender
      * @param $category
      * @return SendOne
      */
-    public function sendOne($info, $category);
+    public function sendOne($info, $category = null);
 
     /**
      * Send Multiple method to get fully working

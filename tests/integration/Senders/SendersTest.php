@@ -2,7 +2,7 @@
 use Fenos\Notifynder\Builder\NotifynderBuilder;
 use Fenos\Notifynder\Contracts\NotifynderGroup;
 use Fenos\Notifynder\Contracts\NotifynderSender;
-use Fenos\Notifynder\Contracts\Sender;
+use Fenos\Notifynder\Contracts\DefaultSender;
 use Fenos\Notifynder\Contracts\StoreNotification;
 use Fenos\Notifynder\Models\Notification;
 use Laracasts\TestDummy\Factory;
@@ -116,7 +116,7 @@ class SendersTest extends TestCaseDB {
     function it_send_with_an_custom_sender()
     {
         $this->senders->extend('sendCustom', function($notification,$app) {
-            return new CustomSender($notification,$app->make('notifynder'));
+            return new CustomDefaultSender($notification,$app->make('notifynder'));
         });
 
         $category_name = 'my.category';

@@ -118,6 +118,19 @@ trait Notifable
     }
 
     /**
+     * Get last notification
+     *
+     * @param null $category
+     * @return mixed
+     */
+    public function getLastNotification($category = null)
+    {
+        return $this->notifynderInstance()->entity(
+            $this->getMorphClass()
+        )->getLastNotification($this->id,$category);
+    }
+
+    /**
      * Count Not read notification
      *
      * @return mixed

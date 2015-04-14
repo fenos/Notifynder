@@ -204,6 +204,17 @@ interface Notifynder
     public function findNotificationById($notification_id);
 
     /**
+     * Get last notification of the given
+     * entity, second parameter can filter by
+     * category
+     *
+     * @param      $to_id
+     * @param null $category
+     * @return mixed
+     */
+    public function getLastNotification($to_id,$category = null);
+
+    /**
      * Add category to a group
      * giving the names of them
      *

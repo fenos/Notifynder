@@ -2,7 +2,7 @@
 
 use Fenos\Notifynder\Contracts\NotifynderCategory;
 use Fenos\Notifynder\Contracts\NotifynderGroup;
-use Fenos\Notifynder\Contracts\Sender;
+use Fenos\Notifynder\Contracts\DefaultSender;
 use Fenos\Notifynder\Contracts\StoreNotification;
 use Fenos\Notifynder\NotifynderManager;
 
@@ -11,7 +11,7 @@ use Fenos\Notifynder\NotifynderManager;
  *
  * @package Fenos\Notifynder\Senders
  */
-class SendGroup implements Sender
+class SendGroup implements DefaultSender
 {
 
     /**
@@ -54,10 +54,10 @@ class SendGroup implements Sender
     /**
      * Send group notifications
      *
-     * @param  StoreNotification $storeNotification
+     * @param  StoreNotification $sender
      * @return mixed
      */
-    public function send(StoreNotification $storeNotification)
+    public function send(StoreNotification $sender)
     {
         // Get group
         $group = $this->notifynderGroup->findByName($this->nameGroup);
@@ -75,7 +75,7 @@ class SendGroup implements Sender
                 $this->info
             );
 
-            $storeNotification->storeSingle($notification);
+            $sender->storeSingle($notification);
         }
 
         return $group;

@@ -56,7 +56,7 @@ class NotifynderEvent
             return $this->values[$name];
         }
 
-        return;
+        return null;
     }
 
     /**

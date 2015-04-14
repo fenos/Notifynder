@@ -120,6 +120,25 @@ interface NotifynderNotification
     public function getAll($to_id, $limit, $paginate, $orderDate = "desc");
 
     /**
+     * Get last notification of the
+     * given entity
+     *
+     * @param $to_id
+     * @return mixed
+     */
+    public function getLastNotification($to_id);
+
+    /**
+     * Get last notification of the
+     * given entity of the specific category
+     *
+     * @param $category
+     * @param $to_id
+     * @return mixed
+     */
+    public function getLastNotificationByCategory($category,$to_id);
+
+    /**
      * Send single notification
      *
      * @param  array  $info

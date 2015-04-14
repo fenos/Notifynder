@@ -1,22 +1,17 @@
 <?php namespace Fenos\Notifynder\Contracts;
 
 /**
- * Class SendSingle
+ * Interface Sender
  *
- * This contracts is needed to each sender classes.
- * It make sure they'll have all send method to send
- * notifications
- *
- * @package Fenos\Notifynder\Senders
+ * @package Fenos\Notifynder\Contracts
  */
-interface Sender
-{
+interface Sender {
 
     /**
-     * Send notification
+     * Send a custom notification
      *
-     * @param  StoreNotification $storeNotification
+     * @param NotifynderSender $notifynderSender
      * @return mixed
      */
-    public function send(StoreNotification $storeNotification);
+    public function send(NotifynderSender $notifynderSender);
 }

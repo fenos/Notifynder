@@ -1,7 +1,12 @@
 <?php namespace Fenos\Notifynder\Contracts;
 
-use Fenos\Notifynder\NotifynderManager;
+use Fenos\Notifynder\Notifynder;
 
+/**
+ * Interface NotifynderDispatcher
+ *
+ * @package Fenos\Notifynder\Contracts
+ */
 interface NotifynderDispatcher
 {
 
@@ -9,23 +14,23 @@ interface NotifynderDispatcher
      * It fire the event associated to the passed key,
      * trigging the listener method bound with
      *
-     * @param  NotifynderManager $notifynder
+     * @param  Notifynder $notifynder
      * @param  string            $eventName
      * @param  string            $category_name
      * @param  mixed|null        $values
      * @return mixed|null
      */
-    public function fire(NotifynderManager $notifynder, $eventName, $category_name = null, $values = []);
+    public function fire(Notifynder $notifynder, $eventName, $category_name = null, $values = []);
 
     /**
      * Deletegate events to categories
      *
-     * @param  NotifynderManager $notifynder
+     * @param  Notifynder $notifynder
      * @param  array             $data
      * @param  array             $events
      * @return mixed
      */
-    public function delegate(NotifynderManager $notifynder, $data = [], array $events);
+    public function delegate(Notifynder $notifynder, $data = [], array $events);
 
     /**
      * Boot The listeners

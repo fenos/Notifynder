@@ -1,6 +1,6 @@
 <?php namespace Fenos\Notifynder\Senders;
 
-use Fenos\Notifynder\Contracts\Sender;
+use Fenos\Notifynder\Contracts\DefaultSender;
 use Fenos\Notifynder\Contracts\StoreNotification;
 use Fenos\Notifynder\Exceptions\CategoryNotFoundException;
 
@@ -11,7 +11,7 @@ use Fenos\Notifynder\Exceptions\CategoryNotFoundException;
  *
  * @package Fenos\Notifynder\Senders
  */
-class SendOne implements Sender
+class SendOne implements DefaultSender
 {
 
     /**
@@ -30,14 +30,14 @@ class SendOne implements Sender
     /**
      * Send Single notification
      *
-     * @param  StoreNotification $storeNotification
+     * @param  StoreNotification $sender
      * @return mixed
      */
-    public function send(StoreNotification $storeNotification)
+    public function send(StoreNotification $sender)
     {
         $this->hasCategory();
 
-        return $storeNotification->storeSingle($this->infoNotification);
+        return $sender->storeSingle($this->infoNotification);
     }
 
     /**

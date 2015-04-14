@@ -1,6 +1,6 @@
 <?php namespace Fenos\Notifynder\Senders;
 
-use Fenos\Notifynder\Contracts\Sender;
+use Fenos\Notifynder\Contracts\DefaultSender;
 use Fenos\Notifynder\Contracts\StoreNotification;
 
 /**
@@ -10,7 +10,7 @@ use Fenos\Notifynder\Contracts\StoreNotification;
  *
  * @package Fenos\Notifynder\Senders
  */
-class SendMultiple implements Sender
+class SendMultiple implements DefaultSender
 {
 
     /**
@@ -29,11 +29,11 @@ class SendMultiple implements Sender
     /**
      * Send multiple notifications
      *
-     * @param  StoreNotification $storeNotification
+     * @param  StoreNotification $sender
      * @return mixed
      */
-    public function send(StoreNotification $storeNotification)
+    public function send(StoreNotification $sender)
     {
-        return $storeNotification->storeMultiple($this->infoNotifications);
+        return $sender->storeMultiple($this->infoNotifications);
     }
 }
