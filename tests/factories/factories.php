@@ -2,7 +2,7 @@
 
 $factory('Fenos\Notifynder\Models\NotificationCategory',[
 
-    'name' => 'notification.category',
+    'name' => $faker->name,
     'text' => 'test notification'
 ]);
 

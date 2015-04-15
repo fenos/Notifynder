@@ -120,7 +120,7 @@ interface Notifynder
      * entity
      *
      * @param $to_id
-     * @return Number
+     * @return integer
      */
     public function readAll($to_id);
 
@@ -312,5 +312,5 @@ interface Notifynder
      * @param $customSenderName
      * @return $this
      */
-    public function sendWith($customSenderName);
+    public function dipatchWith($customSenderName);
 }

@@ -297,6 +297,11 @@ class NotifynderBuilder implements ArrayAccess
      */
     public function offsetSet($offset, $value)
     {
+        if (method_exists($this, $offset)) {
+
+            return $this->{$offset}($value);
+        }
+
         if ($this->isRequiredField($offset)) {
             $this->builder[$offset] = $value;
         }

@@ -21,8 +21,6 @@ return [
      */
     'polymorphic' => false,
 
-    'anti_flood'  => 3, //seconds
-
     /**
      * If you need to extend the model class of
      * Notifynder you just need to change this line

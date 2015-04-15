@@ -1,9 +1,9 @@
 <?php namespace Fenos\Notifynder;
 
-use Fenos\Notifynder\Artisan\CategoryAdd;
-use Fenos\Notifynder\Artisan\CategoryDelete;
-use Fenos\Notifynder\Artisan\GroupAdd;
-use Fenos\Notifynder\Artisan\GroupAddCategories;
+use Fenos\Notifynder\Artisan\CreateCategory;
+use Fenos\Notifynder\Artisan\DeleteCategory;
+use Fenos\Notifynder\Artisan\CreateGroup;
+use Fenos\Notifynder\Artisan\PushCategoryToGroup;
 use Fenos\Notifynder\Builder\NotifynderBuilder;
 use Fenos\Notifynder\Categories\CategoryRepository;
 use Fenos\Notifynder\Categories\CategoryManager;
@@ -259,26 +259,26 @@ class NotifynderServiceProvider extends ServiceProvider
     {
         // Categories
         $this->app->bindShared('notifynder.artisan.category-add', function ($app) {
-            return new CategoryAdd(
+            return new CreateCategory(
                 $app['notifynder.category']
             );
         });
 
         $this->app->bindShared('notifynder.artisan.category-delete', function ($app) {
-            return new CategoryDelete(
+            return new DeleteCategory(
                 $app['notifynder.category']
             );
         });
 
         // Groups
         $this->app->bindShared('notifynder.artisan.group-add', function ($app) {
-            return new GroupAdd(
+            return new CreateGroup(
                 $app['notifynder.group']
             );
         });
 
         $this->app->bindShared('notifynder.artisan.group-add-categories', function ($app) {
-            return new GroupAddCategories(
+            return new PushCategoryToGroup(
                 $app['notifynder.group'],
                 new ArtisanOptionsParser()
             );

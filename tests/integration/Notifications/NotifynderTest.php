@@ -62,10 +62,10 @@ class NotifynderTest extends TestCaseDB {
     {
         $this->createCategory(['name' => 'custom']);
 
-        $this->notifynder['category_id'] = 'custom';
+        $this->notifynder['category'] = 'custom';
         $this->notifynder['url'] = 'w';
-        $this->notifynder['from_id'] = 1;
-        $this->notifynder['to_id'] = 1;
+        $this->notifynder['from'] = 1;
+        $this->notifynder['to'] = 1;
         $notification = $this->notifynder->send();
 
         $this->assertEquals('w',$notification->url);
@@ -77,10 +77,10 @@ class NotifynderTest extends TestCaseDB {
         $this->createCategory(['name' => 'custom']);
 
         $notifynder = $this->notifynder;
-        $notifynder->category_id = 'custom';
+        $notifynder->category = 'custom';
         $notifynder->url = 'w';
-        $notifynder->from_id = 1;
-        $notifynder->to_id = 1;
+        $notifynder->from = 1;
+        $notifynder->to = 1;
         $notification = $notifynder->send();
 
         $this->assertEquals('w',$notification->url);
