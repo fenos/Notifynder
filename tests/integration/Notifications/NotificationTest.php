@@ -38,9 +38,10 @@ class NotificationTest extends TestCaseDB {
     /** @test */
     function it_retrieve_notification_with_parsed_body()
     {
-        $category = $this->createCategory(['text' => 'parse this {extra} value']);
+        $extraValues = json_encode(['look' => 'Amazing']);
+        $category = $this->createCategory(['text' => 'parse this {extra.look} value']);
 
-        $notification = $this->createNotification(['extra' => 'Amazing','category_id' => $category->id]);
+        $notification = $this->createNotification(['extra' => $extraValues,'category_id' => $category->id]);
 
         $notifications = $this->notification->getNotRead($notification->to->id);
 
@@ -68,10 +69,11 @@ class NotificationTest extends TestCaseDB {
     function it_retrieve_notification_by_paginating_the_number()
     {
         app('config')->set('notifynder.polymorphic',false);
+        $extraValues = json_encode(['look' => 'Amazing']);
 
-        $category = $this->createCategory(['text' => 'parse this {extra} value']);
+        $category = $this->createCategory(['text' => 'parse this {extra.look} value']);
 
-        $notification = $this->createNotification(['extra' => 'Amazing','category_id' => $category->id]);
+        $notification = $this->createNotification(['extra' => $extraValues,'category_id' => $category->id]);
 
         $notifications = $this->notification->getNotRead($notification->to->id,10,true);
 

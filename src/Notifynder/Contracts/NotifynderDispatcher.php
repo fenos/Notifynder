@@ -40,6 +40,16 @@ interface NotifynderDispatcher
     public function boot(array $listeners);
 
     /**
+     * Tell the disptacher to send
+     * the notification with a custom
+     * (extended method)
+     *
+     * @param $customMethod
+     * @return $this
+     */
+    public function sendWith($customMethod);
+
+    /**
      * Check if the fired method has some notifications
      * to send
      *

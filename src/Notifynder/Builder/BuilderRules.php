@@ -78,4 +78,34 @@ trait BuilderRules
     {
         return (in_array($offset,$this->requiredFields));
     }
+
+    /**
+     * Check if the array passed is
+     * multidimensional
+     *
+     * @param $arr
+     * @return bool
+     */
+    protected function isReadyArrToFormatInJson(array $arr)
+    {
+         if ($this->isAssociativeArr($arr)) {
+             return true;
+         }
+
+        if (count($arr) > 0) {
+            $error = "The 'extra' value must to be an associative array";
+            throw new InvalidArgumentException($error);
+        }
+
+        return false;
+    }
+
+    /**
+     * @param array $arr
+     * @return bool
+     */
+    protected function isAssociativeArr(array $arr)
+    {
+        return array_keys($arr) !== range(0, count($arr) - 1);
+    }
 }

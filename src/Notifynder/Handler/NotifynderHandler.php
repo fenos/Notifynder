@@ -1,24 +1,54 @@
 <?php namespace Fenos\Notifynder\Handler;
 
+use Fenos\Notifynder\Contracts\NotifyListener;
+use Fenos\Notifynder\Notifynder;
+
+/**
+ * Class NotifynderHandler
+ *
+ * @package Fenos\Notifynder\Handler
+ */
 class NotifynderHandler
 {
 
     /**
-     * Handle the event to the given
+     * Handle the event
      *
-     * @param $event
-     * @param $notifynder
+     * @param NotifyListener  $eventListener
+     * @param null            $notifynder
      * @return mixed
      */
-    public function handle(NotifynderEvent $event, $notifynder)
+    public function handle(NotifyListener $eventListener,$notifynder = null)
     {
+        $event = $eventListener->getNotifynderEvent();
+
         $eventName = $this->getEventName($event->getEvent());
 
         if ($this->listenerIsRegistered($eventName)) {
-            return call_user_func_array([$this, $eventName], [$event, $notifynder]);
+
+            // Make sure a notifynder instance is passed to the event
+            // invoker method
+            $notifynder = (is_null($notifynder)) ? $this->getNotifynder() : $notifynder;
+
+            // Build the notifications
+            $builtNotifications = call_user_func_array([$this, $eventName], [$event, $notifynder]);
+
+            // If the listener is the NotifynderEvent that means
+            // we are triggering this from the Notifynder::fire()
+            // Event, it will take care of sending the notification
+            if ($eventListener instanceof NotifynderEvent) {
+                return $builtNotifications;
+            }
+
+            // Event has been dispatched manually from the native
+            // Laravel eventing system then I'll send the notification
+            // Right here
+            if ($this->hasNotificationToSend([$builtNotifications])) {
+                return $notifynder->send($builtNotifications);
+            }
         }
 
-        return;
+        return null;
     }
 
     /**
@@ -43,22 +73,52 @@ class NotifynderHandler
      * given user@postAdd -> postAdd
      *
      * @param $event
-     * @return mixed
+     * @return string
      */
     protected function getEventName($event)
     {
         // Remove the Notiynder namespaces for
         // the find the method
-        $event = str_replace('Notifynder.', '', $event);
+        $event = str_replace(Dispatcher::$defaultWildcard.'.', '', $event);
 
         $eventNameSpace = (strpos($event, '@'))
             ? explode('@', $event)
             : explode('.', $event);
 
-        array_shift($eventNameSpace);
+        // Check if the name has been splited in 2
+        if (count($eventNameSpace) > 1) {
+            array_shift($eventNameSpace);
+        }
 
         $nameMethod = implode('_', $eventNameSpace);
 
         return camel_case($nameMethod);
+    }
+
+    /**
+     * Get Notifynder Instance
+     *
+     * @return Notifynder
+     */
+    protected function getNotifynder()
+    {
+        $notifynder = app('notifynder');
+
+        return $notifynder;
+    }
+
+    /**
+     * Check if the fired method has some notifications
+     * to send
+     *
+     * @param $notificationsResult
+     * @return bool
+     */
+    protected function hasNotificationToSend($notificationsResult)
+    {
+        return is_array($notificationsResult)
+        and count($notificationsResult) > 0
+        and $notificationsResult[0] !== false
+        and count($notificationsResult[0]) > 0;
     }
 }

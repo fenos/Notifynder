@@ -153,6 +153,27 @@ class NotificationManagerSpec extends ObjectBehavior
     }
 
     /** @test */
+    function it_get_last_notification_of_the_current_entity(NotificationDB $notificationRepo)
+    {
+        $id = 1;
+
+        $notificationRepo->getLastNotification($id,null)->shouldBeCalled()->willReturn(new Notification());
+
+        $this->getLastNotification($id)->shouldReturnAnInstanceOf(Notification::class);
+    }
+
+    /** @test */
+    function it_get_last_notification_of_the_current_entity_filtering_by_category(NotificationDB $notificationRepo)
+    {
+        $id = 1;
+        $category = 'notifynder.category';
+
+        $notificationRepo->getLastNotificationByCategory($category,$id,null)->shouldBeCalled()->willReturn(new Notification());
+
+        $this->getLastNotificationByCategory($category,$id)->shouldReturnAnInstanceOf(Notification::class);
+    }
+
+    /** @test */
     function it_send_a_single_notification(NotificationDB $notificationRepo)
     {
         $notificationData = [];

@@ -2,8 +2,6 @@
 
 namespace spec\Fenos\Notifynder\Parsers;
 
-use Fenos\Notifynder\Models\Notification;
-use Fenos\Notifynder\Models\NotificationCategory;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
@@ -15,19 +13,51 @@ class NotifynderParserSpec extends ObjectBehavior
     }
 
     /** @test */
-    function it_parse_the_body_of_a_given_notification()
+    function it_should_replace_special_values_with_an_associative_array()
     {
+        $extra = ['hello' => 'world'];
+
         $notification = [
-            'id' => 1,
-            'extra' => 'HELLO',
             'body' => [
-                'name' => 'test',
-                'text' => 'translate this {extra} parameter'
-            ]
+                'text' => 'Hi jhon hello {extra.hello}'
+            ],
+            'extra' => json_encode($extra)
         ];
 
-        $translated = 'translate this HELLO parameter';
+        $this->parse($notification)->shouldReturn('Hi jhon hello world');
+    }
 
-        $this->parse($notification)->shouldReturn($translated);
+    /** @test */
+    function it_replace_from_values_relations()
+    {
+        $notification = [
+            'body' => [
+                'text' => 'Hi {to.username} hello'
+            ],
+            'to' => [
+                'username' => 'jhon',
+            ],
+            'extra' => null
+        ];
+
+        $this->parse($notification)->shouldReturn('Hi jhon hello');
+    }
+
+    /** @test */
+    function it_replace_both_in_a_string()
+    {
+        $extra = ['hello' => 'world'];
+
+        $notification = [
+            'body' => [
+                'text' => 'Hi {to.username} hello {extra.hello}'
+            ],
+            'to' => [
+                'username' => 'jhon',
+            ],
+            'extra' => json_encode($extra)
+        ];
+
+        $this->parse($notification)->shouldReturn('Hi jhon hello world');
     }
 }

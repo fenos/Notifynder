@@ -30,60 +30,54 @@ trait Notifable
     }
 
     /**
-     * @return \Fenos\Notifynder\NotifynderManager
-     */
-    protected function notifynderInstance()
-    {
-        return app('notifynder');
-    }
-
-    /**
-     * Read all notification
+     * Read all Notifications
      *
      * @return mixed
      */
-    public function readAll()
+    public function readAllNotifications()
     {
         return $this->notifynderIntance()->entity(
-            get_class($this)
+            $this->getMorphClass()
         )->readAll($this->id);
     }
 
     /**
-     * Read Limit
+     * Read Limiting Notifications
      *
      * @param  int    $numbers
      * @param  string $order
      * @return mixed
      */
-    public function readLimit($numbers = 10, $order = "ASC")
+    public function readLimitNotifications($numbers = 10, $order = "ASC")
     {
         return $this->notifynderInstance()->entity(
-            get_class($this)
+            $this->getMorphClass()
         )->readLimit($this->id, $numbers, $order);
     }
 
     /**
-     * Delete Limit
+     * Delete Limiting Notifications
      *
      * @param  int    $numbers
      * @param  string $order
      * @return mixed
      */
-    public function deleteLimit($numbers = 10, $order = "ASC")
+    public function deleteLimitNotifications($numbers = 10, $order = "ASC")
     {
-        return $this->notifynderInstance()->entity(get_class($this))->deleteLimit($this->id, $numbers, $order);
+        return $this->notifynderInstance()->entity(
+            $this->getMorphClass()
+        )->deleteLimit($this->id, $numbers, $order);
     }
 
     /**
-     * Delete all
+     * Delete all Notifications
      *
      * @return Bool
      */
-    public function deleteAll()
+    public function deleteAllNotifications()
     {
         return $this->notifynderInstance()->entity(
-            get_class($this)
+            $this->getMorphClass()
         )->deleteAll($this->id);
     }
 
@@ -95,10 +89,10 @@ trait Notifable
      * @param  string $order
      * @return mixed
      */
-    public function getNotRead($limit = null, $paginate = false, $order = 'desc')
+    public function getNotificationsNotRead($limit = null, $paginate = false, $order = 'desc')
     {
         return $this->notifynderInstance()->entity(
-            get_class($this)
+            $this->getMorphClass()
         )->getNotRead($this->id, $limit, $paginate, $order);
     }
 
@@ -110,10 +104,10 @@ trait Notifable
      * @param  string $order
      * @return mixed
      */
-    public function getAll($limit = null, $paginate = false, $order = 'desc')
+    public function getNotifications($limit = null, $paginate = false, $order = 'desc')
     {
         return $this->notifynderInstance()->entity(
-            get_class($this)
+            $this->getMorphClass()
         )->getAll($this->id, $limit, $paginate, $order);
     }
 
@@ -135,10 +129,18 @@ trait Notifable
      *
      * @return mixed
      */
-    public function countNotRead()
+    public function countNotificationsNotRead()
     {
         return $this->notifynderInstance()->entity(
-            get_class($this)
+            $this->getMorphClass()
         )->countNotRead($this->id);
+    }
+
+    /**
+     * @return \Fenos\Notifynder\NotifynderManager
+     */
+    protected function notifynderInstance()
+    {
+        return app('notifynder');
     }
 }

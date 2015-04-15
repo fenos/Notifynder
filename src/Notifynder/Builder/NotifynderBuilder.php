@@ -11,10 +11,10 @@ use Closure;
 /**
  * Class NotifynderBuilder
  *
- * The builder is responsable to create with a elegant and easy
- * syntax your notifications arrays. It provide values validations
- * to keep clean of your data. Also it will add the "sugar" to
- * multi notifications as created_at and updated_at field automatically
+ * The builder is a main factor of Notifynder, it make sure
+ * that the notification is decorated and validated before
+ * are passed to the Sender Classes. It also helps you to
+ * create multi notifications with the same simple and easy sintax.
  *
  * @package Fenos\Notifynder\Builder
  */
@@ -115,11 +115,13 @@ class NotifynderBuilder implements ArrayAccess
      * @param $extra
      * @return $this
      */
-    public function extra($extra)
+    public function extra(array $extra = [])
     {
-        $this->isString($extra);
+        $this->isReadyArrToFormatInJson($extra);
 
-        $this->setBuilderData('extra', $extra);
+        $jsonExtraValues = json_encode($extra);
+
+        $this->setBuilderData('extra', $jsonExtraValues);
 
         return $this;
     }
@@ -152,7 +154,7 @@ class NotifynderBuilder implements ArrayAccess
      * @param  callable $builder
      * @return $this
      */
-    public function loop($dataToIterate, \Closure $builder)
+    public function loop($dataToIterate, Closure $builder)
     {
         if ($this->isIterable($dataToIterate)) {
             $arrayOfData = [];

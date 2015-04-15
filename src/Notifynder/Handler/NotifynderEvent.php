@@ -1,11 +1,13 @@
 <?php namespace Fenos\Notifynder\Handler;
 
+use Fenos\Notifynder\Contracts\NotifyListener;
+
 /**
  * Class NotifynderEvent
  *
  * @package Fenos\Notifynder\Handler
  */
-class NotifynderEvent
+class NotifynderEvent implements NotifyListener
 {
 
     /**
@@ -28,7 +30,7 @@ class NotifynderEvent
      * @param       $category
      * @param array $values
      */
-    public function __construct($event, $category, array $values)
+    public function __construct($event, $category = null, array $values = [])
     {
         $this->event = $event;
         $this->values = $values;
@@ -74,5 +76,13 @@ class NotifynderEvent
     public function __get($name)
     {
         return $this->get($name);
+    }
+
+    /**
+     * @return NotifynderEvent
+     */
+    public function getNotifynderEvent()
+    {
+        return $this;
     }
 }

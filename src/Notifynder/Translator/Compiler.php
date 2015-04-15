@@ -2,6 +2,15 @@
 
 use Illuminate\Contracts\Filesystem\Filesystem;
 
+/**
+ * Class Compiler
+ *
+ * Cache compiler for translations
+ * I got part of the code from the view compiler
+ * of laravel :)
+ *
+ * @package Fenos\Notifynder\Translator
+ */
 class Compiler
 {
 
@@ -69,7 +78,7 @@ class Compiler
      *
      * @return string
      */
-    private function cachePath()
+    protected function cachePath()
     {
         return storage_path('app/notifynder');
     }

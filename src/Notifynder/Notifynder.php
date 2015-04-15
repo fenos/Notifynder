@@ -296,7 +296,21 @@ interface Notifynder
     /**
      * Get the categoriesContainer property
      *
+     * @param $name
      * @return array
      */
-    public function getCategoriesContainer();
+    public function getCategoriesContainer($name);
+
+    /**
+     * Define which method
+     * the event dispatcher has
+     * to send the notifications
+     * as default we have 'send' so will be
+     * $notifynder->send() if u pass 'sendCustom'
+     * it will be like $notifynder->sendCustom()
+     *
+     * @param $customSenderName
+     * @return $this
+     */
+    public function sendWith($customSenderName);
 }

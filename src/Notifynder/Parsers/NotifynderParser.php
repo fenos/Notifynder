@@ -1,14 +1,11 @@
 <?php namespace Fenos\Notifynder\Parsers;
 
 /**
+ * Class NotifynderParser
  *
- * Class parse used on collection. It allow to decode the special
- * values inserted on the notification
- *
- * @package Fenos\Notifynder\Parse
+ * @package Fenos\Notifynder\Parsers
  */
-class NotifynderParser
-{
+class NotifynderParser {
 
     /**
      * Regex to get values between curly brachet {$value}
@@ -16,53 +13,85 @@ class NotifynderParser
     const RULE = '/\{(.+?)(?:\{(.+)\})?\}/';
 
     /**
-     * Parse special value from a noficiation
-     * Model or a collection
+     * Parse the body of a notification
+     * with your extras values or relation
+     * values
      *
      * @param $item
-     * @return mixed
+     * @return array|mixed
      */
     public function parse($item)
     {
         $body = $item['body']['text'];
         $extra = $item['extra'];
 
-        $valuesToParse = $this->getValues($body);
+        // Decode the data passed into an array
+        $extra = json_decode($extra);
+        $specialValues = $this->getValues($body);
 
-        if ($valuesToParse > 0) {
-            return $this->replaceSpecialValues($valuesToParse, $item, $body, $extra);
+        if ($specialValues > 0) {
+
+            list($extrasToReplace, $relationsToReplace) = $this->categorizeSpecialValues($specialValues);
+
+            $body = $this->replaceExtraValues($extrasToReplace, $extra, $body);
+            $body = $this->replaceValuesRelations($item, $relationsToReplace, $body);
         }
 
         return $body;
     }
 
     /**
-     * Replace specialValues
+     * I categorize into 2 arrays
+     * the relations values
+     * and extras values
      *
-     * @param $valuesToParse
-     * @param $item
-     * @param $body
+     * @param $specialValues
+     * @return array
+     */
+    protected function categorizeSpecialValues($specialValues)
+    {
+        $extrasToReplace = [];
+        $relationsToReplace = [];
+
+        foreach ($specialValues as $specialValue) {
+
+            if (starts_with($specialValue, 'extra.')) {
+                $extrasToReplace[] = $specialValue;
+            } else {
+                if (starts_with($specialValue, 'to.') or
+                    starts_with($specialValue, 'from.')
+                ) {
+                    $relationsToReplace[] = $specialValue;
+                }
+            }
+        }
+
+        return array($extrasToReplace, $relationsToReplace);
+    }
+
+    /**
+     * This method replace extra values
+     * of the given extra values specified
+     * in the extra field of the notification
+     * (parsed from Json) I use a convention
+     * to keep all the extras values under
+     * an {extra.*} namespace
+     *
+     * @param $extrasToReplace
      * @param $extra
-     * @return mixed
+     * @param $body
+     * @return array
      */
-    public function replaceSpecialValues($valuesToParse, $item, $body, $extra)
+    protected function replaceExtraValues($extrasToReplace, $extra, $body)
     {
-        foreach ($valuesToParse as $value) {
-            // get an array of nested values, means that there is a relations
-            // in progress
-            $value_user = explode('.', $value);
+        // replace the values specified in the extra
+        // wildcard
+        foreach ($extrasToReplace as $replacer) {
+            $valueMatch = explode('.', $replacer)[1];
 
-            // get name relations
-            $relation = array_shift($value_user);
+            if (array_key_exists($valueMatch, $extra)) {
 
-            if (strpos($value, $relation.'.') !== false) {
-                // yes
-
-                $body = $this->insertValuesRelation($value_user, $relation, $body, $item);
-            }
-
-            if (! is_null($extra)) {
-                $body = $this->replaceExtraParameter($value, $body, $extra);
+                $body = str_replace('{'.$replacer.'}', $extra->{$valueMatch}, $body);
             }
         }
 
@@ -70,41 +99,28 @@ class NotifynderParser
     }
 
     /**
-     * Replace relations values
+     * Replace relations values as
+     * 'to' and 'from', that means you
+     * can have parsed value from the current
+     * relation {to.name} name who received
+     * notification
      *
-     * @param $value_user
-     * @param $relation
-     * @param $body
      * @param $item
-     * @return mixed
-     */
-    protected function insertValuesRelation($value_user, $relation, $body, $item)
-    {
-        foreach ($value_user as $value) {
-            $body = preg_replace(
-                "{{".$relation.".".$value."}}",
-                $item[$relation][$value],
-                $body
-            );
-        }
-
-        return $body;
-    }
-
-    /**
-     * Replace the Extra Parameter
-     *
-     * @param $value
+     * @param $relationsToReplace
      * @param $body
      * @return mixed
      */
-    protected function replaceExtraParameter($value, $body, $extra)
+    protected function replaceValuesRelations($item, $relationsToReplace, $body)
     {
-        return $item['body']['text'] = preg_replace(
-            "{{".$value."}}",
-            $extra,
-            $body
-        );
+        foreach ($relationsToReplace as $replacer) {
+            $valueMatch = explode('.', $replacer);
+            $relation = $valueMatch[0];
+            $field = $valueMatch[1];
+
+            $body = str_replace('{'.$replacer.'}', $item[$relation][$field], $body);
+        }
+
+        return $body;
     }
 
     /**

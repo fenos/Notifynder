@@ -114,15 +114,15 @@ class NotifynderBuilderSpec extends ObjectBehavior
     /** @test */
     function it_add_the_extra_parameter_to_the_builder()
     {
-        $extra = 'extra';
+        $extra = ['my'  => 'extra'];
 
         $this->extra($extra)->shouldReturnAnInstanceOf(NotifynderBuilder::class);
     }
 
     /** @test */
-    function it_allow_only_string_as_extra()
+    function it_allow_only_associative_array_as_extra_parameter_they_llbe_converted_in_jon()
     {
-        $extra = 1;
+        $extra = ['my'];
 
         $this->shouldThrow('InvalidArgumentException')->during('extra',[$extra]);
     }

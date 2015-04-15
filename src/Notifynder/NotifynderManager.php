@@ -62,6 +62,14 @@ class NotifynderManager extends NotifynderBuilder implements Notifynder
     protected $notifynderDispatcher;
 
     /**
+     * This sender method
+     * will be used on the dispatcher
+     *
+     * @var string
+     */
+    protected $eventSender = 'send';
+
+    /**
      * @var NotifynderGroup
      */
     protected $notifynderGroup;
@@ -102,10 +110,10 @@ class NotifynderManager extends NotifynderBuilder implements Notifynder
      */
     public function category($name)
     {
-        // Check if the category is eager loaded
+        // Check if the category is lazy loaded
         if ($this->isLazyLoaded($name)) {
             // Yes it is, split out the value from the array
-            $this->defaultCategory = $this->getCategoriesContainer()[$name];
+            $this->defaultCategory = $this->getCategoriesContainer($name);
 
             // set category on the builder
             parent::category($this->defaultCategory->id);
@@ -176,7 +184,7 @@ class NotifynderManager extends NotifynderBuilder implements Notifynder
      */
     public function send($info = [])
     {
-        $info = (count($info) > 0) ? $info : $this;
+        $info = (count($info) > 0) ? $info : $this->toArray();
 
         return $this->notifynderSender->send($info, $this->defaultCategory);
     }
@@ -190,7 +198,7 @@ class NotifynderManager extends NotifynderBuilder implements Notifynder
      */
     public function sendNow($info = [])
     {
-        $info = (count($info) > 0) ? $info : $this;
+        $info = (count($info) > 0) ? $info : $this->toArray();
 
         return $this->notifynderSender->sendNow($info, $this->defaultCategory);
     }
@@ -203,7 +211,7 @@ class NotifynderManager extends NotifynderBuilder implements Notifynder
      */
     public function sendOne($info = [])
     {
-        $info = (count($info) > 0) ? $info : $this;
+        $info = (count($info) > 0) ? $info : $this->toArray();
 
         return $this->notifynderSender->sendOne($info, $this->defaultCategory);
     }
@@ -216,7 +224,7 @@ class NotifynderManager extends NotifynderBuilder implements Notifynder
      */
     public function sendMultiple($info = [])
     {
-        $info = (count($info) > 0) ? $info : $this;
+        $info = (count($info) > 0) ? $info : $this->toArray();
 
         return $this->notifynderSender->sendMultiple($info, $this->defaultCategory);
     }
@@ -230,7 +238,7 @@ class NotifynderManager extends NotifynderBuilder implements Notifynder
      */
     public function sendGroup($group_name, $info = [])
     {
-        $info = (count($info) > 0) ? $info : $this;
+        $info = (count($info) > 0) ? $info : $this->toArray();
 
         return $this->notifynderSender->sendGroup($this, $group_name, $info);
     }
@@ -458,7 +466,8 @@ class NotifynderManager extends NotifynderBuilder implements Notifynder
      */
     public function fire($key, $category_name, $values = [])
     {
-        return $this->notifynderDispatcher->fire($this, $key, $category_name, $values);
+        return $this->notifynderDispatcher->sendWith($this->eventSender)
+                    ->fire($this, $key, $category_name, $values);
     }
 
     /**
@@ -490,7 +499,7 @@ class NotifynderManager extends NotifynderBuilder implements Notifynder
      */
     public function builder()
     {
-        return $this;
+        return new parent($this->notifynderCategory);
     }
 
     /**
@@ -520,7 +529,7 @@ class NotifynderManager extends NotifynderBuilder implements Notifynder
      */
     protected function isLazyLoaded($name)
     {
-        return array_key_exists($name, $this->getCategoriesContainer());
+        return array_key_exists($name, $this->categoriesContainer);
     }
 
     /**
@@ -548,11 +557,27 @@ class NotifynderManager extends NotifynderBuilder implements Notifynder
     /**
      * Get the categoriesContainer property
      *
+     * @param $name
      * @return array
      */
-    public function getCategoriesContainer()
+    public function getCategoriesContainer($name)
     {
-        return $this->categoriesContainer;
+        return $this->categoriesContainer[$name];
+    }
+
+    /**
+     * Define which method
+     * the event dispatcher has
+     * to send the notifications
+     *
+     * @param $customSenderName
+     * @return $this
+     */
+    public function sendWith($customSenderName)
+    {
+        $this->eventSender = $customSenderName;
+
+        return $this;
     }
 
     /**

@@ -5,6 +5,7 @@ use Fenos\Notifynder\Handler\NotifynderEvent;
 use Fenos\Notifynder\Handler\NotifynderHandler;
 use Fenos\Notifynder\NotifynderManager;
 use Fenos\Tests\Models\User;
+use Illuminate\Contracts\Events\Dispatcher;
 
 /**
  * Class NotifynderHandlerTest
@@ -40,6 +41,11 @@ class NotifynderHandlerTest extends TestCaseDB {
     protected $from;
 
     /**
+     * @var Dispatcher
+     */
+    protected $laravelDispatcher;
+
+    /**
      * Listen test listeners
      */
     public function setUp()
@@ -47,6 +53,7 @@ class NotifynderHandlerTest extends TestCaseDB {
         parent::setUp();
 
         $this->dispatcher = app('notifynder');
+        $this->laravelDispatcher = app('events');
 
         // Boot Listeners
         $this->dispatcher->bootListeners($this->listeners);
@@ -97,6 +104,31 @@ class NotifynderHandlerTest extends TestCaseDB {
 
         $this->assertCount(3,$notification);
     }
+
+    /** @test */
+    function it_trigger_an_handler_using_native_laravel_dispatcher()
+    {
+        $testListener = [
+            NotifyEvent::class => [
+                NotifyUserTest::class
+            ]
+        ];
+
+        // Listen for events as the laravel way
+        foreach ($testListener as $event => $listeners)
+        {
+            foreach ($listeners as $listener)
+            {
+                $this->laravelDispatcher->listen($event, $listener);
+            }
+        }
+
+        $notification = $this->laravelDispatcher->fire(
+            new NotifyEvent(new NotifynderEvent('userActivated'))
+        );
+
+        $this->assertEquals('hello',$notification[0]->url);
+    }
 }
 
 /*
@@ -105,6 +137,10 @@ class NotifynderHandlerTest extends TestCaseDB {
 |--------------------------------------------------------------------------
 | NotifyUserTest Class is an handler to test the implementation against it
 --------------------------------------------------------------------------*/
+
+/**
+ * Class NotifyUserTest
+ */
 class NotifyUserTest extends NotifynderHandler {
 
     /**
@@ -121,8 +157,7 @@ class NotifyUserTest extends NotifynderHandler {
                           ->category('activation')
                           ->url('hello')
                           ->from(1)
-                          ->to(2)
-                          ->toArray();
+                          ->to(2);
     }
 
     /**
