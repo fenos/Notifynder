@@ -50,3 +50,11 @@ Notifynder v. 3.0 Change log:
 
 - Builder is now part of the Notifynder class, you can access to the builder directly from the Notifynder
   class and you can chain your custom and default method for send the notification! Cool!
+
+- You can now compose and send your notification in one go!
+
+- Improved EventHandler to be working with a native way of using events
+  in Laravel 5
+
+- No need queue anymore, You can use Laravel ShouldBeQueue
+  Interface in your events!

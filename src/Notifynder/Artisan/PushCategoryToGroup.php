@@ -6,7 +6,7 @@ use Illuminate\Console\Command;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
 
-class GroupAddCategories extends Command
+class PushCategoryToGroup extends Command
 {
 
     /**
@@ -14,7 +14,7 @@ class GroupAddCategories extends Command
      *
      * @var string
      */
-    protected $name = 'notifynder:group-add-categories';
+    protected $name = 'notifynder:push:category';
 
     /**
      * The console command description.
@@ -38,7 +38,7 @@ class GroupAddCategories extends Command
      *
      * @param  NotifynderGroup                              $notifynderGroup
      * @param  ArtisanOptionsParser                         $artisanOptionsParser
-     * @return \Fenos\Notifynder\Artisan\GroupAddCategories
+     * @return \Fenos\Notifynder\Artisan\PushCategoryToGroup
      */
     public function __construct(NotifynderGroup $notifynderGroup,
                                 ArtisanOptionsParser $artisanOptionsParser)

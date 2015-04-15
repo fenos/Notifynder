@@ -4,7 +4,7 @@ use Fenos\Notifynder\Contracts\NotifynderCategory;
 use Illuminate\Console\Command;
 use Symfony\Component\Console\Input\InputArgument;
 
-class CategoryAdd extends Command
+class CreateCategory extends Command
 {
 
     /**
@@ -12,14 +12,14 @@ class CategoryAdd extends Command
      *
      * @var string
      */
-    protected $name = 'notifynder:category-add';
+    protected $name = 'notifynder:create:category';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Add a notification category in the database';
+    protected $description = 'Create and store a new notifynder category';
 
     /**
      * @var \Fenos\Notifynder\Categories\NotifynderCategory
@@ -30,7 +30,7 @@ class CategoryAdd extends Command
      * Create a new command instance.
      *
      * @param  NotifynderCategory                    $notifynderCategory
-     * @return \Fenos\Notifynder\Artisan\CategoryAdd
+     * @return \Fenos\Notifynder\Artisan\CreateCategory
      */
     public function __construct(NotifynderCategory $notifynderCategory)
     {
@@ -49,12 +49,12 @@ class CategoryAdd extends Command
         $name = $this->argument('name');
         $text = $this->argument('text');
 
-        $createCategory = $this->notifynderCategory->add(compact('name', 'text'));
+        $createCategory = $this->notifynderCategory->add($name, $text);
 
         if ($createCategory) {
             $this->info("Category $createCategory->name has been created");
         } else {
-            $this->error('The category has been not created check the information');
+            $this->error('The category has been not created');
         }
     }
 

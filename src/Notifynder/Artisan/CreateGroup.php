@@ -4,7 +4,7 @@ use Fenos\Notifynder\Contracts\NotifynderGroup;
 use Illuminate\Console\Command;
 use Symfony\Component\Console\Input\InputArgument;
 
-class GroupAdd extends Command
+class CreateGroup extends Command
 {
 
     /**
@@ -12,7 +12,7 @@ class GroupAdd extends Command
      *
      * @var string
      */
-    protected $name = 'notifynder:group-add';
+    protected $name = 'notifynder:create:group';
 
     /**
      * The console command description.
@@ -30,7 +30,7 @@ class GroupAdd extends Command
      * Create a new command instance.
      *
      * @param  NotifynderGroup                    $notifynderGroup
-     * @return \Fenos\Notifynder\Artisan\GroupAdd
+     * @return \Fenos\Notifynder\Artisan\CreateGroup
      */
     public function __construct(NotifynderGroup $notifynderGroup)
     {

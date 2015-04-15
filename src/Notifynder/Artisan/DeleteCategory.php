@@ -4,7 +4,7 @@ use Fenos\Notifynder\Contracts\NotifynderCategory;
 use Illuminate\Console\Command;
 use Symfony\Component\Console\Input\InputArgument;
 
-class CategoryDelete extends Command
+class DeleteCategory extends Command
 {
 
     /**
@@ -12,14 +12,14 @@ class CategoryDelete extends Command
      *
      * @var string
      */
-    protected $name = 'notifynder:category-delete';
+    protected $name = 'notifynder:delete:category';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Delete a category by ID or Name given';
+    protected $description = 'Delete a notifynder category by ID or Name given';
 
     /**
      * @var \Fenos\Notifynder\Categories\NotifynderCategory
@@ -30,7 +30,7 @@ class CategoryDelete extends Command
      * Create a new command instance.
      *
      * @param  NotifynderCategory                       $notifynderCategory
-     * @return \Fenos\Notifynder\Artisan\CategoryDelete
+     * @return \Fenos\Notifynder\Artisan\DeleteCategory
      */
     public function __construct(NotifynderCategory $notifynderCategory)
     {
