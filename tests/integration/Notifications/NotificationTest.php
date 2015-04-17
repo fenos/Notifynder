@@ -46,7 +46,7 @@ class NotificationTest extends TestCaseDB {
         $notifications = $this->notification->getNotRead($notification->to->id);
 
         $bodyParsed = 'parse this Amazing value';
-        $this->assertEquals($bodyParsed,$notifications[0]->body->text);
+        $this->assertEquals($bodyParsed,$notifications[0]->text);
     }
 
     /** @test */
@@ -78,6 +78,6 @@ class NotificationTest extends TestCaseDB {
         $notifications = $this->notification->getNotRead($notification->to->id,10,true);
 
         $bodyParsed = 'parse this Amazing value';
-        $this->assertEquals($bodyParsed,$notifications['data'][0]['body']['text']);
+        $this->assertEquals($bodyParsed,$notifications['data'][0]['text']);
     }
 }
