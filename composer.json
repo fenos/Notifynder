@@ -23,7 +23,7 @@
   },
   "autoload": {
     "classmap": [
-      "src/migrations"
+
     ],
     "psr-4": {
       "Fenos\\Notifynder\\": "src/Notifynder"
