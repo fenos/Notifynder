@@ -90,4 +90,4 @@ Notifynder::getAll($user_id,$limit,$paginateBool);
 Notifynder::ReadAll($user_id);
 ~~~
 
-To know more, such as the advance usage of Notifynder Visit the Wiki.
+To know more, such as the advance usage of Notifynder Visit the **[Notifynder Wiki](https://github.com/fenos/Notifynder/wiki)**.
