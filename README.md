@@ -14,6 +14,8 @@ such as storing, retriving, and organise your codebase to handle hundreds of not
 You get started in a couple of minutes to "enable" notifications in your Laravel Project.
 
 Compatible DBs: **MySql** - **PostgresSql** - **Sqlite**
+
+**[Notifynder Wiki](https://github.com/fenos/Notifynder/wiki)**
 - - -
 
 ## Installation ##
