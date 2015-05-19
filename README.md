@@ -15,7 +15,7 @@ You get started in a couple of minutes to "enable" notifications in your Laravel
 
 Compatible DBs: **MySql** - **PostgresSql** - **Sqlite**
 
-**[Notifynder Wiki](https://github.com/fenos/Notifynder/wiki)**
+Documentation: **[Notifynder Wiki](https://github.com/fenos/Notifynder/wiki)**
 - - -
 
 ## Installation ##
