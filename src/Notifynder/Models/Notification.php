@@ -116,7 +116,7 @@ class Notification extends Model
      */
     public function scopeWherePolymorphic($query, $id, $type)
     {
-        if (! $type) {
+        if (! $type or config('notifynder.polymorphic') === false) {
             return $query->where('to_id', $id);
         } else {
             return $query->where('to_id', $id)
