@@ -132,8 +132,9 @@ class NotifynderBuilder implements ArrayAccess
      * the generation of your array
      *
      *
-     * @param  callable $closure
-     * @return array    | false
+     * @param callable|Closure $closure
+     * @return array|false
+     * @throws NotificationBuilderException
      */
     public function raw(Closure $closure)
     {
@@ -160,11 +161,9 @@ class NotifynderBuilder implements ArrayAccess
             $arrayOfData = [];
 
             foreach ($dataToIterate as $key => $data) {
-                $dataBuilt = $builder($this, $data, $key);
+                $builder($this, $data, $key);
+                $arrayOfData[] = $this->toArray();
 
-                if ($dataBuilt) {
-                    $arrayOfData[] = $this->toArray();
-                }
             }
 
             return $arrayOfData;
