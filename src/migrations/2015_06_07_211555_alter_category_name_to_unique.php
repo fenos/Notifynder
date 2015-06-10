@@ -25,7 +25,7 @@ class AlterCategoryNameToUnique extends Migration
     public function down()
     {
         Schema::table('notification_categories', function ($table) {
-            $table->dropUnique('name');
+            $table->dropUnique('notification_categories_name_unique');
         });
     }
 }
