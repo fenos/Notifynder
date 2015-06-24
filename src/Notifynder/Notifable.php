@@ -36,7 +36,7 @@ trait Notifable
      */
     public function readAllNotifications()
     {
-        return $this->notifynderIntance()->entity(
+        return $this->notifynderInstance()->entity(
             $this->getMorphClass()
         )->readAll($this->id);
     }
