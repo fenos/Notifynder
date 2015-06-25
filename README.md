@@ -8,8 +8,8 @@ Notifynder 3.0 - Laravel 5
 [![License](https://poser.pugx.org/fenos/Notifynder/license.png)](https://packagist.org/packages/fenos/Notifynder)
 [![Latest Stable Version](https://poser.pugx.org/fenos/notifynder/v/stable.png)](https://packagist.org/packages/fenos/notifynder)
 
-Notifynder is designed to manage notifications in a powerfull and easy way.
-With the flexibility that Notifynder offer, It provide you a complete API to work with your notifications,
+Notifynder is designed to manage notifications in a powerful and easy way.
+With the flexibility that Notifynder offer, It provide a complete API to work with your notifications,
 such as storing, retriving, and organise your codebase to handle hundreds of notifications.
 You get started in a couple of minutes to "enable" notifications in your Laravel Project.
 
