@@ -32,7 +32,7 @@ class NotifynderBuilder implements ArrayAccess
      *
      * @var array
      */
-    protected $builder = [];
+    protected $notifications = [];
 
     /**
      * @var NotifynderCategory
@@ -151,22 +151,26 @@ class NotifynderBuilder implements ArrayAccess
      * Loop the datas for create
      * multi notifications array
      *
-     * @param           $dataToIterate
-     * @param  callable $builder
+     * @param          $dataToIterate
+     * @param  Closure $builder
      * @return $this
+     * @throws NotificationBuilderException
      */
     public function loop($dataToIterate, Closure $builder)
     {
         if ($this->isIterable($dataToIterate)) {
-            $arrayOfData = [];
+            $notifications = [];
+
+            $newBuilder = new self($this->notifynderCategory);
 
             foreach ($dataToIterate as $key => $data) {
-                $builder($this, $data, $key);
-                $arrayOfData[] = $this->toArray();
-
+                $builder($newBuilder, $data, $key);
+                $notifications[] = $newBuilder->toArray();
             }
 
-            return $arrayOfData;
+//            dd($notifications);
+            $this->notifications = $notifications;
+            return $this;
         }
 
         $error = "The data passed must be itarable";
@@ -182,10 +186,32 @@ class NotifynderBuilder implements ArrayAccess
      */
     public function toArray()
     {
-        $this->setDate();
+        $hasMultipleNotifications = $this->isMultidimensionalArray($this->notifications);
 
-        if ($this->hasRequiredFields($this->builder)) {
-            return $this->builder;
+        // If the builder is handling a single notification
+        // we will validate only it
+        if (! $hasMultipleNotifications) {
+
+            $this->setDate();
+
+            if ($this->hasRequiredFields($this->notifications)) {
+                return $this->notifications;
+            }
+        }
+
+        // If has multiple Notifications
+        // we will validate one by one
+        if ($hasMultipleNotifications) {
+
+            $allow = [];
+
+            foreach($this->notifications as $index => $notification) {
+                $allow[$index] = $this->hasRequiredFields($notification);
+            }
+
+            if (! in_array(false,$allow)) {
+                return $this->notifications;
+            }
         }
 
         $error = "The fields:  'from_id' , 'to_id', 'url', 'category_id' are required";
@@ -266,7 +292,7 @@ class NotifynderBuilder implements ArrayAccess
      */
     protected function setBuilderData($field, $data)
     {
-        return $this->builder[$field] = $data;
+        return $this->notifications[$field] = $data;
     }
 
 
@@ -276,7 +302,7 @@ class NotifynderBuilder implements ArrayAccess
      */
     public function offsetExists($offset)
     {
-        return array_key_exists($offset,$this->builder);
+        return array_key_exists($offset,$this->notifications);
     }
 
 
@@ -286,7 +312,7 @@ class NotifynderBuilder implements ArrayAccess
      */
     public function offsetGet($offset)
     {
-        return $this->builder[$offset];
+        return $this->notifications[$offset];
     }
 
 
@@ -302,7 +328,7 @@ class NotifynderBuilder implements ArrayAccess
         }
 
         if ($this->isRequiredField($offset)) {
-            $this->builder[$offset] = $value;
+            $this->notifications[$offset] = $value;
         }
     }
 
@@ -313,5 +339,5 @@ class NotifynderBuilder implements ArrayAccess
      */
     public function offsetUnset($offset)
     {
-        unset($this->builder[$offset]);
+        unset($this->notifications[$offset]);
 }}

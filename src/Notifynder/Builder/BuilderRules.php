@@ -108,4 +108,21 @@ trait BuilderRules
     {
         return array_keys($arr) !== range(0, count($arr) - 1);
     }
+
+    /**
+     * Check if the array is
+     * multidimensional
+     *
+     * @param $arr
+     * @return bool
+     */
+    public function isMultidimensionalArray($arr)
+    {
+        $rv = array_filter($arr, 'is_array');
+        if (count($rv) > 0) {
+            return true;
+        }
+
+        return false;
+    }
 }

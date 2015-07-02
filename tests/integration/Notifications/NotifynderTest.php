@@ -1,5 +1,8 @@
 <?php
+use Fenos\Notifynder\Models\Notification;
 use Fenos\Notifynder\NotifynderManager;
+use Fenos\Tests\Models\User;
+use Laracasts\TestDummy\Factory;
 
 /**
  * Class NotifynderTest
@@ -102,5 +105,34 @@ class NotifynderTest extends TestCaseDB {
 
         $notifications = $this->notifynder->send($notifications);
         $this->assertEquals(json_encode($extra),$notifications->extra);
+    }
+
+    /**
+     * It send multiple Notifications
+     *
+     * @method send
+     * @group failing
+     * @test
+     */
+    function it_send_multiple_notifications()
+    {
+        Factory::times(10)->create(User::class);
+        $this->createCategory(['name' => 'me']);
+
+        $allUsers = User::all();
+
+        $this->notifynder->loop($allUsers, function($builder,$user) {
+
+            $builder->category('me')
+                ->url('you')
+                ->from(1)
+                ->to($user->id);
+
+        })->send();
+
+        // should send 10 notifications
+        $notifications = Notification::all();
+
+        $this->assertCount(10,$notifications);
     }
 }
