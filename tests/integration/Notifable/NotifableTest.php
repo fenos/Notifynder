@@ -53,7 +53,7 @@ class NotifableTraitTest extends TestCaseDB {
 
         $count = $this->user->countNotificationsNotRead();
 
-        $this->assertEquals(10,$count);
+        $this->assertEquals(0,$count);
     }
 
     /**

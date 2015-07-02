@@ -53,7 +53,7 @@ trait CreateModels {
         ];
 
         return Factory::times($this->multiNotificationsNumber)
-            ->create(Notification::class,array_merge($data,$to_entity));
+            ->create(Notification::class,array_merge($to_entity,$data));
     }
 
     /**
