@@ -42,7 +42,7 @@ trait BuilderRules
      */
     protected function isCarbon($value)
     {
-        if(!$value isInstanceOf Carbon)
+        if(!$value instanceof Carbon)
         {
             throw new InvalidArgumentException("The value Passed is not an instance of Carbon API");
         }
