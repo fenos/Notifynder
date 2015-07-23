@@ -90,6 +90,23 @@ class NotifynderBuilderSpec extends ObjectBehavior
     }
 
     /** @test */
+    function it_add_the_expire_parameter_to_the_builder()
+    {
+        $datetime = new Carbon;
+
+        $this->expire($datetime)->shouldReturnAnInstanceOf(NotifynderBuilder::class);
+    }
+
+    /** @test */
+    function it_allow_only_carbon_instance_as_expire_time()
+    {
+        $datetime = 1;
+
+        $this->shouldThrow('InvalidArgumentException')->during('expire',[$datetime]);
+    }
+
+
+    /** @test */
     function it_add_a_category_id_to_the_builder()
     {
         $category_id = 1;

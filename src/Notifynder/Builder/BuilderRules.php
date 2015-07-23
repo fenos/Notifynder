@@ -35,6 +35,22 @@ trait BuilderRules
     }
 
     /**
+     * Value has to be a valid Carbon Instance
+     *
+     * @param $value
+     * @return bool | InvalidArgumentException
+     */
+    protected function isCarbon($value)
+    {
+        if(!$value isInstanceOf Carbon)
+        {
+            throw new InvalidArgumentException("The value Passed is not an instance of Carbon API");
+        }
+
+        return true;
+    }
+
+    /**
      * Value has to be numeric
      *
      * @param $value

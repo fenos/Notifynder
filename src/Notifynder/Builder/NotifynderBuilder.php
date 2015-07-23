@@ -91,6 +91,20 @@ class NotifynderBuilder implements ArrayAccess
     }
 
     /**
+     * Set expire time
+     *
+     * @param $datetime
+     * @return $this
+     */
+    public function expire($datetime)
+    {
+        $this->isCarbon($datetime)
+        $this->setBuilderData('expire_time', $datetime);
+
+        return $this;
+    }
+
+    /**
      * Set Category and covert it, to the id
      * if name of it given
      *
@@ -168,7 +182,6 @@ class NotifynderBuilder implements ArrayAccess
                 $notifications[] = $newBuilder->toArray();
             }
 
-//            dd($notifications);
             $this->notifications = $notifications;
             return $this;
         }
