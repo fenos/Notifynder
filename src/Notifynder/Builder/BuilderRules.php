@@ -1,6 +1,7 @@
 <?php namespace Fenos\Notifynder\Builder;
 
 use InvalidArgumentException;
+use Carbon\Carbon;
 
 /**
  * Class BuilderRules
@@ -42,12 +43,9 @@ trait BuilderRules
      */
     protected function isCarbon($value)
     {
-        if(!$value instanceof Carbon)
-        {
-            throw new InvalidArgumentException("The value Passed is not an instance of Carbon API");
-        }
+        if($value instanceof Carbon) return true;
 
-        return true;
+        throw new InvalidArgumentException("The value Passed has to be an instance of Carbon\Carbon");
     }
 
     /**
