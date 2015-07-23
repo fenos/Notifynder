@@ -98,7 +98,7 @@ class NotifynderBuilder implements ArrayAccess
      */
     public function expire($datetime)
     {
-        $this->isCarbon($datetime)
+        $this->isCarbon($datetime);
         $this->setBuilderData('expire_time', $datetime);
 
         return $this;
