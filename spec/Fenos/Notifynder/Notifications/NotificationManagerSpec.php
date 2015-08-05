@@ -127,7 +127,7 @@ class NotificationManagerSpec extends ObjectBehavior
     {
         $entity_id = 1;
         $limit = 10;
-        $paginate = false;
+        $paginate = null;
 
         $notificationRepo->getNotRead($entity_id,null,$limit,$paginate,'desc')->shouldBeCalled()
                     ->willReturn($collection);
@@ -142,7 +142,7 @@ class NotificationManagerSpec extends ObjectBehavior
     {
         $entity_id = 1;
         $limit = 10;
-        $paginate = false;
+        $paginate = null;
 
         $notificationRepo->getAll($entity_id,null,$limit,$paginate,'desc')->shouldBeCalled()
             ->willReturn($collection);

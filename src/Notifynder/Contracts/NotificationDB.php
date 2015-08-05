@@ -115,11 +115,11 @@ interface NotificationDB
      * @param         $to_id
      * @param         $entity
      * @param         $limit
-     * @param         $paginate
+     * @param  int|null $paginate
      * @param  string $orderDate
      * @return mixed
      */
-    public function getNotRead($to_id, $entity, $limit, $paginate, $orderDate = 'desc');
+    public function getNotRead($to_id, $entity, $limit, $paginate = null, $orderDate = 'desc');
 
     /**
      * Retrive all notifications, not read
@@ -130,11 +130,11 @@ interface NotificationDB
      * @param         $to_id
      * @param         $entity
      * @param  null   $limit
-     * @param  bool   $paginate
+     * @param  int|null $paginate
      * @param  string $orderDate
      * @return mixed
      */
-    public function getAll($to_id, $entity, $limit = null, $paginate = false, $orderDate = 'desc');
+    public function getAll($to_id, $entity, $limit = null, $paginate = null, $orderDate = 'desc');
 
     /**
      * get number Notifications
