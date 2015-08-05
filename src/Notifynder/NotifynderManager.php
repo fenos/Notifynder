@@ -344,11 +344,11 @@ class NotifynderManager extends NotifynderBuilder implements Notifynder
      *
      * @param         $to_id
      * @param  null   $limit
-     * @param  bool   $paginate
+     * @param  null|int   $paginate
      * @param  string $order
      * @return mixed
      */
-    public function getNotRead($to_id, $limit = null, $paginate = false, $order = "desc")
+    public function getNotRead($to_id, $limit = null, $paginate = null, $order = "desc")
     {
         $notifications = $this->notification->entity($this->entity);
 
@@ -361,11 +361,11 @@ class NotifynderManager extends NotifynderBuilder implements Notifynder
      *
      * @param         $to_id
      * @param  null   $limit
-     * @param  bool   $paginate
+     * @param  int|null   $paginate
      * @param  string $order
      * @return mixed
      */
-    public function getAll($to_id, $limit = null, $paginate = false, $order = "desc")
+    public function getAll($to_id, $limit = null, $paginate = null, $order = "desc")
     {
         $notifications = $this->notification->entity($this->entity);
 
