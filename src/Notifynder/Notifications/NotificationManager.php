@@ -178,7 +178,10 @@ class NotificationManager implements NotifynderNotification
 
         if(is_int(intval($paginate)) && !is_null($paginate))
         {
-            return (new Paginator($notifications->parse()->toArray(), $limit, $paginate))->toArray();
+            $offset = ($paginate * $limit) - $limit;
+            return (new Paginator(array_slice($notifications->parse()->toArray(), $offset, $limit, true), $limit, $paginate, [
+                'path' => Paginator::resolveCurrentPath(),
+            ]))->toArray();
         }
 
         return $notifications->parse();
@@ -202,7 +205,10 @@ class NotificationManager implements NotifynderNotification
 
         if(is_int(intval($paginate)) && !is_null($paginate))
         {
-            return (new Paginator($notifications->parse()->toArray(), $limit, $paginate))->toArray();
+            $offset = ($paginate * $limit) - $limit;
+            return (new Paginator(array_slice($notifications->parse()->toArray(), $offset, $limit, true), $limit, $paginate, [
+                'path' => Paginator::resolveCurrentPath(),
+            ]))->toArray();
         }
 
         return $notifications->parse();
