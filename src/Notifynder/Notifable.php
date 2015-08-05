@@ -85,7 +85,7 @@ trait Notifable
      * Get Not Read
      *
      * @param  null   $limit
-     * @param  bool   $paginate
+     * @param  int|null   $paginate
      * @param  string $order
      * @return mixed
      */
@@ -100,7 +100,7 @@ trait Notifable
      * Get all notifications
      *
      * @param  null   $limit
-     * @param  bool   $paginate
+     * @param  int|null   $paginate
      * @param  string $order
      * @return mixed
      */
