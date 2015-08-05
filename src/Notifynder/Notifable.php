@@ -89,7 +89,7 @@ trait Notifable
      * @param  string $order
      * @return mixed
      */
-    public function getNotificationsNotRead($limit = null, $paginate = false, $order = 'desc')
+    public function getNotificationsNotRead($limit = null, $paginate = null, $order = 'desc')
     {
         return $this->notifynderInstance()->entity(
             $this->getMorphClass()
@@ -104,7 +104,7 @@ trait Notifable
      * @param  string $order
      * @return mixed
      */
-    public function getNotifications($limit = null, $paginate = false, $order = 'desc')
+    public function getNotifications($limit = null, $paginate = null, $order = 'desc')
     {
         return $this->notifynderInstance()->entity(
             $this->getMorphClass()

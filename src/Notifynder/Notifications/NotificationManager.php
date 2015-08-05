@@ -165,21 +165,20 @@ class NotificationManager implements NotifynderNotification
      *
      * @param         $to_id
      * @param         $limit
-     * @param         $paginate
+     * @param  int|null $paginate
      * @param  string $orderDate
      * @return mixed
      */
-    public function getNotRead($to_id, $limit = null, $paginate = false, $orderDate = 'desc')
+    public function getNotRead($to_id, $limit = null, $paginate = null, $orderDate = 'desc')
     {
         $notifications = $this->notifynderRepo->getNotRead(
             $to_id, $this->entity,
             $limit, $paginate, $orderDate
         );
 
-        if ($paginate) {
-            return (new Paginator(
-                $notifications->parse()->toArray(), $limit
-            ))->toArray();
+        if(is_int(intval($paginate)) && !is_null($paginate))
+        {
+            return (new Paginator($notifications->parse()->toArray(), $limit, $paginate))->toArray();
         }
 
         return $notifications->parse();
@@ -190,21 +189,20 @@ class NotificationManager implements NotifynderNotification
      *
      * @param         $to_id
      * @param         $limit
-     * @param         $paginate
+     * @param  int|null $paginate
      * @param  string $orderDate
      * @return mixed
      */
-    public function getAll($to_id, $limit = null, $paginate = false, $orderDate = 'desc')
+    public function getAll($to_id, $limit = null, $paginate = null, $orderDate = 'desc')
     {
         $notifications = $this->notifynderRepo->getAll(
             $to_id, $this->entity,
             $limit, $paginate, $orderDate
         );
 
-        if ($paginate) {
-            return (new Paginator(
-                $notifications->parse()->toArray(), $limit
-            ))->toArray();
+        if(is_int(intval($paginate)) && !is_null($paginate))
+        {
+            return (new Paginator($notifications->parse()->toArray(), $limit, $paginate))->toArray();
         }
 
         return $notifications->parse();
