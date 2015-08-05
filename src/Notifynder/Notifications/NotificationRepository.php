@@ -213,12 +213,12 @@ class NotificationRepository implements NotificationDB, StoreNotification
      *
      * @param         $to_id
      * @param         $entity
-     * @param         $limit
-     * @param         $paginate
+     * @param  int|null $limit
+     * @param  int|null $paginate
      * @param  string $orderDate
      * @return mixed
      */
-    public function getNotRead($to_id, $entity, $limit = null, $paginate = false, $orderDate = 'desc')
+    public function getNotRead($to_id, $entity, $limit = null, $paginate = null, $orderDate = 'desc')
     {
         $result = $this->notification->with('body', 'from')
             ->wherePolymorphic($to_id, $entity)
@@ -228,6 +228,11 @@ class NotificationRepository implements NotificationDB, StoreNotification
 
         if (! is_null($limit)) {
             $result->limit($limit);
+        }
+
+        if(is_int(intval($paginate)) && !is_null($paginate))
+        {
+            $result->skip(($paginate - 1) * $limit)->take($limit + 1);
         }
 
         return $result->get();
@@ -242,11 +247,11 @@ class NotificationRepository implements NotificationDB, StoreNotification
      * @param         $to_id
      * @param         $entity
      * @param  null   $limit
-     * @param  bool   $paginate
+     * @param  int|null   $paginate
      * @param  string $orderDate
      * @return mixed
      */
-    public function getAll($to_id, $entity, $limit = null, $paginate = false, $orderDate = 'desc')
+    public function getAll($to_id, $entity, $limit = null, $paginate = null, $orderDate = 'desc')
     {
         $result = $this->notification->with('body', 'from')
             ->wherePolymorphic($to_id, $entity)
@@ -256,6 +261,11 @@ class NotificationRepository implements NotificationDB, StoreNotification
         // if the limit is set
         if (! is_null($limit)) {
             $result->limit($limit);
+        }
+
+        if(is_int(intval($paginate)) && !is_null($paginate))
+        {
+            $result->skip(($paginate - 1) * $limit)->take($limit + 1);
         }
 
         return $result->get();
