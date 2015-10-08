@@ -80,4 +80,26 @@ class NotificationTest extends TestCaseDB {
         $bodyParsed = 'parse this Amazing value';
         $this->assertEquals($bodyParsed,$notifications->items()[0]->text);
     }
+
+    /**
+     * It will query adding the filter scope
+     * on of the category by name
+     *
+     * @test
+     */
+    function it_will_query_for_notification_by_category_name()
+    {
+        app('config')->set('notifynder.polymorphic',false);
+        $this->createMultipleNotifications();
+        $category = $this->createCategory(['text' => 'parse this {extra.look} value','name' => 'text']);
+        $this->createMultipleNotifications(['category_id' => $category->id]);
+
+        $user = new \Fenos\Tests\Models\User(['id' => $this->to['id']]);
+
+        $notificationByCategory = $user->getNotifications(false,false,'desc', function($query) use ($category) {
+           $query->byCategory('text');
+        });
+
+        $this->assertCount(10,$notificationByCategory);
+    }
 }

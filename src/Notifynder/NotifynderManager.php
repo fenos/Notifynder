@@ -1,6 +1,7 @@
 <?php namespace Fenos\Notifynder;
 
 use BadMethodCallException;
+use Closure;
 use Fenos\Notifynder\Builder\NotifynderBuilder;
 use Fenos\Notifynder\Contracts\NotifynderCategory;
 use Fenos\Notifynder\Contracts\NotifynderDispatcher;
@@ -29,7 +30,7 @@ class NotifynderManager extends NotifynderBuilder implements Notifynder
      *
      * @var string
      */
-    const VERSION = '3.0.0';
+    const VERSION = '3.1.0';
 
     /**
      * @var NotifynderCategory
@@ -342,48 +343,51 @@ class NotifynderManager extends NotifynderBuilder implements Notifynder
      * Get Notifications not read
      * of the given entity
      *
-     * @param         $to_id
-     * @param  null   $limit
-     * @param  null|int   $paginate
-     * @param  string $order
+     * @param           $to_id
+     * @param  null     $limit
+     * @param  null|int $paginate
+     * @param  string   $order
+     * @param Closure   $filterScope
      * @return mixed
      */
-    public function getNotRead($to_id, $limit = null, $paginate = null, $order = "desc")
+    public function getNotRead($to_id, $limit = null, $paginate = null, $order = "desc", Closure $filterScope = null)
     {
         $notifications = $this->notification->entity($this->entity);
 
-        return $notifications->getNotRead($to_id, $limit, $paginate, $order);
+        return $notifications->getNotRead($to_id, $limit, $paginate, $order, $filterScope);
     }
 
     /**
      * Get all notifications of the
      * given entity
      *
-     * @param         $to_id
-     * @param  null   $limit
-     * @param  int|null   $paginate
-     * @param  string $order
+     * @param           $to_id
+     * @param  null     $limit
+     * @param  int|null $paginate
+     * @param  string   $order
+     * @param Closure   $filterScope
      * @return mixed
      */
-    public function getAll($to_id, $limit = null, $paginate = null, $order = "desc")
+    public function getAll($to_id, $limit = null, $paginate = null, $order = "desc", Closure $filterScope = null)
     {
         $notifications = $this->notification->entity($this->entity);
 
-        return $notifications->getAll($to_id, $limit, $paginate);
+        return $notifications->getAll($to_id, $limit, $paginate,$order, $filterScope);
     }
 
     /**
      * Get number of notification not read
      * of the given entity
      *
-     * @param $to_id
+     * @param         $to_id
+     * @param Closure $filterScope
      * @return mixed
      */
-    public function countNotRead($to_id)
+    public function countNotRead($to_id,Closure $filterScope = null)
     {
         $notifications = $this->notification->entity($this->entity);
 
-        return $notifications->countNotRead($to_id);
+        return $notifications->countNotRead($to_id,$filterScope);
     }
 
     /**
@@ -402,19 +406,20 @@ class NotifynderManager extends NotifynderBuilder implements Notifynder
      * entity, second parameter can filter by
      * category
      *
-     * @param      $to_id
-     * @param null $category
+     * @param         $to_id
+     * @param null    $category
+     * @param Closure $filterScope
      * @return mixed
      */
-    public function getLastNotification($to_id,$category = null)
+    public function getLastNotification($to_id,$category = null,Closure $filterScope = null)
     {
         $notification = $this->notification->entity($this->entity);
 
         if ( is_null($category)) {
-            return $notification->getLastNotification($to_id);
+            return $notification->getLastNotification($to_id,$filterScope);
         }
 
-        return $notification->getLastNotificationByCategory($category,$to_id);
+        return $notification->getLastNotificationByCategory($category,$to_id,$filterScope);
     }
 
     /**

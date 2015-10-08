@@ -1,5 +1,6 @@
 <?php namespace Fenos\Notifynder\Contracts;
 
+use Closure;
 use Fenos\Notifynder\Models\Notification;
 
 /**
@@ -7,7 +8,7 @@ use Fenos\Notifynder\Models\Notification;
  *
  * @package Fenos\Notifynder\Senders
  */
-interface NotificationDB
+interface NotificationDB extends StoreNotification
 {
 
     /**
@@ -18,27 +19,11 @@ interface NotificationDB
      */
     public function find($notification_id);
 
-    /**
-     * Save a single notification sent
-     *
-     * @param  array  $info
-     * @return static
-     */
-    public function storeSingle(array $info);
-
-    /**
-     * Save multiple notifications sent
-     * at once
-     *
-     * @param  array $info
-     * @return mixed
-     */
-    public function storeMultiple(array $info);
 
     /**
      * Make Read One Notification
      *
-     * @param  Notification      $notification
+     * @param  Notification $notification
      * @return bool|Notification
      */
     public function readOne(Notification $notification);
@@ -112,14 +97,22 @@ interface NotificationDB
      * You can also limit the number of
      * Notification if you don't it will get all
      *
-     * @param         $to_id
-     * @param         $entity
-     * @param         $limit
+     * @param           $to_id
+     * @param           $entity
+     * @param           $limit
      * @param  int|null $paginate
-     * @param  string $orderDate
+     * @param  string   $orderDate
+     * @param Closure   $filterScope
      * @return mixed
      */
-    public function getNotRead($to_id, $entity, $limit, $paginate = null, $orderDate = 'desc');
+    public function getNotRead(
+        $to_id,
+        $entity,
+        $limit,
+        $paginate = null,
+        $orderDate = 'desc',
+        Closure $filterScope = null
+    );
 
     /**
      * Retrive all notifications, not read
@@ -127,43 +120,54 @@ interface NotificationDB
      * You can also limit the number of
      * Notifications if you don't, it will get all
      *
-     * @param         $to_id
-     * @param         $entity
-     * @param  null   $limit
+     * @param           $to_id
+     * @param           $entity
+     * @param  null     $limit
      * @param  int|null $paginate
-     * @param  string $orderDate
+     * @param  string   $orderDate
+     * @param Closure   $filterScope
      * @return mixed
      */
-    public function getAll($to_id, $entity, $limit = null, $paginate = null, $orderDate = 'desc');
+    public function getAll(
+        $to_id,
+        $entity,
+        $limit = null,
+        $paginate = null,
+        $orderDate = 'desc',
+        Closure $filterScope = null
+    );
 
     /**
      * get number Notifications
      * not read
      *
-     * @param $to_id
-     * @param $entity
+     * @param         $to_id
+     * @param         $entity
+     * @param Closure $filterScope
      * @return mixed
      */
-    public function countNotRead($to_id, $entity);
+    public function countNotRead($to_id, $entity, Closure $filterScope = null);
 
     /**
      * Get last notification of the current
      * entity
      *
-     * @param $to_id
-     * @param $entity
+     * @param         $to_id
+     * @param         $entity
+     * @param Closure $filterScope
      * @return mixed
      */
-    public function getLastNotification($to_id,$entity);
+    public function getLastNotification($to_id, $entity, Closure $filterScope = null);
 
     /**
      * Get last notification of the current
      * entity of a specific category
      *
-     * @param $category
-     * @param $to_id
-     * @param $entity
+     * @param         $category
+     * @param         $to_id
+     * @param         $entity
+     * @param Closure $filterScope
      * @return mixed
      */
-    public function getLastNotificationByCategory($category,$to_id,$entity);
+    public function getLastNotificationByCategory($category, $to_id, $entity, Closure $filterScope = null);
 }

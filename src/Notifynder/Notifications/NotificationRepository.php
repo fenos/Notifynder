@@ -1,7 +1,7 @@
 <?php namespace Fenos\Notifynder\Notifications;
 
+use Closure;
 use Fenos\Notifynder\Contracts\NotificationDB;
-use Fenos\Notifynder\Contracts\StoreNotification;
 use Fenos\Notifynder\Models\Notification;
 use Illuminate\Database\DatabaseManager;
 use Illuminate\Database\Connection;
@@ -13,7 +13,7 @@ use Illuminate\Database\Query\Builder as BuilderDB;
  *
  * @package Fenos\Notifynder\Senders
  */
-class NotificationRepository implements NotificationDB, StoreNotification
+class NotificationRepository implements NotificationDB
 {
 
     /**
@@ -30,9 +30,10 @@ class NotificationRepository implements NotificationDB, StoreNotification
      * @param Notification                         $notification
      * @param \Illuminate\Database\DatabaseManager $db
      */
-    public function __construct(Notification $notification,
-                         DatabaseManager $db)
-    {
+    public function __construct(
+        Notification $notification,
+        DatabaseManager $db
+    ) {
         $this->notification = $notification;
         $this->db = $db;
     }
@@ -51,7 +52,7 @@ class NotificationRepository implements NotificationDB, StoreNotification
     /**
      * Save a single notification sent
      *
-     * @param  array        $info
+     * @param  array $info
      * @return Notification
      */
     public function storeSingle(array $info)
@@ -76,7 +77,7 @@ class NotificationRepository implements NotificationDB, StoreNotification
     /**
      * Make Read One Notification
      *
-     * @param  Notification      $notification
+     * @param  Notification $notification
      * @return bool|Notification
      */
     public function readOne(Notification $notification)
@@ -109,7 +110,7 @@ class NotificationRepository implements NotificationDB, StoreNotification
             ->lists('id');
 
         return $this->notification->whereIn('id', $notifications)
-             ->update(['read' => 1]);
+            ->update(['read' => 1]);
     }
 
     /**
@@ -148,12 +149,12 @@ class NotificationRepository implements NotificationDB, StoreNotification
      */
     public function deleteAll($to_id, $entity)
     {
-        $query =  $this->db->table(
+        $query = $this->db->table(
             $this->notification->getTable()
         );
 
         return $this->notification->scopeWherePolymorphic($query, $to_id, $entity)
-                    ->delete();
+            ->delete();
     }
 
     /**
@@ -161,14 +162,17 @@ class NotificationRepository implements NotificationDB, StoreNotification
      * defined category
      *
      * @param $category_name int
-     * @param $expired Bool
+     * @param $expired       Bool
      * @return Bool
      */
     public function deleteByCategory($category_name, $expired = false)
     {
-        $query = $this->notification->whereHas('body', function ($q) use ($category_name) {
-            $q->where('name', $category_name);
-        });
+        $query = $this->notification->whereHas(
+            'body',
+            function ($q) use ($category_name) {
+                $q->where('name', $category_name);
+            }
+        );
 
         if ($expired == true) {
             return $query->onlyExpired()->delete();
@@ -196,14 +200,15 @@ class NotificationRepository implements NotificationDB, StoreNotification
             ->wherePolymorphic($user_id, $entity)
             ->orderBy('id', $order)
             ->select('id')
-            ->limit($number)->lists('id');
+            ->limit($number)
+            ->lists('id');
 
         if (count($notifications_ids) == 0) {
             return false;
         }
 
         return $this->notification->whereIn('id', $notifications_ids)
-                    ->delete();
+            ->delete();
     }
 
     /**
@@ -211,31 +216,39 @@ class NotificationRepository implements NotificationDB, StoreNotification
      * You can also limit the number of
      * Notification if you don't it will get all
      *
-     * @param         $to_id
-     * @param         $entity
-     * @param  int|null $limit
-     * @param  int|null $paginate
-     * @param  string $orderDate
+     * @param              $to_id
+     * @param              $entity
+     * @param  int|null    $limit
+     * @param  int|null    $paginate
+     * @param  string      $orderDate
+     * @param Closure|null $filterScope
      * @return mixed
      */
-    public function getNotRead($to_id, $entity, $limit = null, $paginate = null, $orderDate = 'desc')
-    {
-        $result = $this->notification->with('body', 'from')
+    public function getNotRead(
+        $to_id,
+        $entity,
+        $limit = null,
+        $paginate = null,
+        $orderDate = 'desc',
+        Closure $filterScope = null
+    ) {
+        $query = $this->notification->with('body', 'from')
             ->wherePolymorphic($to_id, $entity)
             ->withNotRead()
             ->orderBy('read', 'ASC')
             ->orderBy('created_at', $orderDate);
 
-        if (! is_null($limit)) {
-            $result->limit($limit);
+        $query = $this->applyFilter($filterScope, $query);
+
+        if ( is_int($limit)) {
+            $query->limit($limit);
         }
 
-        if(is_int(intval($paginate)) && !is_null($paginate))
-        {
-            $result->skip(($paginate - 1) * $limit)->take($limit + 1);
+        if (is_int(intval($paginate)) && $paginate) {
+            $query->skip(($paginate - 1) * $limit)->take($limit + 1);
         }
 
-        return $result->get();
+        return $query->get();
     }
 
     /**
@@ -244,85 +257,117 @@ class NotificationRepository implements NotificationDB, StoreNotification
      * You can also limit the number of
      * Notifications if you don't, it will get all
      *
-     * @param         $to_id
-     * @param         $entity
-     * @param  null   $limit
-     * @param  int|null   $paginate
-     * @param  string $orderDate
+     * @param           $to_id
+     * @param           $entity
+     * @param  null     $limit
+     * @param  int|null $paginate
+     * @param  string   $orderDate
+     * @param Closure   $filterScope
      * @return mixed
      */
-    public function getAll($to_id, $entity, $limit = null, $paginate = null, $orderDate = 'desc')
-    {
-        $result = $this->notification->with('body', 'from')
+    public function getAll(
+        $to_id,
+        $entity,
+        $limit = null,
+        $paginate = null,
+        $orderDate = 'desc',
+        Closure $filterScope = null
+    ) {
+        $query = $this->notification->with('body', 'from')
             ->wherePolymorphic($to_id, $entity)
             ->orderBy('read', 'ASC')
             ->orderBy('created_at', $orderDate);
 
+        $query = $this->applyFilter($filterScope, $query);
+
+
         // if the limit is set
-        if (! is_null($limit)) {
-            $result->limit($limit);
+        if ( is_int($limit)) {
+            $query->limit($limit);
         }
 
-        if(is_int(intval($paginate)) && !is_null($paginate))
-        {
-            $result->skip(($paginate - 1) * $limit)->take($limit + 1);
+        if (is_int(intval($paginate)) && $paginate) {
+            $query->skip(($paginate - 1) * $limit)->take($limit + 1);
         }
 
-        return $result->get();
+        return $query->get();
     }
 
     /**
      * get number Notifications
      * not read
      *
-     * @param $to_id
-     * @param $entity
+     * @param         $to_id
+     * @param         $entity
+     * @param Closure $filterScope
      * @return mixed
      */
-    public function countNotRead($to_id, $entity)
+    public function countNotRead($to_id, $entity, Closure $filterScope = null)
     {
-        return $this->notification->wherePolymorphic($to_id, $entity)
+        $query = $this->notification->wherePolymorphic($to_id, $entity)
             ->withNotRead()
-            ->select($this->db->raw('Count(*) as notRead'))
-            ->count();
+            ->select($this->db->raw('Count(*) as notRead'));
+
+        $query = $this->applyFilter($filterScope, $query);
+
+        return $query->count();
     }
 
     /**
      * Get last notification of the current
      * entity
      *
-     * @param $to_id
-     * @param $entity
+     * @param         $to_id
+     * @param         $entity
+     * @param Closure $filterScope
      * @return mixed
      */
-    public function getLastNotification($to_id,$entity)
+    public function getLastNotification($to_id, $entity, Closure $filterScope = null)
     {
-        return $this->notification->wherePolymorphic($to_id, $entity)
-                    ->orderBy('created_at','DESC')
-                    ->first();
+        $query = $this->notification->wherePolymorphic($to_id, $entity)
+            ->orderBy('created_at', 'DESC');
+
+        $query = $this->applyFilter($filterScope, $query);
+
+        return $query->first();
     }
 
     /**
      * Get last notification of the current
      * entity of a specific category
      *
-     * @param $category
-     * @param $to_id
-     * @param $entity
+     * @param         $category
+     * @param         $to_id
+     * @param         $entity
+     * @param Closure $filterScope
      * @return mixed
      */
-    public function getLastNotificationByCategory($category,$to_id,$entity)
+    public function getLastNotificationByCategory($category, $to_id, $entity, Closure $filterScope = null)
     {
-        $query = $this->notification->wherePolymorphic($to_id, $entity);
+        $query = $this->notification
+            ->wherePolymorphic($to_id, $entity)
+            ->byCategory($category)
+            ->orderBy('created_at', 'desc');
 
-        if (is_numeric($category)) {
+        $query = $this->applyFilter($filterScope, $query);
 
-            return $query->orderBy('created_at','desc')
-                    ->where('category_id',$category)->first();
+        return $query->first();
+    }
+
+    /**
+     * Apply scope filters
+     *
+     * @param Closure $filterScope
+     * @param         $query
+     */
+    protected function applyFilter(Closure $filterScope = null, $query)
+    {
+        if ( ! $filterScope) {
+            return $query;
         }
 
-        return $query->whereHas('body', function($categoryQuery) use ($category) {
-            $categoryQuery->where('name',$category);
-        })->orderBy('created_at','desc')->first();
+        $filterScope($query);
+
+        return $query;
     }
 }

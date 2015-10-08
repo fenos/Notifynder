@@ -1,5 +1,6 @@
 <?php namespace Fenos\Notifynder;
 
+use Closure;
 use Fenos\Notifynder\Builder\NotifynderBuilder;
 
 /**
@@ -170,9 +171,10 @@ interface Notifynder
      * @param  null   $limit
      * @param  bool   $paginate
      * @param  string $order
+     * @param Closure $filterScope
      * @return mixed
      */
-    public function getNotRead($to_id, $limit = null, $paginate = false, $order = "desc");
+    public function getNotRead($to_id, $limit = null, $paginate = false, $order = "desc", Closure $filterScope = null);
 
     /**
      * Get all notifications of the
@@ -182,18 +184,20 @@ interface Notifynder
      * @param  null   $limit
      * @param  bool   $paginate
      * @param  string $order
+     * @param Closure $filterScope
      * @return mixed
      */
-    public function getAll($to_id, $limit = null, $paginate = false, $order = "desc");
+    public function getAll($to_id, $limit = null, $paginate = false, $order = "desc", Closure $filterScope = null);
 
     /**
      * Get number of notification not read
      * of the given entity
      *
-     * @param $to_id
+     * @param         $to_id
+     * @param Closure $filterScope
      * @return mixed
      */
-    public function countNotRead($to_id);
+    public function countNotRead($to_id, Closure $filterScope = null);
 
     /**
      * Find Notification by ID
@@ -208,11 +212,12 @@ interface Notifynder
      * entity, second parameter can filter by
      * category
      *
-     * @param      $to_id
-     * @param null $category
+     * @param         $to_id
+     * @param null    $category
+     * @param Closure $filterScope
      * @return mixed
      */
-    public function getLastNotification($to_id,$category = null);
+    public function getLastNotification($to_id,$category = null,Closure $filterScope = null);
 
     /**
      * Add category to a group

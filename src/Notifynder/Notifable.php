@@ -1,5 +1,7 @@
 <?php namespace Fenos\Notifynder;
 
+use Closure;
+
 /**
  * Class Notifable
  *
@@ -84,56 +86,60 @@ trait Notifable
     /**
      * Get Not Read
      *
-     * @param  null   $limit
-     * @param  int|null   $paginate
-     * @param  string $order
+     * @param  null     $limit
+     * @param  int|null $paginate
+     * @param  string   $order
+     * @param Closure   $filterScope
      * @return mixed
      */
-    public function getNotificationsNotRead($limit = null, $paginate = null, $order = 'desc')
+    public function getNotificationsNotRead($limit = null, $paginate = null, $order = 'desc',Closure $filterScope = null)
     {
         return $this->notifynderInstance()->entity(
             $this->getMorphClass()
-        )->getNotRead($this->id, $limit, $paginate, $order);
+        )->getNotRead($this->id, $limit, $paginate, $order,$filterScope);
     }
 
     /**
      * Get all notifications
      *
-     * @param  null   $limit
-     * @param  int|null   $paginate
-     * @param  string $order
+     * @param  null     $limit
+     * @param  int|null $paginate
+     * @param  string   $order
+     * @param Closure   $filterScope
      * @return mixed
      */
-    public function getNotifications($limit = null, $paginate = null, $order = 'desc')
+    public function getNotifications($limit = null, $paginate = null, $order = 'desc', Closure $filterScope = null)
     {
         return $this->notifynderInstance()->entity(
             $this->getMorphClass()
-        )->getAll($this->id, $limit, $paginate, $order);
+        )->getAll($this->id, $limit, $paginate, $order, $filterScope);
     }
 
     /**
      * Get last notification
      *
-     * @param null $category
+     * @param null    $category
+     * @param Closure $filterScope
      * @return mixed
      */
-    public function getLastNotification($category = null)
+    public function getLastNotification($category = null,Closure $filterScope = null)
     {
         return $this->notifynderInstance()->entity(
             $this->getMorphClass()
-        )->getLastNotification($this->id,$category);
+        )->getLastNotification($this->id,$category,$filterScope);
     }
 
     /**
      * Count Not read notification
      *
+     * @param Closure $filterScope
      * @return mixed
      */
-    public function countNotificationsNotRead()
+    public function countNotificationsNotRead(Closure $filterScope = null)
     {
         return $this->notifynderInstance()->entity(
             $this->getMorphClass()
-        )->countNotRead($this->id);
+        )->countNotRead($this->id,$filterScope);
     }
 
     /**

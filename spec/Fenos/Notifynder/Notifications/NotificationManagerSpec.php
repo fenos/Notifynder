@@ -129,7 +129,7 @@ class NotificationManagerSpec extends ObjectBehavior
         $limit = 10;
         $paginate = null;
 
-        $notificationRepo->getNotRead($entity_id,null,$limit,$paginate,'desc')->shouldBeCalled()
+        $notificationRepo->getNotRead($entity_id,null,$limit,$paginate,'desc',null)->shouldBeCalled()
                     ->willReturn($collection);
 
         $collection->parse()->shouldBeCalled()->willReturn([]);
@@ -144,7 +144,7 @@ class NotificationManagerSpec extends ObjectBehavior
         $limit = 10;
         $paginate = null;
 
-        $notificationRepo->getAll($entity_id,null,$limit,$paginate,'desc')->shouldBeCalled()
+        $notificationRepo->getAll($entity_id,null,$limit,$paginate,'desc',null)->shouldBeCalled()
             ->willReturn($collection);
 
         $collection->parse()->shouldBeCalled()->willReturn([]);
@@ -157,7 +157,7 @@ class NotificationManagerSpec extends ObjectBehavior
     {
         $id = 1;
 
-        $notificationRepo->getLastNotification($id,null)->shouldBeCalled()->willReturn(new Notification());
+        $notificationRepo->getLastNotification($id,null,null)->shouldBeCalled()->willReturn(new Notification());
 
         $this->getLastNotification($id)->shouldReturnAnInstanceOf(Notification::class);
     }
@@ -168,7 +168,7 @@ class NotificationManagerSpec extends ObjectBehavior
         $id = 1;
         $category = 'notifynder.category';
 
-        $notificationRepo->getLastNotificationByCategory($category,$id,null)->shouldBeCalled()->willReturn(new Notification());
+        $notificationRepo->getLastNotificationByCategory($category,$id,null,null)->shouldBeCalled()->willReturn(new Notification());
 
         $this->getLastNotificationByCategory($category,$id)->shouldReturnAnInstanceOf(Notification::class);
     }
@@ -203,7 +203,7 @@ class NotificationManagerSpec extends ObjectBehavior
         $entity_id = 1;
         $notificationCount = 10;
 
-        $notificationRepo->countNotRead($entity_id,null)->shouldBeCalled()
+        $notificationRepo->countNotRead($entity_id,null,null)->shouldBeCalled()
                     ->willReturn($notificationCount);
 
         $this->countNotRead($entity_id)->shouldReturn($notificationCount);

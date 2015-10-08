@@ -1,5 +1,6 @@
 <?php namespace Fenos\Notifynder\Contracts;
 
+use Closure;
 use Fenos\Notifynder\Models\Notification as NotificationModel;
 
 /**
@@ -104,9 +105,10 @@ interface NotifynderNotification
      * @param         $limit
      * @param         $paginate
      * @param  string $orderDate
+     * @param Closure $filterScope
      * @return mixed
      */
-    public function getNotRead($to_id, $limit, $paginate, $orderDate = "desc");
+    public function getNotRead($to_id, $limit, $paginate, $orderDate = "desc", Closure $filterScope = null);
 
     /**
      * Get All notifications
@@ -115,28 +117,31 @@ interface NotifynderNotification
      * @param         $limit
      * @param         $paginate
      * @param  string $orderDate
+     * @param Closure $filterScope
      * @return mixed
      */
-    public function getAll($to_id, $limit, $paginate, $orderDate = "desc");
+    public function getAll($to_id, $limit, $paginate, $orderDate = "desc",  Closure $filterScope = null);
 
     /**
      * Get last notification of the
      * given entity
      *
-     * @param $to_id
+     * @param         $to_id
+     * @param Closure $filterScope
      * @return mixed
      */
-    public function getLastNotification($to_id);
+    public function getLastNotification($to_id,  Closure $filterScope = null);
 
     /**
      * Get last notification of the
      * given entity of the specific category
      *
-     * @param $category
-     * @param $to_id
+     * @param         $category
+     * @param         $to_id
+     * @param Closure $filterScope
      * @return mixed
      */
-    public function getLastNotificationByCategory($category,$to_id);
+    public function getLastNotificationByCategory($category,$to_id,  Closure $filterScope = null);
 
     /**
      * Send single notification
@@ -158,8 +163,9 @@ interface NotifynderNotification
      * Get number of notification
      * not read
      *
-     * @param $to_id
+     * @param         $to_id
+     * @param Closure $filterScope
      * @return mixed
      */
-    public function countNotRead($to_id);
+    public function countNotRead($to_id,  Closure $filterScope = null);
 }

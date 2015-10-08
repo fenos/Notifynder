@@ -1,5 +1,6 @@
 <?php namespace Fenos\Notifynder\Notifications;
 
+use Closure;
 use Fenos\Notifynder\Contracts\NotificationDB;
 use Fenos\Notifynder\Contracts\NotifynderNotification;
 use Fenos\Notifynder\Exceptions\NotificationNotFoundException;
@@ -163,20 +164,22 @@ class NotificationManager implements NotifynderNotification
      * Get notifications not read
      * of the entity given
      *
-     * @param         $to_id
-     * @param         $limit
+     * @param           $to_id
+     * @param           $limit
      * @param  int|null $paginate
-     * @param  string $orderDate
+     * @param  string   $orderDate
+     * @param Closure   $filterScope
      * @return mixed
      */
-    public function getNotRead($to_id, $limit = null, $paginate = null, $orderDate = 'desc')
+    public function getNotRead($to_id, $limit = null, $paginate = null, $orderDate = 'desc', Closure $filterScope = null)
     {
         $notifications = $this->notifynderRepo->getNotRead(
             $to_id, $this->entity,
-            $limit, $paginate, $orderDate
+            $limit, $paginate, $orderDate,
+            $filterScope
         );
 
-        if(is_int(intval($paginate)) && !is_null($paginate))
+        if(is_int(intval($paginate)) && $paginate)
         {
             return (new Paginator($notifications->parse(), $limit, $paginate, [
                 'path' => Paginator::resolveCurrentPath(),
@@ -189,20 +192,22 @@ class NotificationManager implements NotifynderNotification
     /**
      * Get All notifications
      *
-     * @param         $to_id
-     * @param         $limit
+     * @param           $to_id
+     * @param           $limit
      * @param  int|null $paginate
-     * @param  string $orderDate
+     * @param  string   $orderDate
+     * @param Closure   $filterScope
      * @return mixed
      */
-    public function getAll($to_id, $limit = null, $paginate = null, $orderDate = 'desc')
+    public function getAll($to_id, $limit = null, $paginate = null, $orderDate = 'desc', Closure $filterScope = null)
     {
         $notifications = $this->notifynderRepo->getAll(
             $to_id, $this->entity,
-            $limit, $paginate, $orderDate
+            $limit, $paginate, $orderDate,
+            $filterScope
         );
 
-        if(is_int(intval($paginate)) && !is_null($paginate))
+        if(is_int(intval($paginate)) && $paginate)
         {
             return (new Paginator($notifications->parse(), $limit, $paginate, [
                 'path' => Paginator::resolveCurrentPath(),
@@ -216,25 +221,27 @@ class NotificationManager implements NotifynderNotification
      * Get last notification of the
      * given entity
      *
-     * @param $to_id
+     * @param         $to_id
+     * @param Closure $filterScope
      * @return mixed
      */
-    public function getLastNotification($to_id)
+    public function getLastNotification($to_id, Closure $filterScope = null)
     {
-        return $this->notifynderRepo->getLastNotification($to_id,$this->entity);
+        return $this->notifynderRepo->getLastNotification($to_id,$this->entity,$filterScope);
     }
 
     /**
      * Get last notification of the
      * given entity of the specific category
      *
-     * @param $category
-     * @param $to_id
+     * @param         $category
+     * @param         $to_id
+     * @param Closure $filterScope
      * @return mixed
      */
-    public function getLastNotificationByCategory($category,$to_id)
+    public function getLastNotificationByCategory($category,$to_id, Closure $filterScope = null)
     {
-        return $this->notifynderRepo->getLastNotificationByCategory($category,$to_id,$this->entity);
+        return $this->notifynderRepo->getLastNotificationByCategory($category,$to_id,$this->entity,$filterScope);
     }
 
     /**
@@ -263,10 +270,11 @@ class NotificationManager implements NotifynderNotification
      * Get number of notification
      * not read
      *
-     * @param $to_id
+     * @param         $to_id
+     * @param Closure $filterScope
      * @return mixed
      */
-    public function countNotRead($to_id)
+    public function countNotRead($to_id, Closure $filterScope = null)
     {
         return $this->notifynderRepo->countNotRead($to_id, $this->entity);
     }

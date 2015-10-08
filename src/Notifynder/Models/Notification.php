@@ -145,4 +145,23 @@ class Notification extends Model
     {
         return new ExtraParams(json_decode($value));
     }
+
+    /**
+     * Filter Scope by category
+     *
+     * @param $query
+     * @param $category
+     * @return mixed
+     */
+    public function scopeByCategory($query,$category)
+    {
+        if (is_numeric($category)) {
+
+            return $query->where('category_id',$category);
+        }
+
+        return $query->whereHas('body', function($categoryQuery) use ($category) {
+            $categoryQuery->where('name',$category);
+        });
+    }
 }
