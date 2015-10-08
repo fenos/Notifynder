@@ -2,6 +2,8 @@
 
 namespace spec\Fenos\Notifynder\Parsers;
 
+use Fenos\Notifynder\Exceptions\ExtraParamsException;
+use Fenos\Notifynder\Parsers\NotifynderParser;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
@@ -59,5 +61,45 @@ class NotifynderParserSpec extends ObjectBehavior
         ];
 
         $this->parse($notification)->shouldReturn('Hi jhon hello world');
+    }
+
+    /** @test */
+    function it_will_remove_extra_markup_if_extra_value_is_not_provided()
+    {
+        $extra = [];
+
+        $notification = [
+            'body' => [
+                'text' => 'Hi {to.username} hello {extra.hello}'
+            ],
+            'to' => [
+                'username' => 'jhon',
+            ],
+            'extra' => json_encode($extra)
+        ];
+
+        // note the space, TODO: shall i remove it?
+        $this->parse($notification)->shouldReturn('Hi jhon hello ');
+    }
+
+    /** @test */
+    function it_will_throw_exception_when_strict_extra_is_enabled()
+    {
+        $extra = null;
+
+        $notification = [
+            'body' => [
+                'text' => 'Hi {to.username} hello {extra.hello}'
+            ],
+            'to' => [
+                'username' => 'jhon',
+            ],
+            'extra' => json_encode($extra)
+        ];
+
+        NotifynderParser::setStrictExtra(true);
+
+        $this->shouldThrow(ExtraParamsException::class)
+            ->during('parse',[$notification]);
     }
 }

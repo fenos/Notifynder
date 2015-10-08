@@ -1,16 +1,27 @@
 <?php namespace Fenos\Notifynder\Parsers;
 
+use Fenos\Notifynder\Exceptions\ExtraParamsException;
+use Fenos\Notifynder\Notifications\ExtraParams;
+
 /**
  * Class NotifynderParser
  *
  * @package Fenos\Notifynder\Parsers
  */
-class NotifynderParser {
+class NotifynderParser
+{
 
     /**
      * Regex to get values between curly brachet {$value}
      */
     const RULE = '/\{(.+?)(?:\{(.+)\})?\}/';
+
+    /**
+     * By default it's false
+     *
+     * @var bool
+     */
+    protected static $strictMode = false;
 
     /**
      * Parse the body of a notification
@@ -23,7 +34,7 @@ class NotifynderParser {
     public function parse($item)
     {
         $body = $item['body']['text'];
-        $extra = $item['extra'];
+        $extraParam = $item['extra'];
 
         // Decode the data passed into an array
         //$extra = json_decode($extra);
@@ -31,13 +42,26 @@ class NotifynderParser {
 
         if ($specialValues > 0) {
 
-            list($extrasToReplace, $relationsToReplace) = $this->categorizeSpecialValues($specialValues);
+            list($extractedExtra, $relationsToReplace) = $this->categorizeSpecialValues($specialValues);
 
-            $body = $this->replaceExtraValues($extrasToReplace, $extra, $body);
+            $body = $this->replaceExtraValues($extractedExtra, $extraParam, $body);
             $body = $this->replaceValuesRelations($item, $relationsToReplace, $body);
         }
 
         return $body;
+    }
+
+    /**
+     * Set strict mode.
+     * if it's enabled then will throws exceptions
+     * when extra params will not be parsed correctly
+     * will be handy in development
+     *
+     * @param bool|true $set
+     */
+    public static function setStrictExtra($set = true)
+    {
+        static::$strictMode = $set;
     }
 
     /**
@@ -71,16 +95,14 @@ class NotifynderParser {
 
     /**
      * This method replace extra values
-     * of the given extra values specified
-     * in the extra field of the notification
-     * (parsed from Json) I use a convention
-     * to keep all the extras values under
-     * an {extra.*} namespace
+     * within the {extra.*} namespace.
+     *
      *
      * @param $extrasToReplace
      * @param $extra
      * @param $body
      * @return array
+     * @throws ExtraParamsException
      */
     protected function replaceExtraValues($extrasToReplace, $extra, $body)
     {
@@ -89,10 +111,33 @@ class NotifynderParser {
         foreach ($extrasToReplace as $replacer) {
             $valueMatch = explode('.', $replacer)[1];
 
+            // Whichever type i
+            $extra = $this->extraToArray($extra);
 
-            if ($extra->has($valueMatch)) {
+            // Let's cover the scenario where the developer
+            // forget to add the extra param to a category that it's
+            // needed. Ex: caterogy name:"hi" text:"hello {extra.name}"
+            // developer store the notification without passing the value to extra
+            // into the db will be NULL. This will just remove the {extra.hello}.
+            // In production it's better a "typo" mistake in the text then an Exception.
+            // however we can force to throw an Exception for development porpose
+            // NotifynderParser::setExtraStrict(true);
+            if ( !is_array($extra) or (is_array($extra) and count($extra) == 0) ) {
 
-                $body = str_replace('{'.$replacer.'}', $extra->{$valueMatch}, $body);
+                $body = $this->replaceBody($body, '', $replacer);
+
+                // In strict mode you'll be aware
+                if (static::$strictMode) {
+                    $error = "the following [$replacer] param required from your category it's missing. Did you forget to store it?";
+                    throw new ExtraParamsException($error);
+                }
+
+                break;
+            }
+
+            if (array_key_exists($valueMatch, $extra)) {
+
+                $body = $this->replaceBody($body, $extra[$valueMatch], $replacer);
             }
         }
 
@@ -137,5 +182,59 @@ class NotifynderParser {
         preg_match_all(self::RULE, $body, $values);
 
         return $values[1];
+    }
+
+    /**
+     * Trying to transform extra in from few datatypes
+     * to array type
+     *
+     * @param $extra
+     * @return array|mixed
+     */
+    protected function extraToArray($extra)
+    {
+        if ($this->isJson($extra)) {
+
+            $extra = json_decode($extra, true);
+            return $extra;
+
+        } else if ($extra instanceof ExtraParams) {
+            $extra = $extra->toArray();
+            return $extra;
+        }
+
+        return null;
+    }
+
+    /**
+     * Replace body of the category
+     *
+     * @param $body
+     * @param $replacer
+     * @param $valueMatch
+     * @return mixed
+     */
+    protected function replaceBody($body, $valueMatch, $replacer)
+    {
+        $body = str_replace('{'.$replacer.'}', $valueMatch, $body);
+
+        return $body;
+    }
+
+    /**
+     * Check if is a json string
+     *
+     * @param $value
+     * @return bool
+     */
+    protected function isJson($value)
+    {
+        if ( ! is_string($value)) {
+            return false;
+        }
+
+        json_decode($value);
+
+        return (json_last_error() == JSON_ERROR_NONE);
     }
 }

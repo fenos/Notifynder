@@ -30,6 +30,16 @@ return [
     'notification_model' => 'Fenos\Notifynder\Models\Notification',
 
     /**
+     * Coordinating a lots notifications that require extra params
+     * might cause to forget and not insert the {extra.*} value needed.
+     * This flag allow you to cause an exception to be thrown if you miss
+     * to store a extra param that the category will need.
+     * NOTE: use only in development.
+     * WHEN DISABLED: will just remove the {extra.*} markup from the sentence
+     */
+    'strict_extra' => false,
+
+    /**
      * If you wish to have the translations in a specific file
      * just require the file on the following option.
      *

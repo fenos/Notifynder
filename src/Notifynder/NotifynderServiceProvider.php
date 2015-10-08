@@ -27,6 +27,7 @@ use Fenos\Notifynder\Models\NotificationGroup;
 use Fenos\Notifynder\Notifications\NotificationManager;
 use Fenos\Notifynder\Notifications\NotificationRepository;
 use Fenos\Notifynder\Parsers\ArtisanOptionsParser;
+use Fenos\Notifynder\Parsers\NotifynderParser;
 use Fenos\Notifynder\Senders\SenderFactory;
 use Fenos\Notifynder\Senders\SenderManager;
 use Fenos\Notifynder\Translator\Compiler;
@@ -250,6 +251,11 @@ class NotifynderServiceProvider extends ServiceProvider
             __DIR__.'/../config/notifynder.php' => config_path('notifynder.php'),
             __DIR__.'/../migrations/' => base_path('/database/migrations'),
         ]);
+
+        // Set use strict_extra config option,
+        // you can toggle it in the configuraiton file
+        $strictParam = $this->app['config']->get('notifynder.strict_extra',false);
+        NotifynderParser::setStrictExtra($strictParam);
     }
 
     /**
