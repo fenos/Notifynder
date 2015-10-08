@@ -1,5 +1,6 @@
 <?php namespace Fenos\Notifynder\Models;
 
+use Fenos\Notifynder\Notifications\ExtraParams;
 use Fenos\Notifynder\Parsers\NotifynderParser;
 use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
@@ -134,5 +135,14 @@ class Notification extends Model
         $notifynderParse = new NotifynderParser();
 
         return $notifynderParse->parse($this);
+    }
+
+    /**
+     * @param $value
+     * @return mixed|string
+     */
+    public function getExtraAttribute($value)
+    {
+        return new ExtraParams(json_decode($value));
     }
 }

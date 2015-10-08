@@ -26,7 +26,7 @@ class NotifynderParser {
         $extra = $item['extra'];
 
         // Decode the data passed into an array
-        $extra = json_decode($extra);
+        //$extra = json_decode($extra);
         $specialValues = $this->getValues($body);
 
         if ($specialValues > 0) {
@@ -89,7 +89,8 @@ class NotifynderParser {
         foreach ($extrasToReplace as $replacer) {
             $valueMatch = explode('.', $replacer)[1];
 
-            if (array_key_exists($valueMatch, $extra)) {
+
+            if ($extra->has($valueMatch)) {
 
                 $body = str_replace('{'.$replacer.'}', $extra->{$valueMatch}, $body);
             }

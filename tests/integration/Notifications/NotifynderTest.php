@@ -89,12 +89,14 @@ class NotifynderTest extends TestCaseDB {
         $this->assertEquals('w',$notification->url);
     }
 
-    /** @test */
+    /**
+     * @test
+     */
     function it_store_extra_field_as_json()
     {
         $this->createCategory(['name' => 'custom']);
 
-        $extra = ['notifynder' => 'amazing'];
+        $extra = ['extra.name' => 'amazing'];
 
         $notifications = $this->notifynder
             ->category('custom')
@@ -104,7 +106,7 @@ class NotifynderTest extends TestCaseDB {
             ->to(1);
 
         $notifications = $this->notifynder->send($notifications);
-        $this->assertEquals(json_encode($extra),$notifications->extra);
+        $this->assertEquals($notifications->extra->toArray(),$extra);
     }
 
     /**

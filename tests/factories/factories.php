@@ -21,7 +21,7 @@ $factory('Fenos\Notifynder\Models\Notification',[
     'to_type' => 'Fenos\Tests\Models\User',
     'category_id' => 'factory:Fenos\Notifynder\Models\NotificationCategory',
     'url' => $faker->url,
-    'extra' => $faker->name,
+    'extra' => json_encode(['exta.name' => $faker->name]),
     'read' => 0,
     'expire_time' => null,
     'created_at' => $faker->dateTime,

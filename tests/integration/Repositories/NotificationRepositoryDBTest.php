@@ -62,12 +62,14 @@ class NotificationRepositoryDBTest extends TestCaseDB {
         $this->assertEquals($notificationToSend['to_type'],$notification->to_type);
     }
 
-    /** @test */
+    /** @test
+     * @group fails
+     */
     function it_send_multiple_notification()
     {
         $notificationsToSend[0] = $this->buildNotification();
         $notificationsToSend[1] = $this->buildNotification();
-
+        //dd($notificationsToSend);
         $storeMultipleNotificaations = $this->notificationRepo->storeMultiple($notificationsToSend);
 
         $notifications = Notification::all();
