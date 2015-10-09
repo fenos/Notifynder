@@ -1,4 +1,4 @@
-Notifynder 3.0 - Laravel 5
+Notifynder 3.1 - Laravel 5
 ==========
 
 [![Build Status](https://travis-ci.org/fenos/Notifynder.svg?branch=master)](https://travis-ci.org/fenos/Notifynder)
@@ -25,7 +25,7 @@ Documentation: **[Notifynder Wiki](https://github.com/fenos/Notifynder/wiki)**
 Add it on your composer.json
 
 ~~~
-"fenos/notifynder": "3.*"
+"fenos/notifynder": "3.1.*"
 ~~~
 
 and run **composer update**
