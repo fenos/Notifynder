@@ -107,12 +107,13 @@ class NotifynderParser
     protected function replaceExtraValues($extrasToReplace, $extra, $body)
     {
         // replace the values specified in the extra
+
+        // Whichever type i
+        $extra = $this->extraToArray($extra);
+            
         // wildcard
         foreach ($extrasToReplace as $replacer) {
             $valueMatch = explode('.', $replacer)[1];
-
-            // Whichever type i
-            $extra = $this->extraToArray($extra);
 
             // Let's cover the scenario where the developer
             // forget to add the extra param to a category that it's
