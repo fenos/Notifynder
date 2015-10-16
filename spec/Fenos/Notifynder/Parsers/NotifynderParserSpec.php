@@ -102,4 +102,26 @@ class NotifynderParserSpec extends ObjectBehavior
         $this->shouldThrow(ExtraParamsException::class)
             ->during('parse',[$notification]);
     }
+
+    /** @test */
+    function it_will_parse_4_extra_params()
+    {
+        $extra = [
+            'name' => 'fabri',
+            'username' => 'fenos',
+            'status' => 'active',
+            'prof' => 'dev'
+        ];
+
+        $text = 'Hi {extra.name}, your username is: {extra.username} your status: {extra.status} your profession: {extra.prof}';
+        $notification = [
+            'body' => [
+                'text' => $text
+            ],
+            'extra' => json_encode($extra)
+        ];
+
+        $parsedText = "Hi {$extra['name']}, your username is: {$extra['username']} your status: {$extra['status']} your profession: {$extra['prof']}";
+        $this->parse($notification)->shouldReturn($parsedText);
+    }
 }

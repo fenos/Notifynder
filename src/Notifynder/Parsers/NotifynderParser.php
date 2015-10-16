@@ -106,9 +106,8 @@ class NotifynderParser
      */
     protected function replaceExtraValues($extrasToReplace, $extra, $body)
     {
-        // replace the values specified in the extra
-
-        // Whichever type i
+        // I'll try my best to have returned the
+        // extra param as an array
         $extra = $this->extraToArray($extra);
             
         // wildcard
