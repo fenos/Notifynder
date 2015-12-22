@@ -68,7 +68,7 @@ class NotifynderServiceProvider extends ServiceProvider
      */
     protected function notifynder()
     {
-        $this->app->bindShared('notifynder', function ($app) {
+        $this->app->singleton('notifynder', function ($app) {
             return new NotifynderManager(
                 $app['notifynder.category'],
                 $app['notifynder.sender'],
@@ -87,13 +87,13 @@ class NotifynderServiceProvider extends ServiceProvider
      */
     protected function categories()
     {
-        $this->app->bindShared('notifynder.category', function ($app) {
+        $this->app->singleton('notifynder.category', function ($app) {
             return new CategoryManager(
                 $app->make('notifynder.category.repository')
             );
         });
 
-        $this->app->bindShared('notifynder.category.repository', function ($app) {
+        $this->app->singleton('notifynder.category.repository', function ($app) {
             return new CategoryRepository(
                 new NotificationCategory()
             );
@@ -105,13 +105,13 @@ class NotifynderServiceProvider extends ServiceProvider
      */
     protected function notifications()
     {
-        $this->app->bindShared('notifynder.notification', function ($app) {
+        $this->app->singleton('notifynder.notification', function ($app) {
             return new NotificationManager(
                 $app['notifynder.notification.repository']
             );
         });
 
-        $this->app->bindShared('notifynder.notification.repository', function ($app) {
+        $this->app->singleton('notifynder.notification.repository', function ($app) {
 
             $notificationModel = $app['config']->get('notifynder.notification_model');
             $notificationIstance = $app->make($notificationModel);
@@ -131,14 +131,14 @@ class NotifynderServiceProvider extends ServiceProvider
      */
     protected function translator()
     {
-        $this->app->bindShared('notifynder.translator', function ($app) {
+        $this->app->singleton('notifynder.translator', function ($app) {
             return new TranslatorManager(
                 $app['notifynder.translator.compiler'],
                 $app['config']
             );
         });
 
-        $this->app->bindShared('notifynder.translator.compiler', function ($app) {
+        $this->app->singleton('notifynder.translator.compiler', function ($app) {
             return new Compiler(
                 $app['filesystem.disk']
             );
@@ -150,7 +150,7 @@ class NotifynderServiceProvider extends ServiceProvider
      */
     protected function senders()
     {
-        $this->app->bindShared('notifynder.sender', function ($app) {
+        $this->app->singleton('notifynder.sender', function ($app) {
              return new SenderManager(
                  $app['notifynder.sender.factory'],
                  $app['notifynder.store'],
@@ -158,7 +158,7 @@ class NotifynderServiceProvider extends ServiceProvider
              );
         });
 
-        $this->app->bindShared('notifynder.sender.factory', function ($app) {
+        $this->app->singleton('notifynder.sender.factory', function ($app) {
             return new SenderFactory(
                 $app['notifynder.group'],
                 $app['notifynder.category']
@@ -171,7 +171,7 @@ class NotifynderServiceProvider extends ServiceProvider
      */
     protected function events()
     {
-        $this->app->bindShared('notifynder.dispatcher', function ($app) {
+        $this->app->singleton('notifynder.dispatcher', function ($app) {
             return new Dispatcher(
                 $app['events']
             );
@@ -183,20 +183,20 @@ class NotifynderServiceProvider extends ServiceProvider
      */
     protected function groups()
     {
-        $this->app->bindShared('notifynder.group', function ($app) {
+        $this->app->singleton('notifynder.group', function ($app) {
             return new GroupManager(
                 $app['notifynder.group.repository'],
                 $app['notifynder.group.category']
             );
         });
 
-        $this->app->bindShared('notifynder.group.repository', function ($app) {
+        $this->app->singleton('notifynder.group.repository', function ($app) {
             return new GroupRepository(
                 new NotificationGroup()
             );
         });
 
-        $this->app->bindShared('notifynder.group.category', function ($app) {
+        $this->app->singleton('notifynder.group.category', function ($app) {
             return new GroupCategoryRepository(
                 $app['notifynder.category'],
                 new NotificationGroup()
@@ -209,7 +209,7 @@ class NotifynderServiceProvider extends ServiceProvider
      */
     protected function builder()
     {
-        $this->app->bindShared('notifynder.builder', function ($app) {
+        $this->app->singleton('notifynder.builder', function ($app) {
             return new NotifynderBuilder(
                 $app['notifynder.category']
             );
@@ -264,26 +264,26 @@ class NotifynderServiceProvider extends ServiceProvider
     protected function artisan()
     {
         // Categories
-        $this->app->bindShared('notifynder.artisan.category-add', function ($app) {
+        $this->app->singleton('notifynder.artisan.category-add', function ($app) {
             return new CreateCategory(
                 $app['notifynder.category']
             );
         });
 
-        $this->app->bindShared('notifynder.artisan.category-delete', function ($app) {
+        $this->app->singleton('notifynder.artisan.category-delete', function ($app) {
             return new DeleteCategory(
                 $app['notifynder.category']
             );
         });
 
         // Groups
-        $this->app->bindShared('notifynder.artisan.group-add', function ($app) {
+        $this->app->singleton('notifynder.artisan.group-add', function ($app) {
             return new CreateGroup(
                 $app['notifynder.group']
             );
         });
 
-        $this->app->bindShared('notifynder.artisan.group-add-categories', function ($app) {
+        $this->app->singleton('notifynder.artisan.group-add-categories', function ($app) {
             return new PushCategoryToGroup(
                 $app['notifynder.group'],
                 new ArtisanOptionsParser()
