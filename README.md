@@ -2,6 +2,7 @@ Notifynder 3.1 - Laravel 5
 ==========
 
 [![Build Status](https://travis-ci.org/fenos/Notifynder.svg?branch=master)](https://travis-ci.org/fenos/Notifynder)
+[![ProjectStatus](http://stillmaintained.com/fenos/Notifynder.png)](http://stillmaintained.com/fenos/Notifynder)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/fenos/Notifynder/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/fenos/Notifynder/?branch=master)
 [![Total Downloads](https://poser.pugx.org/fenos/notifynder/downloads.svg)](https://packagist.org/packages/fenos/notifynder)
 [![License](https://poser.pugx.org/fenos/Notifynder/license.png)](https://packagist.org/packages/fenos/Notifynder)
