@@ -70,7 +70,7 @@ php artisan notifynder:create:category "user.following" "{from.username} started
 To send a notification with notifynder, that's all
 you have to do.
 
-~~~
+~~~php
 Notifynder::category('user.following')
             ->from($from_user_id)
             ->to($to_user_id)
@@ -80,15 +80,15 @@ Notifynder::category('user.following')
 
 **Retrieving Notifications**
 
-~~~
+~~~php
 // @return Collection
 Notifynder::getAll($user_id,$limit,$paginateBool);
 ~~~
 
 **Reading Notifications:**
-~~~
+~~~php
 // @return number of notifications read
-Notifynder::ReadAll($user_id);
+Notifynder::readAll($user_id);
 ~~~
 
 To know more, such as the advance usage of Notifynder Visit the **[Notifynder Wiki](https://github.com/fenos/Notifynder/wiki)**.
