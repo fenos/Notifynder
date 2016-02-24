@@ -108,14 +108,12 @@ class GroupManager implements NotifynderGroup
      */
     public function addMultipleCategoriesToGroup()
     {
-        $names = func_get_args();
-
-        $names = (is_array($names[0])) ? $names[0] : $names;
+        $args = func_get_args();
 
         // First parameter is the group name
-        $group_name = array_shift($names);
+        $group_name = array_shift($args);
 
-        $names = (is_array($names[1])) ? $names[1] : $names;
+        $names = (is_array($args[0])) ? $args[0] : $args;
 
         return $this->groupCategory->addMultipleCategoriesToGroup($group_name, $names);
     }

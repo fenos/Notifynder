@@ -41,7 +41,7 @@ class PushCategoryToGroup extends Command
      * @return \Fenos\Notifynder\Artisan\PushCategoryToGroup
      */
     public function __construct(NotifynderGroup $notifynderGroup,
-                                ArtisanOptionsParser $artisanOptionsParser)
+        ArtisanOptionsParser $artisanOptionsParser)
     {
         parent::__construct();
         $this->notifynderGroup = $notifynderGroup;
@@ -57,8 +57,11 @@ class PushCategoryToGroup extends Command
     {
         $arguments = $this->getArgumentsConsole();
 
+        $categoryGroup = array_shift($arguments);
+        $categories = explode(',',$arguments);
+
         $groupCategories = $this->notifynderGroup
-                ->addMultipleCategoriesToGroup($arguments);
+            ->addMultipleCategoriesToGroup($categoryGroup,$categories);
 
         if ($groupCategories) {
             foreach ($groupCategories->categories as $category) {
