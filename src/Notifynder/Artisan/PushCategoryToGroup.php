@@ -58,6 +58,7 @@ class PushCategoryToGroup extends Command
         $arguments = $this->getArgumentsConsole();
 
         $categoryGroup = array_shift($arguments);
+        $arguments = $arguments[0];
         $categories = explode(',',$arguments);
 
         $groupCategories = $this->notifynderGroup
