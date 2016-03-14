@@ -5,7 +5,7 @@ use Fenos\Notifynder\Contracts\NotificationDB;
 use Fenos\Notifynder\Contracts\NotifynderNotification;
 use Fenos\Notifynder\Exceptions\NotificationNotFoundException;
 use Fenos\Notifynder\Models\Notification as NotificationModel;
-use Illuminate\Pagination\Paginator;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 /**
  * Class NotifynderNotification
@@ -181,8 +181,8 @@ class NotificationManager implements NotifynderNotification
 
         if(is_int(intval($paginate)) && $paginate)
         {
-            return (new Paginator($notifications->parse(), $limit, $paginate, [
-                'path' => Paginator::resolveCurrentPath(),
+            return (new LengthAwarePaginator($notifications->parse(), $notifications->total(), $limit, $paginate, [
+                'path' => LengthAwarePaginator::resolveCurrentPath()
             ]));
         }
 
@@ -209,8 +209,8 @@ class NotificationManager implements NotifynderNotification
 
         if(is_int(intval($paginate)) && $paginate)
         {
-            return (new Paginator($notifications->parse(), $limit, $paginate, [
-                'path' => Paginator::resolveCurrentPath(),
+            return (new LengthAwarePaginator($notifications->parse(), $notifications->total(), $limit, $paginate, [
+                'path' => LengthAwarePaginator::resolveCurrentPath()
             ]));
         }
 

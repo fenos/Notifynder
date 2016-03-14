@@ -240,12 +240,8 @@ class NotificationRepository implements NotificationDB
 
         $query = $this->applyFilter($filterScope, $query);
 
-        if ( is_int($limit)) {
-            $query->limit($limit);
-        }
-
         if (is_int(intval($paginate)) && $paginate) {
-            $query->skip(($paginate - 1) * $limit)->take($limit + 1);
+            return $query->paginate($limit);
         }
 
         return $query->get();
@@ -280,14 +276,8 @@ class NotificationRepository implements NotificationDB
 
         $query = $this->applyFilter($filterScope, $query);
 
-
-        // if the limit is set
-        if ( is_int($limit)) {
-            $query->limit($limit);
-        }
-
         if (is_int(intval($paginate)) && $paginate) {
-            $query->skip(($paginate - 1) * $limit)->take($limit + 1);
+            return $query->paginate($limit);
         }
 
         return $query->get();
