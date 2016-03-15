@@ -238,6 +238,10 @@ class NotificationRepository implements NotificationDB
             ->orderBy('read', 'ASC')
             ->orderBy('created_at', $orderDate);
 
+        if ($limit && !$paginate) {
+            $query->limit($limit);
+        }
+
         $query = $this->applyFilter($filterScope, $query);
 
         if (is_int(intval($paginate)) && $paginate) {
@@ -273,6 +277,10 @@ class NotificationRepository implements NotificationDB
             ->wherePolymorphic($to_id, $entity)
             ->orderBy('read', 'ASC')
             ->orderBy('created_at', $orderDate);
+
+        if ($limit && !$paginate) {
+            $query->limit($limit);
+        }
 
         $query = $this->applyFilter($filterScope, $query);
 

@@ -58,9 +58,10 @@ class NotificationTest extends TestCaseDB {
         app('config')->set('notifynder.polymorphic',true);
 
         $notification = $this->createNotification(['extra' => 'Amazing']);
+        $this->createMultipleNotifications(['to_id' => $notification->to_id]);
 
         $notifications = $this->notification->entity($this->to['type'])
-            ->getAll($notification->to->id);
+            ->getAll($notification->to->id,1);
 
         $this->assertCount(1,$notifications);
     }
@@ -74,11 +75,11 @@ class NotificationTest extends TestCaseDB {
         $category = $this->createCategory(['text' => 'parse this {extra.look} value']);
 
         $notification = $this->createNotification(['extra' => $extraValues,'category_id' => $category->id]);
+        $this->createMultipleNotifications(['to_id' => $notification->to_id]);
 
-        $notifications = $this->notification->getNotRead($notification->to->id,10,true);
+        $notifications = $this->notification->getNotRead($notification->to->id,5,1);
 
-        $bodyParsed = 'parse this Amazing value';
-        $this->assertEquals($bodyParsed,$notifications->items()[0]->text);
+        $this->assertCount(5,$notifications);
     }
 
     /**
