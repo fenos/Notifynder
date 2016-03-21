@@ -21,30 +21,27 @@ Documentation: **[Notifynder Wiki](https://github.com/fenos/Notifynder/wiki)**
 
 ### Step 1 ###
 
-Add it on your composer.json
+Add it on your `composer.json`
 
-~~~
-"fenos/notifynder": "3.1.*"
-~~~
+    "fenos/notifynder": "3.1.*"
 
-and run **composer update**
+and run 
+
+    composer update
 
 
 ### Step 2 ###
 
-Add the following string to **config/app.php**
+Add the following string to `config/app.php`
 
 **Providers array:**
 
-~~~
-'Fenos\Notifynder\NotifynderServiceProvider'
-~~~
+    Fenos\Notifynder\NotifynderServiceProvider::class,
 
 **Aliases array:**
 
-~~~
-'Notifynder'    => 'Fenos\Notifynder\Facades\Notifynder'
-~~~
+    'Notifynder'=>Fenos\Notifynder\Facades\Notifynder::class,
+
 
 ### Step 3 ###
 
@@ -52,20 +49,18 @@ Add the following string to **config/app.php**
 
 Publish the migration as well as the configuration of notifynder with the following command:
 
-~~~
-php artisan vendor:publish --provider="Fenos\Notifynder\NotifynderServiceProvider"
-~~~
+    php artisan vendor:publish --provider="Fenos\Notifynder\NotifynderServiceProvider"
 
-Don't forget to migrate.
+Run the migration
+
+    php artisan migrate
 
 ### Quick Usage ###
 
 Set up category of notification, think about it as the
 body of the notification:
 
-~~~
-php artisan notifynder:create:category "user.following" "{from.username} started to follow you"
-~~~
+    php artisan notifynder:create:category "user.following" "{from.username} started to follow you"
 
 To send a notification with notifynder, that's all
 you have to do.
