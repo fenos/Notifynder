@@ -232,6 +232,16 @@ class NotifynderBuilder implements ArrayAccess
     }
 
     /**
+     * Refresh the state of the notifications
+     */
+    public function refresh()
+    {
+        $this->notifications = [];
+
+        return $this;
+    }
+
+    /**
      * @param $var
      * @return bool
      */
@@ -345,7 +355,6 @@ class NotifynderBuilder implements ArrayAccess
         }
     }
 
-
     /**
      * @param mixed $offset
      * @return null
@@ -353,4 +362,5 @@ class NotifynderBuilder implements ArrayAccess
     public function offsetUnset($offset)
     {
         unset($this->notifications[$offset]);
-}}
+    }
+}

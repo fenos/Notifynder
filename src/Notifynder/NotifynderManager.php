@@ -187,7 +187,11 @@ class NotifynderManager extends NotifynderBuilder implements Notifynder
     {
         $info = (count($info) > 0) ? $info : $this->toArray();
 
-        return $this->notifynderSender->send($info, $this->defaultCategory);
+        $notificationSent = $this->notifynderSender->send($info, $this->defaultCategory);
+
+        $this->refresh();
+
+        return $notificationSent;
     }
 
     /**
@@ -201,7 +205,11 @@ class NotifynderManager extends NotifynderBuilder implements Notifynder
     {
         $info = (count($info) > 0) ? $info : $this->toArray();
 
-        return $this->notifynderSender->sendNow($info, $this->defaultCategory);
+        $notificationsSent = $this->notifynderSender->sendNow($info, $this->defaultCategory);
+
+        $this->refresh();
+
+        return $notificationsSent;
     }
 
     /**
@@ -214,7 +222,11 @@ class NotifynderManager extends NotifynderBuilder implements Notifynder
     {
         $info = (count($info) > 0) ? $info : $this->toArray();
 
-        return $this->notifynderSender->sendOne($info, $this->defaultCategory);
+        $notificationSent = $this->notifynderSender->sendOne($info, $this->defaultCategory);
+
+        $this->refresh();
+
+        return $notificationSent;
     }
 
     /**
@@ -227,7 +239,11 @@ class NotifynderManager extends NotifynderBuilder implements Notifynder
     {
         $info = (count($info) > 0) ? $info : $this->toArray();
 
-        return $this->notifynderSender->sendMultiple($info, $this->defaultCategory);
+        $notificationsSent = $this->notifynderSender->sendMultiple($info, $this->defaultCategory);
+
+        $this->refresh();
+
+        return $notificationsSent;
     }
 
     /**
@@ -241,7 +257,11 @@ class NotifynderManager extends NotifynderBuilder implements Notifynder
     {
         $info = (count($info) > 0) ? $info : $this->toArray();
 
-        return $this->notifynderSender->sendGroup($this, $group_name, $info);
+        $notificationsSent = $this->notifynderSender->sendGroup($this, $group_name, $info);
+
+        $this->refresh();
+
+        return $notificationsSent;
     }
 
     /**
@@ -598,7 +618,9 @@ class NotifynderManager extends NotifynderBuilder implements Notifynder
 
             $arguments = (isset($arguments[0])) ? $arguments[0] : $this->toArray();
 
-            return $this->notifynderSender->customSender($name,$arguments);
+            $notificationsSent = $this->notifynderSender->customSender($name,$arguments);
+            $this->refresh();
+            return $notificationsSent;
         }
 
         $error = "method [$name] not found in the class ".self::class;
