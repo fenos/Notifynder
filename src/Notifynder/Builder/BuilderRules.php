@@ -18,7 +18,7 @@ trait BuilderRules
     /**
      * @var array
      */
-    private $requiredFields = ['from_id','to_id','url','category_id'];
+    private $requiredFields = ['from_id','to_id','category_id'];
 
     /**
      * Value has to be a string
