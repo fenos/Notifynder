@@ -319,7 +319,7 @@ class NotifynderBuilder implements ArrayAccess
      * @param $field
      * @param $data
      */
-    protected function setBuilderData($field, $data)
+    public function setBuilderData($field, $data)
     {
         return $this->notifications[$field] = $data;
     }
