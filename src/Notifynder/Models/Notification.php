@@ -37,7 +37,7 @@ class Notification extends Model
         'category_id','read','url','extra', 'expire_time',
     ];
 
-    public function __construct(array $attributes)
+    public function __construct(array $attributes = [])
     {
         $fillables = array_unique($this->getFillable() + Arr::flatten(config('notifynder.additional_fields')));
         $this->fillable($fillables);
