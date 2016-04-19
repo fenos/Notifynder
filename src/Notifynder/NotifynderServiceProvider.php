@@ -286,6 +286,9 @@ class NotifynderServiceProvider extends ServiceProvider
         }
     }
 
+    /**
+     * @param string $filename
+     */
     protected function publishMigration($filename)
     {
         $extension = '.php';
@@ -295,6 +298,10 @@ class NotifynderServiceProvider extends ServiceProvider
         $this->publishes([$stub => $target], 'migrations');
     }
 
+    /**
+     * @param string $filename
+     * @return string
+     */
     protected function migrationFilepath($filename)
     {
         if(function_exists('database_path')) {
