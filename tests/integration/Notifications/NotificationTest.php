@@ -103,4 +103,27 @@ class NotificationTest extends TestCaseDB {
 
         $this->assertCount(10,$notificationByCategory);
     }
+
+    /**
+     * It will check that the fillable fields config option are
+     * allowing to save the model when resolved trough the ioc
+     *
+     * @test
+     * @group f
+     */
+    function it_will_check_the_fillable_fields_options_are_allowing_to_save_the_model()
+    {
+        app('config')->set('notifynder.additional_fields.fillable',[
+            'icon_type'
+        ]);
+
+        $model = app(\Fenos\Notifynder\Models\Notification::class);
+        $fillable = [
+            'to_id','to_type','from_id','from_type',
+            'category_id','read','url','extra', 'expire_time',
+            'icon_type'
+        ];
+
+        $this->assertEquals($fillable, $model->getFillable() );
+    }
 }

@@ -39,18 +39,13 @@ class Notification extends Model
     ];
 
     /**
-     * @var Repository
-     */
-    protected $config;
-
-    /**
      * Notification constructor.
      *
      * @param array $attributes
      */
     public function __construct(array $attributes = [])
     {
-        $fillables = array_unique($this->getFillable() + Arr::flatten($this->getFillableFields()));
+        $fillables = $this->mergeFillable();
         $this->fillable($fillables);
 
         parent::__construct($attributes);
@@ -202,11 +197,21 @@ class Notification extends Model
      *
      * @return mixed
      */
-    protected function getFillableFields()
+    public function getCustomFillableFields()
     {
-        if (property_exists($this,'config') && $this->config instanceof Repository) {
-            return $this->config->get('notifynder.additional_fields');
+        if (function_exists('config')) {
+            return config('notifynder.additional_fields.fillable');
         }
         return [];
+    }
+
+    /**
+     * @return array
+     */
+    protected function mergeFillable()
+    {
+        $fillables = array_unique($this->getFillable() + Arr::flatten($this->getCustomFillableFields()));
+
+        return $fillables;
     }
 }
