@@ -4,6 +4,7 @@ use Fenos\Notifynder\Notifications\ExtraParams;
 use Fenos\Notifynder\Parsers\NotifynderParser;
 use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
+use Illuminate\Support\Arr;
 
 /**
  * Class Notification
@@ -35,6 +36,14 @@ class Notification extends Model
         'to_id','to_type','from_id','from_type',
         'category_id','read','url','extra', 'expire_time',
     ];
+
+    public function __construct(array $attributes)
+    {
+        $fillables = array_unique($this->getFillable() + Arr::flatten(config('notifynder.additional_fields')));
+        $this->fillable($fillables);
+
+        parent::__construct($attributes);
+    }
 
     /**
      * Custom Collection

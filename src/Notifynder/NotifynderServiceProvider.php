@@ -252,6 +252,8 @@ class NotifynderServiceProvider extends ServiceProvider
             __DIR__.'/../migrations/' => base_path('/database/migrations'),
         ]);
 
+        $this->mergeConfigFrom(__DIR__.'/../config/notifynder.php', 'notifynder');
+
         // Set use strict_extra config option,
         // you can toggle it in the configuraiton file
         $strictParam = $this->app['config']->get('notifynder.strict_extra',false);

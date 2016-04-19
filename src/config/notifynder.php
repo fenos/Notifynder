@@ -50,4 +50,21 @@ return [
     'translations'  => [
 
     ],
+
+    /**
+     * If you have added your own fields to the Notification Model
+     * you can add them to the arrays below.
+     *
+     * If you want them to be required by the builder add them to the
+     * to the required key - if they are just added you can add them
+     * to the fillable key.
+     */
+    'additional_fields' => [
+        'required' => [
+
+        ],
+        'fillable' => [
+
+        ],
+    ],
 ];

@@ -64,6 +64,16 @@ trait BuilderRules
     }
 
     /**
+     * Returns all required fields including the config ones
+     *
+     * @return array
+     */
+    public function getRequiredFields()
+    {
+        return array_unique($this->requiredFields + config('notifynder.additional_fields.required'));
+    }
+
+    /**
      * Check that the builder has
      * the required field to send the
      * notifications correctly
@@ -73,7 +83,7 @@ trait BuilderRules
      */
     public function hasRequiredFields($array)
     {
-        foreach ($this->requiredFields as $field) {
+        foreach ($this->getRequiredFields() as $field) {
             if (! array_key_exists($field, $array)) {
                 return false;
             }
@@ -90,7 +100,7 @@ trait BuilderRules
      */
     public function isRequiredField($offset)
     {
-        return (in_array($offset,$this->requiredFields));
+        return (in_array($offset,$this->getRequiredFields()));
     }
 
     /**
