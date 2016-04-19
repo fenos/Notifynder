@@ -3,11 +3,13 @@ $inputFile = $argv[1];
 $percentage = min(100, max(0, (int)$argv[2]));
 
 if (!file_exists($inputFile)) {
-    throw new InvalidArgumentException('Invalid input file provided');
+    echo $inputFile . " isn't present.";
+    exit(0);
 }
 
 if (!$percentage) {
-    throw new InvalidArgumentException('An integer checked percentage must be given as second parameter');
+    echo $percentage . " isn't percentage.";
+    exit(0);
 }
 
 $xml = new SimpleXMLElement(file_get_contents($inputFile));
@@ -21,8 +23,6 @@ foreach ($metrics as $metric) {
 }
 
 $coverage = ($checkedElements / $totalElements) * 100;
-
-echo file_get_contents($inputFile);
 
 if ($coverage < $percentage) {
     echo 'Code coverage is ' . $coverage . '%, which is below the accepted ' . $percentage . '%' . PHP_EOL;
