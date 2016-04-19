@@ -1,5 +1,6 @@
 <?php namespace Fenos\Notifynder\Builder;
 
+use Illuminate\Contracts\Config\Repository;
 use InvalidArgumentException;
 use Carbon\Carbon;
 
@@ -70,7 +71,13 @@ trait BuilderRules
      */
     public function getRequiredFields()
     {
-        return array_unique($this->requiredFields + config('notifynder.additional_fields.required'));
+        if (property_exists($this,'config') && $this->config instanceof Repository) {
+            $customRequiredFields = $this->config->get('notifynder.additional_fields.required');
+        } else {
+            $customRequiredFields = [];
+        }
+
+        return array_unique($this->requiredFields + $customRequiredFields);
     }
 
     /**

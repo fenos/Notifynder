@@ -2,6 +2,7 @@
 
 use Fenos\Notifynder\Notifications\ExtraParams;
 use Fenos\Notifynder\Parsers\NotifynderParser;
+use Illuminate\Contracts\Config\Repository;
 use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
 use Illuminate\Support\Arr;
@@ -37,9 +38,19 @@ class Notification extends Model
         'category_id','read','url','extra', 'expire_time',
     ];
 
+    /**
+     * @var Repository
+     */
+    protected $config;
+
+    /**
+     * Notification constructor.
+     *
+     * @param array $attributes
+     */
     public function __construct(array $attributes = [])
     {
-        $fillables = array_unique($this->getFillable() + Arr::flatten(config('notifynder.additional_fields')));
+        $fillables = array_unique($this->getFillable() + Arr::flatten($this->getFillableFields()));
         $this->fillable($fillables);
 
         parent::__construct($attributes);
@@ -172,5 +183,30 @@ class Notification extends Model
         return $query->whereHas('body', function($categoryQuery) use ($category) {
             $categoryQuery->where('name',$category);
         });
+    }
+
+    /**
+     * Set configuration object
+     *
+     * @param Repository $config
+     */
+    public function setConfig(Repository $config)
+    {
+        $this->config = $config;
+    }
+
+    /**
+     * Get custom required fields from the configs
+     * so that we can automatically bind them to the model
+     * fillable property
+     *
+     * @return mixed
+     */
+    protected function getFillableFields()
+    {
+        if (property_exists($this,'config') && $this->config instanceof Repository) {
+            return $this->config->get('notifynder.additional_fields');
+        }
+        return [];
     }
 }

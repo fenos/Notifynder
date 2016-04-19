@@ -22,6 +22,7 @@ use Fenos\Notifynder\Groups\GroupManager;
 use Fenos\Notifynder\Groups\GroupCategoryRepository;
 use Fenos\Notifynder\Groups\GroupRepository;
 use Fenos\Notifynder\Handler\Dispatcher;
+use Fenos\Notifynder\Models\Notification;
 use Fenos\Notifynder\Models\NotificationCategory;
 use Fenos\Notifynder\Models\NotificationGroup;
 use Fenos\Notifynder\Notifications\NotificationManager;
@@ -122,6 +123,11 @@ class NotifynderServiceProvider extends ServiceProvider
             );
         });
 
+        // Inject configs when model is resolved
+        $this->app->resolving(Notification::class, function (Notification $object, $app) {
+            $object->setConfig($app['config']);
+        });
+
         // Default store notification
         $this->app->bind('notifynder.store', 'notifynder.notification.repository');
     }
@@ -213,6 +219,10 @@ class NotifynderServiceProvider extends ServiceProvider
             return new NotifynderBuilder(
                 $app['notifynder.category']
             );
+        });
+
+        $this->app->resolving(NotifynderBuilder::class, function (NotifynderBuilder $object, $app) {
+            $object->setConfig($app['config']);
         });
     }
 
