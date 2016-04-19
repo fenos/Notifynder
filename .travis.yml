@@ -12,7 +12,7 @@ env:
 
 install:
   - composer self-update
-  - composer require laravel/framework:${LARAVEL_VERSION}
+  - composer require laravel/framework:${LARAVEL_VERSION} --no-update --no-interaction
   - composer install --prefer-source --no-interaction
   
 before_script:
