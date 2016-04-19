@@ -4,10 +4,18 @@ php:
   - 5.5
   - 5.6
   - hhvm
+  
+env:
+  - LARAVEL_VERSION="5.0.*"
+  - LARAVEL_VERSION="5.1.*"
+  - LARAVEL_VERSION="5.2.*"
 
-before_script:
+install:
   - composer self-update
+  - composer require laravel/framework:${LARAVEL_VERSION}
   - composer install --prefer-source --no-interaction
+  
+before_script:
   - composer dump-autoload -o
 
 script:
