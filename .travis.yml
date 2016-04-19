@@ -13,4 +13,4 @@ before_script:
 script:
   - vendor/bin/phpspec run
   - vendor/bin/phpunit
-  - php CoverageChecker.php clover.xml 50
+  - php CoverageChecker.php clover.xml 65
