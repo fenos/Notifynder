@@ -3,6 +3,7 @@
 use Fenos\Notifynder\Notifications\ExtraParams;
 use Fenos\Notifynder\Parsers\NotifynderParser;
 use Illuminate\Contracts\Config\Repository;
+use Illuminate\Contracts\Container\Container;
 use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
 use Illuminate\Support\Arr;
@@ -181,16 +182,6 @@ class Notification extends Model
     }
 
     /**
-     * Set configuration object
-     *
-     * @param Repository $config
-     */
-    public function setConfig(Repository $config)
-    {
-        $this->config = $config;
-    }
-
-    /**
      * Get custom required fields from the configs
      * so that we can automatically bind them to the model
      * fillable property
@@ -199,8 +190,8 @@ class Notification extends Model
      */
     public function getCustomFillableFields()
     {
-        if (function_exists('config')) {
-            return config('notifynder.additional_fields.fillable');
+        if (function_exists('app') && app() instanceof Container) {
+            return Arr::flatten(config('notifynder.additional_fields'));
         }
         return [];
     }
@@ -210,7 +201,7 @@ class Notification extends Model
      */
     protected function mergeFillable()
     {
-        $fillables = array_unique($this->getFillable() + Arr::flatten($this->getCustomFillableFields()));
+        $fillables = array_unique($this->getFillable() + $this->getCustomFillableFields());
 
         return $fillables;
     }
