@@ -2,7 +2,7 @@
 
 $factory('Fenos\Notifynder\Models\NotificationCategory',[
 
-    'name' => $faker->name,
+    'name' => uniqid($faker->name, true),
     'text' => 'test notification'
 ]);
 
