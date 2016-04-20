@@ -16,7 +16,7 @@ Compatible DBs: **MySql** - **PostgresSql** - **Sqlite**
 
 Documentation: **[Notifynder Wiki](https://github.com/fenos/Notifynder/wiki)**
 
-Community: [Slack](https://notifynder.slack.com) | [Signup](https://notifynder.signup.team)
+Community: **[Slack](https://notifynder.slack.com)** | **[Signup](https://notifynder.signup.team)**
 
 - - -
 
