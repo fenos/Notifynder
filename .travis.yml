@@ -22,3 +22,6 @@ before_script:
 script:
   - vendor/bin/phpspec run
   - vendor/bin/phpunit
+
+notifications:
+  slack: notifynder:CnF7P2xaZuJTJ4VzNOy6ksDH
