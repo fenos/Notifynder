@@ -22,6 +22,7 @@ before_script:
 script:
   - vendor/bin/phpspec run
   - vendor/bin/phpunit
+  - php CoverageChecker.php clover.xml 65
 
 notifications:
   slack: notifynder:CnF7P2xaZuJTJ4VzNOy6ksDH
