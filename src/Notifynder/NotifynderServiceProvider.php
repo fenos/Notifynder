@@ -61,6 +61,7 @@ class NotifynderServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->config();
+        $this->migration();
     }
 
     /**
@@ -249,13 +250,65 @@ class NotifynderServiceProvider extends ServiceProvider
     {
         $this->publishes([
             __DIR__.'/../config/notifynder.php' => config_path('notifynder.php'),
-            __DIR__.'/../migrations/' => base_path('/database/migrations'),
         ]);
 
         // Set use strict_extra config option,
         // you can toggle it in the configuraiton file
         $strictParam = $this->app['config']->get('notifynder.strict_extra',false);
         NotifynderParser::setStrictExtra($strictParam);
+    }
+
+    /**
+     * Publish migration files
+     */
+    protected function migration()
+    {
+        if (!class_exists('NotificationCategories')) {
+            $this->publishMigration('2014_02_10_145728_notification_categories');
+        }
+        if (!class_exists('CreateNotificationCategories')) {
+            $this->publishMigration('2014_08_01_210813_create_notification_groups_table');
+        }
+        if (!class_exists('CreateNotificationCategoryNotificationGroupTable')) {
+            $this->publishMigration('2014_08_01_211045_create_notification_category_notification_group_table');
+        }
+        if (!class_exists('CreateNotificationsTable')) {
+            $this->publishMigration('2015_05_05_212549_create_notifications_table');
+        }
+        if (!class_exists('AddExpireTimeColumnToNotificationTable')) {
+            $this->publishMigration('2015_06_06_211555_add_expire_time_column_to_notification_table');
+        }
+        if (!class_exists('ChangeTypeToExtraInNotificationsTable')) {
+            $this->publishMigration('2015_06_06_211555_change_type_to_extra_in_notifications_table');
+        }
+        if (!class_exists('AlterCategoryNameToUnique')) {
+            $this->publishMigration('2015_06_07_211555_alter_category_name_to_unique');
+        }
+    }
+
+    /**
+     * @param string $filename
+     */
+    protected function publishMigration($filename)
+    {
+        $extension = '.php';
+        $filename = trim($filename, $extension).$extension;
+        $stub = __DIR__.'/../migrations/'.$filename;
+        $target = $this->migrationFilepath($filename);
+        $this->publishes([$stub => $target], 'migrations');
+    }
+
+    /**
+     * @param string $filename
+     * @return string
+     */
+    protected function migrationFilepath($filename)
+    {
+        if(function_exists('database_path')) {
+            return database_path('/migrations/'.$filename);
+        } else {
+            return base_path('/database/migrations/'.$filename);
+        }
     }
 
     /**
