@@ -1,28 +1,43 @@
 language: php
 
+## Run on container environment
+sudo: false
+
+## Cache composer bits
+cache:
+  directories:
+    - $HOME/.composer/cache
+
+## List all PHP versions to test with
 php:
   - 5.5
   - 5.6
   - 7.0
   - hhvm
-  
+
+## Define all ENV vars to test with
 env:
   - LARAVEL_VERSION="5.0.*"
   - LARAVEL_VERSION="5.1.*"
   - LARAVEL_VERSION="5.2.*"
 
+## Install Dependencies
 install:
   - composer self-update
+  - if [ -n "$GH_TOKEN" ]; then composer config github-oauth.github.com ${GH_TOKEN}; fi;
   - composer require laravel/framework:${LARAVEL_VERSION} --no-update --no-interaction
-  - composer install --prefer-source --no-interaction
-  
+  - composer install --prefer-dist --no-interaction
+
+## Run Scripts before Tests
 before_script:
   - composer dump-autoload -o
 
+## Run test Scripts
 script:
   - vendor/bin/phpspec run
   - vendor/bin/phpunit
   - php CoverageChecker.php clover.xml 65
 
+## Send Build Notifications to Slack
 notifications:
   slack: notifynder:CnF7P2xaZuJTJ4VzNOy6ksDH
