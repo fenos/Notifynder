@@ -233,7 +233,7 @@ class NotifynderBuilder implements ArrayAccess
             }
         }
 
-        $error = "The fields: ".implode(',', $this->requiredFields)." are required";
+        $error = "The fields: ".implode(',', $this->getRequiredFields())." are required";
         throw new NotificationBuilderException($error);
     }
 
