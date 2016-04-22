@@ -233,7 +233,7 @@ class NotifynderBuilder implements ArrayAccess
             }
         }
 
-        $error = "The fields:  'from_id' , 'to_id', 'url', 'category_id' are required";
+        $error = "The fields: ".implode(',', $this->requiredFields)." are required";
         throw new NotificationBuilderException($error);
     }
 
