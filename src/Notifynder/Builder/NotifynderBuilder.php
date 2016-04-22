@@ -4,6 +4,7 @@ use ArrayAccess;
 use Carbon\Carbon;
 use Fenos\Notifynder\Contracts\NotifynderCategory;
 use Fenos\Notifynder\Exceptions\NotificationBuilderException;
+use Illuminate\Contracts\Config\Repository;
 use InvalidArgumentException;
 use Traversable;
 use Closure;
@@ -33,6 +34,11 @@ class NotifynderBuilder implements ArrayAccess
      * @var array
      */
     protected $notifications = [];
+
+    /**
+     * @var Repository
+     */
+    protected $config;
 
     /**
      * @var NotifynderCategory
@@ -313,7 +319,7 @@ class NotifynderBuilder implements ArrayAccess
      * @param $field
      * @param $data
      */
-    protected function setBuilderData($field, $data)
+    public function setBuilderData($field, $data)
     {
         return $this->notifications[$field] = $data;
     }
@@ -353,6 +359,14 @@ class NotifynderBuilder implements ArrayAccess
         if ($this->isRequiredField($offset)) {
             $this->notifications[$offset] = $value;
         }
+    }
+
+    /**
+     * @param Repository $config
+     */
+    public function setConfig(Repository $config)
+    {
+        $this->config = $config;
     }
 
     /**

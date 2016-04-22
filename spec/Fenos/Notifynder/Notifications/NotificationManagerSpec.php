@@ -6,6 +6,7 @@ use Fenos\Notifynder\Contracts\NotificationDB;
 use Fenos\Notifynder\Exceptions\NotificationNotFoundException;
 use Fenos\Notifynder\Models\Notification;
 use Fenos\Notifynder\Models\NotifynderCollection;
+use Illuminate\Contracts\Config\Repository;
 use Illuminate\Database\Eloquent\Collection;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;

@@ -22,6 +22,7 @@ use Fenos\Notifynder\Groups\GroupManager;
 use Fenos\Notifynder\Groups\GroupCategoryRepository;
 use Fenos\Notifynder\Groups\GroupRepository;
 use Fenos\Notifynder\Handler\Dispatcher;
+use Fenos\Notifynder\Models\Notification;
 use Fenos\Notifynder\Models\NotificationCategory;
 use Fenos\Notifynder\Models\NotificationGroup;
 use Fenos\Notifynder\Notifications\NotificationManager;
@@ -123,6 +124,12 @@ class NotifynderServiceProvider extends ServiceProvider
             );
         });
 
+        // Inject configs when model is resolved
+        $this->app->resolving(Notification::class, function (Notification $object, $app) {
+            $fillable = $app['config']->get('notifynder.additional_fields.fillable');
+            $object->fillable(array_merge($object->getFillable(),$fillable));
+        });
+
         // Default store notification
         $this->app->bind('notifynder.store', 'notifynder.notification.repository');
     }
@@ -215,6 +222,10 @@ class NotifynderServiceProvider extends ServiceProvider
                 $app['notifynder.category']
             );
         });
+
+        $this->app->resolving(NotifynderBuilder::class, function (NotifynderBuilder $object, $app) {
+            $object->setConfig($app['config']);
+        });
     }
 
     /**
@@ -251,6 +262,8 @@ class NotifynderServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__.'/../config/notifynder.php' => config_path('notifynder.php'),
         ]);
+
+        $this->mergeConfigFrom(__DIR__.'/../config/notifynder.php', 'notifynder');
 
         // Set use strict_extra config option,
         // you can toggle it in the configuraiton file

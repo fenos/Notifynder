@@ -1,5 +1,6 @@
 <?php namespace Fenos\Notifynder\Builder;
 
+use Illuminate\Contracts\Config\Repository;
 use InvalidArgumentException;
 use Carbon\Carbon;
 
@@ -64,6 +65,22 @@ trait BuilderRules
     }
 
     /**
+     * Returns all required fields including the config ones
+     *
+     * @return array
+     */
+    public function getRequiredFields()
+    {
+        if (property_exists($this,'config') && $this->config instanceof Repository) {
+            $customRequiredFields = $this->config->get('notifynder.additional_fields.required');
+        } else {
+            $customRequiredFields = [];
+        }
+
+        return array_unique($this->requiredFields + $customRequiredFields);
+    }
+
+    /**
      * Check that the builder has
      * the required field to send the
      * notifications correctly
@@ -73,7 +90,7 @@ trait BuilderRules
      */
     public function hasRequiredFields($array)
     {
-        foreach ($this->requiredFields as $field) {
+        foreach ($this->getRequiredFields() as $field) {
             if (! array_key_exists($field, $array)) {
                 return false;
             }
@@ -90,7 +107,7 @@ trait BuilderRules
      */
     public function isRequiredField($offset)
     {
-        return (in_array($offset,$this->requiredFields));
+        return (in_array($offset,$this->getRequiredFields()));
     }
 
     /**

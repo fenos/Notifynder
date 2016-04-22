@@ -2,8 +2,11 @@
 
 use Fenos\Notifynder\Notifications\ExtraParams;
 use Fenos\Notifynder\Parsers\NotifynderParser;
+use Illuminate\Contracts\Config\Repository;
+use Illuminate\Contracts\Container\Container;
 use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
+use Illuminate\Support\Arr;
 
 /**
  * Class Notification
@@ -35,6 +38,19 @@ class Notification extends Model
         'to_id','to_type','from_id','from_type',
         'category_id','read','url','extra', 'expire_time',
     ];
+
+    /**
+     * Notification constructor.
+     *
+     * @param array $attributes
+     */
+    public function __construct(array $attributes = [])
+    {
+        $fillables = $this->mergeFillable();
+        $this->fillable($fillables);
+
+        parent::__construct($attributes);
+    }
 
     /**
      * Custom Collection
@@ -163,5 +179,30 @@ class Notification extends Model
         return $query->whereHas('body', function($categoryQuery) use ($category) {
             $categoryQuery->where('name',$category);
         });
+    }
+
+    /**
+     * Get custom required fields from the configs
+     * so that we can automatically bind them to the model
+     * fillable property
+     *
+     * @return mixed
+     */
+    public function getCustomFillableFields()
+    {
+        if (function_exists('app') && app() instanceof Container) {
+            return Arr::flatten(config('notifynder.additional_fields'));
+        }
+        return [];
+    }
+
+    /**
+     * @return array
+     */
+    protected function mergeFillable()
+    {
+        $fillables = array_unique($this->getFillable() + $this->getCustomFillableFields());
+
+        return $fillables;
     }
 }
