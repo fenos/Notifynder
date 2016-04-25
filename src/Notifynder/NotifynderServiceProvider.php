@@ -279,7 +279,7 @@ class NotifynderServiceProvider extends ServiceProvider
         if (!class_exists('NotificationCategories')) {
             $this->publishMigration('2014_02_10_145728_notification_categories');
         }
-        if (!class_exists('CreateNotificationCategories')) {
+        if (!class_exists('CreateNotificationGroupsTable')) {
             $this->publishMigration('2014_08_01_210813_create_notification_groups_table');
         }
         if (!class_exists('CreateNotificationCategoryNotificationGroupTable')) {
