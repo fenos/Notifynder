@@ -5,6 +5,7 @@ use Carbon\Carbon;
 use Fenos\Notifynder\Contracts\NotifynderCategory;
 use Fenos\Notifynder\Exceptions\NotificationBuilderException;
 use Illuminate\Contracts\Config\Repository;
+use Illuminate\Database\Eloquent\Model;
 use InvalidArgumentException;
 use Traversable;
 use Closure;
@@ -275,6 +276,9 @@ class NotifynderBuilder implements ArrayAccess
 
             $this->setBuilderData("{$property}_type", $from[0]);
             $this->setBuilderData("{$property}_id", $from[1]);
+        } elseif($from[0] instanceof Model) {
+            $this->setBuilderData("{$property}_type", get_class($from[0]));
+            $this->setBuilderData("{$property}_id", $from[0]->getKey());
         } else {
             $this->isNumeric($from[0]);
             $this->setBuilderData("{$property}_id", $from[0]);
