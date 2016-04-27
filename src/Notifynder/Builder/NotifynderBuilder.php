@@ -277,7 +277,7 @@ class NotifynderBuilder implements ArrayAccess
             $this->setBuilderData("{$property}_type", $from[0]);
             $this->setBuilderData("{$property}_id", $from[1]);
         } elseif($from[0] instanceof Model) {
-            $this->setBuilderData("{$property}_type", get_class($from[0]));
+            $this->setBuilderData("{$property}_type", $from[0]->getMorphClass());
             $this->setBuilderData("{$property}_id", $from[0]->getKey());
         } else {
             $this->isNumeric($from[0]);
