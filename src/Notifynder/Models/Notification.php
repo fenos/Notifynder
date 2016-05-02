@@ -191,7 +191,7 @@ class Notification extends Model
     public function getCustomFillableFields()
     {
         if (function_exists('app') && app() instanceof Container) {
-            return Arr::flatten(config('notifynder.additional_fields'));
+            return Arr::flatten(config('notifynder.additional_fields', []));
         }
         return [];
     }
