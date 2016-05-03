@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Fenos\Notifynder\Builder\NotifynderBuilder;
 use Fenos\Notifynder\Categories\CategoryManager;
 use Fenos\Notifynder\Models\NotificationCategory;
+use Illuminate\Support\Collection;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
@@ -92,6 +93,8 @@ class NotifynderBuilderSpec extends ObjectBehavior
     /** @test */
     function it_add_the_expire_parameter_to_the_builder()
     {
+        date_default_timezone_set('UTC');
+
         $datetime = new Carbon;
 
         $this->expire($datetime)->shouldReturnAnInstanceOf(NotifynderBuilder::class);
@@ -164,9 +167,27 @@ class NotifynderBuilderSpec extends ObjectBehavior
 
     public function it_create_multi_notification_in_a_loop()
     {
-        $cloure = function(NotifynderBuilder $builder,$data,$key)
+        $closure = function(NotifynderBuilder $builder,$data,$key)
         {
             return $builder->to(1)->from(2)->url('notifynder.io')->category(1);
         };
+    }
+
+    public function it_create_empty_array_loop_builder()
+    {
+        $closure = function(NotifynderBuilder $builder,$data,$key)
+        {
+            return $builder->to(1)->from(2)->url('notifynder.io')->category(1);
+        };
+        $this->shouldThrow('InvalidArgumentException')->during('loop', [[], $closure]);
+    }
+
+    public function it_create_empty_collection_loop_builder()
+    {
+        $closure = function(NotifynderBuilder $builder,$data,$key)
+        {
+            return $builder->to(1)->from(2)->url('notifynder.io')->category(1);
+        };
+        $this->shouldThrow('InvalidArgumentException')->during('loop', [new Collection([]), $closure]);
     }
 }
