@@ -154,6 +154,13 @@ class NotifynderParser
             return '';
         }
 
+        if(($value = array_get($object, $key, $default)) != $default) {
+            return $value;
+        }
+        if(($value = object_get($object, $key, $default)) != $default) {
+            return $value;
+        }
+
         foreach (explode('.', $key) as $segment) {
             if (is_object($object) && isset($object->{$segment})) {
                 $object = $object->{$segment};

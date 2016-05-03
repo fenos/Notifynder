@@ -159,7 +159,13 @@ class Notification extends Model
      */
     public function getExtraAttribute($value)
     {
-        return new ExtraParams(json_decode($value));
+        if(is_array($value)) {
+            return new ExtraParams($value);
+        } elseif(is_string($value)) {
+            return new ExtraParams(json_decode($value));
+        } else {
+            return new ExtraParams([]);
+        }
     }
 
     /**
