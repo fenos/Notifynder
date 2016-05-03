@@ -5,6 +5,8 @@ namespace spec\Fenos\Notifynder\Builder;
 use Carbon\Carbon;
 use Fenos\Notifynder\Builder\NotifynderBuilder;
 use Fenos\Notifynder\Categories\CategoryManager;
+use Fenos\Notifynder\Exceptions\EntityNotIterableException;
+use Fenos\Notifynder\Exceptions\IterableIsEmptyException;
 use Fenos\Notifynder\Models\NotificationCategory;
 use Illuminate\Support\Collection;
 use PhpSpec\ObjectBehavior;
@@ -179,7 +181,7 @@ class NotifynderBuilderSpec extends ObjectBehavior
         {
             return $builder->to(1)->from(2)->url('notifynder.io')->category(1);
         };
-        $this->shouldThrow('InvalidArgumentException')->during('loop', [[], $closure]);
+        $this->shouldThrow(IterableIsEmptyException::class)->during('loop', [[], $closure]);
     }
 
     public function it_create_empty_collection_loop_builder()
@@ -188,6 +190,15 @@ class NotifynderBuilderSpec extends ObjectBehavior
         {
             return $builder->to(1)->from(2)->url('notifynder.io')->category(1);
         };
-        $this->shouldThrow('InvalidArgumentException')->during('loop', [new Collection([]), $closure]);
+        $this->shouldThrow(IterableIsEmptyException::class)->during('loop', [new Collection([]), $closure]);
+    }
+
+    public function it_create_not_iterable_loop_builder()
+    {
+        $closure = function(NotifynderBuilder $builder,$data,$key)
+        {
+            return $builder->to(1)->from(2)->url('notifynder.io')->category(1);
+        };
+        $this->shouldThrow(EntityNotIterableException::class)->during('loop', ['hello world', $closure]);
     }
 }
