@@ -36,6 +36,7 @@ class NotifynderParser
     {
         $body = $item['body']['text'];
 
+        $item['extra'] = $this->extraToArray($item['extra']);
         $specialValues = $this->getValues($body);
 
         if (count($specialValues) > 0) {
