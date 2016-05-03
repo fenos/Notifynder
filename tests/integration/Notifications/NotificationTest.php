@@ -126,4 +126,18 @@ class NotificationTest extends TestCaseDB {
 
         $this->assertEquals($fillable, $model->getFillable() );
     }
+
+    /** @test */
+    function it_retrieve_notification_with_parsed_body_and_multi_dots()
+    {
+        $extraValues = json_encode(['look' => 'Amazing', 'user' => ['last' => 'Doe', 'first' => 'John'],]);
+        $category = $this->createCategory(['text' => 'parse this {extra.look} value from {extra.user.first} {extra.user.last}']);
+
+        $notification = $this->createNotification(['extra' => $extraValues,'category_id' => $category->id]);
+
+        $notifications = $this->notification->getNotRead($notification->to->id);
+
+        $bodyParsed = 'parse this Amazing value from John Doe';
+        $this->assertEquals($bodyParsed,$notifications[0]->text);
+    }
 }
