@@ -92,7 +92,9 @@ class ExtraParams implements ArrayAccess
     {
         $params = $this->toArray();
 
-        return $params[$name];
+        if(array_key_exists($name, $params)) {
+            return $params[$name];
+        }
     }
 
 
