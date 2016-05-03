@@ -254,7 +254,7 @@ class NotifynderBuilder implements ArrayAccess
      */
     protected function isIterable($var)
     {
-        return (is_array($var) || $var instanceof Traversable);
+        return (is_array($var) || $var instanceof Traversable) && count($var) > 0;
     }
 
     /**
