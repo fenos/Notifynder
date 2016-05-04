@@ -1,4 +1,4 @@
-Notifynder 3.1 - Laravel 5
+Notifynder 3.2 - Laravel 5
 ==========
 
 [![Build Status](https://travis-ci.org/fenos/Notifynder.svg?branch=master)](https://travis-ci.org/fenos/Notifynder)
