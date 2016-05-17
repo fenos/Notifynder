@@ -126,4 +126,38 @@ class NotificationTest extends TestCaseDB {
 
         $this->assertEquals($fillable, $model->getFillable() );
     }
+
+    /** @test */
+    function it_retrieve_notification_with_parsed_body_and_multi_dots()
+    {
+        $extraValues = json_encode(['look' => 'Amazing', 'user' => ['last' => 'Doe', 'first' => 'John'],]);
+        $category = $this->createCategory(['text' => 'parse this {extra.look} value from {extra.user.first} {extra.user.last}']);
+
+        $notification = $this->createNotification(['extra' => $extraValues,'category_id' => $category->id]);
+
+        $notifications = $this->notification->getNotRead($notification->to->id);
+
+        $bodyParsed = 'parse this Amazing value from John Doe';
+        $this->assertEquals($bodyParsed,$notifications[0]->text);
+    }
+
+    /** @test */
+    function it_retrieve_notification_with_parsed_body_and_multi_dots_with_objects()
+    {
+        $user = new \Fenos\Tests\Models\User(['id' => '1']);
+        $object = json_decode(json_encode(['last' => 'Doe', 'first' => 'John']), false);
+
+        $this->assertInstanceOf(\Fenos\Tests\Models\User::class, $user);
+        $this->assertInstanceOf(stdClass::class, $object);
+
+        $extraValues = json_encode(['look' => 'Amazing', 'user' => $user, 'object' => $object,]);
+        $category = $this->createCategory(['text' => 'parse this {extra.look} value from User#{extra.user.id} ({extra.object.first} {extra.object.last})']);
+
+        $notification = $this->createNotification(['extra' => $extraValues,'category_id' => $category->id]);
+
+        $notifications = $this->notification->getNotRead($notification->to->id);
+
+        $bodyParsed = 'parse this Amazing value from User#1 (John Doe)';
+        $this->assertEquals($bodyParsed,$notifications[0]->text);
+    }
 }
