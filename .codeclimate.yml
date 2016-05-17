@@ -19,3 +19,4 @@ ratings:
     - "src/Notifynder/**.php"
 exclude_paths:
   - tests/
+  - spec/
