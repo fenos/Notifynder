@@ -156,11 +156,11 @@ interface Notifynder
      * Delete All notifications from a
      * defined category.
      *
-     * @param $category_name string
+     * @param $categoryName string
      * @param $expired Bool
      * @return bool
      */
-    public function deleteByCategory($category_name, $expired = false);
+    public function deleteByCategory($categoryName, $expired = false);
 
     /**
      * Get Notifications not read
@@ -222,21 +222,21 @@ interface Notifynder
      * Add category to a group
      * giving the names of them.
      *
-     * @param $gorup_name
-     * @param $category_name
+     * @param $groupName
+     * @param $categoryName
      * @return mixed
      */
-    public function addCategoryToGroupByName($gorup_name, $category_name);
+    public function addCategoryToGroupByName($groupName, $categoryName);
 
     /**
      * Add category to a group
      * giving the ids of them.
      *
-     * @param $gorup_id
-     * @param $category_id
+     * @param $groupId
+     * @param $categoryId
      * @return mixed
      */
-    public function addCategoryToGroupById($gorup_id, $category_id);
+    public function addCategoryToGroupById($groupId, $categoryId);
 
     /**
      * Add categories to a group having as first parameter

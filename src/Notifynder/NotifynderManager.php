@@ -445,13 +445,13 @@ class NotifynderManager extends NotifynderBuilder implements Notifynder
      * Add category to a group
      * giving the names of them.
      *
-     * @param $gorup_name
+     * @param $groupName
      * @param $categoryName
      * @return mixed
      */
-    public function addCategoryToGroupByName($gorup_name, $categoryName)
+    public function addCategoryToGroupByName($groupName, $categoryName)
     {
-        return $this->notifynderGroup->addCategoryToGroupByName($gorup_name, $categoryName);
+        return $this->notifynderGroup->addCategoryToGroupByName($groupName, $categoryName);
     }
 
     /**
