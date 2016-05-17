@@ -1,15 +1,14 @@
-<?php namespace Fenos\Notifynder\Contracts;
+<?php
+
+namespace Fenos\Notifynder\Contracts;
 
 /**
- * Class NotificationGroupsRepository
- *
- * @package Fenos\Notifynder\Groups\Repositories
+ * Class NotificationGroupsRepository.
  */
 interface NotifynderGroupDB
 {
-
     /**
-     * Find a group by ID
+     * Find a group by ID.
      *
      * @param $group_id
      * @return \Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model|static
@@ -17,7 +16,7 @@ interface NotifynderGroupDB
     public function find($group_id);
 
     /**
-     * Find a group by name
+     * Find a group by name.
      *
      * @param $name
      * @return mixed
@@ -25,7 +24,7 @@ interface NotifynderGroupDB
     public function findByName($name);
 
     /**
-     * Create a new group
+     * Create a new group.
      *
      * @param $name
      * @return \Illuminate\Database\Eloquent\Model|static
@@ -33,7 +32,7 @@ interface NotifynderGroupDB
     public function create($name);
 
     /**
-     * Delete a group
+     * Delete a group.
      *
      * @param $group_id
      * @return mixed

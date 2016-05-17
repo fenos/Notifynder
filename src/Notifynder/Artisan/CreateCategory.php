@@ -1,4 +1,6 @@
-<?php namespace Fenos\Notifynder\Artisan;
+<?php
+
+namespace Fenos\Notifynder\Artisan;
 
 use Fenos\Notifynder\Contracts\NotifynderCategory;
 use Illuminate\Console\Command;
@@ -6,7 +8,6 @@ use Symfony\Component\Console\Input\InputArgument;
 
 class CreateCategory extends Command
 {
-
     /**
      * The console command name.
      *
@@ -65,9 +66,9 @@ class CreateCategory extends Command
      */
     protected function getArguments()
     {
-        return array(
-            array('name', InputArgument::REQUIRED, 'Name of the category.'),
-            array('text', InputArgument::REQUIRED, 'Text of the category.'),
-        );
+        return [
+            ['name', InputArgument::REQUIRED, 'Name of the category.'],
+            ['text', InputArgument::REQUIRED, 'Text of the category.'],
+        ];
     }
 }

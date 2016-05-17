@@ -1,19 +1,18 @@
-<?php namespace Fenos\Notifynder\Models;
+<?php
+
+namespace Fenos\Notifynder\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Class NotificationGroup
- *
- * @package Fenos\Notifynder\Models
+ * Class NotificationGroup.
  */
 class NotificationGroup extends Model
 {
-
     /**
      * @var array
      */
-    protected $fillable = ["name"];
+    protected $fillable = ['name'];
 
     /**
      * @var bool

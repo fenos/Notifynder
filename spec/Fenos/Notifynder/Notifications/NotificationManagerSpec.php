@@ -6,10 +6,7 @@ use Fenos\Notifynder\Contracts\NotificationDB;
 use Fenos\Notifynder\Exceptions\NotificationNotFoundException;
 use Fenos\Notifynder\Models\Notification;
 use Fenos\Notifynder\Models\NotifynderCollection;
-use Illuminate\Contracts\Config\Repository;
-use Illuminate\Database\Eloquent\Collection;
 use PhpSpec\ObjectBehavior;
-use Prophecy\Argument;
 
 class NotificationManagerSpec extends ObjectBehavior
 {
@@ -18,13 +15,13 @@ class NotificationManagerSpec extends ObjectBehavior
         $this->beConstructedWith($notificationRepo);
     }
 
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType('Fenos\Notifynder\Notifications\NotificationManager');
     }
 
     /** @test */
-    function it_find_a_notification_by_id(NotificationDB $notificationRepo)
+    public function it_find_a_notification_by_id(NotificationDB $notificationRepo)
     {
         $notification_id = 1;
         $notification = new Notification();
@@ -36,18 +33,18 @@ class NotificationManagerSpec extends ObjectBehavior
     }
 
     /** @test */
-    function it_try_to_find_an_inexistent_notification(NotificationDB $notificationRepo)
+    public function it_try_to_find_an_inexistent_notification(NotificationDB $notificationRepo)
     {
         $notification_id = 1;
 
         $notificationRepo->find($notification_id)->shouldBeCalled()
             ->willReturn(null);
 
-        $this->shouldThrow(NotificationNotFoundException::class)->during('find',[$notification_id]);
+        $this->shouldThrow(NotificationNotFoundException::class)->during('find', [$notification_id]);
     }
 
     /** @test */
-    function it_read_one_notification_by_id(NotificationDB $notificationRepo)
+    public function it_read_one_notification_by_id(NotificationDB $notificationRepo)
     {
         $notification_id = 1;
         $notification = new Notification();
@@ -62,33 +59,33 @@ class NotificationManagerSpec extends ObjectBehavior
     }
 
     /** @test */
-    function it_read_notifications_limit_to_a_given_number(NotificationDB $notificationRepo)
+    public function it_read_notifications_limit_to_a_given_number(NotificationDB $notificationRepo)
     {
         $to_id = 1;
         $numbers = 5;
         $order = 'asc';
 
-        $notificationRepo->readLimit($to_id,null,$numbers,$order)->shouldBeCalled()
+        $notificationRepo->readLimit($to_id, null, $numbers, $order)->shouldBeCalled()
                 ->willReturn($numbers);
 
-        $this->readLimit($to_id,$numbers,$order)->shouldReturn($numbers);
+        $this->readLimit($to_id, $numbers, $order)->shouldReturn($numbers);
     }
 
     /** @test */
-    function it_read_all_notification_of_the_given_entity(NotificationDB $notificationRepo)
+    public function it_read_all_notification_of_the_given_entity(NotificationDB $notificationRepo)
     {
         $id = 1;
         $entity = null;
         $notificationDeleted = 10;
 
-        $notificationRepo->readAll($id,$entity)->shouldBeCalled()
+        $notificationRepo->readAll($id, $entity)->shouldBeCalled()
                     ->willReturn($notificationDeleted);
 
         $this->readAll($id)->shouldReturn($notificationDeleted);
     }
 
     /** @test */
-    function it_delete_a_notification_by_id(NotificationDB $notificationRepo)
+    public function it_delete_a_notification_by_id(NotificationDB $notificationRepo)
     {
         $notification_id = 1;
 
@@ -99,83 +96,83 @@ class NotificationManagerSpec extends ObjectBehavior
     }
 
     /** @test */
-    function it_delete_notification_limiting_the_number_of_the_given_entity(NotificationDB $notificationRepo)
+    public function it_delete_notification_limiting_the_number_of_the_given_entity(NotificationDB $notificationRepo)
     {
         $entity_id = 1;
         $numberLimit = 5;
         $order = 'asc';
 
-        $notificationRepo->deleteLimit($entity_id,null,$numberLimit,$order)->shouldBeCalled()
+        $notificationRepo->deleteLimit($entity_id, null, $numberLimit, $order)->shouldBeCalled()
                     ->willReturn($numberLimit);
 
-        $this->deleteLimit($entity_id,$numberLimit,$order)->shouldReturn($numberLimit);
+        $this->deleteLimit($entity_id, $numberLimit, $order)->shouldReturn($numberLimit);
     }
 
     /** @test */
-    function it_delete_all_notification_of_the_given_entity(NotificationDB $notificationRepo)
+    public function it_delete_all_notification_of_the_given_entity(NotificationDB $notificationRepo)
     {
         $entity_id = 1;
         $notificationsDeleted = 10;
 
-        $notificationRepo->deleteAll($entity_id,null)->shouldBeCalled()
+        $notificationRepo->deleteAll($entity_id, null)->shouldBeCalled()
                 ->willReturn($notificationsDeleted);
 
         $this->deleteAll($entity_id)->shouldReturn($notificationsDeleted);
     }
 
     /** @test */
-    function it_get_not_read_notification(NotificationDB $notificationRepo,NotifynderCollection $collection)
+    public function it_get_not_read_notification(NotificationDB $notificationRepo, NotifynderCollection $collection)
     {
         $entity_id = 1;
         $limit = 10;
         $paginate = null;
 
-        $notificationRepo->getNotRead($entity_id,null,$limit,$paginate,'desc',null)->shouldBeCalled()
+        $notificationRepo->getNotRead($entity_id, null, $limit, $paginate, 'desc', null)->shouldBeCalled()
                     ->willReturn($collection);
 
         $collection->parse()->shouldBeCalled()->willReturn([]);
 
-        $this->getNotRead($entity_id,$limit,$paginate,'desc')->shouldReturn([]);
+        $this->getNotRead($entity_id, $limit, $paginate, 'desc')->shouldReturn([]);
     }
 
     /** @test */
-    function it_get_all_notifications_of_the_given_entity(NotificationDB $notificationRepo,NotifynderCollection $collection)
+    public function it_get_all_notifications_of_the_given_entity(NotificationDB $notificationRepo, NotifynderCollection $collection)
     {
         $entity_id = 1;
         $limit = 10;
         $paginate = null;
 
-        $notificationRepo->getAll($entity_id,null,$limit,$paginate,'desc',null)->shouldBeCalled()
+        $notificationRepo->getAll($entity_id, null, $limit, $paginate, 'desc', null)->shouldBeCalled()
             ->willReturn($collection);
 
         $collection->parse()->shouldBeCalled()->willReturn([]);
 
-        $this->getAll($entity_id,$limit,$paginate)->shouldReturn([]);
+        $this->getAll($entity_id, $limit, $paginate)->shouldReturn([]);
     }
 
     /** @test */
-    function it_get_last_notification_of_the_current_entity(NotificationDB $notificationRepo)
+    public function it_get_last_notification_of_the_current_entity(NotificationDB $notificationRepo)
     {
         $id = 1;
 
-        $notificationRepo->getLastNotification($id,null,null)->shouldBeCalled()->willReturn(new Notification());
+        $notificationRepo->getLastNotification($id, null, null)->shouldBeCalled()->willReturn(new Notification());
 
         $this->getLastNotification($id)->shouldReturnAnInstanceOf(Notification::class);
     }
 
     /** @test */
-    function it_get_last_notification_of_the_current_entity_filtering_by_category(NotificationDB $notificationRepo)
+    public function it_get_last_notification_of_the_current_entity_filtering_by_category(NotificationDB $notificationRepo)
     {
         $id = 1;
         $category = 'notifynder.category';
 
-        $notificationRepo->getLastNotificationByCategory($category,$id,null,null)->shouldBeCalled()->willReturn(new Notification());
+        $notificationRepo->getLastNotificationByCategory($category, $id, null, null)->shouldBeCalled()->willReturn(new Notification());
 
-        $this->getLastNotificationByCategory($category,$id)->shouldReturnAnInstanceOf(Notification::class);
+        $this->getLastNotificationByCategory($category, $id)->shouldReturnAnInstanceOf(Notification::class);
     }
 
     /** @test */
-    function it_send_a_single_notification(NotificationDB $notificationRepo)
+    public function it_send_a_single_notification(NotificationDB $notificationRepo)
     {
         $notificationData = [];
         $notification = new Notification();
@@ -187,7 +184,7 @@ class NotificationManagerSpec extends ObjectBehavior
     }
 
     /** @test */
-    function it_send_multiple_notification(NotificationDB $notificationRepo)
+    public function it_send_multiple_notification(NotificationDB $notificationRepo)
     {
         $notificationData = [];
         $notificationsSent = 5;
@@ -199,23 +196,23 @@ class NotificationManagerSpec extends ObjectBehavior
     }
 
     /** @test */
-    function it_count_notification_not_read(NotificationDB $notificationRepo)
+    public function it_count_notification_not_read(NotificationDB $notificationRepo)
     {
         $entity_id = 1;
         $notificationCount = 10;
 
-        $notificationRepo->countNotRead($entity_id,null,null)->shouldBeCalled()
+        $notificationRepo->countNotRead($entity_id, null, null)->shouldBeCalled()
                     ->willReturn($notificationCount);
 
         $this->countNotRead($entity_id)->shouldReturn($notificationCount);
     }
 
     /** @test */
-    function it_delete_notification_by_categories(NotificationDB $notificationRepo)
+    public function it_delete_notification_by_categories(NotificationDB $notificationRepo)
     {
         $categoryName = 'notifynder.test';
 
-        $notificationRepo->deleteByCategory($categoryName,false)->shouldBeCalled()
+        $notificationRepo->deleteByCategory($categoryName, false)->shouldBeCalled()
                 ->willReturn(1);
 
         $this->deleteByCategory($categoryName)->shouldReturn(1);

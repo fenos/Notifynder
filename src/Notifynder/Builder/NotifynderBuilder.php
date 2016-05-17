@@ -1,4 +1,6 @@
-<?php namespace Fenos\Notifynder\Builder;
+<?php
+
+namespace Fenos\Notifynder\Builder;
 
 use ArrayAccess;
 use Carbon\Carbon;
@@ -12,14 +14,12 @@ use Traversable;
 use Closure;
 
 /**
- * Class NotifynderBuilder
+ * Class NotifynderBuilder.
  *
  * The builder is a main factor of Notifynder, it make sure
  * that the notification is decorated and validated before
  * are passed to the Sender Classes. It also helps you to
  * create multi notifications with the same simple and easy sintax.
- *
- * @package Fenos\Notifynder\Builder
  */
 class NotifynderBuilder implements ArrayAccess
 {
@@ -31,7 +31,7 @@ class NotifynderBuilder implements ArrayAccess
     public $date;
 
     /**
-     * Builder data
+     * Builder data.
      *
      * @var array
      */
@@ -50,13 +50,13 @@ class NotifynderBuilder implements ArrayAccess
     /**
      * @param NotifynderCategory $notifynderCategory
      */
-    function __construct(NotifynderCategory $notifynderCategory)
+    public function __construct(NotifynderCategory $notifynderCategory)
     {
         $this->notifynderCategory = $notifynderCategory;
     }
 
     /**
-     * Set who will send the notification
+     * Set who will send the notification.
      *
      * @return $this
      */
@@ -70,7 +70,7 @@ class NotifynderBuilder implements ArrayAccess
     }
 
     /**
-     * Set who will receive the notification
+     * Set who will receive the notification.
      *
      * @return $this
      */
@@ -84,7 +84,7 @@ class NotifynderBuilder implements ArrayAccess
     }
 
     /**
-     * Set the url of the notification
+     * Set the url of the notification.
      *
      * @param $url
      * @return $this
@@ -99,7 +99,7 @@ class NotifynderBuilder implements ArrayAccess
     }
 
     /**
-     * Set expire time
+     * Set expire time.
      *
      * @param $datetime
      * @return $this
@@ -114,14 +114,14 @@ class NotifynderBuilder implements ArrayAccess
 
     /**
      * Set Category and covert it, to the id
-     * if name of it given
+     * if name of it given.
      *
      * @param $category
      * @return $this
      */
     public function category($category)
     {
-        if (!is_numeric($category)) {
+        if (! is_numeric($category)) {
             $category = $this->notifynderCategory
                             ->findByName($category)->id;
         }
@@ -132,7 +132,7 @@ class NotifynderBuilder implements ArrayAccess
     }
 
     /**
-     * Set extra value
+     * Set extra value.
      *
      * @param $extra
      * @return $this
@@ -151,7 +151,7 @@ class NotifynderBuilder implements ArrayAccess
     /**
      * Build the array with the builder inside
      * a Closure, it has more flexibility for
-     * the generation of your array
+     * the generation of your array.
      *
      *
      * @param callable|Closure $closure
@@ -171,7 +171,7 @@ class NotifynderBuilder implements ArrayAccess
 
     /**
      * Loop the datas for create
-     * multi notifications array
+     * multi notifications array.
      *
      * @param          $dataToIterate
      * @param  Closure $builder
@@ -182,7 +182,7 @@ class NotifynderBuilder implements ArrayAccess
     public function loop($dataToIterate, Closure $builder)
     {
         if ($this->isIterable($dataToIterate)) {
-            if(count($dataToIterate) > 0) {
+            if (count($dataToIterate) > 0) {
                 $notifications = [];
 
                 $newBuilder = new self($this->notifynderCategory);
@@ -193,6 +193,7 @@ class NotifynderBuilder implements ArrayAccess
                 }
 
                 $this->notifications = $notifications;
+
                 return $this;
             } else {
                 throw new IterableIsEmptyException('The Iterable passed must contain at least one element');
@@ -204,7 +205,7 @@ class NotifynderBuilder implements ArrayAccess
 
     /**
      * Compose the builder to
-     * the array
+     * the array.
      *
      * @throws NotificationBuilderException
      * @return mixed
@@ -216,7 +217,6 @@ class NotifynderBuilder implements ArrayAccess
         // If the builder is handling a single notification
         // we will validate only it
         if (! $hasMultipleNotifications) {
-
             $this->setDate();
 
             if ($this->hasRequiredFields($this->notifications)) {
@@ -227,24 +227,23 @@ class NotifynderBuilder implements ArrayAccess
         // If has multiple Notifications
         // we will validate one by one
         if ($hasMultipleNotifications) {
-
             $allow = [];
 
-            foreach($this->notifications as $index => $notification) {
+            foreach ($this->notifications as $index => $notification) {
                 $allow[$index] = $this->hasRequiredFields($notification);
             }
 
-            if (! in_array(false,$allow)) {
+            if (! in_array(false, $allow)) {
                 return $this->notifications;
             }
         }
 
-        $error = "The fields: ".implode(',', $this->getRequiredFields())." are required";
+        $error = 'The fields: '.implode(',', $this->getRequiredFields()).' are required';
         throw new NotificationBuilderException($error);
     }
 
     /**
-     * Refresh the state of the notifications
+     * Refresh the state of the notifications.
      */
     public function refresh()
     {
@@ -259,13 +258,13 @@ class NotifynderBuilder implements ArrayAccess
      */
     protected function isIterable($var)
     {
-        return (is_array($var) || $var instanceof Traversable);
+        return is_array($var) || $var instanceof Traversable;
     }
 
     /**
      * It set the entity who will do
      * the action of receive or
-     * send
+     * send.
      *
      * @param $from
      * @param $property
@@ -281,7 +280,7 @@ class NotifynderBuilder implements ArrayAccess
 
             $this->setBuilderData("{$property}_type", $from[0]);
             $this->setBuilderData("{$property}_id", $from[1]);
-        } elseif($from[0] instanceof Model) {
+        } elseif ($from[0] instanceof Model) {
             $this->setBuilderData("{$property}_type", $from[0]->getMorphClass());
             $this->setBuilderData("{$property}_id", $from[0]->getKey());
         } else {
@@ -293,7 +292,7 @@ class NotifynderBuilder implements ArrayAccess
     /**
      * If the values passed are 2 or more,
      * it means that you spefied the entity
-     * over then the id
+     * over then the id.
      *
      * @param  array $info
      * @return bool
@@ -304,7 +303,7 @@ class NotifynderBuilder implements ArrayAccess
     }
 
     /**
-     * Set date on the array
+     * Set date on the array.
      */
     protected function setDate()
     {
@@ -323,7 +322,7 @@ class NotifynderBuilder implements ArrayAccess
     }
 
     /**
-     * Set builder Data
+     * Set builder Data.
      *
      * @param $field
      * @param $data
@@ -333,16 +332,14 @@ class NotifynderBuilder implements ArrayAccess
         return $this->notifications[$field] = $data;
     }
 
-
     /**
      * @param mixed $offset
      * @return bool
      */
     public function offsetExists($offset)
     {
-        return array_key_exists($offset,$this->notifications);
+        return array_key_exists($offset, $this->notifications);
     }
-
 
     /**
      * @param mixed $offset
@@ -353,7 +350,6 @@ class NotifynderBuilder implements ArrayAccess
         return $this->notifications[$offset];
     }
 
-
     /**
      * @param mixed $offset
      * @param mixed $value
@@ -361,7 +357,6 @@ class NotifynderBuilder implements ArrayAccess
     public function offsetSet($offset, $value)
     {
         if (method_exists($this, $offset)) {
-
             return $this->{$offset}($value);
         }
 

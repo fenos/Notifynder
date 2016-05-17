@@ -1,27 +1,25 @@
-<?php namespace Fenos\Notifynder\Contracts;
+<?php
+
+namespace Fenos\Notifynder\Contracts;
 
 use Closure;
 use Fenos\Notifynder\Models\Notification;
 
 /**
- * Class NotificationRepository
- *
- * @package Fenos\Notifynder\Senders
+ * Class NotificationRepository.
  */
 interface NotificationDB extends StoreNotification
 {
-
     /**
-     * Find notification by id
+     * Find notification by id.
      *
      * @param $notification_id
      * @return \Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model|static
      */
     public function find($notification_id);
 
-
     /**
-     * Make Read One Notification
+     * Make Read One Notification.
      *
      * @param  Notification $notification
      * @return bool|Notification
@@ -30,7 +28,7 @@ interface NotificationDB extends StoreNotification
 
     /**
      * Read notifications in base the number
-     * Given
+     * Given.
      *
      * @param $to_id
      * @param $entity
@@ -41,7 +39,7 @@ interface NotificationDB extends StoreNotification
     public function readLimit($to_id, $entity, $numbers, $order);
 
     /**
-     * Make read all notification not read
+     * Make read all notification not read.
      *
      * @param $to_id
      * @param $entity
@@ -51,37 +49,37 @@ interface NotificationDB extends StoreNotification
 
     /**
      * Delete a notification giving the id
-     * of it
+     * of it.
      *
      * @param $notification_id
-     * @return Bool
+     * @return bool
      */
     public function delete($notification_id);
 
     /**
      * Delete All notifications about the
-     * current user
+     * current user.
      *
      * @param $to_id int
      * @param $entity
-     * @return Bool
+     * @return bool
      */
     public function deleteAll($to_id, $entity);
 
     /**
      * Delete All notifications from a
-     * defined category
+     * defined category.
      *
      * @param $category_name
      * @param $expired Bool
-     * @return Bool
+     * @return bool
      */
     public function deleteByCategory($category_name, $expired = false);
 
     /**
      * Delete numbers of notifications equals
      * to the number passing as 2 parameter of
-     * the current user
+     * the current user.
      *
      * @param $user_id    int
      * @param $entity
@@ -95,7 +93,7 @@ interface NotificationDB extends StoreNotification
     /**
      * Retrive notifications not Read
      * You can also limit the number of
-     * Notification if you don't it will get all
+     * Notification if you don't it will get all.
      *
      * @param           $to_id
      * @param           $entity
@@ -118,7 +116,7 @@ interface NotificationDB extends StoreNotification
      * Retrive all notifications, not read
      * in first.
      * You can also limit the number of
-     * Notifications if you don't, it will get all
+     * Notifications if you don't, it will get all.
      *
      * @param           $to_id
      * @param           $entity
@@ -139,7 +137,7 @@ interface NotificationDB extends StoreNotification
 
     /**
      * get number Notifications
-     * not read
+     * not read.
      *
      * @param         $to_id
      * @param         $entity
@@ -150,7 +148,7 @@ interface NotificationDB extends StoreNotification
 
     /**
      * Get last notification of the current
-     * entity
+     * entity.
      *
      * @param         $to_id
      * @param         $entity
@@ -161,7 +159,7 @@ interface NotificationDB extends StoreNotification
 
     /**
      * Get last notification of the current
-     * entity of a specific category
+     * entity of a specific category.
      *
      * @param         $category
      * @param         $to_id

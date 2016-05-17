@@ -1,17 +1,16 @@
-<?php namespace Fenos\Notifynder\Groups;
+<?php
+
+namespace Fenos\Notifynder\Groups;
 
 use Fenos\Notifynder\Contracts\NotifynderGroupDB;
 use Fenos\Notifynder\Models\NotificationGroup;
 use Illuminate\Database\Eloquent\Builder;
 
 /**
- * Class NotificationGroupsRepository
- *
- * @package Fenos\Notifynder\Groups\Repositories
+ * Class NotificationGroupsRepository.
  */
 class GroupRepository implements NotifynderGroupDB
 {
-
     /**
      * @var NotificationGroup | Builder
      */
@@ -26,7 +25,7 @@ class GroupRepository implements NotifynderGroupDB
     }
 
     /**
-     * Find a group by ID
+     * Find a group by ID.
      *
      * @param $group_id
      * @return \Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model|static
@@ -37,7 +36,7 @@ class GroupRepository implements NotifynderGroupDB
     }
 
     /**
-     * Find a group by name
+     * Find a group by name.
      *
      * @param $name
      * @return mixed
@@ -48,7 +47,7 @@ class GroupRepository implements NotifynderGroupDB
     }
 
     /**
-     * Create a new group
+     * Create a new group.
      *
      * @param $name
      * @return \Illuminate\Database\Eloquent\Model
@@ -59,7 +58,7 @@ class GroupRepository implements NotifynderGroupDB
     }
 
     /**
-     * Delete a group
+     * Delete a group.
      *
      * @param $group_id
      * @return mixed

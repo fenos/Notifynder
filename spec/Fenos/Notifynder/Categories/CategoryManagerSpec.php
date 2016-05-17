@@ -6,11 +6,10 @@ use Fenos\Notifynder\Contracts\CategoryDB;
 use Fenos\Notifynder\Exceptions\CategoryNotFoundException;
 use Fenos\Notifynder\Models\NotificationCategory;
 use PhpSpec\ObjectBehavior;
-use Prophecy\Argument;
 
 class CategoryManagerSpec extends ObjectBehavior
 {
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType('Fenos\Notifynder\Categories\CategoryManager');
     }
@@ -21,7 +20,7 @@ class CategoryManagerSpec extends ObjectBehavior
     }
 
     /** @test */
-    function it_find_a_category_by_name(CategoryDB $categoryRepository)
+    public function it_find_a_category_by_name(CategoryDB $categoryRepository)
     {
         $nameCategory = 'test.category';
 
@@ -32,7 +31,7 @@ class CategoryManagerSpec extends ObjectBehavior
     }
 
     /** @test */
-    function it_try_to_find_a_non_existing_category(CategoryDB $categoryRepository)
+    public function it_try_to_find_a_non_existing_category(CategoryDB $categoryRepository)
     {
         $nameCategory = 'test.category';
 
@@ -40,23 +39,23 @@ class CategoryManagerSpec extends ObjectBehavior
             ->willReturn(null);
 
         $this->shouldThrow(CategoryNotFoundException::class)
-             ->during('findByName',[$nameCategory]);
+             ->during('findByName', [$nameCategory]);
     }
 
     /** @test */
-    function it_store_a_category(CategoryDB $categoryRepository)
+    public function it_store_a_category(CategoryDB $categoryRepository)
     {
         $categoryName = 'hello';
         $categoryText = 'wow';
 
-        $categoryRepository->add($categoryName,$categoryText)->shouldBeCalled()
+        $categoryRepository->add($categoryName, $categoryText)->shouldBeCalled()
                            ->willReturn(new NotificationCategory());
 
-        $this->add($categoryName,$categoryText)->shouldReturnAnInstanceOf(NotificationCategory::class);
+        $this->add($categoryName, $categoryText)->shouldReturnAnInstanceOf(NotificationCategory::class);
     }
 
     /** @test */
-    function it_delete_a_category_by_id(CategoryDB $categoryRepository)
+    public function it_delete_a_category_by_id(CategoryDB $categoryRepository)
     {
         $categoryId = 1;
 
@@ -69,7 +68,7 @@ class CategoryManagerSpec extends ObjectBehavior
     }
 
     /** @test */
-    function it_delete_a_category_by_name(CategoryDB $categoryRepository)
+    public function it_delete_a_category_by_name(CategoryDB $categoryRepository)
     {
         $categoryName = 'testCategory';
 

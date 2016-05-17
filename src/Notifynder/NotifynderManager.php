@@ -1,4 +1,6 @@
-<?php namespace Fenos\Notifynder;
+<?php
+
+namespace Fenos\Notifynder;
 
 use BadMethodCallException;
 use Closure;
@@ -11,7 +13,7 @@ use Fenos\Notifynder\Contracts\NotifynderSender;
 use InvalidArgumentException;
 
 /**
- * Class Notifynder
+ * Class Notifynder.
  *
  * Notifynder is a Facade Class that has
  * all the methods necesessary to use the library.
@@ -19,14 +21,11 @@ use InvalidArgumentException;
  * Notifynder allow you to have a flexible notification
  * management. It will provide you a nice and easy API
  * to store, retrieve and organise your notifications.
- *
- * @package Fenos\Notifynder
  */
 class NotifynderManager extends NotifynderBuilder implements Notifynder
 {
-
     /**
-     * Version Notifynder
+     * Version Notifynder.
      *
      * @var string
      */
@@ -64,7 +63,7 @@ class NotifynderManager extends NotifynderBuilder implements Notifynder
 
     /**
      * This sender method
-     * will be used on the dispatcher
+     * will be used on the dispatcher.
      *
      * @var string
      */
@@ -104,7 +103,7 @@ class NotifynderManager extends NotifynderBuilder implements Notifynder
 
     /**
      * Set the category of the
-     * notification
+     * notification.
      *
      * @param $name
      * @return $this
@@ -140,7 +139,7 @@ class NotifynderManager extends NotifynderBuilder implements Notifynder
 
     /**
      * Define an entity when Notifynder is
-     * used Polymorpically
+     * used Polymorpically.
      *
      * @param $name
      * @return $this
@@ -153,7 +152,7 @@ class NotifynderManager extends NotifynderBuilder implements Notifynder
     }
 
     /**
-     * Add a category
+     * Add a category.
      *
      * @param $name
      * @param $text
@@ -165,7 +164,7 @@ class NotifynderManager extends NotifynderBuilder implements Notifynder
     }
 
     /**
-     * Update a category
+     * Update a category.
      *
      * @param  array $updates
      * @param        $id
@@ -178,7 +177,7 @@ class NotifynderManager extends NotifynderBuilder implements Notifynder
 
     /**
      * Send notifications
-     * Both multiple and single
+     * Both multiple and single.
      *
      * @param  array $info
      * @return mixed
@@ -196,7 +195,7 @@ class NotifynderManager extends NotifynderBuilder implements Notifynder
 
     /**
      * Send immediately the notification
-     * even if the queue is enabled
+     * even if the queue is enabled.
      *
      * @param  array $info
      * @return mixed
@@ -213,7 +212,7 @@ class NotifynderManager extends NotifynderBuilder implements Notifynder
     }
 
     /**
-     * Send One notification
+     * Send One notification.
      *
      * @param  array $info
      * @return mixed
@@ -230,7 +229,7 @@ class NotifynderManager extends NotifynderBuilder implements Notifynder
     }
 
     /**
-     * Send multiple notifications
+     * Send multiple notifications.
      *
      * @param  array                $info
      * @return Senders\SendMultiple
@@ -247,7 +246,7 @@ class NotifynderManager extends NotifynderBuilder implements Notifynder
     }
 
     /**
-     * Send a group of notifications
+     * Send a group of notifications.
      *
      * @param $group_name
      * @param $info
@@ -265,7 +264,7 @@ class NotifynderManager extends NotifynderBuilder implements Notifynder
     }
 
     /**
-     * Read one notification
+     * Read one notification.
      *
      * @param $notification_id
      * @return bool|Models\Notification
@@ -277,14 +276,14 @@ class NotifynderManager extends NotifynderBuilder implements Notifynder
 
     /**
      * Read notification in base the number
-     * Given
+     * Given.
      *
      * @param         $to_id
      * @param         $numbers
      * @param  string $order
      * @return mixed
      */
-    public function readLimit($to_id, $numbers, $order = "ASC")
+    public function readLimit($to_id, $numbers, $order = 'ASC')
     {
         $notification = $this->notification->entity($this->entity);
 
@@ -293,7 +292,7 @@ class NotifynderManager extends NotifynderBuilder implements Notifynder
 
     /**
      * Read all notifications of the given
-     * entity
+     * entity.
      *
      * @param $to_id
      * @return Number
@@ -306,10 +305,10 @@ class NotifynderManager extends NotifynderBuilder implements Notifynder
     }
 
     /**
-     * Delete a single notification
+     * Delete a single notification.
      *
      * @param $notification_id
-     * @return Bool
+     * @return bool
      */
     public function delete($notification_id)
     {
@@ -318,14 +317,14 @@ class NotifynderManager extends NotifynderBuilder implements Notifynder
 
     /**
      * Delete number of notifications
-     * secified of the given entity
+     * secified of the given entity.
      *
      * @param         $to_id
      * @param         $number
      * @param  string $order
      * @return mixed
      */
-    public function deleteLimit($to_id, $number, $order = "ASC")
+    public function deleteLimit($to_id, $number, $order = 'ASC')
     {
         $notifications = $this->notification->entity($this->entity);
 
@@ -334,10 +333,10 @@ class NotifynderManager extends NotifynderBuilder implements Notifynder
 
     /**
      * Delete all notifications
-     * of the the given entity
+     * of the the given entity.
      *
      * @param $to_id
-     * @return Bool
+     * @return bool
      */
     public function deleteAll($to_id)
     {
@@ -348,11 +347,11 @@ class NotifynderManager extends NotifynderBuilder implements Notifynder
 
     /**
      * Delete All notifications from a
-     * defined category
+     * defined category.
      *
      * @param $category_name string
      * @param $expired Bool
-     * @return Bool
+     * @return bool
      */
     public function deleteByCategory($category_name, $expired = false)
     {
@@ -361,7 +360,7 @@ class NotifynderManager extends NotifynderBuilder implements Notifynder
 
     /**
      * Get Notifications not read
-     * of the given entity
+     * of the given entity.
      *
      * @param           $to_id
      * @param  null     $limit
@@ -370,7 +369,7 @@ class NotifynderManager extends NotifynderBuilder implements Notifynder
      * @param Closure   $filterScope
      * @return mixed
      */
-    public function getNotRead($to_id, $limit = null, $paginate = null, $order = "desc", Closure $filterScope = null)
+    public function getNotRead($to_id, $limit = null, $paginate = null, $order = 'desc', Closure $filterScope = null)
     {
         $notifications = $this->notification->entity($this->entity);
 
@@ -379,7 +378,7 @@ class NotifynderManager extends NotifynderBuilder implements Notifynder
 
     /**
      * Get all notifications of the
-     * given entity
+     * given entity.
      *
      * @param           $to_id
      * @param  null     $limit
@@ -388,30 +387,30 @@ class NotifynderManager extends NotifynderBuilder implements Notifynder
      * @param Closure   $filterScope
      * @return mixed
      */
-    public function getAll($to_id, $limit = null, $paginate = null, $order = "desc", Closure $filterScope = null)
+    public function getAll($to_id, $limit = null, $paginate = null, $order = 'desc', Closure $filterScope = null)
     {
         $notifications = $this->notification->entity($this->entity);
 
-        return $notifications->getAll($to_id, $limit, $paginate,$order, $filterScope);
+        return $notifications->getAll($to_id, $limit, $paginate, $order, $filterScope);
     }
 
     /**
      * Get number of notification not read
-     * of the given entity
+     * of the given entity.
      *
      * @param         $to_id
      * @param Closure $filterScope
      * @return mixed
      */
-    public function countNotRead($to_id,Closure $filterScope = null)
+    public function countNotRead($to_id, Closure $filterScope = null)
     {
         $notifications = $this->notification->entity($this->entity);
 
-        return $notifications->countNotRead($to_id,$filterScope);
+        return $notifications->countNotRead($to_id, $filterScope);
     }
 
     /**
-     * Find Notification by ID
+     * Find Notification by ID.
      *
      * @param $notification_id
      * @return \Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model|static
@@ -424,27 +423,27 @@ class NotifynderManager extends NotifynderBuilder implements Notifynder
     /**
      * Get last notification of the given
      * entity, second parameter can filter by
-     * category
+     * category.
      *
      * @param         $to_id
      * @param null    $category
      * @param Closure $filterScope
      * @return mixed
      */
-    public function getLastNotification($to_id,$category = null,Closure $filterScope = null)
+    public function getLastNotification($to_id, $category = null, Closure $filterScope = null)
     {
         $notification = $this->notification->entity($this->entity);
 
-        if ( is_null($category)) {
-            return $notification->getLastNotification($to_id,$filterScope);
+        if (is_null($category)) {
+            return $notification->getLastNotification($to_id, $filterScope);
         }
 
-        return $notification->getLastNotificationByCategory($category,$to_id,$filterScope);
+        return $notification->getLastNotificationByCategory($category, $to_id, $filterScope);
     }
 
     /**
      * Add category to a group
-     * giving the names of them
+     * giving the names of them.
      *
      * @param $gorup_name
      * @param $category_name
@@ -457,7 +456,7 @@ class NotifynderManager extends NotifynderBuilder implements Notifynder
 
     /**
      * Add category to a group
-     * giving the ids of them
+     * giving the ids of them.
      *
      * @param $gorup_id
      * @param $category_id
@@ -471,7 +470,7 @@ class NotifynderManager extends NotifynderBuilder implements Notifynder
     /**
      * Add categories to a group having as first parameter
      * the name of the group, and others as name
-     * categories
+     * categories.
      *
      * @return mixed
      */
@@ -482,7 +481,7 @@ class NotifynderManager extends NotifynderBuilder implements Notifynder
 
     /**
      * Fire method for fire listeners
-     * of logic
+     * of logic.
      *
      * @param  string     $key
      * @param  string     $category_name
@@ -496,7 +495,7 @@ class NotifynderManager extends NotifynderBuilder implements Notifynder
     }
 
     /**
-     * Associate events to categories
+     * Associate events to categories.
      *
      * @param        $data
      * @param  array $delegation
@@ -508,7 +507,7 @@ class NotifynderManager extends NotifynderBuilder implements Notifynder
     }
 
     /**
-     * Boot Listeners
+     * Boot Listeners.
      *
      * @param array $listeners
      */
@@ -518,7 +517,7 @@ class NotifynderManager extends NotifynderBuilder implements Notifynder
     }
 
     /**
-     * Get instance of the notifynder builder
+     * Get instance of the notifynder builder.
      *
      * @return NotifynderBuilder
      */
@@ -528,7 +527,7 @@ class NotifynderManager extends NotifynderBuilder implements Notifynder
     }
 
     /**
-     * Extend a custom sender method
+     * Extend a custom sender method.
      *
      * @param           $name
      * @param  callable $registrar
@@ -537,7 +536,7 @@ class NotifynderManager extends NotifynderBuilder implements Notifynder
     public function extend($name, $registrar)
     {
         if (! starts_with($name, 'send')) {
-            $error = "The sender method must start with [send]";
+            $error = 'The sender method must start with [send]';
             throw new InvalidArgumentException($error);
         }
 
@@ -547,7 +546,7 @@ class NotifynderManager extends NotifynderBuilder implements Notifynder
     }
 
     /**
-     * Check if the category is eager Loaded
+     * Check if the category is eager Loaded.
      *
      * @param $name
      * @return bool
@@ -558,7 +557,7 @@ class NotifynderManager extends NotifynderBuilder implements Notifynder
     }
 
     /**
-     * Return the Id of the category
+     * Return the Id of the category.
      *
      * @return mixed
      */
@@ -569,7 +568,7 @@ class NotifynderManager extends NotifynderBuilder implements Notifynder
 
     /**
      * Push a category in the categoriesContainer
-     * property
+     * property.
      *
      * @param       $name
      * @param array $categoriesContainer
@@ -580,7 +579,7 @@ class NotifynderManager extends NotifynderBuilder implements Notifynder
     }
 
     /**
-     * Get the categoriesContainer property
+     * Get the categoriesContainer property.
      *
      * @param $name
      * @return array
@@ -593,7 +592,7 @@ class NotifynderManager extends NotifynderBuilder implements Notifynder
     /**
      * Define which method
      * the event dispatcher has
-     * to send the notifications
+     * to send the notifications.
      *
      * @param $customSenderName
      * @return $this
@@ -606,7 +605,7 @@ class NotifynderManager extends NotifynderBuilder implements Notifynder
     }
 
     /**
-     * Call the custom sender method
+     * Call the custom sender method.
      *
      * @param $name
      * @param $arguments
@@ -615,11 +614,11 @@ class NotifynderManager extends NotifynderBuilder implements Notifynder
     public function __call($name, $arguments)
     {
         if (starts_with($name, 'send')) {
-
             $arguments = (isset($arguments[0])) ? $arguments[0] : $this->toArray();
 
-            $notificationsSent = $this->notifynderSender->customSender($name,$arguments);
+            $notificationsSent = $this->notifynderSender->customSender($name, $arguments);
             $this->refresh();
+
             return $notificationsSent;
         }
 
@@ -629,24 +628,24 @@ class NotifynderManager extends NotifynderBuilder implements Notifynder
 
     /**
      * Set builder properties
-     * When setting dynamic properties
+     * When setting dynamic properties.
      *
      * @param $name
      * @param $value
      */
-    function __set($name, $value)
+    public function __set($name, $value)
     {
-        $this->offsetSet($name,$value);
+        $this->offsetSet($name, $value);
     }
 
     /**
      * Get property from the
-     * builder
+     * builder.
      *
      * @param $name
      * @return mixed
      */
-    function __get($name)
+    public function __get($name)
     {
         return $this->offsetGet($name);
     }

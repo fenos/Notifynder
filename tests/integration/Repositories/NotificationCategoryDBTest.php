@@ -1,14 +1,13 @@
 <?php
 
 use Fenos\Notifynder\Categories\CategoryRepository;
-use Fenos\Notifynder\Models\NotificationCategory;
 use Laracasts\TestDummy\Factory;
 
 /**
- * Class NotificationCategoryRepositoryTest
+ * Class NotificationCategoryRepositoryTest.
  */
-class NotificationCategoryRepositoryTest extends TestCaseDB {
-
+class NotificationCategoryRepositoryTest extends TestCaseDB
+{
     use CreateModels;
 
     /**
@@ -17,7 +16,7 @@ class NotificationCategoryRepositoryTest extends TestCaseDB {
     protected $categoryRepo;
 
     /**
-     * SetUp Tests
+     * SetUp Tests.
      */
     public function setUp()
     {
@@ -25,54 +24,54 @@ class NotificationCategoryRepositoryTest extends TestCaseDB {
 
         $this->categoryRepo = app('notifynder.category.repository');
     }
-    
+
     /** @test */
-    function it_find_a_category_by_id()
+    public function it_find_a_category_by_id()
     {
         $record = $this->createCategory();
 
         $category = $this->categoryRepo->find($record->id);
 
-        $this->assertEquals(1,$category->id);
+        $this->assertEquals(1, $category->id);
     }
 
     /** @test */
-    function it_find_a_category_by_name()
+    public function it_find_a_category_by_name()
     {
-        $categoryName = "test.category";
+        $categoryName = 'test.category';
 
         $this->createCategory(['name' => $categoryName]);
 
         $category = $this->categoryRepo->findByName($categoryName);
 
-        $this->assertEquals($categoryName,$category->name);
+        $this->assertEquals($categoryName, $category->name);
     }
 
     /** @test */
-    function it_find_categories_giving_multiple_names()
+    public function it_find_categories_giving_multiple_names()
     {
-        $categoryNames = ['test.first','test.second'];
+        $categoryNames = ['test.first', 'test.second'];
 
         $this->createCategory(['name' => $categoryNames[0]]);
         $this->createCategory(['name' => $categoryNames[1]]);
 
         $categories = $this->categoryRepo->findByNames($categoryNames);
 
-        $this->assertCount(2,$categories);
+        $this->assertCount(2, $categories);
     }
 
     /** @test */
-    function it_add_a_new_category()
+    public function it_add_a_new_category()
     {
         $categoryData = Factory::build('Fenos\Notifynder\Models\NotificationCategory');
 
-        $createCategory = $this->categoryRepo->add($categoryData->name,$categoryData->text);
+        $createCategory = $this->categoryRepo->add($categoryData->name, $categoryData->text);
 
-        $this->assertEquals($categoryData->name,$createCategory->name);
+        $this->assertEquals($categoryData->name, $createCategory->name);
     }
 
     /** @test */
-    function it_delete_a_category_by_id()
+    public function it_delete_a_category_by_id()
     {
         $categoryToDelete = $this->createCategory();
 
@@ -80,11 +79,11 @@ class NotificationCategoryRepositoryTest extends TestCaseDB {
 
         $tryToFindThatCategory = $this->categoryRepo->find($categoryToDelete->id);
 
-        $this->assertEquals($tryToFindThatCategory,null);
+        $this->assertEquals($tryToFindThatCategory, null);
     }
 
     /** @test */
-    function it_delete_a_category_by_name()
+    public function it_delete_a_category_by_name()
     {
         $categoryToDelete = $this->createCategory();
 
@@ -92,6 +91,6 @@ class NotificationCategoryRepositoryTest extends TestCaseDB {
 
         $tryToFindThatCategory = $this->categoryRepo->findByName($categoryToDelete->name);
 
-        $this->assertEquals($tryToFindThatCategory,null);
+        $this->assertEquals($tryToFindThatCategory, null);
     }
 }

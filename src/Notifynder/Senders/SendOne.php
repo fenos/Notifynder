@@ -1,19 +1,18 @@
-<?php namespace Fenos\Notifynder\Senders;
+<?php
+
+namespace Fenos\Notifynder\Senders;
 
 use Fenos\Notifynder\Contracts\DefaultSender;
 use Fenos\Notifynder\Contracts\StoreNotification;
 use Fenos\Notifynder\Exceptions\CategoryNotFoundException;
 
 /**
- * Class SendSingle
+ * Class SendSingle.
  *
  * Send a single notification
- *
- * @package Fenos\Notifynder\Senders
  */
 class SendOne implements DefaultSender
 {
-
     /**
      * @var array
      */
@@ -28,7 +27,7 @@ class SendOne implements DefaultSender
     }
 
     /**
-     * Send Single notification
+     * Send Single notification.
      *
      * @param  StoreNotification $sender
      * @return mixed
@@ -42,7 +41,7 @@ class SendOne implements DefaultSender
 
     /**
      * Check if the category of the notification has been
-     * specified in the array of information
+     * specified in the array of information.
      *
      * @return bool
      * @throws \Fenos\Notifynder\Exceptions\CategoryNotFoundException
@@ -50,8 +49,8 @@ class SendOne implements DefaultSender
     protected function hasCategory()
     {
         if (! array_key_exists('category_id', $this->infoNotification)) {
-            $error = "Category not found please provide one,
-                     you can not store a notification without category id";
+            $error = 'Category not found please provide one,
+                     you can not store a notification without category id';
 
             throw new CategoryNotFoundException($error);
         }

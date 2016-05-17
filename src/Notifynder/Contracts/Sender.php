@@ -1,14 +1,14 @@
-<?php namespace Fenos\Notifynder\Contracts;
+<?php
+
+namespace Fenos\Notifynder\Contracts;
 
 /**
- * Interface Sender
- *
- * @package Fenos\Notifynder\Contracts
+ * Interface Sender.
  */
-interface Sender {
-
+interface Sender
+{
     /**
-     * Send a custom notification
+     * Send a custom notification.
      *
      * @param NotifynderSender $notifynderSender
      * @return mixed

@@ -1,11 +1,11 @@
-<?php namespace Fenos\Notifynder\Exceptions;
+<?php
+
+namespace Fenos\Notifynder\Exceptions;
 
 use Exception;
 
 /**
- * Class EntityNotSpecifiedException
- *
- * @package Fenos\Notifynder\Exceptions
+ * Class EntityNotSpecifiedException.
  */
 class EntityNotSpecifiedException extends Exception
 {

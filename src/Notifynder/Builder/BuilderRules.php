@@ -1,28 +1,27 @@
-<?php namespace Fenos\Notifynder\Builder;
+<?php
+
+namespace Fenos\Notifynder\Builder;
 
 use Illuminate\Contracts\Config\Repository;
 use InvalidArgumentException;
 use Carbon\Carbon;
 
 /**
- * Class BuilderRules
+ * Class BuilderRules.
  *
  * Simple trait that define the rules that
  * the builder has to match. It required mandatory
  * fields listed in the $requiredFields property
- *
- * @package Fenos\Notifynder\Builder
  */
 trait BuilderRules
 {
-
     /**
      * @var array
      */
-    private $requiredFields = ['from_id','to_id','category_id'];
+    private $requiredFields = ['from_id', 'to_id', 'category_id'];
 
     /**
-     * Value has to be a string
+     * Value has to be a string.
      *
      * @param $value
      * @return bool
@@ -30,27 +29,29 @@ trait BuilderRules
     protected function isString($value)
     {
         if (! is_string($value)) {
-            throw new InvalidArgumentException("The value Passed is not a string");
+            throw new InvalidArgumentException('The value Passed is not a string');
         }
 
         return true;
     }
 
     /**
-     * Value has to be a valid Carbon Instance
+     * Value has to be a valid Carbon Instance.
      *
      * @param $value
      * @return bool | InvalidArgumentException
      */
     protected function isCarbon($value)
     {
-        if($value instanceof Carbon) return true;
+        if ($value instanceof Carbon) {
+            return true;
+        }
 
         throw new InvalidArgumentException("The value Passed has to be an instance of Carbon\Carbon");
     }
 
     /**
-     * Value has to be numeric
+     * Value has to be numeric.
      *
      * @param $value
      * @return bool
@@ -58,20 +59,20 @@ trait BuilderRules
     protected function isNumeric($value)
     {
         if (! is_numeric($value)) {
-            throw new InvalidArgumentException("The value Passed must be a number");
+            throw new InvalidArgumentException('The value Passed must be a number');
         }
 
         return true;
     }
 
     /**
-     * Returns all required fields including the config ones
+     * Returns all required fields including the config ones.
      *
      * @return array
      */
     public function getRequiredFields()
     {
-        if (property_exists($this,'config') && $this->config instanceof Repository) {
+        if (property_exists($this, 'config') && $this->config instanceof Repository) {
             $customRequiredFields = $this->config->get('notifynder.additional_fields.required');
         } else {
             $customRequiredFields = [];
@@ -83,7 +84,7 @@ trait BuilderRules
     /**
      * Check that the builder has
      * the required field to send the
-     * notifications correctly
+     * notifications correctly.
      *
      * @param $array
      * @return bool
@@ -100,28 +101,28 @@ trait BuilderRules
     }
 
     /**
-     * Check if is a required field
+     * Check if is a required field.
      *
      * @param $offset
      * @return bool
      */
     public function isRequiredField($offset)
     {
-        return (in_array($offset,$this->getRequiredFields()));
+        return in_array($offset, $this->getRequiredFields());
     }
 
     /**
      * Check if the array passed is
-     * multidimensional
+     * multidimensional.
      *
      * @param $arr
      * @return bool
      */
     protected function isReadyArrToFormatInJson(array $arr)
     {
-         if ($this->isAssociativeArr($arr)) {
-             return true;
-         }
+        if ($this->isAssociativeArr($arr)) {
+            return true;
+        }
 
         if (count($arr) > 0) {
             $error = "The 'extra' value must to be an associative array";
@@ -142,7 +143,7 @@ trait BuilderRules
 
     /**
      * Check if the array is
-     * multidimensional
+     * multidimensional.
      *
      * @param $arr
      * @return bool

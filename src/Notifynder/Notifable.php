@@ -1,21 +1,20 @@
-<?php namespace Fenos\Notifynder;
+<?php
+
+namespace Fenos\Notifynder;
 
 use Closure;
 
 /**
- * Class Notifable
+ * Class Notifable.
  *
  * Trait to implement in your models
  * that want to be notified, it will set relations
  * and nice short cut for the management of notifications
- *
- * @package Fenos\Notifynder
  */
 trait Notifable
 {
-
     /**
-     * Notification Relation
+     * Notification Relation.
      *
      * @return mixed
      */
@@ -32,7 +31,7 @@ trait Notifable
     }
 
     /**
-     * Read all Notifications
+     * Read all Notifications.
      *
      * @return mixed
      */
@@ -44,13 +43,13 @@ trait Notifable
     }
 
     /**
-     * Read Limiting Notifications
+     * Read Limiting Notifications.
      *
      * @param  int    $numbers
      * @param  string $order
      * @return mixed
      */
-    public function readLimitNotifications($numbers = 10, $order = "ASC")
+    public function readLimitNotifications($numbers = 10, $order = 'ASC')
     {
         return $this->notifynderInstance()->entity(
             $this->getMorphClass()
@@ -58,13 +57,13 @@ trait Notifable
     }
 
     /**
-     * Delete Limiting Notifications
+     * Delete Limiting Notifications.
      *
      * @param  int    $numbers
      * @param  string $order
      * @return mixed
      */
-    public function deleteLimitNotifications($numbers = 10, $order = "ASC")
+    public function deleteLimitNotifications($numbers = 10, $order = 'ASC')
     {
         return $this->notifynderInstance()->entity(
             $this->getMorphClass()
@@ -72,9 +71,9 @@ trait Notifable
     }
 
     /**
-     * Delete all Notifications
+     * Delete all Notifications.
      *
-     * @return Bool
+     * @return bool
      */
     public function deleteAllNotifications()
     {
@@ -84,7 +83,7 @@ trait Notifable
     }
 
     /**
-     * Get Not Read
+     * Get Not Read.
      *
      * @param  null     $limit
      * @param  int|null $paginate
@@ -92,15 +91,15 @@ trait Notifable
      * @param Closure   $filterScope
      * @return mixed
      */
-    public function getNotificationsNotRead($limit = null, $paginate = null, $order = 'desc',Closure $filterScope = null)
+    public function getNotificationsNotRead($limit = null, $paginate = null, $order = 'desc', Closure $filterScope = null)
     {
         return $this->notifynderInstance()->entity(
             $this->getMorphClass()
-        )->getNotRead($this->id, $limit, $paginate, $order,$filterScope);
+        )->getNotRead($this->id, $limit, $paginate, $order, $filterScope);
     }
 
     /**
-     * Get all notifications
+     * Get all notifications.
      *
      * @param  null     $limit
      * @param  int|null $paginate
@@ -116,21 +115,21 @@ trait Notifable
     }
 
     /**
-     * Get last notification
+     * Get last notification.
      *
      * @param null    $category
      * @param Closure $filterScope
      * @return mixed
      */
-    public function getLastNotification($category = null,Closure $filterScope = null)
+    public function getLastNotification($category = null, Closure $filterScope = null)
     {
         return $this->notifynderInstance()->entity(
             $this->getMorphClass()
-        )->getLastNotification($this->id,$category,$filterScope);
+        )->getLastNotification($this->id, $category, $filterScope);
     }
 
     /**
-     * Count Not read notification
+     * Count Not read notification.
      *
      * @param Closure $filterScope
      * @return mixed
@@ -139,7 +138,7 @@ trait Notifable
     {
         return $this->notifynderInstance()->entity(
             $this->getMorphClass()
-        )->countNotRead($this->id,$filterScope);
+        )->countNotRead($this->id, $filterScope);
     }
 
     /**

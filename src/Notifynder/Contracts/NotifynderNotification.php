@@ -1,18 +1,17 @@
-<?php namespace Fenos\Notifynder\Contracts;
+<?php
+
+namespace Fenos\Notifynder\Contracts;
 
 use Closure;
 use Fenos\Notifynder\Models\Notification as NotificationModel;
 
 /**
- * Class NotifynderNotification
- *
- * @package Fenos\Notifynder\Notifications
+ * Class NotifynderNotification.
  */
 interface NotifynderNotification
 {
-
     /**
-     * Set the entity for polymorphic
+     * Set the entity for polymorphic.
      *
      * @param $name
      * @return $this
@@ -20,7 +19,7 @@ interface NotifynderNotification
     public function entity($name);
 
     /**
-     * Find a notification by ID
+     * Find a notification by ID.
      *
      * @param $notification_id
      * @return NotificationModel|\Illuminate\Database\Eloquent\Model|static
@@ -30,7 +29,7 @@ interface NotifynderNotification
 
     /**
      * Make read one notification giving
-     * the ID of it
+     * the ID of it.
      *
      * @param $notification_id
      * @return bool|\Fenos\Notifynder\Models\Notification
@@ -39,18 +38,18 @@ interface NotifynderNotification
 
     /**
      * Read notifications in base the number
-     * Given
+     * Given.
      *
      * @param         $to_id
      * @param         $numbers
      * @param  string $order
      * @return mixed
      */
-    public function readLimit($to_id, $numbers, $order = "ASC");
+    public function readLimit($to_id, $numbers, $order = 'ASC');
 
     /**
      * Read all notification of the
-     * given entity
+     * given entity.
      *
      * @param $to_id
      * @return Number
@@ -59,17 +58,17 @@ interface NotifynderNotification
 
     /**
      * Delete a notification giving the id
-     * of it
+     * of it.
      *
      * @param $notification_id
-     * @return Bool
+     * @return bool
      */
     public function delete($notification_id);
 
     /**
      * Delete numbers of notifications equals
      * to the number passing as 2 parameter of
-     * the current user
+     * the current user.
      *
      * @param $entity_id
      * @param $number
@@ -80,26 +79,26 @@ interface NotifynderNotification
 
     /**
      * Delete all notification of a given
-     * Entity
+     * Entity.
      *
      * @param $entity_id
-     * @return Bool
+     * @return bool
      */
     public function deleteAll($entity_id);
 
     /**
      * Delete All notifications from a
-     * defined category
+     * defined category.
      *
      * @param $category_name string
      * @param $expired Bool
-     * @return Bool
+     * @return bool
      */
     public function deleteByCategory($category_name, $expired = false);
 
     /**
      * Get notifications not read
-     * of the entity given
+     * of the entity given.
      *
      * @param         $to_id
      * @param         $limit
@@ -108,10 +107,10 @@ interface NotifynderNotification
      * @param Closure $filterScope
      * @return mixed
      */
-    public function getNotRead($to_id, $limit, $paginate, $orderDate = "desc", Closure $filterScope = null);
+    public function getNotRead($to_id, $limit, $paginate, $orderDate = 'desc', Closure $filterScope = null);
 
     /**
-     * Get All notifications
+     * Get All notifications.
      *
      * @param         $to_id
      * @param         $limit
@@ -120,31 +119,31 @@ interface NotifynderNotification
      * @param Closure $filterScope
      * @return mixed
      */
-    public function getAll($to_id, $limit, $paginate, $orderDate = "desc",  Closure $filterScope = null);
+    public function getAll($to_id, $limit, $paginate, $orderDate = 'desc', Closure $filterScope = null);
 
     /**
      * Get last notification of the
-     * given entity
+     * given entity.
      *
      * @param         $to_id
      * @param Closure $filterScope
      * @return mixed
      */
-    public function getLastNotification($to_id,  Closure $filterScope = null);
+    public function getLastNotification($to_id, Closure $filterScope = null);
 
     /**
      * Get last notification of the
-     * given entity of the specific category
+     * given entity of the specific category.
      *
      * @param         $category
      * @param         $to_id
      * @param Closure $filterScope
      * @return mixed
      */
-    public function getLastNotificationByCategory($category,$to_id,  Closure $filterScope = null);
+    public function getLastNotificationByCategory($category, $to_id, Closure $filterScope = null);
 
     /**
-     * Send single notification
+     * Send single notification.
      *
      * @param  array  $info
      * @return static
@@ -152,7 +151,7 @@ interface NotifynderNotification
     public function sendOne(array $info);
 
     /**
-     * Send multiple notifications
+     * Send multiple notifications.
      *
      * @param  array $info
      * @return mixed
@@ -161,11 +160,11 @@ interface NotifynderNotification
 
     /**
      * Get number of notification
-     * not read
+     * not read.
      *
      * @param         $to_id
      * @param Closure $filterScope
      * @return mixed
      */
-    public function countNotRead($to_id,  Closure $filterScope = null);
+    public function countNotRead($to_id, Closure $filterScope = null);
 }

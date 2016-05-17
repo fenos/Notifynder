@@ -3,10 +3,10 @@
 use Orchestra\Testbench\TestCase;
 
 /**
- * Class TestCaseDB
+ * Class TestCaseDB.
  */
-abstract class TestCaseDB extends TestCase {
-
+abstract class TestCaseDB extends TestCase
+{
     /**
      * @param \Illuminate\Foundation\Application $app
      * @return array
@@ -29,12 +29,11 @@ abstract class TestCaseDB extends TestCase {
         app('db')->beginTransaction();
 
         $this->migrate($artisan);
-        $this->migrate($artisan,'/../../../../tests/migrations');
+        $this->migrate($artisan, '/../../../../tests/migrations');
 
         // Set up the User Test Model
-        app('config')->set('notifynder.notification_model','Fenos\Notifynder\Models\Notification');
-        app('config')->set('notifynder.model','Fenos\Tests\Models\User');
-
+        app('config')->set('notifynder.notification_model', 'Fenos\Notifynder\Models\Notification');
+        app('config')->set('notifynder.model', 'Fenos\Tests\Models\User');
     }
 
     /**
@@ -46,11 +45,11 @@ abstract class TestCaseDB extends TestCase {
     protected function getEnvironmentSetUp($app)
     {
         $app['config']->set('database.default', 'testbench');
-        $app['config']->set('database.connections.testbench', array(
+        $app['config']->set('database.connections.testbench', [
             'driver'   => 'sqlite',
             'database' => ':memory:',
             'prefix'   => '',
-        ));
+        ]);
     }
 
     /**
@@ -73,16 +72,16 @@ abstract class TestCaseDB extends TestCase {
     }
 
     /**
-     * Migrate the migrations files
+     * Migrate the migrations files.
      *
      * @param        $artisan
      * @param string $path
      */
-    private function migrate($artisan,$path = '/../../../../src/migrations')
+    private function migrate($artisan, $path = '/../../../../src/migrations')
     {
         $artisan->call('migrate', [
             '--database' => 'testbench',
-            '--path'     => $path
+            '--path'     => $path,
         ]);
     }
 }

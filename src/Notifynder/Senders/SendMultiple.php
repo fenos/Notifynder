@@ -1,18 +1,17 @@
-<?php namespace Fenos\Notifynder\Senders;
+<?php
+
+namespace Fenos\Notifynder\Senders;
 
 use Fenos\Notifynder\Contracts\DefaultSender;
 use Fenos\Notifynder\Contracts\StoreNotification;
 
 /**
- * Class SendMultiple
+ * Class SendMultiple.
  *
  * Send multiple categories
- *
- * @package Fenos\Notifynder\Senders
  */
 class SendMultiple implements DefaultSender
 {
-
     /**
      * @var array
      */
@@ -27,7 +26,7 @@ class SendMultiple implements DefaultSender
     }
 
     /**
-     * Send multiple notifications
+     * Send multiple notifications.
      *
      * @param  StoreNotification $sender
      * @return mixed

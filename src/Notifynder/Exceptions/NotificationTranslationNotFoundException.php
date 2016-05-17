@@ -1,11 +1,11 @@
-<?php namespace Fenos\Notifynder\Exceptions;
+<?php
+
+namespace Fenos\Notifynder\Exceptions;
 
 use Exception;
 
 /**
- * Class NotificationTranslationNotFoundException
- *
- * @package Fenos\Notifynder\Exceptions
+ * Class NotificationTranslationNotFoundException.
  */
 class NotificationTranslationNotFoundException extends Exception
 {

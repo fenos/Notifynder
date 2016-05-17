@@ -1,17 +1,16 @@
-<?php namespace Fenos\Notifynder\Contracts;
+<?php
+
+namespace Fenos\Notifynder\Contracts;
 
 use Fenos\Notifynder\Models\Notification;
 
 /**
- * Class NotificationRepository
- *
- * @package Fenos\Notifynder\Senders
+ * Class NotificationRepository.
  */
 interface StoreNotification
 {
-
     /**
-     * Save a single notification sent
+     * Save a single notification sent.
      *
      * @param  array        $info
      * @return Notification
@@ -20,7 +19,7 @@ interface StoreNotification
 
     /**
      * Save multiple notifications sent
-     * at once
+     * at once.
      *
      * @param  array $info
      * @return mixed

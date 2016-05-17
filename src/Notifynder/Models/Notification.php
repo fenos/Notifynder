@@ -1,15 +1,16 @@
-<?php namespace Fenos\Notifynder\Models;
+<?php
+
+namespace Fenos\Notifynder\Models;
 
 use Fenos\Notifynder\Notifications\ExtraParams;
 use Fenos\Notifynder\Parsers\NotifynderParser;
-use Illuminate\Contracts\Config\Repository;
 use Illuminate\Contracts\Container\Container;
 use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
 use Illuminate\Support\Arr;
 
 /**
- * Class Notification
+ * Class Notification.
  *
  * @property int to_id
  * @property string to_type
@@ -25,18 +26,15 @@ use Illuminate\Support\Arr;
  *
  * @method wherePolymorphic
  * @method withNotRead
- *
- * @package Fenos\Notifynder\Models
  */
 class Notification extends Model
 {
-
     /**
      * @var array
      */
     protected $fillable = [
-        'to_id','to_type','from_id','from_type',
-        'category_id','read','url','extra', 'expire_time',
+        'to_id', 'to_type', 'from_id', 'from_type',
+        'category_id', 'read', 'url', 'extra', 'expire_time',
     ];
 
     /**
@@ -53,12 +51,12 @@ class Notification extends Model
     }
 
     /**
-     * Custom Collection
+     * Custom Collection.
      *
      * @param  array                                                         $models
      * @return NotifynderCollection|\Illuminate\Database\Eloquent\Collection
      */
-    public function newCollection(array $models = array())
+    public function newCollection(array $models = [])
     {
         return new NotifynderCollection($models);
     }
@@ -102,7 +100,7 @@ class Notification extends Model
     }
 
     /**
-     * Not read scope
+     * Not read scope.
      *
      * @param $query
      * @return mixed
@@ -113,7 +111,7 @@ class Notification extends Model
     }
 
     /**
-     * Only Expired Notification scope
+     * Only Expired Notification scope.
      *
      * @param $query
      * @return mixed
@@ -124,7 +122,7 @@ class Notification extends Model
     }
 
     /**
-     * Where Polymorphic
+     * Where Polymorphic.
      *
      * @param $query
      * @param $id
@@ -142,7 +140,7 @@ class Notification extends Model
     }
 
     /**
-     * Get parsed body attributes
+     * Get parsed body attributes.
      *
      * @return mixed
      */
@@ -159,9 +157,9 @@ class Notification extends Model
      */
     public function getExtraAttribute($value)
     {
-        if(is_array($value)) {
+        if (is_array($value)) {
             return new ExtraParams($value);
-        } elseif(is_string($value)) {
+        } elseif (is_string($value)) {
             return new ExtraParams(json_decode($value));
         } else {
             return new ExtraParams([]);
@@ -169,28 +167,27 @@ class Notification extends Model
     }
 
     /**
-     * Filter Scope by category
+     * Filter Scope by category.
      *
      * @param $query
      * @param $category
      * @return mixed
      */
-    public function scopeByCategory($query,$category)
+    public function scopeByCategory($query, $category)
     {
         if (is_numeric($category)) {
-
-            return $query->where('category_id',$category);
+            return $query->where('category_id', $category);
         }
 
-        return $query->whereHas('body', function($categoryQuery) use ($category) {
-            $categoryQuery->where('name',$category);
+        return $query->whereHas('body', function ($categoryQuery) use ($category) {
+            $categoryQuery->where('name', $category);
         });
     }
 
     /**
      * Get custom required fields from the configs
      * so that we can automatically bind them to the model
-     * fillable property
+     * fillable property.
      *
      * @return mixed
      */
@@ -199,6 +196,7 @@ class Notification extends Model
         if (function_exists('app') && app() instanceof Container) {
             return Arr::flatten(config('notifynder.additional_fields', []));
         }
+
         return [];
     }
 

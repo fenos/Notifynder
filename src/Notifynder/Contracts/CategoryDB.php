@@ -1,18 +1,17 @@
-<?php namespace Fenos\Notifynder\Contracts;
+<?php
+
+namespace Fenos\Notifynder\Contracts;
 
 /**
- * Class CategoryRepository
+ * Class CategoryRepository.
  *
  * Repository reponsable to approach database
  * queries of the categories
- *
- * @package Fenos\Notifynder\Categories
  */
 interface CategoryDB
 {
-
     /**
-     * Find By Id
+     * Find By Id.
      *
      * @param $id
      * @return mixed
@@ -20,7 +19,7 @@ interface CategoryDB
     public function find($id);
 
     /**
-     * Find by name
+     * Find by name.
      *
      * @param $name
      * @return mixed
@@ -29,7 +28,7 @@ interface CategoryDB
 
     /**
      * Find by names returnig
-     * lists of ids
+     * lists of ids.
      *
      * @param $name
      * @return mixed
@@ -37,7 +36,7 @@ interface CategoryDB
     public function findByNames(array $name);
 
     /**
-     * Add a category to the DB
+     * Add a category to the DB.
      *
      * @param  array  $name
      * @param         $text
@@ -46,7 +45,7 @@ interface CategoryDB
     public function add($name, $text);
 
     /**
-     * Delete category by ID
+     * Delete category by ID.
      *
      * @param $id
      * @return mixed
@@ -54,7 +53,7 @@ interface CategoryDB
     public function delete($id);
 
     /**
-     * Delete category by name
+     * Delete category by name.
      *
      * @param $name
      * @return mixed
@@ -62,7 +61,7 @@ interface CategoryDB
     public function deleteByName($name);
 
     /**
-     * Update a category by id
+     * Update a category by id.
      *
      * @param  array $data
      * @param        $id

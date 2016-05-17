@@ -1,16 +1,15 @@
-<?php namespace Fenos\Notifynder\Parsers;
+<?php
+
+namespace Fenos\Notifynder\Parsers;
 
 /**
- * Class ArtisanOptionsParser
- *
- * @package Fenos\Notifynder\Parse
+ * Class ArtisanOptionsParser.
  */
 class ArtisanOptionsParser
 {
-
     /**
      * Parse a string of fields, like
-     * name, name2, name3
+     * name, name2, name3.
      *
      * @param  string $fields
      * @return array

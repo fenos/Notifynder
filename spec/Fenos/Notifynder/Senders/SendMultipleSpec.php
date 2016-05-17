@@ -4,7 +4,6 @@ namespace spec\Fenos\Notifynder\Senders;
 
 use Fenos\Notifynder\Contracts\StoreNotification;
 use PhpSpec\ObjectBehavior;
-use Prophecy\Argument;
 
 class SendMultipleSpec extends ObjectBehavior
 {
@@ -14,13 +13,13 @@ class SendMultipleSpec extends ObjectBehavior
         $this->beConstructedWith($notifications);
     }
 
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType('Fenos\Notifynder\Senders\SendMultiple');
     }
 
     /** @test */
-    function it_send_multiple_notification(StoreNotification $storeNotification)
+    public function it_send_multiple_notification(StoreNotification $storeNotification)
     {
         $multiple = [
         ];

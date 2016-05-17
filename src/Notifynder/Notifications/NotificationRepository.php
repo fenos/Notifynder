@@ -1,4 +1,6 @@
-<?php namespace Fenos\Notifynder\Notifications;
+<?php
+
+namespace Fenos\Notifynder\Notifications;
 
 use Closure;
 use Fenos\Notifynder\Contracts\NotificationDB;
@@ -9,20 +11,17 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Query\Builder as BuilderDB;
 
 /**
- * Class NotificationRepository
- *
- * @package Fenos\Notifynder\Senders
+ * Class NotificationRepository.
  */
 class NotificationRepository implements NotificationDB
 {
-
     /**
      * @var Notification | Builder | BuilderDB
      */
     protected $notification;
 
     /**
-     * @var $db DatabaseManager | Connection
+     * @var DatabaseManager | Connection
      */
     protected $db;
 
@@ -39,7 +38,7 @@ class NotificationRepository implements NotificationDB
     }
 
     /**
-     * Find notification by id
+     * Find notification by id.
      *
      * @param $notification_id
      * @return \Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model|static
@@ -50,7 +49,7 @@ class NotificationRepository implements NotificationDB
     }
 
     /**
-     * Save a single notification sent
+     * Save a single notification sent.
      *
      * @param  array $info
      * @return Notification
@@ -62,7 +61,7 @@ class NotificationRepository implements NotificationDB
 
     /**
      * Save multiple notifications sent
-     * at once
+     * at once.
      *
      * @param  array $info
      * @return mixed
@@ -75,7 +74,7 @@ class NotificationRepository implements NotificationDB
     }
 
     /**
-     * Make Read One Notification
+     * Make Read One Notification.
      *
      * @param  Notification $notification
      * @return bool|Notification
@@ -93,7 +92,7 @@ class NotificationRepository implements NotificationDB
 
     /**
      * Read notifications in base the number
-     * Given
+     * Given.
      *
      * @param $to_id
      * @param $entity
@@ -114,7 +113,7 @@ class NotificationRepository implements NotificationDB
     }
 
     /**
-     * Make read all notification not read
+     * Make read all notification not read.
      *
      * @param $to_id
      * @param $entity
@@ -129,10 +128,10 @@ class NotificationRepository implements NotificationDB
 
     /**
      * Delete a notification giving the id
-     * of it
+     * of it.
      *
      * @param $notification_id
-     * @return Bool
+     * @return bool
      */
     public function delete($notification_id)
     {
@@ -141,11 +140,11 @@ class NotificationRepository implements NotificationDB
 
     /**
      * Delete All notifications about the
-     * current user
+     * current user.
      *
      * @param $to_id int
      * @param $entity
-     * @return Bool
+     * @return bool
      */
     public function deleteAll($to_id, $entity)
     {
@@ -159,11 +158,11 @@ class NotificationRepository implements NotificationDB
 
     /**
      * Delete All notifications from a
-     * defined category
+     * defined category.
      *
      * @param $category_name int
      * @param $expired       Bool
-     * @return Bool
+     * @return bool
      */
     public function deleteByCategory($category_name, $expired = false)
     {
@@ -182,10 +181,9 @@ class NotificationRepository implements NotificationDB
     }
 
     /**
-     *
      * Delete numbers of notifications equals
      * to the number passing as 2 parameter of
-     * the current user
+     * the current user.
      *
      * @param $user_id    int
      * @param $entity
@@ -214,7 +212,7 @@ class NotificationRepository implements NotificationDB
     /**
      * Retrive notifications not Read
      * You can also limit the number of
-     * Notification if you don't it will get all
+     * Notification if you don't it will get all.
      *
      * @param              $to_id
      * @param              $entity
@@ -238,7 +236,7 @@ class NotificationRepository implements NotificationDB
             ->orderBy('read', 'ASC')
             ->orderBy('created_at', $orderDate);
 
-        if ($limit && !$paginate) {
+        if ($limit && ! $paginate) {
             $query->limit($limit);
         }
 
@@ -255,7 +253,7 @@ class NotificationRepository implements NotificationDB
      * Retrive all notifications, not read
      * in first.
      * You can also limit the number of
-     * Notifications if you don't, it will get all
+     * Notifications if you don't, it will get all.
      *
      * @param           $to_id
      * @param           $entity
@@ -278,7 +276,7 @@ class NotificationRepository implements NotificationDB
             ->orderBy('read', 'ASC')
             ->orderBy('created_at', $orderDate);
 
-        if ($limit && !$paginate) {
+        if ($limit && ! $paginate) {
             $query->limit($limit);
         }
 
@@ -293,7 +291,7 @@ class NotificationRepository implements NotificationDB
 
     /**
      * get number Notifications
-     * not read
+     * not read.
      *
      * @param         $to_id
      * @param         $entity
@@ -313,7 +311,7 @@ class NotificationRepository implements NotificationDB
 
     /**
      * Get last notification of the current
-     * entity
+     * entity.
      *
      * @param         $to_id
      * @param         $entity
@@ -332,7 +330,7 @@ class NotificationRepository implements NotificationDB
 
     /**
      * Get last notification of the current
-     * entity of a specific category
+     * entity of a specific category.
      *
      * @param         $category
      * @param         $to_id
@@ -353,14 +351,14 @@ class NotificationRepository implements NotificationDB
     }
 
     /**
-     * Apply scope filters
+     * Apply scope filters.
      *
      * @param Closure $filterScope
      * @param         $query
      */
     protected function applyFilter(Closure $filterScope = null, $query)
     {
-        if ( ! $filterScope) {
+        if (! $filterScope) {
             return $query;
         }
 

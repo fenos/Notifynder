@@ -5,10 +5,10 @@ use Fenos\Tests\Models\User;
 use Laracasts\TestDummy\Factory;
 
 /**
- * Class NotificationTest
+ * Class NotificationTest.
  */
-class NotifableTraitTest extends TestCaseDB {
-
+class NotifableTraitTest extends TestCaseDB
+{
     use CreateModels;
 
     /**
@@ -21,7 +21,7 @@ class NotifableTraitTest extends TestCaseDB {
      */
     protected $to = [
         'id' => 1,
-        'type' => 'Fenos\Tests\Models\User'
+        'type' => 'Fenos\Tests\Models\User',
     ];
 
     /**
@@ -35,7 +35,7 @@ class NotifableTraitTest extends TestCaseDB {
     protected $user;
 
     /**
-     * Set Up Test
+     * Set Up Test.
      */
     public function setUp()
     {
@@ -47,84 +47,84 @@ class NotifableTraitTest extends TestCaseDB {
     /**
      * @test
      */
-    public function it_count_notification_not_read() {
-
+    public function it_count_notification_not_read()
+    {
         $this->createMultipleNotifications(['read' => 1]);
 
         $count = $this->user->countNotificationsNotRead();
 
-        $this->assertEquals(0,$count);
+        $this->assertEquals(0, $count);
     }
 
     /**
-     * It read all notifications
+     * It read all notifications.
      *
      * @method readLimitNotifications
      * @test
      */
-    function it_real_all_notifications()
+    public function it_real_all_notifications()
     {
         $this->createMultipleNotifications();
 
         $read = $this->user->readAllNotifications();
 
-        $this->assertEquals(10,$read);
+        $this->assertEquals(10, $read);
     }
 
     /**
      * It read limiting amount the of
-     * notifications
+     * notifications.
      *
      * @method readLimitNotifications
      * @test
      */
-    function it_read_a_limit_of_notifications()
+    public function it_read_a_limit_of_notifications()
     {
         $this->createMultipleNotifications();
 
         $read = $this->user->readLimitNotifications(6);
 
-        $this->assertEquals(6,$read);
+        $this->assertEquals(6, $read);
     }
 
     /**
      * It delete limiting the amount of
-     * notifications
+     * notifications.
      *
      * @method deleteLimitNotifications
      * @test
      */
-    function it_delete_limit_notifications()
+    public function it_delete_limit_notifications()
     {
         $this->createMultipleNotifications();
 
         $deleted = $this->user->deleteLimitNotifications(4);
 
-        $this->assertEquals(4,$deleted);
+        $this->assertEquals(4, $deleted);
     }
 
     /**
-     * It delete all notifications
+     * It delete all notifications.
      *
      * @method deleteAllNotifications
      * @test
      */
-    function it_delete_all_notifications()
+    public function it_delete_all_notifications()
     {
         $this->createMultipleNotifications();
 
         $deleted = $this->user->deleteAllNotifications();
 
-        $this->assertEquals($this->multiNotificationsNumber,$deleted);
+        $this->assertEquals($this->multiNotificationsNumber, $deleted);
     }
 
     /**
-     * Get notifications unread
+     * Get notifications unread.
      *
      * @method
      * @test
      */
-    function it_get_notifications_not_read()
+    public function it_get_notifications_not_read()
     {
         // 20 total
         $this->createMultipleNotifications();
@@ -133,38 +133,38 @@ class NotifableTraitTest extends TestCaseDB {
 
         $getNotificationNotRead = $this->user->getNotificationsNotRead();
 
-        $this->assertCount(10,$getNotificationNotRead);
+        $this->assertCount(10, $getNotificationNotRead);
     }
 
     /**
-     * Get all notifications
+     * Get all notifications.
      *
      * @method getNotifications
      * @test
      */
-    function it_get_all_notification_of_the_current_user()
+    public function it_get_all_notification_of_the_current_user()
     {
         $this->createMultipleNotifications();
 
         $notifications = $this->user->getNotifications();
 
-        $this->assertCount(10,$notifications);
+        $this->assertCount(10, $notifications);
     }
 
     /**
-     * get the last notification
+     * get the last notification.
      *
      * @method getLastNotification
      * @test
      */
-    function it_get_last_notification()
+    public function it_get_last_notification()
     {
         $this->createMultipleNotifications();
 
         $lastNotification = $this->user->getLastNotification();
 
-        $notification = Notification::orderBy('created_at','desc')->first();
+        $notification = Notification::orderBy('created_at', 'desc')->first();
 
-        $this->assertEquals($notification->id,$lastNotification->id);
+        $this->assertEquals($notification->id, $lastNotification->id);
     }
 }

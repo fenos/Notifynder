@@ -1,18 +1,17 @@
-<?php namespace Fenos\Notifynder\Contracts;
+<?php
+
+namespace Fenos\Notifynder\Contracts;
 
 use Fenos\Notifynder\Senders\SendOne;
 use Fenos\Notifynder\Senders\SendMultiple;
 
 /**
- * Class SenderManager
- *
- * @package Fenos\Notifynder\Senders
+ * Class SenderManager.
  */
 interface NotifynderSender
 {
-
     /**
-     * Send any notifications
+     * Send any notifications.
      *
      * @param  array $info
      * @param  null  $category
@@ -21,7 +20,7 @@ interface NotifynderSender
     public function send($info, $category = null);
 
     /**
-     * Send now whatever data passed
+     * Send now whatever data passed.
      *
      * @param  array $info
      * @param        $category
@@ -31,7 +30,7 @@ interface NotifynderSender
 
     /**
      * Send one method to get fully working
-     * older version
+     * older version.
      *
      * @param $info
      * @param $category
@@ -41,7 +40,7 @@ interface NotifynderSender
 
     /**
      * Send Multiple method to get fully working
-     * older version
+     * older version.
      *
      * @param $info
      * @return SendMultiple
@@ -50,7 +49,7 @@ interface NotifynderSender
 
     /**
      * Send a group of notifications
-     * at once
+     * at once.
      *
      * @param        $group_name
      * @param  array $info
@@ -60,7 +59,7 @@ interface NotifynderSender
 
     /**
      * This method allow to Extend
-     * notifynder with custom sender
+     * notifynder with custom sender.
      *
      * @param           $name
      * @param  callable $extendSender
@@ -69,11 +68,11 @@ interface NotifynderSender
     public function extend($name, $extendSender);
 
     /**
-     * Call a custom method
+     * Call a custom method.
      *
      * @param $customMethod
      * @param $notification
      * @return mixed
      */
-    public function customSender($customMethod,$notification);
+    public function customSender($customMethod, $notification);
 }

@@ -3,43 +3,43 @@
 use Fenos\Notifynder\Models\Notification;
 use Laracasts\TestDummy\Factory;
 
-trait CreateModels {
-
+trait CreateModels
+{
     /**
-     * Create Category
+     * Create Category.
      *
      * @param array $data
      * @return mixed
      */
     protected function createCategory(array $data = [])
     {
-        return Factory::create('Fenos\Notifynder\Models\NotificationCategory',$data);
+        return Factory::create('Fenos\Notifynder\Models\NotificationCategory', $data);
     }
 
     /**
-     * Create Group
+     * Create Group.
      *
      * @param array $data
      * @return mixed
      */
     protected function createGroup(array $data = [])
     {
-        return Factory::create('Fenos\Notifynder\Models\NotificationGroup',$data);
+        return Factory::create('Fenos\Notifynder\Models\NotificationGroup', $data);
     }
 
     /**
-     * Shortcut to create a new notification
+     * Shortcut to create a new notification.
      *
      * @param array $data
      * @return mixed
      */
     protected function createNotification(array $data = [])
     {
-        return Factory::create(Notification::class,$data);
+        return Factory::create(Notification::class, $data);
     }
 
     /**
-     * Shortcut Multi notifications
+     * Shortcut Multi notifications.
      *
      * @param array $data
      * @return mixed
@@ -49,11 +49,11 @@ trait CreateModels {
         $to_entity = [
             'to_id'   => $this->to['id'],
             'to_type' => $this->to['type'],
-            'read'    => 0
+            'read'    => 0,
         ];
 
         return Factory::times($this->multiNotificationsNumber)
-            ->create(Notification::class,array_merge($to_entity,$data));
+            ->create(Notification::class, array_merge($to_entity, $data));
     }
 
     /**
@@ -62,6 +62,6 @@ trait CreateModels {
      */
     protected function createUser(array $data = [])
     {
-        return Factory::create('Fenos\Tests\Models\User',$data);
+        return Factory::create('Fenos\Tests\Models\User', $data);
     }
 }

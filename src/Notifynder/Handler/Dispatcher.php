@@ -1,31 +1,30 @@
-<?php namespace Fenos\Notifynder\Handler;
+<?php
+
+namespace Fenos\Notifynder\Handler;
 
 use Fenos\Notifynder\Contracts\NotifynderDispatcher;
 use Fenos\Notifynder\Notifynder;
 use Illuminate\Contracts\Events\Dispatcher as LaravelDispatcher;
 
 /**
- * Class Dispatcher
- *
- * @package Fenos\Notifynder\Handler
+ * Class Dispatcher.
  */
 class Dispatcher implements NotifynderDispatcher
 {
-
     /**
      * @var \Illuminate\Events\Dispatcher
      */
     protected $event;
 
     /**
-     * Default namespace for notifications events
+     * Default namespace for notifications events.
      *
      * @var string
      */
-    static public $defaultWildcard = 'Notifynder';
+    public static $defaultWildcard = 'Notifynder';
 
     /**
-     * Sefault sender method
+     * Sefault sender method.
      *
      * @var string
      */
@@ -41,7 +40,7 @@ class Dispatcher implements NotifynderDispatcher
 
     /**
      * It fire the event associated to the passed key,
-     * trigging the listener method bound with
+     * trigging the listener method bound with.
      *
      * @param  Notifynder        $notifynder
      * @param  string            $eventName
@@ -70,23 +69,21 @@ class Dispatcher implements NotifynderDispatcher
             // Send the notification with the sender
             // method specified in the property
             return call_user_func_array(
-                [$notifynder,$this->sender],
+                [$notifynder, $this->sender],
                 [$notificationsResult[0]]
             );
         }
-
-        return null;
     }
 
     /**
-     * Deletegate events to categories
+     * Deletegate events to categories.
      *
      * @param  Notifynder        $notifynder
      * @param  array             $data
      * @param  array             $events
      * @return mixed
      */
-    public function delegate(Notifynder $notifynder, $data = [], array $events)
+    public function delegate(Notifynder $notifynder, $data, array $events)
     {
         foreach ($events as $category => $event) {
             $this->fire($notifynder, $event, $category, $data);
@@ -96,7 +93,7 @@ class Dispatcher implements NotifynderDispatcher
     /**
      * Tell the disptacher to send
      * the notification with a custom
-     * (extended method)
+     * (extended method).
      *
      * @param $customMethod
      * @return $this
@@ -109,7 +106,7 @@ class Dispatcher implements NotifynderDispatcher
     }
 
     /**
-     * Boot The listeners
+     * Boot The listeners.
      *
      * @param array $listeners
      */
@@ -126,7 +123,7 @@ class Dispatcher implements NotifynderDispatcher
 
     /**
      * Check if the fired method has some notifications
-     * to send
+     * to send.
      *
      * @param $notificationsResult
      * @return bool
@@ -140,13 +137,13 @@ class Dispatcher implements NotifynderDispatcher
     }
 
     /**
-     * Get Event name
+     * Get Event name.
      *
      * @param $eventName
      * @return string
      */
     protected function generateEventName($eventName)
     {
-        return static::$defaultWildcard.".".str_replace('@', '.', $eventName);
+        return static::$defaultWildcard.'.'.str_replace('@', '.', $eventName);
     }
 }

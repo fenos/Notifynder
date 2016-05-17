@@ -1,10 +1,12 @@
-<?php namespace Fenos\Notifynder;
+<?php
+
+namespace Fenos\Notifynder;
 
 use Closure;
 use Fenos\Notifynder\Builder\NotifynderBuilder;
 
 /**
- * Class Notifynder
+ * Class Notifynder.
  *
  * Notifynder is a Facade Class that has
  * all the methods necesessary to use the library.
@@ -12,15 +14,12 @@ use Fenos\Notifynder\Builder\NotifynderBuilder;
  * Notifynder allow you to have a flexible notification
  * management. It will provide you a nice and easy API
  * to store, retrieve and organise your notifications.
- *
- * @package Fenos\Notifynder
  */
 interface Notifynder
 {
-
     /**
      * Set the category of the
-     * notification
+     * notification.
      *
      * @param $name
      * @return $this
@@ -29,7 +28,7 @@ interface Notifynder
 
     /**
      * Define an entity when Notifynder is
-     * used Polymorpically
+     * used Polymorpically.
      *
      * @param $name
      * @return $this
@@ -37,7 +36,7 @@ interface Notifynder
     public function entity($name);
 
     /**
-     * Add a category
+     * Add a category.
      *
      * @param $name
      * @param $text
@@ -46,7 +45,7 @@ interface Notifynder
     public function addCategory($name, $text);
 
     /**
-     * Update a category
+     * Update a category.
      *
      * @param  array $updates
      * @param        $id
@@ -56,7 +55,7 @@ interface Notifynder
 
     /**
      * Send notifications
-     * Both multiple and single
+     * Both multiple and single.
      *
      * @param  array $info
      * @return mixed
@@ -65,7 +64,7 @@ interface Notifynder
 
     /**
      * Send immediately the notification
-     * even if the queue is enabled
+     * even if the queue is enabled.
      *
      * @param  array $info
      * @return mixed
@@ -73,7 +72,7 @@ interface Notifynder
     public function sendNow($info = []);
 
     /**
-     * Send One notification
+     * Send One notification.
      *
      * @param  array $info
      * @return mixed
@@ -81,7 +80,7 @@ interface Notifynder
     public function sendOne($info = []);
 
     /**
-     * Send multiple notifications
+     * Send multiple notifications.
      *
      * @param  array                $info
      * @return Senders\SendMultiple
@@ -89,7 +88,7 @@ interface Notifynder
     public function sendMultiple($info = []);
 
     /**
-     * Send a group of notifications
+     * Send a group of notifications.
      *
      * @param $group_name
      * @param $info
@@ -98,7 +97,7 @@ interface Notifynder
     public function sendGroup($group_name, $info = []);
 
     /**
-     * Read one notification
+     * Read one notification.
      *
      * @param $notification_id
      * @return bool|Models\Notification
@@ -107,65 +106,65 @@ interface Notifynder
 
     /**
      * Read notification in base the number
-     * Given
+     * Given.
      *
      * @param         $to_id
      * @param         $numbers
      * @param  string $order
      * @return mixed
      */
-    public function readLimit($to_id, $numbers, $order = "ASC");
+    public function readLimit($to_id, $numbers, $order = 'ASC');
 
     /**
      * Read all notifications of the given
-     * entity
+     * entity.
      *
      * @param $to_id
-     * @return integer
+     * @return int
      */
     public function readAll($to_id);
 
     /**
-     * Delete a single notification
+     * Delete a single notification.
      *
      * @param $notification_id
-     * @return Bool
+     * @return bool
      */
     public function delete($notification_id);
 
     /**
      * Delete number of notifications
-     * secified of the given entity
+     * secified of the given entity.
      *
      * @param         $to_id
      * @param         $number
      * @param  string $order
      * @return mixed
      */
-    public function deleteLimit($to_id, $number, $order = "ASC");
+    public function deleteLimit($to_id, $number, $order = 'ASC');
 
     /**
      * Delete all notifications
-     * of the the given entity
+     * of the the given entity.
      *
      * @param $to_id
-     * @return Bool
+     * @return bool
      */
     public function deleteAll($to_id);
 
     /**
      * Delete All notifications from a
-     * defined category
+     * defined category.
      *
      * @param $category_name string
      * @param $expired Bool
-     * @return Bool
+     * @return bool
      */
     public function deleteByCategory($category_name, $expired = false);
 
     /**
      * Get Notifications not read
-     * of the given entity
+     * of the given entity.
      *
      * @param         $to_id
      * @param  null   $limit
@@ -174,11 +173,11 @@ interface Notifynder
      * @param Closure $filterScope
      * @return mixed
      */
-    public function getNotRead($to_id, $limit = null, $paginate = false, $order = "desc", Closure $filterScope = null);
+    public function getNotRead($to_id, $limit = null, $paginate = false, $order = 'desc', Closure $filterScope = null);
 
     /**
      * Get all notifications of the
-     * given entity
+     * given entity.
      *
      * @param         $to_id
      * @param  null   $limit
@@ -187,11 +186,11 @@ interface Notifynder
      * @param Closure $filterScope
      * @return mixed
      */
-    public function getAll($to_id, $limit = null, $paginate = false, $order = "desc", Closure $filterScope = null);
+    public function getAll($to_id, $limit = null, $paginate = false, $order = 'desc', Closure $filterScope = null);
 
     /**
      * Get number of notification not read
-     * of the given entity
+     * of the given entity.
      *
      * @param         $to_id
      * @param Closure $filterScope
@@ -200,7 +199,7 @@ interface Notifynder
     public function countNotRead($to_id, Closure $filterScope = null);
 
     /**
-     * Find Notification by ID
+     * Find Notification by ID.
      *
      * @param $notification_id
      * @return \Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model|static
@@ -210,18 +209,18 @@ interface Notifynder
     /**
      * Get last notification of the given
      * entity, second parameter can filter by
-     * category
+     * category.
      *
      * @param         $to_id
      * @param null    $category
      * @param Closure $filterScope
      * @return mixed
      */
-    public function getLastNotification($to_id,$category = null,Closure $filterScope = null);
+    public function getLastNotification($to_id, $category = null, Closure $filterScope = null);
 
     /**
      * Add category to a group
-     * giving the names of them
+     * giving the names of them.
      *
      * @param $gorup_name
      * @param $category_name
@@ -231,7 +230,7 @@ interface Notifynder
 
     /**
      * Add category to a group
-     * giving the ids of them
+     * giving the ids of them.
      *
      * @param $gorup_id
      * @param $category_id
@@ -242,7 +241,7 @@ interface Notifynder
     /**
      * Add categories to a group having as first parameter
      * the name of the group, and others as name
-     * categories
+     * categories.
      *
      * @return mixed
      */
@@ -250,7 +249,7 @@ interface Notifynder
 
     /**
      * Fire method for fire listeners
-     * of logic
+     * of logic.
      *
      * @param  string     $key
      * @param  string     $category_name
@@ -260,7 +259,7 @@ interface Notifynder
     public function fire($key, $category_name, $values = []);
 
     /**
-     * Associate events to categories
+     * Associate events to categories.
      *
      * @param        $data
      * @param  array $delegation
@@ -269,21 +268,21 @@ interface Notifynder
     public function delegate(array $delegation, $data = []);
 
     /**
-     * Boot Listeners
+     * Boot Listeners.
      *
      * @param array $listeners
      */
     public function bootListeners(array $listeners);
 
     /**
-     * Get instance of the notifynder builder
+     * Get instance of the notifynder builder.
      *
      * @return NotifynderBuilder
      */
     public function builder();
 
     /**
-     * Extend a custom sender method
+     * Extend a custom sender method.
      *
      * @param           $name
      * @param  callable $registrar
@@ -292,14 +291,14 @@ interface Notifynder
     public function extend($name, $registrar);
 
     /**
-     * Return the Id of the category
+     * Return the Id of the category.
      *
      * @return mixed
      */
     public function id();
 
     /**
-     * Get the categoriesContainer property
+     * Get the categoriesContainer property.
      *
      * @param $name
      * @return array
@@ -312,7 +311,7 @@ interface Notifynder
      * to send the notifications
      * as default we have 'send' so will be
      * $notifynder->send() if u pass 'sendCustom'
-     * it will be like $notifynder->sendCustom()
+     * it will be like $notifynder->sendCustom().
      *
      * @param $customSenderName
      * @return $this

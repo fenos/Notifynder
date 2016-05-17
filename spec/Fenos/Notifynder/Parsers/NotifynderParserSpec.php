@@ -5,77 +5,76 @@ namespace spec\Fenos\Notifynder\Parsers;
 use Fenos\Notifynder\Exceptions\ExtraParamsException;
 use Fenos\Notifynder\Parsers\NotifynderParser;
 use PhpSpec\ObjectBehavior;
-use Prophecy\Argument;
 
 class NotifynderParserSpec extends ObjectBehavior
 {
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType('Fenos\Notifynder\Parsers\NotifynderParser');
     }
 
     /** @test */
-    function it_should_replace_special_values_with_an_associative_array()
+    public function it_should_replace_special_values_with_an_associative_array()
     {
         $extra = ['hello' => 'world'];
 
         $notification = [
             'body' => [
-                'text' => 'Hi jhon hello {extra.hello}'
+                'text' => 'Hi jhon hello {extra.hello}',
             ],
-            'extra' => json_encode($extra)
+            'extra' => json_encode($extra),
         ];
 
         $this->parse($notification)->shouldReturn('Hi jhon hello world');
     }
 
     /** @test */
-    function it_replace_from_values_relations()
+    public function it_replace_from_values_relations()
     {
         $notification = [
             'body' => [
-                'text' => 'Hi {to.username} hello'
+                'text' => 'Hi {to.username} hello',
             ],
             'to' => [
                 'username' => 'jhon',
             ],
-            'extra' => null
+            'extra' => null,
         ];
 
         $this->parse($notification)->shouldReturn('Hi jhon hello');
     }
 
     /** @test */
-    function it_replace_both_in_a_string()
+    public function it_replace_both_in_a_string()
     {
         $extra = ['hello' => 'world'];
 
         $notification = [
             'body' => [
-                'text' => 'Hi {to.username} hello {extra.hello}'
+                'text' => 'Hi {to.username} hello {extra.hello}',
             ],
             'to' => [
                 'username' => 'jhon',
             ],
-            'extra' => json_encode($extra)
+            'extra' => json_encode($extra),
         ];
 
         $this->parse($notification)->shouldReturn('Hi jhon hello world');
     }
 
     /** @test */
-    function it_will_remove_extra_markup_if_extra_value_is_not_provided()
+    public function it_will_remove_extra_markup_if_extra_value_is_not_provided()
     {
         $extra = [];
 
         $notification = [
             'body' => [
-                'text' => 'Hi {to.username} hello {extra.hello}'
+                'text' => 'Hi {to.username} hello {extra.hello}',
             ],
             'to' => [
                 'username' => 'jhon',
             ],
-            'extra' => json_encode($extra)
+            'extra' => json_encode($extra),
         ];
 
         // note the space, TODO: shall i remove it?
@@ -83,42 +82,42 @@ class NotifynderParserSpec extends ObjectBehavior
     }
 
     /** @test */
-    function it_will_throw_exception_when_strict_extra_is_enabled()
+    public function it_will_throw_exception_when_strict_extra_is_enabled()
     {
         $extra = null;
 
         $notification = [
             'body' => [
-                'text' => 'Hi {to.username} hello {extra.hello}'
+                'text' => 'Hi {to.username} hello {extra.hello}',
             ],
             'to' => [
                 'username' => 'jhon',
             ],
-            'extra' => json_encode($extra)
+            'extra' => json_encode($extra),
         ];
 
         NotifynderParser::setStrictExtra(true);
 
         $this->shouldThrow(ExtraParamsException::class)
-            ->during('parse',[$notification]);
+            ->during('parse', [$notification]);
     }
 
     /** @test */
-    function it_will_parse_4_extra_params()
+    public function it_will_parse_4_extra_params()
     {
         $extra = [
             'name' => 'fabri',
             'username' => 'fenos',
             'status' => 'active',
-            'prof' => 'dev'
+            'prof' => 'dev',
         ];
 
         $text = 'Hi {extra.name}, your username is: {extra.username} your status: {extra.status} your profession: {extra.prof}';
         $notification = [
             'body' => [
-                'text' => $text
+                'text' => $text,
             ],
-            'extra' => json_encode($extra)
+            'extra' => json_encode($extra),
         ];
 
         $parsedText = "Hi {$extra['name']}, your username is: {$extra['username']} your status: {$extra['status']} your profession: {$extra['prof']}";
