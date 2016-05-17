@@ -273,6 +273,6 @@ class NotificationManager implements NotifynderNotification
      */
     public function countNotRead($toId, Closure $filterScope = null)
     {
-        return $this->notifynderRepo->countNotRead($toId, $this->entity);
+        return $this->notifynderRepo->countNotRead($toId, $this->entity, $filterScope);
     }
 }
