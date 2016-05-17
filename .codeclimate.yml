@@ -12,6 +12,8 @@ engines:
     checks:
       CleanCode/StaticAccess:
         enabled: false
+      CleanCode/BooleanArgumentFlag:
+        enabled: false
       Design/TooManyPublicMethods:
         enabled: false
       Design/CouplingBetweenObjects:

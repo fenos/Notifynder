@@ -15,11 +15,11 @@ interface NotifynderDispatcher
      *
      * @param  Notifynder $notifynder
      * @param  string            $eventName
-     * @param  string            $category_name
+     * @param  string            $categoryName
      * @param  mixed|null        $values
      * @return mixed|null
      */
-    public function fire(Notifynder $notifynder, $eventName, $category_name = null, $values = []);
+    public function fire(Notifynder $notifynder, $eventName, $categoryName = null, $values = []);
 
     /**
      * Deletegate events to categories.

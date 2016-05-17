@@ -51,13 +51,13 @@ class NotificationManager implements NotifynderNotification
     /**
      * Find a notification by ID.
      *
-     * @param $notification_id
+     * @param $notificationId
      * @return NotificationModel|\Illuminate\Database\Eloquent\Model|static
      * @throws \Fenos\Notifynder\Exceptions\NotificationNotFoundException
      */
-    public function find($notification_id)
+    public function find($notificationId)
     {
-        $notification = $this->notifynderRepo->find($notification_id);
+        $notification = $this->notifynderRepo->find($notificationId);
 
         if (is_null($notification)) {
             $error = 'Notification Not found';
@@ -71,12 +71,12 @@ class NotificationManager implements NotifynderNotification
      * Make read one notification giving
      * the ID of it.
      *
-     * @param $notification_id
+     * @param $notificationId
      * @return bool|\Fenos\Notifynder\Models\Notification
      */
-    public function readOne($notification_id)
+    public function readOne($notificationId)
     {
-        $notification = $this->find($notification_id);
+        $notification = $this->find($notificationId);
 
         return $this->notifynderRepo->readOne($notification);
     }
@@ -85,38 +85,38 @@ class NotificationManager implements NotifynderNotification
      * Read notifications in base the number
      * Given.
      *
-     * @param         $to_id
+     * @param         $toId
      * @param         $numbers
      * @param  string $order
      * @return mixed
      */
-    public function readLimit($to_id, $numbers, $order = 'ASC')
+    public function readLimit($toId, $numbers, $order = 'ASC')
     {
-        return $this->notifynderRepo->readLimit($to_id, $this->entity, $numbers, $order);
+        return $this->notifynderRepo->readLimit($toId, $this->entity, $numbers, $order);
     }
 
     /**
      * Read all notification of the
      * given entity.
      *
-     * @param $to_id
+     * @param $toId
      * @return Number
      */
-    public function readAll($to_id)
+    public function readAll($toId)
     {
-        return $this->notifynderRepo->readAll($to_id, $this->entity);
+        return $this->notifynderRepo->readAll($toId, $this->entity);
     }
 
     /**
      * Delete a notification giving the id
      * of it.
      *
-     * @param $notification_id
+     * @param $notificationId
      * @return bool
      */
-    public function delete($notification_id)
+    public function delete($notificationId)
     {
-        return $this->notifynderRepo->delete($notification_id);
+        return $this->notifynderRepo->delete($notificationId);
     }
 
     /**
@@ -124,56 +124,56 @@ class NotificationManager implements NotifynderNotification
      * to the number passing as 2 parameter of
      * the current user.
      *
-     * @param $entity_id
+     * @param $entityId
      * @param $number
      * @param $order
      * @return mixed
      */
-    public function deleteLimit($entity_id, $number, $order = 'asc')
+    public function deleteLimit($entityId, $number, $order = 'asc')
     {
-        return $this->notifynderRepo->deleteLimit($entity_id, $this->entity, $number, $order);
+        return $this->notifynderRepo->deleteLimit($entityId, $this->entity, $number, $order);
     }
 
     /**
      * Delete all notification of a given
      * Entity.
      *
-     * @param $entity_id
+     * @param $entityId
      * @return bool
      */
-    public function deleteAll($entity_id)
+    public function deleteAll($entityId)
     {
-        return $this->notifynderRepo->deleteAll($entity_id, $this->entity);
+        return $this->notifynderRepo->deleteAll($entityId, $this->entity);
     }
 
     /**
      * Delete All notifications from a
      * defined category.
      *
-     * @param $category_name string
+     * @param $categoryName string
      * @param $expired Bool
      * @return bool
      */
-    public function deleteByCategory($category_name, $expired = false)
+    public function deleteByCategory($categoryName, $expired = false)
     {
-        return $this->notifynderRepo->deleteByCategory($category_name, $expired);
+        return $this->notifynderRepo->deleteByCategory($categoryName, $expired);
     }
 
     /**
      * Get notifications not read
      * of the entity given.
      *
-     * @param           $to_id
+     * @param           $toId
      * @param           $limit
      * @param  int|null $paginate
      * @param  string   $orderDate
      * @param Closure   $filterScope
      * @return mixed
      */
-    public function getNotRead($to_id, $limit = null, $paginate = null, $orderDate = 'desc', Closure $filterScope = null)
+    public function getNotRead($toId, $limit = null, $paginate = null, $orderDate = 'desc', Closure $filterScope = null)
     {
         $notifications = $this->notifynderRepo->getNotRead(
-            $to_id, $this->entity,
+            $toId, $this->entity,
             $limit, $paginate, $orderDate,
             $filterScope
         );
@@ -190,17 +190,17 @@ class NotificationManager implements NotifynderNotification
     /**
      * Get All notifications.
      *
-     * @param           $to_id
+     * @param           $toId
      * @param           $limit
      * @param  int|null $paginate
      * @param  string   $orderDate
      * @param Closure   $filterScope
      * @return mixed
      */
-    public function getAll($to_id, $limit = null, $paginate = null, $orderDate = 'desc', Closure $filterScope = null)
+    public function getAll($toId, $limit = null, $paginate = null, $orderDate = 'desc', Closure $filterScope = null)
     {
         $notifications = $this->notifynderRepo->getAll(
-            $to_id, $this->entity,
+            $toId, $this->entity,
             $limit, $paginate, $orderDate,
             $filterScope
         );
@@ -218,13 +218,13 @@ class NotificationManager implements NotifynderNotification
      * Get last notification of the
      * given entity.
      *
-     * @param         $to_id
+     * @param         $toId
      * @param Closure $filterScope
      * @return mixed
      */
-    public function getLastNotification($to_id, Closure $filterScope = null)
+    public function getLastNotification($toId, Closure $filterScope = null)
     {
-        return $this->notifynderRepo->getLastNotification($to_id, $this->entity, $filterScope);
+        return $this->notifynderRepo->getLastNotification($toId, $this->entity, $filterScope);
     }
 
     /**
@@ -232,13 +232,13 @@ class NotificationManager implements NotifynderNotification
      * given entity of the specific category.
      *
      * @param         $category
-     * @param         $to_id
+     * @param         $toId
      * @param Closure $filterScope
      * @return mixed
      */
-    public function getLastNotificationByCategory($category, $to_id, Closure $filterScope = null)
+    public function getLastNotificationByCategory($category, $toId, Closure $filterScope = null)
     {
-        return $this->notifynderRepo->getLastNotificationByCategory($category, $to_id, $this->entity, $filterScope);
+        return $this->notifynderRepo->getLastNotificationByCategory($category, $toId, $this->entity, $filterScope);
     }
 
     /**
@@ -267,12 +267,12 @@ class NotificationManager implements NotifynderNotification
      * Get number of notification
      * not read.
      *
-     * @param         $to_id
+     * @param         $toId
      * @param Closure $filterScope
      * @return mixed
      */
-    public function countNotRead($to_id, Closure $filterScope = null)
+    public function countNotRead($toId, Closure $filterScope = null)
     {
-        return $this->notifynderRepo->countNotRead($to_id, $this->entity);
+        return $this->notifynderRepo->countNotRead($toId, $this->entity, $filterScope);
     }
 }
