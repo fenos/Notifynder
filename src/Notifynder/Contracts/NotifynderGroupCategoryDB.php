@@ -10,30 +10,30 @@ interface NotifynderGroupCategoryDB
     /**
      * Add a category in a group.
      *
-     * @param                                                                                      $group_id
-     * @param                                                                                      $category_id
+     * @param  $groupId
+     * @param  $categoryId
      * @internal param \Fenos\Notifynder\Models\NotificationCategory $category
      * @return \Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model|static
      */
-    public function addCategoryToGroupById($group_id, $category_id);
+    public function addCategoryToGroupById($groupId, $categoryId);
 
     /**
      * Add a category in a group
      * by names given.
      *
-     * @param $group_name
-     * @param $category_name
+     * @param $groupName
+     * @param $categoryName
      * @return mixed
      */
-    public function addCategoryToGroupByName($group_name, $category_name);
+    public function addCategoryToGroupByName($groupName, $categoryName);
 
     /**
      * Add multiple categories by them names
      * to a group.
      *
-     * @param $group_name
+     * @param $groupName
      * @param $names
      * @return mixed
      */
-    public function addMultipleCategoriesToGroup($group_name, array $names);
+    public function addMultipleCategoriesToGroup($groupName, array $names);
 }

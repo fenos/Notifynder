@@ -51,11 +51,11 @@ interface NotifynderSender
      * Send a group of notifications
      * at once.
      *
-     * @param        $group_name
+     * @param        $groupName
      * @param  array $info
      * @return mixed
      */
-    public function sendGroup($group_name, $info = []);
+    public function sendGroup($groupName, $info = []);
 
     /**
      * This method allow to Extend

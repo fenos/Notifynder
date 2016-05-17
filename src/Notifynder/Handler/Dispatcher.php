@@ -44,11 +44,11 @@ class Dispatcher implements NotifynderDispatcher
      *
      * @param  Notifynder        $notifynder
      * @param  string            $eventName
-     * @param  string            $category_name
+     * @param  string            $categoryName
      * @param  mixed|null        $values
      * @return mixed|null
      */
-    public function fire(Notifynder $notifynder, $eventName, $category_name = null, $values = [])
+    public function fire(Notifynder $notifynder, $eventName, $categoryName = null, $values = [])
     {
         // Generete the event from the name given
         $eventName = $this->generateEventName($eventName);
@@ -56,7 +56,7 @@ class Dispatcher implements NotifynderDispatcher
         // Instantiate the Notifynder event Object that will provide
         // nice way to get your data on the handler. It will be the first
         // parameter
-        $event = new NotifynderEvent($eventName, $category_name, $values);
+        $event = new NotifynderEvent($eventName, $categoryName, $values);
 
         // Fire the event given expecting an array of notifications or falsy
         // value to not send the notification

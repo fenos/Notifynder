@@ -36,14 +36,14 @@ class GroupCategoryRepository implements NotifynderGroupCategoryDB
     /**
      * Add a category in a group.
      *
-     * @param                                                                                      $group_id
-     * @param                                                                                      $category_id
+     * @param  $groupId
+     * @param  $categoryId
      * @return \Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model|static
      */
-    public function addCategoryToGroupById($group_id, $category_id)
+    public function addCategoryToGroupById($groupId, $categoryId)
     {
-        $group = $this->notificationGropup->find($group_id);
-        $group->categories()->attach($category_id);
+        $group = $this->notificationGropup->find($groupId);
+        $group->categories()->attach($categoryId);
 
         return $group;
     }
@@ -52,15 +52,15 @@ class GroupCategoryRepository implements NotifynderGroupCategoryDB
      * Add a category in a group
      * by names given.
      *
-     * @param $group_name
-     * @param $category_name
+     * @param $groupName
+     * @param $categoryName
      * @return mixed
      */
-    public function addCategoryToGroupByName($group_name, $category_name)
+    public function addCategoryToGroupByName($groupName, $categoryName)
     {
-        $group = $this->notificationGropup->where('name', $group_name)->first();
+        $group = $this->notificationGropup->where('name', $groupName)->first();
 
-        $category = $this->notificationCategory->findByName($category_name);
+        $category = $this->notificationCategory->findByName($categoryName);
 
         $group->categories()->attach($category->id);
 
@@ -71,13 +71,13 @@ class GroupCategoryRepository implements NotifynderGroupCategoryDB
      * Add multiple categories by them names
      * to a group.
      *
-     * @param $group_name
+     * @param $groupName
      * @param $names
      * @return mixed
      */
-    public function addMultipleCategoriesToGroup($group_name, array $names)
+    public function addMultipleCategoriesToGroup($groupName, array $names)
     {
-        $group = $this->notificationGropup->where('name', $group_name)->first();
+        $group = $this->notificationGropup->where('name', $groupName)->first();
 
         $categories = $this->notificationCategory->findByNames($names);
 

@@ -107,14 +107,14 @@ class SenderManager implements NotifynderSender
      * Send a group of notifications
      * at once.
      *
-     * @param        $group_name
+     * @param        $groupName
      * @param  array $info
      * @return mixed
      */
-    public function sendGroup($group_name, $info = [])
+    public function sendGroup($groupName, $info = [])
     {
         return $this->senderFactory->sendGroup(
-            $group_name,
+            $groupName,
             $info
         )->send($this->storeNotification);
     }
