@@ -248,15 +248,15 @@ class NotifynderManager extends NotifynderBuilder implements Notifynder
     /**
      * Send a group of notifications.
      *
-     * @param $group_name
+     * @param $groupName
      * @param $info
      * @return mixed
      */
-    public function sendGroup($group_name, $info = [])
+    public function sendGroup($groupName, $info = [])
     {
         $info = (count($info) > 0) ? $info : $this->toArray();
 
-        $notificationsSent = $this->notifynderSender->sendGroup($this, $group_name, $info);
+        $notificationsSent = $this->notifynderSender->sendGroup($this, $groupName, $info);
 
         $this->refresh();
 
@@ -266,12 +266,12 @@ class NotifynderManager extends NotifynderBuilder implements Notifynder
     /**
      * Read one notification.
      *
-     * @param $notification_id
+     * @param $notificationId
      * @return bool|Models\Notification
      */
-    public function readOne($notification_id)
+    public function readOne($notificationId)
     {
-        return $this->notification->readOne($notification_id);
+        return $this->notification->readOne($notificationId);
     }
 
     /**
@@ -307,12 +307,12 @@ class NotifynderManager extends NotifynderBuilder implements Notifynder
     /**
      * Delete a single notification.
      *
-     * @param $notification_id
+     * @param $notificationId
      * @return bool
      */
-    public function delete($notification_id)
+    public function delete($notificationId)
     {
-        return $this->notification->delete($notification_id);
+        return $this->notification->delete($notificationId);
     }
 
     /**
@@ -349,13 +349,13 @@ class NotifynderManager extends NotifynderBuilder implements Notifynder
      * Delete All notifications from a
      * defined category.
      *
-     * @param $category_name string
+     * @param $categoryName string
      * @param $expired Bool
      * @return bool
      */
-    public function deleteByCategory($category_name, $expired = false)
+    public function deleteByCategory($categoryName, $expired = false)
     {
-        return $this->notification->deleteByCategory($category_name, $expired);
+        return $this->notification->deleteByCategory($categoryName, $expired);
     }
 
     /**
@@ -412,12 +412,12 @@ class NotifynderManager extends NotifynderBuilder implements Notifynder
     /**
      * Find Notification by ID.
      *
-     * @param $notification_id
+     * @param $notificationId
      * @return \Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model|static
      */
-    public function findNotificationById($notification_id)
+    public function findNotificationById($notificationId)
     {
-        return $this->notification->find($notification_id);
+        return $this->notification->find($notificationId);
     }
 
     /**
@@ -446,25 +446,25 @@ class NotifynderManager extends NotifynderBuilder implements Notifynder
      * giving the names of them.
      *
      * @param $gorup_name
-     * @param $category_name
+     * @param $categoryName
      * @return mixed
      */
-    public function addCategoryToGroupByName($gorup_name, $category_name)
+    public function addCategoryToGroupByName($gorup_name, $categoryName)
     {
-        return $this->notifynderGroup->addCategoryToGroupByName($gorup_name, $category_name);
+        return $this->notifynderGroup->addCategoryToGroupByName($gorup_name, $categoryName);
     }
 
     /**
      * Add category to a group
      * giving the ids of them.
      *
-     * @param $gorup_id
-     * @param $category_id
+     * @param $groupId
+     * @param $categoryId
      * @return mixed
      */
-    public function addCategoryToGroupById($gorup_id, $category_id)
+    public function addCategoryToGroupById($groupId, $categoryId)
     {
-        return $this->notifynderGroup->addCategoryToGroupById($gorup_id, $category_id);
+        return $this->notifynderGroup->addCategoryToGroupById($groupId, $categoryId);
     }
 
     /**

@@ -90,19 +90,19 @@ interface Notifynder
     /**
      * Send a group of notifications.
      *
-     * @param $group_name
+     * @param $groupName
      * @param $info
      * @return mixed
      */
-    public function sendGroup($group_name, $info = []);
+    public function sendGroup($groupName, $info = []);
 
     /**
      * Read one notification.
      *
-     * @param $notification_id
+     * @param $notificationId
      * @return bool|Models\Notification
      */
-    public function readOne($notification_id);
+    public function readOne($notificationId);
 
     /**
      * Read notification in base the number
@@ -127,10 +127,10 @@ interface Notifynder
     /**
      * Delete a single notification.
      *
-     * @param $notification_id
+     * @param $notificationId
      * @return bool
      */
-    public function delete($notification_id);
+    public function delete($notificationId);
 
     /**
      * Delete number of notifications
@@ -201,10 +201,10 @@ interface Notifynder
     /**
      * Find Notification by ID.
      *
-     * @param $notification_id
+     * @param $notificationId
      * @return \Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model|static
      */
-    public function findNotificationById($notification_id);
+    public function findNotificationById($notificationId);
 
     /**
      * Get last notification of the given
