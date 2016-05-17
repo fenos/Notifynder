@@ -22,3 +22,5 @@ ratings:
 exclude_paths:
   - tests/
   - spec/
+  - src/migrations/
+  - src/config/
