@@ -1,4 +1,6 @@
-<?php namespace Fenos\Notifynder\Translator;
+<?php
+
+namespace Fenos\Notifynder\Translator;
 
 use Fenos\Notifynder\Contracts\NotifynderTranslator;
 use Fenos\Notifynder\Exceptions\NotificationLanguageNotFoundException;
@@ -6,7 +8,7 @@ use Fenos\Notifynder\Exceptions\NotificationTranslationNotFoundException;
 use Illuminate\Contracts\Config\Repository;
 
 /**
- * Class NotifynderTranslator
+ * Class NotifynderTranslator.
  *
  * The Translator is responsable to translate the text
  * of the notifications with the custom languages that
@@ -20,12 +22,9 @@ use Illuminate\Contracts\Config\Repository;
  *      'name.category' => 'text to {parse value} translate'
  *   ]
  * ]
- *
- * @package Fenos\Notifynder\Translator
  */
 class TranslatorManager implements NotifynderTranslator
 {
-
     /**
      * @var Compiler
      */
@@ -47,7 +46,7 @@ class TranslatorManager implements NotifynderTranslator
     }
 
     /**
-     * Translate the given category
+     * Translate the given category.
      *
      * @param $language
      * @param $nameCategory
@@ -63,12 +62,12 @@ class TranslatorManager implements NotifynderTranslator
             return $translations[$nameCategory];
         }
 
-        $error = "Translation not found";
+        $error = 'Translation not found';
         throw new NotificationTranslationNotFoundException($error);
     }
 
     /**
-     * Get selected language of tranlsations
+     * Get selected language of tranlsations.
      *
      * @param $language
      * @return mixed
@@ -82,12 +81,12 @@ class TranslatorManager implements NotifynderTranslator
             return $translations[$language];
         }
 
-        $error = "Language Not Found";
+        $error = 'Language Not Found';
         throw new NotificationLanguageNotFoundException($error);
     }
 
     /**
-     * Get translations
+     * Get translations.
      *
      * @return array|mixed
      */
@@ -114,7 +113,7 @@ class TranslatorManager implements NotifynderTranslator
     /**
      * Get the translations from the
      * array of the config file and it
-     * will cache them
+     * will cache them.
      *
      * @return array
      */

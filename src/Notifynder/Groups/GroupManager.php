@@ -1,4 +1,6 @@
-<?php namespace Fenos\Notifynder\Groups;
+<?php
+
+namespace Fenos\Notifynder\Groups;
 
 use Fenos\Notifynder\Contracts\NotifynderGroup;
 use Fenos\Notifynder\Contracts\NotifynderGroupCategoryDB;
@@ -7,13 +9,10 @@ use Fenos\Notifynder\Exceptions\NotifynderGroupNotFoundException;
 use InvalidArgumentException;
 
 /**
- * Class NotifynderGroup
- *
- * @package Fenos\Notifynder\Groups
+ * Class NotifynderGroup.
  */
 class GroupManager implements NotifynderGroup
 {
-
     /**
      * @var NotifynderGroupCategoryDB
      */
@@ -36,7 +35,7 @@ class GroupManager implements NotifynderGroup
     }
 
     /**
-     * Find a group by id
+     * Find a group by id.
      *
      * @param $group_id
      * @return \Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model|static
@@ -47,7 +46,7 @@ class GroupManager implements NotifynderGroup
         $group = $this->groupRepo->find($group_id);
 
         if (is_null($group)) {
-            $error = "Group Not Found";
+            $error = 'Group Not Found';
             throw new NotifynderGroupNotFoundException($error);
         }
 
@@ -55,7 +54,7 @@ class GroupManager implements NotifynderGroup
     }
 
     /**
-     * Find a group By name
+     * Find a group By name.
      *
      * @param $group_name
      * @return mixed
@@ -66,7 +65,7 @@ class GroupManager implements NotifynderGroup
         $group = $this->groupRepo->findByName($group_name);
 
         if (is_null($group)) {
-            $error = "Group Not Found";
+            $error = 'Group Not Found';
             throw new NotifynderGroupNotFoundException($error);
         }
 
@@ -75,7 +74,7 @@ class GroupManager implements NotifynderGroup
 
     /**
      * Add category to a group
-     * giving the ids of them
+     * giving the ids of them.
      *
      * @param $gorup_id
      * @param $category_id
@@ -88,7 +87,7 @@ class GroupManager implements NotifynderGroup
 
     /**
      * Add category to a group
-     * giving the ids of them
+     * giving the ids of them.
      *
      * @param $gorup_name
      * @param $category_name
@@ -102,7 +101,7 @@ class GroupManager implements NotifynderGroup
     /**
      * Add Multiple categories in a group
      * First parameter is the group name
-     * all the rest are categories
+     * all the rest are categories.
      *
      * @return mixed
      */
@@ -119,7 +118,7 @@ class GroupManager implements NotifynderGroup
     }
 
     /**
-     * Add a group in the db
+     * Add a group in the db.
      *
      * @param $name
      * @throws InvalidArgumentException
@@ -131,12 +130,12 @@ class GroupManager implements NotifynderGroup
             return $this->groupRepo->create($name);
         }
 
-        $error = "The name must be a string with dots as namespaces";
+        $error = 'The name must be a string with dots as namespaces';
         throw new InvalidArgumentException($error);
     }
 
     /**
-     * Check if a string with dots
+     * Check if a string with dots.
      *
      * @param $name
      * @return bool

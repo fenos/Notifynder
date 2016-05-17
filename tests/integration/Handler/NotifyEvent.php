@@ -4,10 +4,10 @@ use Fenos\Notifynder\Contracts\NotifyListener;
 use Fenos\Notifynder\Handler\NotifynderEvent;
 
 /**
- * Class NotifyEvent
+ * Class NotifyEvent.
  */
-class NotifyEvent implements NotifyListener {
-
+class NotifyEvent implements NotifyListener
+{
     /**
      * @var NotifynderEvent
      */
@@ -16,7 +16,7 @@ class NotifyEvent implements NotifyListener {
     /**
      * @param $notifynderEvent
      */
-    function __construct(NotifynderEvent $notifynderEvent)
+    public function __construct(NotifynderEvent $notifynderEvent)
     {
         $this->notifynderEvent = $notifynderEvent;
     }

@@ -10,7 +10,6 @@ use Fenos\Notifynder\Exceptions\IterableIsEmptyException;
 use Fenos\Notifynder\Models\NotificationCategory;
 use Illuminate\Support\Collection;
 use PhpSpec\ObjectBehavior;
-use Prophecy\Argument;
 
 class NotifynderBuilderSpec extends ObjectBehavior
 {
@@ -19,13 +18,13 @@ class NotifynderBuilderSpec extends ObjectBehavior
         $this->beConstructedWith($category);
     }
 
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType('Fenos\Notifynder\Builder\NotifynderBuilder');
     }
 
     /** @test */
-    function it_set_the_FROM_value_with_a_single_entity()
+    public function it_set_the_FROM_value_with_a_single_entity()
     {
         $user_id = 1;
 
@@ -33,25 +32,25 @@ class NotifynderBuilderSpec extends ObjectBehavior
     }
 
     /** @test */
-    function it_set_the_FROM_value_giving_a_polymorphic_entity()
+    public function it_set_the_FROM_value_giving_a_polymorphic_entity()
     {
         $user_id = 1;
         $user_class = 'User';
 
-        $this->from($user_class,$user_id)->shouldReturnAnInstanceOf(NotifynderBuilder::class);
+        $this->from($user_class, $user_id)->shouldReturnAnInstanceOf(NotifynderBuilder::class);
     }
 
     /** @test */
-    function it_set_the_FROM_value_giving_a_polymorphic_entity_the_first_value_must_be_the_class_entity()
+    public function it_set_the_FROM_value_giving_a_polymorphic_entity_the_first_value_must_be_the_class_entity()
     {
         $user_id = 1;
         $user_class = 'User';
 
-        $this->shouldThrow('InvalidArgumentException')->during('from',[$user_id,$user_class]);
+        $this->shouldThrow('InvalidArgumentException')->during('from', [$user_id, $user_class]);
     }
 
     /** @test */
-    function it_set_the_TO_value_with_a_single_entity()
+    public function it_set_the_TO_value_with_a_single_entity()
     {
         $user_id = 1;
 
@@ -59,25 +58,25 @@ class NotifynderBuilderSpec extends ObjectBehavior
     }
 
     /** @test */
-    function it_set_the_TO_value_giving_a_polymorphic_entity()
+    public function it_set_the_TO_value_giving_a_polymorphic_entity()
     {
         $user_id = 1;
         $user_class = 'User';
 
-        $this->to($user_class,$user_id)->shouldReturnAnInstanceOf(NotifynderBuilder::class);
+        $this->to($user_class, $user_id)->shouldReturnAnInstanceOf(NotifynderBuilder::class);
     }
 
     /** @test */
-    function it_set_the_TO_value_giving_a_polymorphic_entity_the_first_value_must_be_the_class_entity()
+    public function it_set_the_TO_value_giving_a_polymorphic_entity_the_first_value_must_be_the_class_entity()
     {
         $user_id = 1;
         $user_class = 'User';
 
-        $this->shouldThrow('InvalidArgumentException')->during('to',[$user_id,$user_class]);
+        $this->shouldThrow('InvalidArgumentException')->during('to', [$user_id, $user_class]);
     }
 
     /** @test */
-    function it_add_the_url_parameter_to_the_builder()
+    public function it_add_the_url_parameter_to_the_builder()
     {
         $url = 'www.notifynder.io';
 
@@ -85,15 +84,15 @@ class NotifynderBuilderSpec extends ObjectBehavior
     }
 
     /** @test */
-    function it_allow_only_string_as_url()
+    public function it_allow_only_string_as_url()
     {
         $url = 1;
 
-        $this->shouldThrow('InvalidArgumentException')->during('url',[$url]);
+        $this->shouldThrow('InvalidArgumentException')->during('url', [$url]);
     }
 
     /** @test */
-    function it_add_the_expire_parameter_to_the_builder()
+    public function it_add_the_expire_parameter_to_the_builder()
     {
         date_default_timezone_set('UTC');
 
@@ -103,16 +102,15 @@ class NotifynderBuilderSpec extends ObjectBehavior
     }
 
     /** @test */
-    function it_allow_only_carbon_instance_as_expire_time()
+    public function it_allow_only_carbon_instance_as_expire_time()
     {
         $datetime = 1;
 
-        $this->shouldThrow('InvalidArgumentException')->during('expire',[$datetime]);
+        $this->shouldThrow('InvalidArgumentException')->during('expire', [$datetime]);
     }
 
-
     /** @test */
-    function it_add_a_category_id_to_the_builder()
+    public function it_add_a_category_id_to_the_builder()
     {
         $category_id = 1;
 
@@ -120,7 +118,7 @@ class NotifynderBuilderSpec extends ObjectBehavior
     }
 
     /** @test */
-    function it_add_a_category_id_to_the_builder_givin_the_name_of_it(CategoryManager $category, NotificationCategory $categoryModel)
+    public function it_add_a_category_id_to_the_builder_givin_the_name_of_it(CategoryManager $category, NotificationCategory $categoryModel)
     {
         $name = 'category.name';
         $category_id = 1;
@@ -134,7 +132,7 @@ class NotifynderBuilderSpec extends ObjectBehavior
     }
 
     /** @test */
-    function it_add_the_extra_parameter_to_the_builder()
+    public function it_add_the_extra_parameter_to_the_builder()
     {
         $extra = ['my'  => 'extra'];
 
@@ -142,20 +140,19 @@ class NotifynderBuilderSpec extends ObjectBehavior
     }
 
     /** @test */
-    function it_allow_only_associative_array_as_extra_parameter_they_llbe_converted_in_jon()
+    public function it_allow_only_associative_array_as_extra_parameter_they_llbe_converted_in_jon()
     {
         $extra = ['my'];
 
-        $this->shouldThrow('InvalidArgumentException')->during('extra',[$extra]);
+        $this->shouldThrow('InvalidArgumentException')->during('extra', [$extra]);
     }
 
     /** @test */
-    function it_create_a_builder_array_using_a_raw_closure()
+    public function it_create_a_builder_array_using_a_raw_closure()
     {
         date_default_timezone_set('UTC');
 
-        $closure = function(NotifynderBuilder $builder)
-        {
+        $closure = function (NotifynderBuilder $builder) {
             return $builder->to(1)->from(2)->url('notifynder.io')->category(1);
         };
 
@@ -169,16 +166,14 @@ class NotifynderBuilderSpec extends ObjectBehavior
 
     public function it_create_multi_notification_in_a_loop()
     {
-        $closure = function(NotifynderBuilder $builder,$data,$key)
-        {
+        $closure = function (NotifynderBuilder $builder, $data, $key) {
             return $builder->to(1)->from(2)->url('notifynder.io')->category(1);
         };
     }
 
     public function it_create_empty_array_loop_builder()
     {
-        $closure = function(NotifynderBuilder $builder,$data,$key)
-        {
+        $closure = function (NotifynderBuilder $builder, $data, $key) {
             return $builder->to(1)->from(2)->url('notifynder.io')->category(1);
         };
         $this->shouldThrow(IterableIsEmptyException::class)->during('loop', [[], $closure]);
@@ -186,8 +181,7 @@ class NotifynderBuilderSpec extends ObjectBehavior
 
     public function it_create_empty_collection_loop_builder()
     {
-        $closure = function(NotifynderBuilder $builder,$data,$key)
-        {
+        $closure = function (NotifynderBuilder $builder, $data, $key) {
             return $builder->to(1)->from(2)->url('notifynder.io')->category(1);
         };
         $this->shouldThrow(IterableIsEmptyException::class)->during('loop', [new Collection([]), $closure]);
@@ -195,8 +189,7 @@ class NotifynderBuilderSpec extends ObjectBehavior
 
     public function it_create_not_iterable_loop_builder()
     {
-        $closure = function(NotifynderBuilder $builder,$data,$key)
-        {
+        $closure = function (NotifynderBuilder $builder, $data, $key) {
             return $builder->to(1)->from(2)->url('notifynder.io')->category(1);
         };
         $this->shouldThrow(EntityNotIterableException::class)->during('loop', ['hello world', $closure]);

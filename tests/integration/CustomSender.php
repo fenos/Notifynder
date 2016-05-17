@@ -2,10 +2,9 @@
 
 use Fenos\Notifynder\Contracts\NotifynderSender;
 use Fenos\Notifynder\Contracts\Sender;
-use Fenos\Notifynder\Contracts\StoreNotification;
 
 /**
- * Class CustomSender
+ * Class CustomSender.
  */
 class CustomDefaultSender implements Sender
 {
@@ -23,21 +22,21 @@ class CustomDefaultSender implements Sender
      * @param array                        $notifications
      * @param \Fenos\Notifynder\NotifynderManager $notifynder
      */
-    function __construct(array $notifications,\Fenos\Notifynder\NotifynderManager $notifynder)
+    public function __construct(array $notifications, \Fenos\Notifynder\NotifynderManager $notifynder)
     {
         $this->notifications = $notifications;
         $this->notifynder = $notifynder;
     }
 
     /**
-     * Send notification
+     * Send notification.
      *
      * @param NotifynderSender $sender
      * @return mixed
      */
     public function send(NotifynderSender $sender)
     {
-//        dd($storeNotification);
+        //        dd($storeNotification);
         return $sender->send($this->notifications);
     }
 }

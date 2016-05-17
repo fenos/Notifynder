@@ -1,19 +1,18 @@
 <?php
 
-$factory('Fenos\Notifynder\Models\NotificationCategory',[
+$factory('Fenos\Notifynder\Models\NotificationCategory', [
 
     'name' => $faker->name,
-    'text' => 'test notification'
+    'text' => 'test notification',
 ]);
 
-
-$factory('Fenos\Tests\Models\User',[
+$factory('Fenos\Tests\Models\User', [
 
     'name' => $faker->name,
-    'surname' => $faker->lastName
+    'surname' => $faker->lastName,
 ]);
 
-$factory('Fenos\Notifynder\Models\Notification',[
+$factory('Fenos\Notifynder\Models\Notification', [
 
     'from_id' => 'factory:Fenos\Tests\Models\User',
     'from_type' => 'Fenos\Tests\Models\User',
@@ -28,6 +27,6 @@ $factory('Fenos\Notifynder\Models\Notification',[
     'updated_at' => $faker->dateTime,
 ]);
 
-$factory('Fenos\Notifynder\Models\NotificationGroup',[
+$factory('Fenos\Notifynder\Models\NotificationGroup', [
     'name' => $faker->name,
 ]);

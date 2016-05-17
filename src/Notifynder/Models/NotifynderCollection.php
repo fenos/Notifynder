@@ -1,4 +1,6 @@
-<?php namespace Fenos\Notifynder\Models;
+<?php
+
+namespace Fenos\Notifynder\Models;
 
 use Fenos\Notifynder\Contracts\NotifynderTranslator;
 use Fenos\Notifynder\Exceptions\NotificationTranslationNotFoundException;
@@ -6,13 +8,10 @@ use Fenos\Notifynder\Parsers\NotifynderParser;
 use Illuminate\Database\Eloquent\Collection;
 
 /**
- * Class NotifynderCollection
- *
- * @package Fenos\Notifynder\Models
+ * Class NotifynderCollection.
  */
 class NotifynderCollection extends Collection
 {
-
     /**
      * @var NotifynderTranslator
      */
@@ -27,7 +26,7 @@ class NotifynderCollection extends Collection
     }
 
     /**
-     * Translator instance
+     * Translator instance.
      *
      * @return NotifynderTranslator
      */
@@ -38,7 +37,7 @@ class NotifynderCollection extends Collection
 
     /**
      * This method translate the body text from
-     * another language. It used by collection
+     * another language. It used by collection.
      *
      * @param $language (String)
      * @return Collection
@@ -63,7 +62,7 @@ class NotifynderCollection extends Collection
     }
 
     /**
-     * Parse the body of the notification
+     * Parse the body of the notification.
      *
      * @return $this
      */
@@ -72,7 +71,6 @@ class NotifynderCollection extends Collection
         $parser = new NotifynderParser();
 
         foreach ($this->items as $key => $item) {
-
             $this->items[$key]['text'] = $parser->parse($item);
         }
 

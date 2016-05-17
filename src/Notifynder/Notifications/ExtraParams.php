@@ -1,16 +1,15 @@
-<?php namespace Fenos\Notifynder\Notifications;
+<?php
+
+namespace Fenos\Notifynder\Notifications;
 
 use ArrayAccess;
 use stdClass;
 
 /**
- * Class Jsonable
- *
- * @package Fenos\Notifynder\Notifications
+ * Class Jsonable.
  */
 class ExtraParams implements ArrayAccess
 {
-
     /**
      * @var array|stdClass|string
      */
@@ -24,9 +23,8 @@ class ExtraParams implements ArrayAccess
     public function __construct($extraParams)
     {
         if ($this->isJson($extraParams)) {
-            $this->extraParams = json_decode($extraParams,true);
-        }
-        else {
+            $this->extraParams = json_decode($extraParams, true);
+        } else {
             $this->extraParams = (array) $extraParams;
         }
     }
@@ -57,7 +55,7 @@ class ExtraParams implements ArrayAccess
      *
      * @return string
      */
-    function __toString()
+    public function __toString()
     {
         $extraParams = $this->extraParams;
 
@@ -70,7 +68,7 @@ class ExtraParams implements ArrayAccess
 
     /**
      * Check if the extra param
-     * exists
+     * exists.
      *
      * @param $name
      * @return bool
@@ -88,18 +86,17 @@ class ExtraParams implements ArrayAccess
      * @param $name string
      * @return mixed
      */
-    function __get($name)
+    public function __get($name)
     {
         $params = $this->toArray();
 
-        if(array_key_exists($name, $params)) {
+        if (array_key_exists($name, $params)) {
             return $params[$name];
         }
     }
 
-
     /**
-     * Whether a offset exists
+     * Whether a offset exists.
      *
      * @param mixed $offset
      * @return bool
@@ -137,16 +134,19 @@ class ExtraParams implements ArrayAccess
 
     /**
      * Check if the value
-     * is a json string
+     * is a json string.
      *
      * @param $value
      * @return bool
      */
     public function isJson($value)
     {
-        if (!is_string($value)) return false;
+        if (! is_string($value)) {
+            return false;
+        }
 
         json_decode($value);
-        return (json_last_error() == JSON_ERROR_NONE);
+
+        return json_last_error() == JSON_ERROR_NONE;
     }
 }

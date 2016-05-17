@@ -1,6 +1,8 @@
-<?php namespace Fenos\Notifynder\Senders;
+<?php
 
-/**
+namespace Fenos\Notifynder\Senders;
+
+/*
  * Class NotifynderSenderFactory
  *
  * @package Fenos\Notifynder
@@ -10,13 +12,10 @@ use Fenos\Notifynder\Contracts\NotifynderCategory;
 use Fenos\Notifynder\Contracts\NotifynderGroup;
 
 /**
- * Class SenderFactory
- *
- * @package Fenos\Notifynder\Senders
+ * Class SenderFactory.
  */
 class SenderFactory
 {
-
     /**
      * @var NotifynderGroup
      */
@@ -40,7 +39,7 @@ class SenderFactory
 
     /**
      * Get the right sender when the data is
-     * passed
+     * passed.
      *
      * @param  array                $infoNotifications
      * @param                       $category
@@ -48,26 +47,22 @@ class SenderFactory
      */
     public function getSender($infoNotifications, $category = null)
     {
-        if ($infoNotifications instanceof NotifynderBuilder)
-        {
+        if ($infoNotifications instanceof NotifynderBuilder) {
             $infoNotifications = $infoNotifications->toArray();
         }
 
         // if the array is multidimesional
         // it means that we want to send
         // multiple notifications
-        if ($this->isMultiArray($infoNotifications))
-        {
+        if ($this->isMultiArray($infoNotifications)) {
             return $this->sendMultiple($infoNotifications);
-        }
-        else
-        {
+        } else {
             return $this->sendSingle($infoNotifications, $category);
         }
     }
 
     /**
-     * Send Single Notification Sender
+     * Send Single Notification Sender.
      *
      * @param  array   $infoNotifications
      * @param          $category
@@ -79,7 +74,7 @@ class SenderFactory
     }
 
     /**
-     * Send Multiple Notification Sender
+     * Send Multiple Notification Sender.
      *
      * @param  array        $infoNotifications
      * @return SendMultiple
@@ -90,7 +85,7 @@ class SenderFactory
     }
 
     /**
-     * Get the the send group instance
+     * Get the the send group instance.
      *
      * @param  string           $group_name
      * @param  array | \Closure $info
@@ -108,7 +103,7 @@ class SenderFactory
 
     /**
      * Check if the array passed is
-     * multidimensional
+     * multidimensional.
      *
      * @param $arr
      * @return bool

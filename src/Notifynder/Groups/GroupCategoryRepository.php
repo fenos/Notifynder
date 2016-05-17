@@ -1,4 +1,6 @@
-<?php namespace Fenos\Notifynder\Groups;
+<?php
+
+namespace Fenos\Notifynder\Groups;
 
 use Fenos\Notifynder\Contracts\NotifynderCategory;
 use Fenos\Notifynder\Contracts\NotifynderGroupCategoryDB;
@@ -6,13 +8,10 @@ use Fenos\Notifynder\Models\NotificationCategory;
 use Fenos\Notifynder\Models\NotificationGroup;
 
 /**
- * Class NotificationGroupCategoryRepository
- *
- * @package Fenos\Notifynder\Groups\Repositories
+ * Class NotificationGroupCategoryRepository.
  */
 class GroupCategoryRepository implements NotifynderGroupCategoryDB
 {
-
     /**
      * @var NotificationGroup
      */
@@ -35,7 +34,7 @@ class GroupCategoryRepository implements NotifynderGroupCategoryDB
     }
 
     /**
-     * Add a category in a group
+     * Add a category in a group.
      *
      * @param                                                                                      $group_id
      * @param                                                                                      $category_id
@@ -51,7 +50,7 @@ class GroupCategoryRepository implements NotifynderGroupCategoryDB
 
     /**
      * Add a category in a group
-     * by names given
+     * by names given.
      *
      * @param $group_name
      * @param $category_name
@@ -70,7 +69,7 @@ class GroupCategoryRepository implements NotifynderGroupCategoryDB
 
     /**
      * Add multiple categories by them names
-     * to a group
+     * to a group.
      *
      * @param $group_name
      * @param $names

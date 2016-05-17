@@ -1,15 +1,14 @@
-<?php namespace Fenos\Notifynder\Handler;
+<?php
+
+namespace Fenos\Notifynder\Handler;
 
 use Fenos\Notifynder\Contracts\NotifyListener;
 
 /**
- * Class NotifynderEvent
- *
- * @package Fenos\Notifynder\Handler
+ * Class NotifynderEvent.
  */
 class NotifynderEvent implements NotifyListener
 {
-
     /**
      * @var string
      */
@@ -47,7 +46,7 @@ class NotifynderEvent implements NotifyListener
 
     /**
      * Get a value from the given
-     * values
+     * values.
      *
      * @param $name
      * @return mixed
@@ -57,8 +56,6 @@ class NotifynderEvent implements NotifyListener
         if (array_key_exists($name, $this->values)) {
             return $this->values[$name];
         }
-
-        return null;
     }
 
     /**

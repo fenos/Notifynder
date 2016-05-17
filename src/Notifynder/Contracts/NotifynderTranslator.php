@@ -1,10 +1,12 @@
-<?php namespace Fenos\Notifynder\Contracts;
+<?php
+
+namespace Fenos\Notifynder\Contracts;
 
 use Fenos\Notifynder\Exceptions\NotificationLanguageNotFoundException;
 use Fenos\Notifynder\Exceptions\NotificationTranslationNotFoundException;
 
 /**
- * Class NotifynderTranslator
+ * Class NotifynderTranslator.
  *
  * The Translator is responsable to translate the text
  * of the notifications with the custom languages that
@@ -18,14 +20,11 @@ use Fenos\Notifynder\Exceptions\NotificationTranslationNotFoundException;
  *      'name.category' => 'text to translate'
  *   ]
  * ]
- *
- * @package Fenos\Notifynder\Translator
  */
 interface NotifynderTranslator
 {
-
     /**
-     * Translate the given category
+     * Translate the given category.
      *
      * @param $language
      * @param $nameCategory
@@ -36,7 +35,7 @@ interface NotifynderTranslator
     public function translate($language, $nameCategory);
 
     /**
-     * Get selected language of tranlsations
+     * Get selected language of tranlsations.
      *
      * @param $language
      * @return mixed
@@ -45,7 +44,7 @@ interface NotifynderTranslator
     public function getLanguage($language);
 
     /**
-     * Get translations
+     * Get translations.
      *
      * @return array|mixed
      */

@@ -1,17 +1,16 @@
-<?php namespace Fenos\Notifynder\Contracts;
+<?php
+
+namespace Fenos\Notifynder\Contracts;
 
 use InvalidArgumentException;
 
 /**
- * Class NotifynderGroup
- *
- * @package Fenos\Notifynder\Groups
+ * Class NotifynderGroup.
  */
 interface NotifynderGroup
 {
-
     /**
-     * Find a group by id
+     * Find a group by id.
      *
      * @param $group_id
      * @return \Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model|static
@@ -20,7 +19,7 @@ interface NotifynderGroup
     public function findById($group_id);
 
     /**
-     * Find a group By name
+     * Find a group By name.
      *
      * @param $group_name
      * @return mixed
@@ -30,7 +29,7 @@ interface NotifynderGroup
 
     /**
      * Add category to a group
-     * giving the ids of them
+     * giving the ids of them.
      *
      * @param $gorup_id
      * @param $category_id
@@ -40,7 +39,7 @@ interface NotifynderGroup
 
     /**
      * Add category to a group
-     * giving the ids of them
+     * giving the ids of them.
      *
      * @param $gorup_name
      * @param $category_name
@@ -51,14 +50,14 @@ interface NotifynderGroup
     /**
      * Add Multiple categories in a group
      * First parameter is the group name
-     * all the rest are categories
+     * all the rest are categories.
      *
      * @return mixed
      */
     public function addMultipleCategoriesToGroup();
 
     /**
-     * Add a group in the db
+     * Add a group in the db.
      *
      * @param $name
      * @throws InvalidArgumentException

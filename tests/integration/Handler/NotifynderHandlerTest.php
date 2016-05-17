@@ -1,6 +1,6 @@
 <?php
+
 use Fenos\Notifynder\Builder\NotifynderBuilder;
-use Fenos\Notifynder\Handler\NotifynderDispatcher;
 use Fenos\Notifynder\Handler\NotifynderEvent;
 use Fenos\Notifynder\Handler\NotifynderHandler;
 use Fenos\Notifynder\NotifynderManager;
@@ -8,10 +8,10 @@ use Fenos\Tests\Models\User;
 use Illuminate\Contracts\Events\Dispatcher;
 
 /**
- * Class NotifynderHandlerTest
+ * Class NotifynderHandlerTest.
  */
-class NotifynderHandlerTest extends TestCaseDB {
-
+class NotifynderHandlerTest extends TestCaseDB
+{
     use CreateModels;
 
     /**
@@ -20,16 +20,16 @@ class NotifynderHandlerTest extends TestCaseDB {
     protected $dispatcher;
 
     /**
-     * Test listeners
+     * Test listeners.
      *
      * @var array
      */
     protected $listeners = [
-        'notify.*' => 'NotifyUserTest'
+        'notify.*' => 'NotifyUserTest',
     ];
 
     /**
-     * User to
+     * User to.
      *
      * @var User
      */
@@ -46,7 +46,7 @@ class NotifynderHandlerTest extends TestCaseDB {
     protected $laravelDispatcher;
 
     /**
-     * Listen test listeners
+     * Listen test listeners.
      */
     public function setUp()
     {
@@ -64,61 +64,59 @@ class NotifynderHandlerTest extends TestCaseDB {
 
         // Create Category
         $this->createCategory([
-            'name' => 'activation'
+            'name' => 'activation',
         ]);
 
         $this->createCategory([
-            'name' => 'confirmation'
+            'name' => 'confirmation',
         ]);
     }
 
     /** @test */
-    function it_fire_an_event_sending_a_specific_notification_from_the_handler()
+    public function it_fire_an_event_sending_a_specific_notification_from_the_handler()
     {
-        $this->dispatcher->fire('notify@userActivated','activation');
+        $this->dispatcher->fire('notify@userActivated', 'activation');
 
         $notification = \Fenos\Notifynder\Models\Notification::all();
 
-        $this->assertCount(1,$notification);
+        $this->assertCount(1, $notification);
     }
 
     /** @test */
-    function it_fire_an_event_sending_multiple_notifications()
+    public function it_fire_an_event_sending_multiple_notifications()
     {
-        $this->dispatcher->fire('notify@userMultiple','activation');
+        $this->dispatcher->fire('notify@userMultiple', 'activation');
 
         $notification = \Fenos\Notifynder\Models\Notification::all();
 
-        $this->assertCount(2,$notification);
+        $this->assertCount(2, $notification);
     }
 
     /** @test */
-    function it_delete_2_notification_to_be_sent_trought_the_handler()
+    public function it_delete_2_notification_to_be_sent_trought_the_handler()
     {
         $this->dispatcher->delegate([
             'activation'    => 'notify@userActivated',
-            'confirmation'  => 'notify@userMultiple'
+            'confirmation'  => 'notify@userMultiple',
         ]);
 
         $notification = \Fenos\Notifynder\Models\Notification::all();
 
-        $this->assertCount(3,$notification);
+        $this->assertCount(3, $notification);
     }
 
     /** @test */
-    function it_trigger_an_handler_using_native_laravel_dispatcher()
+    public function it_trigger_an_handler_using_native_laravel_dispatcher()
     {
         $testListener = [
             NotifyEvent::class => [
-                NotifyUserTest::class
-            ]
+                NotifyUserTest::class,
+            ],
         ];
 
         // Listen for events as the laravel way
-        foreach ($testListener as $event => $listeners)
-        {
-            foreach ($listeners as $listener)
-            {
+        foreach ($testListener as $event => $listeners) {
+            foreach ($listeners as $listener) {
                 $this->laravelDispatcher->listen($event, $listener);
             }
         }
@@ -127,7 +125,7 @@ class NotifynderHandlerTest extends TestCaseDB {
             new NotifyEvent(new NotifynderEvent('userActivated'))
         );
 
-        $this->assertEquals('hello',$notification[0]->url);
+        $this->assertEquals('hello', $notification[0]->url);
     }
 }
 
@@ -139,12 +137,12 @@ class NotifynderHandlerTest extends TestCaseDB {
 --------------------------------------------------------------------------*/
 
 /**
- * Class NotifyUserTest
+ * Class NotifyUserTest.
  */
-class NotifyUserTest extends NotifynderHandler {
-
+class NotifyUserTest extends NotifynderHandler
+{
     /**
-     * Test trigger one notification
+     * Test trigger one notification.
      *
      * @param NotifynderEvent $event
      * @param NotifynderManager      $notifynder
@@ -162,7 +160,7 @@ class NotifyUserTest extends NotifynderHandler {
 
     /**
      * Test send multiple notifications from
-     * the handler
+     * the handler.
      *
      * @param NotifynderEvent $event
      * @param NotifynderManager      $notifynder
@@ -171,9 +169,9 @@ class NotifyUserTest extends NotifynderHandler {
     public function userMultiple(NotifynderEvent $event, NotifynderManager $notifynder)
     {
         // Retrieve users
-        $users = [1,2];
+        $users = [1, 2];
 
-        return $notifynder->builder()->loop($users,function(NotifynderBuilder $builder,$value,$key) {
+        return $notifynder->builder()->loop($users, function (NotifynderBuilder $builder, $value, $key) {
 
             return $builder->category('activation')
                 ->url('hello')
@@ -181,5 +179,4 @@ class NotifyUserTest extends NotifynderHandler {
                 ->to($value);
         });
     }
-
 }

@@ -1,17 +1,15 @@
 <?php
+
 use Fenos\Notifynder\Builder\NotifynderBuilder;
 use Fenos\Notifynder\Contracts\NotifynderGroup;
 use Fenos\Notifynder\Contracts\NotifynderSender;
-use Fenos\Notifynder\Contracts\DefaultSender;
-use Fenos\Notifynder\Contracts\StoreNotification;
 use Fenos\Notifynder\Models\Notification;
-use Laracasts\TestDummy\Factory;
 
 /**
- * Class SendersTest
+ * Class SendersTest.
  */
-class SendersTest extends TestCaseDB {
-
+class SendersTest extends TestCaseDB
+{
     use CreateModels;
 
     /**
@@ -30,7 +28,7 @@ class SendersTest extends TestCaseDB {
     protected $group;
 
     /**
-     * Set up the sender
+     * Set up the sender.
      */
     public function setUp()
     {
@@ -48,7 +46,7 @@ class SendersTest extends TestCaseDB {
     }
 
     /** @test */
-    function it_send_now_a_single_notification()
+    public function it_send_now_a_single_notification()
     {
         $category_name = 'my.category';
         $this->createCategory(['name' => $category_name]);
@@ -66,15 +64,15 @@ class SendersTest extends TestCaseDB {
     }
 
     /** @test */
-    function it_send_now_a_mutiple_notification()
+    public function it_send_now_a_mutiple_notification()
     {
         $category_name = 'my.category';
         $this->createCategory(['name' => $category_name]);
 
-        $user_ids = [1,2];
+        $user_ids = [1, 2];
 
         $sendMultiple = $this->builder->loop($user_ids,
-            function(NotifynderBuilder $builder, $value) use ($category_name) {
+            function (NotifynderBuilder $builder, $value) use ($category_name) {
 
                 return $builder->category($category_name)
                     ->to($value)
@@ -90,7 +88,7 @@ class SendersTest extends TestCaseDB {
     }
 
     /** @test */
-    function it_send_a_group_of_notification()
+    public function it_send_a_group_of_notification()
     {
         $group = $this->createGroup(['name' => 'mygroud']);
         $category1 = $this->createCategory();
@@ -103,20 +101,20 @@ class SendersTest extends TestCaseDB {
             $category3->name
         );
 
-        $this->senders->sendGroup($group->name,[
+        $this->senders->sendGroup($group->name, [
             'from_id' => 1,
             'to_id' => 2,
-            'url' => 'www.notifynder.io'
+            'url' => 'www.notifynder.io',
         ]);
 
-        $this->assertCount(3,Notification::all());
+        $this->assertCount(3, Notification::all());
     }
 
     /** @test */
-    function it_send_with_an_custom_sender()
+    public function it_send_with_an_custom_sender()
     {
-        $this->senders->extend('sendCustom', function($notification,$app) {
-            return new CustomDefaultSender($notification,$app->make('notifynder'));
+        $this->senders->extend('sendCustom', function ($notification, $app) {
+            return new CustomDefaultSender($notification, $app->make('notifynder'));
         });
 
         $category_name = 'my.category';

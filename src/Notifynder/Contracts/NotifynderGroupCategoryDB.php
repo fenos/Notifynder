@@ -1,15 +1,14 @@
-<?php namespace Fenos\Notifynder\Contracts;
+<?php
+
+namespace Fenos\Notifynder\Contracts;
 
 /**
- * Class NotificationGroupCategoryRepository
- *
- * @package Fenos\Notifynder\Groups\Repositories
+ * Class NotificationGroupCategoryRepository.
  */
 interface NotifynderGroupCategoryDB
 {
-
     /**
-     * Add a category in a group
+     * Add a category in a group.
      *
      * @param                                                                                      $group_id
      * @param                                                                                      $category_id
@@ -20,7 +19,7 @@ interface NotifynderGroupCategoryDB
 
     /**
      * Add a category in a group
-     * by names given
+     * by names given.
      *
      * @param $group_name
      * @param $category_name
@@ -30,7 +29,7 @@ interface NotifynderGroupCategoryDB
 
     /**
      * Add multiple categories by them names
-     * to a group
+     * to a group.
      *
      * @param $group_name
      * @param $names

@@ -1,18 +1,18 @@
-<?php namespace Fenos\Notifynder\Contracts; 
+<?php
+
+namespace Fenos\Notifynder\Contracts;
 
 use Fenos\Notifynder\Handler\NotifynderEvent;
 
 /**
- * Interface NotifyListener
+ * Interface NotifyListener.
  *
  * This interface is needed when u want dispatch
  * event through the native laravel dispatcher
  * and not from Notifynder::fire()
- *
- * @package Fenos\Notifynder\Contracts
  */
-interface NotifyListener {
-
+interface NotifyListener
+{
     /**
      * @return NotifynderEvent
      */

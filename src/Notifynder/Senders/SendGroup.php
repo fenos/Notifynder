@@ -1,4 +1,6 @@
-<?php namespace Fenos\Notifynder\Senders;
+<?php
+
+namespace Fenos\Notifynder\Senders;
 
 use Fenos\Notifynder\Contracts\NotifynderCategory;
 use Fenos\Notifynder\Contracts\NotifynderGroup;
@@ -7,13 +9,10 @@ use Fenos\Notifynder\Contracts\StoreNotification;
 use Fenos\Notifynder\NotifynderManager;
 
 /**
- * Class SendGroup
- *
- * @package Fenos\Notifynder\Senders
+ * Class SendGroup.
  */
 class SendGroup implements DefaultSender
 {
-
     /**
      * @var NotifynderManager
      */
@@ -52,7 +51,7 @@ class SendGroup implements DefaultSender
     }
 
     /**
-     * Send group notifications
+     * Send group notifications.
      *
      * @param  StoreNotification $sender
      * @return mixed

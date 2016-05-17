@@ -1,4 +1,6 @@
-<?php namespace Fenos\Notifynder\Artisan;
+<?php
+
+namespace Fenos\Notifynder\Artisan;
 
 use Fenos\Notifynder\Contracts\NotifynderGroup;
 use Fenos\Notifynder\Parsers\ArtisanOptionsParser;
@@ -8,7 +10,6 @@ use Symfony\Component\Console\Input\InputArgument;
 
 class PushCategoryToGroup extends Command
 {
-
     /**
      * The console command name.
      *
@@ -59,10 +60,10 @@ class PushCategoryToGroup extends Command
 
         $categoryGroup = array_shift($arguments);
         $arguments = $arguments[0];
-        $categories = explode(',',$arguments);
+        $categories = explode(',', $arguments);
 
         $groupCategories = $this->notifynderGroup
-            ->addMultipleCategoriesToGroup($categoryGroup,$categories);
+            ->addMultipleCategoriesToGroup($categoryGroup, $categories);
 
         if ($groupCategories) {
             foreach ($groupCategories->categories as $category) {
@@ -96,9 +97,9 @@ class PushCategoryToGroup extends Command
      */
     protected function getArguments()
     {
-        return array(
-            array('name', InputArgument::REQUIRED, 'user.post.add'),
-        );
+        return [
+            ['name', InputArgument::REQUIRED, 'user.post.add'],
+        ];
     }
 
     /**
@@ -108,8 +109,8 @@ class PushCategoryToGroup extends Command
      */
     protected function getOptions()
     {
-        return array(
-            array('categories', null, InputOption::VALUE_OPTIONAL, 'notifynder.name', []),
-        );
+        return [
+            ['categories', null, InputOption::VALUE_OPTIONAL, 'notifynder.name', []],
+        ];
     }
 }

@@ -1,24 +1,23 @@
-<?php namespace Fenos\Notifynder\Handler;
+<?php
+
+namespace Fenos\Notifynder\Handler;
 
 use Fenos\Notifynder\Contracts\NotifyListener;
 use Fenos\Notifynder\Notifynder;
 
 /**
- * Class NotifynderHandler
- *
- * @package Fenos\Notifynder\Handler
+ * Class NotifynderHandler.
  */
 class NotifynderHandler
 {
-
     /**
-     * Handle the event
+     * Handle the event.
      *
      * @param NotifyListener  $eventListener
      * @param null            $notifynder
      * @return mixed
      */
-    public function handle(NotifyListener $eventListener,$notifynder = null)
+    public function handle(NotifyListener $eventListener, $notifynder = null)
     {
         $event = $eventListener->getNotifynderEvent();
 
@@ -47,13 +46,11 @@ class NotifynderHandler
                 return $notifynder->send($builtNotifications);
             }
         }
-
-        return null;
     }
 
     /**
      * Check if the listener exists on the class
-     * adding when as convention
+     * adding when as convention.
      *
      * ['postAdd'] whenPostAdd]
      *
@@ -67,7 +64,7 @@ class NotifynderHandler
 
     /**
      * Get Event Name from the key
-     * it use a convention
+     * it use a convention.
      *
      * given user.post.add -> postAdd
      * given user@postAdd -> postAdd
@@ -96,7 +93,7 @@ class NotifynderHandler
     }
 
     /**
-     * Get Notifynder Instance
+     * Get Notifynder Instance.
      *
      * @return Notifynder
      */
@@ -109,7 +106,7 @@ class NotifynderHandler
 
     /**
      * Check if the fired method has some notifications
-     * to send
+     * to send.
      *
      * @param $notificationsResult
      * @return bool

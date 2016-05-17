@@ -1,28 +1,27 @@
-<?php namespace Fenos\Notifynder\Models;
+<?php
+
+namespace Fenos\Notifynder\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Class NotificationCategory
+ * Class NotificationCategory.
  *
  * @property int id
  * @property string name
  * @property string text
- *
- * @package Fenos\Notifynder\Models
  */
 class NotificationCategory extends Model
 {
-
     /**
      * @var string
      */
-    protected $table = "notification_categories";
+    protected $table = 'notification_categories';
 
     /**
      * @var array
      */
-    protected $fillable = ['name','text'];
+    protected $fillable = ['name', 'text'];
 
     /**
      * @var bool
@@ -30,7 +29,7 @@ class NotificationCategory extends Model
     public $timestamps = false;
 
     /**
-     * Relation with the notifications
+     * Relation with the notifications.
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
@@ -40,7 +39,7 @@ class NotificationCategory extends Model
     }
 
     /**
-     * Groups Categories
+     * Groups Categories.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */

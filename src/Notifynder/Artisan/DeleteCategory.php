@@ -1,4 +1,6 @@
-<?php namespace Fenos\Notifynder\Artisan;
+<?php
+
+namespace Fenos\Notifynder\Artisan;
 
 use Fenos\Notifynder\Contracts\NotifynderCategory;
 use Illuminate\Console\Command;
@@ -6,7 +8,6 @@ use Symfony\Component\Console\Input\InputArgument;
 
 class DeleteCategory extends Command
 {
-
     /**
      * The console command name.
      *
@@ -72,8 +73,8 @@ class DeleteCategory extends Command
      */
     protected function getArguments()
     {
-        return array(
-            array('identifier', InputArgument::REQUIRED, '1 - nameCategory'),
-        );
+        return [
+            ['identifier', InputArgument::REQUIRED, '1 - nameCategory'],
+        ];
     }
 }

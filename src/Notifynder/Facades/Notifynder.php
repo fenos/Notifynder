@@ -1,10 +1,11 @@
-<?php namespace Fenos\Notifynder\Facades;
+<?php
+
+namespace Fenos\Notifynder\Facades;
 
 use Illuminate\Support\Facades\Facade;
 
 class Notifynder extends Facade
 {
-
     /**
      * Get the registered name of the component.
      *

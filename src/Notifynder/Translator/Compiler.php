@@ -1,19 +1,18 @@
-<?php namespace Fenos\Notifynder\Translator;
+<?php
+
+namespace Fenos\Notifynder\Translator;
 
 use Illuminate\Contracts\Filesystem\Filesystem;
 
 /**
- * Class Compiler
+ * Class Compiler.
  *
  * Cache compiler for translations
  * I got part of the code from the view compiler
  * of laravel :)
- *
- * @package Fenos\Notifynder\Translator
  */
 class Compiler
 {
-
     /**
      * The Filesystem instance.
      *
@@ -32,7 +31,7 @@ class Compiler
     }
 
     /**
-     * Get cached file
+     * Get cached file.
      *
      * @return string
      */
@@ -74,7 +73,7 @@ class Compiler
     }
 
     /**
-     * Get cache path
+     * Get cache path.
      *
      * @return string
      */
@@ -84,7 +83,7 @@ class Compiler
     }
 
     /**
-     * Cache the file in json format
+     * Cache the file in json format.
      *
      * @param  array    $contents
      * @return bool|int

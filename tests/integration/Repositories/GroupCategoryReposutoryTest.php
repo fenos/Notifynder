@@ -1,11 +1,12 @@
 <?php
+
 use Fenos\Notifynder\Groups\GroupCategoryRepository;
 
 /**
- * Class GroupCategoryReposutoryTest
+ * Class GroupCategoryReposutoryTest.
  */
-class GroupCategoryReposutoryTest extends TestCaseDB {
-
+class GroupCategoryReposutoryTest extends TestCaseDB
+{
     use CreateModels;
 
     /**
@@ -14,7 +15,7 @@ class GroupCategoryReposutoryTest extends TestCaseDB {
     protected $categoryGroup;
 
     /**
-     * Set Up Test
+     * Set Up Test.
      */
     public function setUp()
     {
@@ -24,7 +25,7 @@ class GroupCategoryReposutoryTest extends TestCaseDB {
     }
 
     /** @test */
-    function it_add_a_category_to_a_group_id()
+    public function it_add_a_category_to_a_group_id()
     {
         $category = $this->createCategory();
         $group = $this->createGroup();
@@ -34,11 +35,11 @@ class GroupCategoryReposutoryTest extends TestCaseDB {
             $category->id
         );
 
-        $this->assertEquals($group->categories[0]->name,$category->name);
+        $this->assertEquals($group->categories[0]->name, $category->name);
     }
 
     /** @test */
-    function it_add_a_category_to_a_group_by_name()
+    public function it_add_a_category_to_a_group_by_name()
     {
         $category = $this->createCategory();
         $group = $this->createGroup();
@@ -48,11 +49,11 @@ class GroupCategoryReposutoryTest extends TestCaseDB {
             $category->name
         );
 
-        $this->assertEquals($group->categories[0]->name,$category->name);
+        $this->assertEquals($group->categories[0]->name, $category->name);
     }
 
     /** @test */
-    function it_add_multiple_categories_to_a_group_by_name()
+    public function it_add_multiple_categories_to_a_group_by_name()
     {
         $category1 = $this->createCategory();
         $category2 = $this->createCategory();
@@ -63,6 +64,6 @@ class GroupCategoryReposutoryTest extends TestCaseDB {
             [$category1->name, $category2->name]
         );
 
-        $this->assertCount(2,$group->categories);
+        $this->assertCount(2, $group->categories);
     }
 }

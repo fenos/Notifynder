@@ -1,4 +1,6 @@
-<?php namespace Fenos\Notifynder\Notifications;
+<?php
+
+namespace Fenos\Notifynder\Notifications;
 
 use Closure;
 use Fenos\Notifynder\Contracts\NotificationDB;
@@ -8,16 +10,13 @@ use Fenos\Notifynder\Models\Notification as NotificationModel;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 /**
- * Class NotifynderNotification
+ * Class NotifynderNotification.
  *
  * The notification manager is responsable to manage the CRUD operations
  * of the notifications.
- *
- * @package Fenos\Notifynder\Notifications
  */
 class NotificationManager implements NotifynderNotification
 {
-
     /**
      * @var NotificationDB
      */
@@ -37,7 +36,7 @@ class NotificationManager implements NotifynderNotification
     }
 
     /**
-     * Set the entity for polymorphic
+     * Set the entity for polymorphic.
      *
      * @param $name
      * @return $this
@@ -50,7 +49,7 @@ class NotificationManager implements NotifynderNotification
     }
 
     /**
-     * Find a notification by ID
+     * Find a notification by ID.
      *
      * @param $notification_id
      * @return NotificationModel|\Illuminate\Database\Eloquent\Model|static
@@ -61,7 +60,7 @@ class NotificationManager implements NotifynderNotification
         $notification = $this->notifynderRepo->find($notification_id);
 
         if (is_null($notification)) {
-            $error = "Notification Not found";
+            $error = 'Notification Not found';
             throw new NotificationNotFoundException($error);
         }
 
@@ -70,7 +69,7 @@ class NotificationManager implements NotifynderNotification
 
     /**
      * Make read one notification giving
-     * the ID of it
+     * the ID of it.
      *
      * @param $notification_id
      * @return bool|\Fenos\Notifynder\Models\Notification
@@ -84,21 +83,21 @@ class NotificationManager implements NotifynderNotification
 
     /**
      * Read notifications in base the number
-     * Given
+     * Given.
      *
      * @param         $to_id
      * @param         $numbers
      * @param  string $order
      * @return mixed
      */
-    public function readLimit($to_id, $numbers, $order = "ASC")
+    public function readLimit($to_id, $numbers, $order = 'ASC')
     {
         return $this->notifynderRepo->readLimit($to_id, $this->entity, $numbers, $order);
     }
 
     /**
      * Read all notification of the
-     * given entity
+     * given entity.
      *
      * @param $to_id
      * @return Number
@@ -110,10 +109,10 @@ class NotificationManager implements NotifynderNotification
 
     /**
      * Delete a notification giving the id
-     * of it
+     * of it.
      *
      * @param $notification_id
-     * @return Bool
+     * @return bool
      */
     public function delete($notification_id)
     {
@@ -123,7 +122,7 @@ class NotificationManager implements NotifynderNotification
     /**
      * Delete numbers of notifications equals
      * to the number passing as 2 parameter of
-     * the current user
+     * the current user.
      *
      * @param $entity_id
      * @param $number
@@ -137,10 +136,10 @@ class NotificationManager implements NotifynderNotification
 
     /**
      * Delete all notification of a given
-     * Entity
+     * Entity.
      *
      * @param $entity_id
-     * @return Bool
+     * @return bool
      */
     public function deleteAll($entity_id)
     {
@@ -149,11 +148,11 @@ class NotificationManager implements NotifynderNotification
 
     /**
      * Delete All notifications from a
-     * defined category
+     * defined category.
      *
      * @param $category_name string
      * @param $expired Bool
-     * @return Bool
+     * @return bool
      */
     public function deleteByCategory($category_name, $expired = false)
     {
@@ -162,7 +161,7 @@ class NotificationManager implements NotifynderNotification
 
     /**
      * Get notifications not read
-     * of the entity given
+     * of the entity given.
      *
      * @param           $to_id
      * @param           $limit
@@ -179,18 +178,17 @@ class NotificationManager implements NotifynderNotification
             $filterScope
         );
 
-        if(is_int(intval($paginate)) && $paginate)
-        {
-            return (new LengthAwarePaginator($notifications->parse(), $notifications->total(), $limit, $paginate, [
-                'path' => LengthAwarePaginator::resolveCurrentPath()
-            ]));
+        if (is_int(intval($paginate)) && $paginate) {
+            return new LengthAwarePaginator($notifications->parse(), $notifications->total(), $limit, $paginate, [
+                'path' => LengthAwarePaginator::resolveCurrentPath(),
+            ]);
         }
 
         return $notifications->parse();
     }
 
     /**
-     * Get All notifications
+     * Get All notifications.
      *
      * @param           $to_id
      * @param           $limit
@@ -207,11 +205,10 @@ class NotificationManager implements NotifynderNotification
             $filterScope
         );
 
-        if(is_int(intval($paginate)) && $paginate)
-        {
-            return (new LengthAwarePaginator($notifications->parse(), $notifications->total(), $limit, $paginate, [
-                'path' => LengthAwarePaginator::resolveCurrentPath()
-            ]));
+        if (is_int(intval($paginate)) && $paginate) {
+            return new LengthAwarePaginator($notifications->parse(), $notifications->total(), $limit, $paginate, [
+                'path' => LengthAwarePaginator::resolveCurrentPath(),
+            ]);
         }
 
         return $notifications->parse();
@@ -219,7 +216,7 @@ class NotificationManager implements NotifynderNotification
 
     /**
      * Get last notification of the
-     * given entity
+     * given entity.
      *
      * @param         $to_id
      * @param Closure $filterScope
@@ -227,25 +224,25 @@ class NotificationManager implements NotifynderNotification
      */
     public function getLastNotification($to_id, Closure $filterScope = null)
     {
-        return $this->notifynderRepo->getLastNotification($to_id,$this->entity,$filterScope);
+        return $this->notifynderRepo->getLastNotification($to_id, $this->entity, $filterScope);
     }
 
     /**
      * Get last notification of the
-     * given entity of the specific category
+     * given entity of the specific category.
      *
      * @param         $category
      * @param         $to_id
      * @param Closure $filterScope
      * @return mixed
      */
-    public function getLastNotificationByCategory($category,$to_id, Closure $filterScope = null)
+    public function getLastNotificationByCategory($category, $to_id, Closure $filterScope = null)
     {
-        return $this->notifynderRepo->getLastNotificationByCategory($category,$to_id,$this->entity,$filterScope);
+        return $this->notifynderRepo->getLastNotificationByCategory($category, $to_id, $this->entity, $filterScope);
     }
 
     /**
-     * Send single notification
+     * Send single notification.
      *
      * @param  array  $info
      * @return static
@@ -256,7 +253,7 @@ class NotificationManager implements NotifynderNotification
     }
 
     /**
-     * Send multiple notifications
+     * Send multiple notifications.
      *
      * @param  array $info
      * @return mixed
@@ -268,7 +265,7 @@ class NotificationManager implements NotifynderNotification
 
     /**
      * Get number of notification
-     * not read
+     * not read.
      *
      * @param         $to_id
      * @param Closure $filterScope

@@ -1,4 +1,6 @@
-<?php namespace Fenos\Notifynder\Senders;
+<?php
+
+namespace Fenos\Notifynder\Senders;
 
 use BadMethodCallException;
 use Closure;
@@ -10,13 +12,10 @@ use Illuminate\Contracts\Container\Container;
 use LogicException;
 
 /**
- * Class SenderManager
- *
- * @package Fenos\Notifynder\Senders
+ * Class SenderManager.
  */
 class SenderManager implements NotifynderSender
 {
-
     /**
      * @var SenderFactory
      */
@@ -52,7 +51,7 @@ class SenderManager implements NotifynderSender
     }
 
     /**
-     * Send any notifications
+     * Send any notifications.
      *
      * @param  array $info
      * @param  null  $category
@@ -64,7 +63,7 @@ class SenderManager implements NotifynderSender
     }
 
     /**
-     * Send now whatever data passed
+     * Send now whatever data passed.
      *
      * @param  array $info
      * @param        $category
@@ -79,7 +78,7 @@ class SenderManager implements NotifynderSender
 
     /**
      * Send one method to get fully working
-     * older version
+     * older version.
      *
      * @param $info
      * @param $category
@@ -93,7 +92,7 @@ class SenderManager implements NotifynderSender
 
     /**
      * Send Multiple method to get fully working
-     * older version
+     * older version.
      *
      * @param $info
      * @return SendMultiple
@@ -106,7 +105,7 @@ class SenderManager implements NotifynderSender
 
     /**
      * Send a group of notifications
-     * at once
+     * at once.
      *
      * @param        $group_name
      * @param  array $info
@@ -122,7 +121,7 @@ class SenderManager implements NotifynderSender
 
     /**
      * This method allow to Extend
-     * notifynder with custom sender
+     * notifynder with custom sender.
      *
      * @param           $name
      * @param  callable $extendSender
@@ -136,13 +135,13 @@ class SenderManager implements NotifynderSender
     }
 
     /**
-     * Call a custom method
+     * Call a custom method.
      *
      * @param $customMethod
      * @param $notification
      * @return mixed
      */
-    public function customSender($customMethod,$notification)
+    public function customSender($customMethod, $notification)
     {
         if (array_key_exists($customMethod, $this->senders)) {
 
@@ -155,12 +154,11 @@ class SenderManager implements NotifynderSender
 
                 // I invoke the closue expecting an Instance of a custorm
                 // Sender
-                $invoker = call_user_func_array($extendedSender, [$notification,$this->container]);
+                $invoker = call_user_func_array($extendedSender, [$notification, $this->container]);
 
                 // If the invoker is a custom sender
                 // then I invoke it passing the sender class
                 if ($invoker instanceof Sender) {
-
                     return $invoker->send($this);
                 }
 
@@ -168,12 +166,11 @@ class SenderManager implements NotifynderSender
                 // way of storing notifications then
                 // i'll pass the storenotification contract
                 if ($invoker instanceof DefaultSender) {
-
                     return $invoker->send($this->storeNotification);
                 }
             }
 
-            $error = "The extention must be an instance of Closure";
+            $error = 'The extention must be an instance of Closure';
             throw new LogicException($error);
         }
 
@@ -183,20 +180,20 @@ class SenderManager implements NotifynderSender
 
     /**
      * When calling a not existing method
-     * try to resolve with an exteded
+     * try to resolve with an exteded.
      *
      * @param $name
      * @param $arguments
      * @return mixed
      */
-    function __call($name, $arguments)
+    public function __call($name, $arguments)
     {
         if (isset($arguments[0])) {
-            return $this->customSender($name,$arguments[0]);
+            return $this->customSender($name, $arguments[0]);
         }
 
-        $error = "No argument passed to the custom sender,
-                 please provide notifications array";
+        $error = 'No argument passed to the custom sender,
+                 please provide notifications array';
         throw new BadMethodCallException($error);
     }
 }

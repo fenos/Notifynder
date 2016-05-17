@@ -1,14 +1,15 @@
 <?php
+
 use Fenos\Notifynder\Models\Notification;
 use Fenos\Notifynder\NotifynderManager;
 use Fenos\Tests\Models\User;
 use Laracasts\TestDummy\Factory;
 
 /**
- * Class NotifynderTest
+ * Class NotifynderTest.
  */
-class NotifynderTest extends TestCaseDB {
-
+class NotifynderTest extends TestCaseDB
+{
     use CreateModels;
 
     /**
@@ -17,7 +18,7 @@ class NotifynderTest extends TestCaseDB {
     protected $notifynder;
 
     /**
-     * Set Up Test
+     * Set Up Test.
      */
     public function setUp()
     {
@@ -26,12 +27,12 @@ class NotifynderTest extends TestCaseDB {
     }
 
     /** @test */
-    function it_call_an_extended_method()
+    public function it_call_an_extended_method()
     {
         $this->createCategory(['name' => 'customs']);
 
-        $this->notifynder->extend('sendCustom', function($notification,$app) {
-            return new CustomDefaultSender($notification,$app->make('notifynder'));
+        $this->notifynder->extend('sendCustom', function ($notification, $app) {
+            return new CustomDefaultSender($notification, $app->make('notifynder'));
         });
 
         $notifications = $this->notifynder
@@ -41,11 +42,11 @@ class NotifynderTest extends TestCaseDB {
                                 ->to(1)
                                 ->sendCustom();
 
-        $this->assertEquals('w',$notifications->url);
+        $this->assertEquals('w', $notifications->url);
     }
 
     /** @test */
-    function it_send_a_notification_with_the_new_way()
+    public function it_send_a_notification_with_the_new_way()
     {
         $this->createCategory(['name' => 'custom']);
 
@@ -56,12 +57,11 @@ class NotifynderTest extends TestCaseDB {
             ->to(1);
 
         $notifications = $this->notifynder->send($notifications);
-        $this->assertEquals('w',$notifications->url);
+        $this->assertEquals('w', $notifications->url);
     }
 
-
     /** @test */
-    function it_send_using_notifynder_as_an_array()
+    public function it_send_using_notifynder_as_an_array()
     {
         $this->createCategory(['name' => 'custom']);
 
@@ -71,11 +71,11 @@ class NotifynderTest extends TestCaseDB {
         $this->notifynder['to'] = 1;
         $notification = $this->notifynder->send();
 
-        $this->assertEquals('w',$notification->url);
+        $this->assertEquals('w', $notification->url);
     }
 
     /** @test */
-    function it_send_using_notifynder_as_an_object()
+    public function it_send_using_notifynder_as_an_object()
     {
         $this->createCategory(['name' => 'custom']);
 
@@ -86,13 +86,13 @@ class NotifynderTest extends TestCaseDB {
         $notifynder->to = 1;
         $notification = $notifynder->send();
 
-        $this->assertEquals('w',$notification->url);
+        $this->assertEquals('w', $notification->url);
     }
 
     /**
      * @test
      */
-    function it_store_extra_field_as_json()
+    public function it_store_extra_field_as_json()
     {
         $this->createCategory(['name' => 'custom']);
 
@@ -106,24 +106,24 @@ class NotifynderTest extends TestCaseDB {
             ->to(1);
 
         $notifications = $this->notifynder->send($notifications);
-        $this->assertEquals($notifications->extra->toArray(),$extra);
+        $this->assertEquals($notifications->extra->toArray(), $extra);
     }
 
     /**
-     * It send multiple Notifications
+     * It send multiple Notifications.
      *
      * @method send
      * @group failing
      * @test
      */
-    function it_send_multiple_notifications()
+    public function it_send_multiple_notifications()
     {
         Factory::times(10)->create(User::class);
         $this->createCategory(['name' => 'me']);
 
         $allUsers = User::all();
 
-        $this->notifynder->loop($allUsers, function($builder,$user) {
+        $this->notifynder->loop($allUsers, function ($builder, $user) {
 
             $builder->category('me')
                 ->url('you')
@@ -135,6 +135,6 @@ class NotifynderTest extends TestCaseDB {
         // should send 10 notifications
         $notifications = Notification::all();
 
-        $this->assertCount(10,$notifications);
+        $this->assertCount(10, $notifications);
     }
 }

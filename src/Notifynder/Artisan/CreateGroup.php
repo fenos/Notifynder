@@ -1,4 +1,6 @@
-<?php namespace Fenos\Notifynder\Artisan;
+<?php
+
+namespace Fenos\Notifynder\Artisan;
 
 use Fenos\Notifynder\Contracts\NotifynderGroup;
 use Illuminate\Console\Command;
@@ -6,7 +8,6 @@ use Symfony\Component\Console\Input\InputArgument;
 
 class CreateGroup extends Command
 {
-
     /**
      * The console command name.
      *
@@ -61,8 +62,8 @@ class CreateGroup extends Command
      */
     protected function getArguments()
     {
-        return array(
-            array('name', InputArgument::REQUIRED, 'user.post.add'),
-        );
+        return [
+            ['name', InputArgument::REQUIRED, 'user.post.add'],
+        ];
     }
 }

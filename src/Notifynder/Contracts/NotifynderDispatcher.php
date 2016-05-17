@@ -1,18 +1,17 @@
-<?php namespace Fenos\Notifynder\Contracts;
+<?php
+
+namespace Fenos\Notifynder\Contracts;
 
 use Fenos\Notifynder\Notifynder;
 
 /**
- * Interface NotifynderDispatcher
- *
- * @package Fenos\Notifynder\Contracts
+ * Interface NotifynderDispatcher.
  */
 interface NotifynderDispatcher
 {
-
     /**
      * It fire the event associated to the passed key,
-     * trigging the listener method bound with
+     * trigging the listener method bound with.
      *
      * @param  Notifynder $notifynder
      * @param  string            $eventName
@@ -23,17 +22,17 @@ interface NotifynderDispatcher
     public function fire(Notifynder $notifynder, $eventName, $category_name = null, $values = []);
 
     /**
-     * Deletegate events to categories
+     * Deletegate events to categories.
      *
      * @param  Notifynder $notifynder
      * @param  array             $data
      * @param  array             $events
      * @return mixed
      */
-    public function delegate(Notifynder $notifynder, $data = [], array $events);
+    public function delegate(Notifynder $notifynder, $data, array $events);
 
     /**
-     * Boot The listeners
+     * Boot The listeners.
      *
      * @param array $listeners
      */
@@ -42,7 +41,7 @@ interface NotifynderDispatcher
     /**
      * Tell the disptacher to send
      * the notification with a custom
-     * (extended method)
+     * (extended method).
      *
      * @param $customMethod
      * @return $this
@@ -51,7 +50,7 @@ interface NotifynderDispatcher
 
     /**
      * Check if the fired method has some notifications
-     * to send
+     * to send.
      *
      * @param $notificationsResult
      * @return bool

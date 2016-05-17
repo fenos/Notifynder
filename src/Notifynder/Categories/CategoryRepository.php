@@ -1,20 +1,19 @@
-<?php namespace Fenos\Notifynder\Categories;
+<?php
+
+namespace Fenos\Notifynder\Categories;
 
 use Fenos\Notifynder\Contracts\CategoryDB;
 use Fenos\Notifynder\Models\NotificationCategory;
 use Illuminate\Database\Eloquent\Builder;
 
 /**
- * Class CategoryRepository
+ * Class CategoryRepository.
  *
  * Repository reponsable to approach database
  * queries of the categories
- *
- * @package Fenos\Notifynder\Categories
  */
 class CategoryRepository implements CategoryDB
 {
-
     /**
      * @var NotificationCategory | Builder
      */
@@ -29,7 +28,7 @@ class CategoryRepository implements CategoryDB
     }
 
     /**
-     * Find By Id
+     * Find By Id.
      *
      * @param $id
      * @return mixed
@@ -40,7 +39,7 @@ class CategoryRepository implements CategoryDB
     }
 
     /**
-     * Find by name
+     * Find by name.
      *
      * @param $name
      * @return mixed
@@ -53,7 +52,7 @@ class CategoryRepository implements CategoryDB
 
     /**
      * Find by names returnig
-     * lists of ids
+     * lists of ids.
      *
      * @param $name
      * @return mixed
@@ -65,7 +64,7 @@ class CategoryRepository implements CategoryDB
     }
 
     /**
-     * Add a category to the DB
+     * Add a category to the DB.
      *
      * @param  array  $name
      * @param         $text
@@ -77,7 +76,7 @@ class CategoryRepository implements CategoryDB
     }
 
     /**
-     * Delete category by ID
+     * Delete category by ID.
      *
      * @param $id
      * @return mixed
@@ -89,7 +88,7 @@ class CategoryRepository implements CategoryDB
     }
 
     /**
-     * Delete category by name
+     * Delete category by name.
      *
      * @param $name
      * @return mixed
@@ -101,7 +100,7 @@ class CategoryRepository implements CategoryDB
     }
 
     /**
-     * Update a category by id
+     * Update a category by id.
      *
      * @param  array $data
      * @param        $id
