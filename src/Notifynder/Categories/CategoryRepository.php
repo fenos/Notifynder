@@ -103,12 +103,12 @@ class CategoryRepository implements CategoryDB
      * Update a category by id.
      *
      * @param  array $data
-     * @param        $id
+     * @param        $categoryId
      * @return mixed
      */
-    public function update(array $data, $id)
+    public function update(array $data, $categoryId)
     {
-        return $this->categoryModel->where('id', $id)
+        return $this->categoryModel->where('id', $categoryId)
                     ->update($data);
     }
 }
