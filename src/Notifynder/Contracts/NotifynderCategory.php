@@ -69,8 +69,8 @@ interface NotifynderCategory
      * Update a category.
      *
      * @param  array $data
-     * @param        $id
+     * @param        $categoryId
      * @return mixed
      */
-    public function update(array $data, $id);
+    public function update(array $data, $categoryId);
 }

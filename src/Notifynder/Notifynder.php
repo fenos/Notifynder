@@ -48,10 +48,10 @@ interface Notifynder
      * Update a category.
      *
      * @param  array $updates
-     * @param        $id
+     * @param        $categoryId
      * @return mixed
      */
-    public function updateCategory(array $updates, $id);
+    public function updateCategory(array $updates, $categoryId);
 
     /**
      * Send notifications
@@ -108,21 +108,21 @@ interface Notifynder
      * Read notification in base the number
      * Given.
      *
-     * @param         $to_id
+     * @param         $toId
      * @param         $numbers
      * @param  string $order
      * @return mixed
      */
-    public function readLimit($to_id, $numbers, $order = 'ASC');
+    public function readLimit($toId, $numbers, $order = 'ASC');
 
     /**
      * Read all notifications of the given
      * entity.
      *
-     * @param $to_id
+     * @param $toId
      * @return int
      */
-    public function readAll($to_id);
+    public function readAll($toId);
 
     /**
      * Delete a single notification.
@@ -136,21 +136,21 @@ interface Notifynder
      * Delete number of notifications
      * secified of the given entity.
      *
-     * @param         $to_id
+     * @param         $toId
      * @param         $number
      * @param  string $order
      * @return mixed
      */
-    public function deleteLimit($to_id, $number, $order = 'ASC');
+    public function deleteLimit($toId, $number, $order = 'ASC');
 
     /**
      * Delete all notifications
      * of the the given entity.
      *
-     * @param $to_id
+     * @param $toId
      * @return bool
      */
-    public function deleteAll($to_id);
+    public function deleteAll($toId);
 
     /**
      * Delete All notifications from a
@@ -166,37 +166,37 @@ interface Notifynder
      * Get Notifications not read
      * of the given entity.
      *
-     * @param         $to_id
+     * @param         $toId
      * @param  null   $limit
      * @param  bool   $paginate
      * @param  string $order
      * @param Closure $filterScope
      * @return mixed
      */
-    public function getNotRead($to_id, $limit = null, $paginate = false, $order = 'desc', Closure $filterScope = null);
+    public function getNotRead($toId, $limit = null, $paginate = false, $order = 'desc', Closure $filterScope = null);
 
     /**
      * Get all notifications of the
      * given entity.
      *
-     * @param         $to_id
+     * @param         $toId
      * @param  null   $limit
      * @param  bool   $paginate
      * @param  string $order
      * @param Closure $filterScope
      * @return mixed
      */
-    public function getAll($to_id, $limit = null, $paginate = false, $order = 'desc', Closure $filterScope = null);
+    public function getAll($toId, $limit = null, $paginate = false, $order = 'desc', Closure $filterScope = null);
 
     /**
      * Get number of notification not read
      * of the given entity.
      *
-     * @param         $to_id
+     * @param         $toId
      * @param Closure $filterScope
      * @return mixed
      */
-    public function countNotRead($to_id, Closure $filterScope = null);
+    public function countNotRead($toId, Closure $filterScope = null);
 
     /**
      * Find Notification by ID.
@@ -211,12 +211,12 @@ interface Notifynder
      * entity, second parameter can filter by
      * category.
      *
-     * @param         $to_id
+     * @param         $toId
      * @param null    $category
      * @param Closure $filterScope
      * @return mixed
      */
-    public function getLastNotification($to_id, $category = null, Closure $filterScope = null);
+    public function getLastNotification($toId, $category = null, Closure $filterScope = null);
 
     /**
      * Add category to a group
@@ -252,11 +252,11 @@ interface Notifynder
      * of logic.
      *
      * @param  string     $key
-     * @param  string     $category_name
+     * @param  string     $categoryName
      * @param  mixed|null $values
      * @return mixed|null
      */
-    public function fire($key, $category_name, $values = []);
+    public function fire($key, $categoryName, $values = []);
 
     /**
      * Associate events to categories.
