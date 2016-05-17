@@ -26,7 +26,7 @@ Community: **[Slack](https://notifynder.slack.com)** | **[Signup](https://notify
 
 Add it on your `composer.json`
 
-    "fenos/notifynder": "3.1.*"
+    "fenos/notifynder": "^3.2"
 
 and run 
 
