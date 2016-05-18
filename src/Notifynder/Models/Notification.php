@@ -157,9 +157,10 @@ class Notification extends Model
      */
     public function getExtraAttribute($value)
     {
-        if(!empty($value)) {
+        if (! empty($value)) {
             return new ExtraParams($value);
         }
+
         return new ExtraParams([]);
     }
 
