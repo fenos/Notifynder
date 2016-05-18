@@ -3,12 +3,15 @@
 namespace Fenos\Notifynder\Notifications;
 
 use ArrayAccess;
+use JsonSerializable;
+use Illuminate\Contracts\Support\Arrayable;
+use Illuminate\Contracts\Support\Jsonable;
 use stdClass;
 
 /**
  * Class Jsonable.
  */
-class ExtraParams implements ArrayAccess
+class ExtraParams implements ArrayAccess, Arrayable, Jsonable, JsonSerializable
 {
     /**
      * @var array|stdClass|string
@@ -30,11 +33,24 @@ class ExtraParams implements ArrayAccess
     }
 
     /**
+     * Convert the model instance to JSON.
+     *
+     * @param  int  $options
      * @return string
      */
-    public function toJson()
+    public function toJson($options = 0)
     {
-        return json_encode($this->extraParams);
+        return json_encode($this->jsonSerialize(), $options);
+    }
+
+    /**
+     * Convert the object into something JSON serializable.
+     *
+     * @return array
+     */
+    public function jsonSerialize()
+    {
+        return $this->toArray();
     }
 
     /**
