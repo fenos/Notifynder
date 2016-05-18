@@ -161,4 +161,38 @@ class NotificationTest extends TestCaseDB
         $bodyParsed = 'parse this Amazing value from User#1 (John Doe)';
         $this->assertEquals($bodyParsed, $notifications[0]->text);
     }
+
+    /** @test */
+    public function it_retrieve_notification_with_extraparams_extra()
+    {
+        $extraValues = json_encode(['look' => 'Amazing']);
+        $category = $this->createCategory(['text' => 'parse this {extra.look} value']);
+
+        $notification = $this->createNotification(['extra' => $extraValues, 'category_id' => $category->id]);
+
+        $notifications = $this->notification->getNotRead($notification->to->id);
+        $extra = $notifications->first()->extra;
+
+        $this->assertCount(1, $notifications);
+        $this->assertInstanceOf(\Fenos\Notifynder\Notifications\ExtraParams::class, $extra);
+        $this->assertEquals('Amazing', $extra->look);
+    }
+
+    /** @test */
+    public function it_retrieve_notifications_toarray()
+    {
+        $extraValues = json_encode(['look' => 'Amazing']);
+        $category = $this->createCategory(['text' => 'parse this {extra.look} value']);
+
+        $notification = $this->createNotification(['extra' => $extraValues, 'category_id' => $category->id]);
+
+        $notifications = $this->notification->getNotRead($notification->to->id)->toArray();
+
+        $this->assertInternalType('array', $notifications);
+        $this->assertCount(1, $notifications);
+        $this->assertInternalType('array', $notifications[0]);
+        $this->assertArrayHasKey('extra', $notifications[0]);
+        $this->assertInternalType('array', $notifications[0]['extra']);
+        $this->assertEquals('Amazing', $notifications[0]['extra']['look']);
+    }
 }

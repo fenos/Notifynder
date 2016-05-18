@@ -153,17 +153,14 @@ class Notification extends Model
 
     /**
      * @param $value
-     * @return mixed|string
+     * @return \Fenos\Notifynder\Notifications\ExtraParams
      */
     public function getExtraAttribute($value)
     {
-        if (is_array($value)) {
+        if(!empty($value)) {
             return new ExtraParams($value);
-        } elseif (is_string($value)) {
-            return new ExtraParams(json_decode($value));
-        } else {
-            return new ExtraParams([]);
         }
+        return new ExtraParams([]);
     }
 
     /**

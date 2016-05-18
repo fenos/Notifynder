@@ -274,6 +274,8 @@ class NotificationRepositoryDBTest extends TestCaseDB
      */
     protected function buildNotification(array $data = [])
     {
-        return Factory::build(Notification::class, $data)->toArray();
+        $notification = Factory::build(Notification::class, $data)->toArray();
+        $notification['extra'] = json_encode($notification['extra']);
+        return $notification;
     }
 }
