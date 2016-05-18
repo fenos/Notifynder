@@ -276,6 +276,7 @@ class NotificationRepositoryDBTest extends TestCaseDB
     {
         $notification = Factory::build(Notification::class, $data)->toArray();
         $notification['extra'] = json_encode($notification['extra']);
+
         return $notification;
     }
 }
