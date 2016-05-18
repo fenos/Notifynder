@@ -298,6 +298,9 @@ class NotifynderServiceProvider extends ServiceProvider
         if (! class_exists('AlterCategoryNameToUnique')) {
             $this->publishMigration('2015_06_07_211555_alter_category_name_to_unique');
         }
+        if (! class_exists('MakeUrlNullable')) {
+            $this->publishMigration('2016_04_19_200827_make_url_nullable');
+        }
     }
 
     /**
