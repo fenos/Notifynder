@@ -33,8 +33,16 @@ class Notification extends Model
      * @var array
      */
     protected $fillable = [
-        'to_id', 'to_type', 'from_id', 'from_type',
-        'category_id', 'read', 'url', 'extra', 'expire_time',
+        'to_id',
+        'to_type',
+        'from_id',
+        'from_type',
+        'category_id',
+        'read',
+        'url',
+        'extra',
+        'expire_time',
+        'stack_id',
     ];
 
     /**

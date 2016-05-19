@@ -120,9 +120,7 @@ class NotificationTest extends TestCaseDB
 
         $model = app(\Fenos\Notifynder\Models\Notification::class);
         $fillable = [
-            'to_id', 'to_type', 'from_id', 'from_type',
-            'category_id', 'read', 'url', 'extra', 'expire_time',
-            'icon_type',
+            'to_id', 'to_type', 'from_id', 'from_type', 'category_id', 'read', 'url', 'extra', 'expire_time', 'stack_id', 'icon_type',
         ];
 
         $this->assertEquals($fillable, $model->getFillable());

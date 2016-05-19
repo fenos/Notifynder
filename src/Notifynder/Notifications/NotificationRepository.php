@@ -63,14 +63,23 @@ class NotificationRepository implements NotificationDB
      * Save multiple notifications sent
      * at once.
      *
-     * @param  array $info
+     * @param  array $notifications
      * @return mixed
      */
-    public function storeMultiple(array $info)
+    public function storeMultiple(array $notifications)
     {
-        return $this->db->table(
+        $this->db->beginTransaction();
+        $stackId = $this->db->table(
             $this->notification->getTable()
-        )->insert($info);
+        )->max('stack_id') + 1;
+        foreach($notifications as $key => $notification) {
+            $notifications[$key]['stack_id'] = $stackId;
+        }
+        $insert = $this->db->table(
+            $this->notification->getTable()
+        )->insert($notifications);
+        $this->db->commit();
+        return $insert;
     }
 
     /**
