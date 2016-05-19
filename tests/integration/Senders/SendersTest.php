@@ -59,7 +59,7 @@ class SendersTest extends TestCaseDB
 
         // Send Single
         $this->senders->sendNow($singleNotification);
-        
+
         $notifications = Notification::all();
         $stackIds = $notifications->pluck('stack_id')->unique()->toArray();
 
