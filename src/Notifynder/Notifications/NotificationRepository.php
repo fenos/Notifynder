@@ -72,13 +72,14 @@ class NotificationRepository implements NotificationDB
         $stackId = $this->db->table(
             $this->notification->getTable()
         )->max('stack_id') + 1;
-        foreach($notifications as $key => $notification) {
+        foreach ($notifications as $key => $notification) {
             $notifications[$key]['stack_id'] = $stackId;
         }
         $insert = $this->db->table(
             $this->notification->getTable()
         )->insert($notifications);
         $this->db->commit();
+
         return $insert;
     }
 
