@@ -8,7 +8,8 @@ Notifynder 3.2 - Laravel 5
 
 [![Travis branch](https://img.shields.io/travis/fenos/Notifynder/master.svg?style=flat-square)](https://travis-ci.org/fenos/Notifynder/branches)
 [![StyleCI](https://styleci.io/repos/18425539/shield)](https://styleci.io/repos/18425539)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/fenos/Notifynder/badges/quality-score.png?b=master&style=flat-square)](https://scrutinizer-ci.com/g/fenos/Notifynder/?branch=master)
+[![Scrutinizer Build](https://img.shields.io/scrutinizer/build/g/fenos/Notifynder.svg?style=flat-square)](https://scrutinizer-ci.com/g/fenos/Notifynder/?branch=master)
+[![Scrutinizer Code Quality](https://img.shields.io/scrutinizer/g/fenos/Notifynder.svg?style=flat-square)](https://scrutinizer-ci.com/g/fenos/Notifynder/?branch=master)
 [![Code Climate](https://img.shields.io/codeclimate/github/fenos/Notifynder.svg?style=flat-square)](https://codeclimate.com/github/fenos/Notifynder)
 [![Code Climate](https://img.shields.io/codeclimate/issues/github/fenos/Notifynder.svg?style=flat-square)](https://codeclimate.com/github/fenos/Notifynder/issues)
 
