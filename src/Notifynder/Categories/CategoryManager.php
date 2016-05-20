@@ -69,13 +69,13 @@ class CategoryManager implements NotifynderCategory
     /**
      * Find a category by id.
      *
-     * @param $id
+     * @param $categoryId
      * @throws CategoryNotFoundException
      * @return mixed
      */
-    public function find($id)
+    public function find($categoryId)
     {
-        $category = $this->categoryRepo->find($id);
+        $category = $this->categoryRepo->find($categoryId);
 
         if (is_null($category)) {
             $error = 'Category Not Found';
@@ -100,12 +100,12 @@ class CategoryManager implements NotifynderCategory
     /**
      * Delete category by ID.
      *
-     * @param $id
+     * @param $categoryId
      * @return mixed
      */
-    public function delete($id)
+    public function delete($categoryId)
     {
-        return $this->categoryRepo->delete($id);
+        return $this->categoryRepo->delete($categoryId);
     }
 
     /**

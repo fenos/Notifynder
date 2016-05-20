@@ -47,7 +47,7 @@ trait BuilderRules
             return true;
         }
 
-        throw new InvalidArgumentException("The value Passed has to be an instance of Carbon\Carbon");
+        throw new InvalidArgumentException('The value Passed has to be an instance of Carbon\\Carbon');
     }
 
     /**
@@ -72,10 +72,9 @@ trait BuilderRules
      */
     public function getRequiredFields()
     {
+        $customRequiredFields = [];
         if (property_exists($this, 'config') && $this->config instanceof Repository) {
-            $customRequiredFields = $this->config->get('notifynder.additional_fields.required');
-        } else {
-            $customRequiredFields = [];
+            $customRequiredFields = $this->config->get('notifynder.additional_fields.required', []);
         }
 
         return array_unique($this->requiredFields + $customRequiredFields);

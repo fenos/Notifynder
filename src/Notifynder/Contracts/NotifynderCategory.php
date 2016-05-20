@@ -38,7 +38,7 @@ interface NotifynderCategory
      * @throws CategoryNotFoundException
      * @return mixed
      */
-    public function find($id);
+    public function find($categoryId);
 
     /**
      * Add a category to the DB.
@@ -55,7 +55,7 @@ interface NotifynderCategory
      * @param $id
      * @return mixed
      */
-    public function delete($id);
+    public function delete($categoryId);
 
     /**
      * Delete category by name.
