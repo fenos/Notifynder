@@ -80,6 +80,7 @@ class Notification extends Model
         if (config('notifynder.polymorphic') == false) {
             return $this->belongsTo(config('notifynder.model'), 'from_id');
         }
+
         return $this->morphTo();
     }
 
@@ -94,6 +95,7 @@ class Notification extends Model
         if (config('notifynder.polymorphic') == false) {
             return $this->belongsTo(config('notifynder.model'), 'to_id');
         }
+
         return $this->morphTo();
     }
 
@@ -132,6 +134,7 @@ class Notification extends Model
         if (! $type or config('notifynder.polymorphic') === false) {
             return $query->where('to_id', $toId);
         }
+
         return $query->where('to_id', $toId)
             ->where('to_type', $type);
     }

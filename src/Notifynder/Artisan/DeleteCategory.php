@@ -54,8 +54,9 @@ class DeleteCategory extends Command
             $delete = $this->notifynderCategory->deleteByName($indentifier);
         }
 
-        if (!$delete) {
+        if (! $delete) {
             $this->error('Category Not found');
+
             return false;
         }
         $this->info('Category has been deleted');

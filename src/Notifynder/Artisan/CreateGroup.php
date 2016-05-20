@@ -48,8 +48,9 @@ class CreateGroup extends Command
     {
         $nameGroup = $this->argument('name');
 
-        if (!$this->notifynderGroup->addGroup($nameGroup)) {
+        if (! $this->notifynderGroup->addGroup($nameGroup)) {
             $this->error('The name must be a string with dots as namespaces');
+
             return false;
         }
         $this->info("Group {$nameGroup} has Been created");
