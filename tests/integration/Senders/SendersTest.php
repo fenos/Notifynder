@@ -61,7 +61,7 @@ class SendersTest extends TestCaseDB
         $this->senders->sendNow($singleNotification);
 
         $notifications = Notification::all();
-        $stackIds = array_unique($notifications->lists('stack_id'));
+        $stackIds = array_unique((array) $notifications->lists('stack_id'));
 
         $this->assertCount(1, $notifications);
         $this->assertCount(1, $stackIds);
@@ -90,7 +90,7 @@ class SendersTest extends TestCaseDB
         $this->senders->sendNow($sendMultiple);
 
         $notifications = Notification::all();
-        $stackIds = array_unique($notifications->lists('stack_id'));
+        $stackIds = array_unique((array) $notifications->lists('stack_id'));
 
         $this->assertCount(2, $notifications);
         $this->assertCount(1, $stackIds);
