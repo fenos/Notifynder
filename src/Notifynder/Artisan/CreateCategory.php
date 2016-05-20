@@ -52,8 +52,9 @@ class CreateCategory extends Command
 
         $createCategory = $this->notifynderCategory->add($name, $text);
 
-        if (!$createCategory) {
+        if (! $createCategory) {
             $this->error('The category has been not created');
+
             return false;
         }
 

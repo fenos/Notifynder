@@ -47,7 +47,7 @@ trait BuilderRules
             return true;
         }
 
-        throw new InvalidArgumentException("The value Passed has to be an instance of Carbon\\Carbon");
+        throw new InvalidArgumentException('The value Passed has to be an instance of Carbon\\Carbon');
     }
 
     /**
