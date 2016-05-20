@@ -61,7 +61,7 @@ class SendersTest extends TestCaseDB
         $this->senders->sendNow($singleNotification);
 
         $stackIds = Notification::lists('stack_id');
-        if($stackIds instanceof \Illuminate\Support\Collection) {
+        if ($stackIds instanceof \Illuminate\Support\Collection) {
             $stackIds = $stackIds->toArray();
         }
         $stackIds = array_unique($stackIds);
@@ -93,7 +93,7 @@ class SendersTest extends TestCaseDB
         $this->senders->sendNow($sendMultiple);
 
         $stackIds = Notification::lists('stack_id');
-        if($stackIds instanceof \Illuminate\Support\Collection) {
+        if ($stackIds instanceof \Illuminate\Support\Collection) {
             $stackIds = $stackIds->toArray();
         }
         $stackIds = array_unique($stackIds);
