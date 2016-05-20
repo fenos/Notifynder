@@ -81,7 +81,7 @@ interface NotifynderNotification
      * Delete all notification of a given
      * Entity.
      *
-     * @param $entity_id
+     * @param $entityId
      * @return bool
      */
     public function deleteAll($entityId);
@@ -112,14 +112,14 @@ interface NotifynderNotification
     /**
      * Get All notifications.
      *
-     * @param         $to_id
+     * @param         $toId
      * @param         $limit
      * @param         $paginate
      * @param  string $orderDate
      * @param Closure $filterScope
      * @return mixed
      */
-    public function getAll($to_id, $limit, $paginate, $orderDate = 'desc', Closure $filterScope = null);
+    public function getAll($toId, $limit, $paginate, $orderDate = 'desc', Closure $filterScope = null);
 
     /**
      * Get last notification of the

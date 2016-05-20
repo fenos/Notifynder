@@ -79,9 +79,8 @@ class Notification extends Model
         // polymorphic.
         if (config('notifynder.polymorphic') == false) {
             return $this->belongsTo(config('notifynder.model'), 'from_id');
-        } else {
-            return $this->morphTo();
         }
+        return $this->morphTo();
     }
 
     /**
@@ -94,9 +93,8 @@ class Notification extends Model
         // polymorphic.
         if (config('notifynder.polymorphic') == false) {
             return $this->belongsTo(config('notifynder.model'), 'to_id');
-        } else {
-            return $this->morphTo();
         }
+        return $this->morphTo();
     }
 
     /**
@@ -125,18 +123,17 @@ class Notification extends Model
      * Where Polymorphic.
      *
      * @param $query
-     * @param $id
+     * @param $toId
      * @param $type
      * @return mixed
      */
-    public function scopeWherePolymorphic($query, $id, $type)
+    public function scopeWherePolymorphic($query, $toId, $type)
     {
         if (! $type or config('notifynder.polymorphic') === false) {
-            return $query->where('to_id', $id);
-        } else {
-            return $query->where('to_id', $id)
-                ->where('to_type', $type);
+            return $query->where('to_id', $toId);
         }
+        return $query->where('to_id', $toId)
+            ->where('to_type', $type);
     }
 
     /**

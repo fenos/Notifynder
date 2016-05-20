@@ -54,11 +54,11 @@ class DeleteCategory extends Command
             $delete = $this->notifynderCategory->deleteByName($indentifier);
         }
 
-        if ($delete) {
-            $this->info('Category has been deleted');
-        } else {
+        if (!$delete) {
             $this->error('Category Not found');
+            return false;
         }
+        $this->info('Category has been deleted');
     }
 
     public function isIntegerValue($indentifier)

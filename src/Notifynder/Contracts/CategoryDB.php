@@ -16,7 +16,7 @@ interface CategoryDB
      * @param $id
      * @return mixed
      */
-    public function find($id);
+    public function find($categoryId);
 
     /**
      * Find by name.
@@ -50,7 +50,7 @@ interface CategoryDB
      * @param $id
      * @return mixed
      */
-    public function delete($id);
+    public function delete($categoryId);
 
     /**
      * Delete category by name.

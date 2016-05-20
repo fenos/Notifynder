@@ -87,16 +87,16 @@ class SenderFactory
     /**
      * Get the the send group instance.
      *
-     * @param  string           $group_name
+     * @param  string           $groupName
      * @param  array | \Closure $info
      * @return SendGroup
      */
-    public function sendGroup($group_name, array $info)
+    public function sendGroup($groupName, array $info)
     {
         return new SendGroup(
             $this->notifynderGroup,
             $this->notifynderCategory,
-            $group_name,
+            $groupName,
             $info
         );
     }

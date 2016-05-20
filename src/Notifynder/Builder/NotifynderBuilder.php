@@ -181,26 +181,25 @@ class NotifynderBuilder implements ArrayAccess
      */
     public function loop($dataToIterate, Closure $builder)
     {
-        if ($this->isIterable($dataToIterate)) {
-            if (count($dataToIterate) > 0) {
-                $notifications = [];
-
-                $newBuilder = new self($this->notifynderCategory);
-
-                foreach ($dataToIterate as $key => $data) {
-                    $builder($newBuilder, $data, $key);
-                    $notifications[] = $newBuilder->toArray();
-                }
-
-                $this->notifications = $notifications;
-
-                return $this;
-            } else {
-                throw new IterableIsEmptyException('The Iterable passed must contain at least one element');
-            }
-        } else {
+        if (!$this->isIterable($dataToIterate)) {
             throw new EntityNotIterableException('The data passed must be itarable');
         }
+        if (count($dataToIterate) <= 0) {
+            throw new IterableIsEmptyException('The Iterable passed must contain at least one element');
+        }
+        
+        $notifications = [];
+
+        $newBuilder = new self($this->notifynderCategory);
+
+        foreach ($dataToIterate as $key => $data) {
+            $builder($newBuilder, $data, $key);
+            $notifications[] = $newBuilder->toArray();
+        }
+
+        $this->notifications = $notifications;
+
+        return $this;
     }
 
     /**

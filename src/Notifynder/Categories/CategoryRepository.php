@@ -33,9 +33,9 @@ class CategoryRepository implements CategoryDB
      * @param $id
      * @return mixed
      */
-    public function find($id)
+    public function find($categoryId)
     {
-        return $this->categoryModel->find($id);
+        return $this->categoryModel->find($categoryId);
     }
 
     /**
@@ -81,9 +81,9 @@ class CategoryRepository implements CategoryDB
      * @param $id
      * @return mixed
      */
-    public function delete($id)
+    public function delete($categoryId)
     {
-        return $this->categoryModel->where('id', $id)
+        return $this->categoryModel->where('id', $categoryId)
                     ->delete();
     }
 
