@@ -60,10 +60,13 @@ class SendersTest extends TestCaseDB
         // Send Single
         $this->senders->sendNow($singleNotification);
 
-        $notifications = Notification::all();
-        $stackIds = array_unique((array) $notifications->lists('stack_id'));
+        $stackIds = Notification::lists('stack_id');
+        if($stackIds instanceof \Illuminate\Support\Collection) {
+            $stackIds = $stackIds->toArray();
+        }
+        $stackIds = array_unique($stackIds);
 
-        $this->assertCount(1, $notifications);
+        $this->assertCount(1, Notification::all());
         $this->assertCount(1, $stackIds);
         $this->assertEquals([null], $stackIds);
     }
@@ -89,10 +92,13 @@ class SendersTest extends TestCaseDB
         // Send Single
         $this->senders->sendNow($sendMultiple);
 
-        $notifications = Notification::all();
-        $stackIds = array_unique((array) $notifications->lists('stack_id'));
+        $stackIds = Notification::lists('stack_id');
+        if($stackIds instanceof \Illuminate\Support\Collection) {
+            $stackIds = $stackIds->toArray();
+        }
+        $stackIds = array_unique($stackIds);
 
-        $this->assertCount(2, $notifications);
+        $this->assertCount(2, Notification::all());
         $this->assertCount(1, $stackIds);
         $this->assertEquals([1], $stackIds);
     }
