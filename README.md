@@ -4,7 +4,7 @@ Notifynder 3.2 - Laravel 5
 [![GitHub release](https://img.shields.io/github/release/fenos/Notifynder.svg?style=flat-square)](https://github.com/fenos/Notifynder/releases)
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](https://raw.githubusercontent.com/fenos/Notifynder/master/LICENSE)
 [![GitHub issues](https://img.shields.io/github/issues/fenos/Notifynder.svg?style=flat-square)](https://github.com/fenos/Notifynder/issues)
-[![Total Downloads](https://poser.pugx.org/fenos/notifynder/downloads.svg?style=flat-square)](https://packagist.org/packages/fenos/notifynder)
+[![Total Downloads](https://img.shields.io/packagist/dt/fenos/notifynder.svg?style=flat-square)](https://packagist.org/packages/fenos/notifynder)
 
 [![Travis branch](https://img.shields.io/travis/fenos/Notifynder/master.svg?style=flat-square)](https://travis-ci.org/fenos/Notifynder/branches)
 [![StyleCI](https://styleci.io/repos/18425539/shield)](https://styleci.io/repos/18425539)
