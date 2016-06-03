@@ -124,12 +124,10 @@ class NotifynderTest extends TestCaseDB
         $allUsers = User::all();
 
         $this->notifynder->loop($allUsers, function ($builder, $user) {
-
             $builder->category('me')
                 ->url('you')
                 ->from(1)
                 ->to($user->id);
-
         })->send();
 
         // should send 10 notifications
