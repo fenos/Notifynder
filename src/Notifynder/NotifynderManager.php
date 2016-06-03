@@ -605,16 +605,6 @@ class NotifynderManager extends NotifynderBuilder implements Notifynder
     }
 
     /**
-     * @deprecated typo in method name - use dispatchWith() instead
-     * @param $customSenderName
-     * @return NotifynderManager
-     */
-    public function dipatchWith($customSenderName)
-    {
-        return $this->dispatchWith($customSenderName);
-    }
-
-    /**
      * Call the custom sender method.
      *
      * @param $name
