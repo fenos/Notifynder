@@ -130,4 +130,31 @@ class SendersTest extends TestCaseDB
 
         $this->assertCount(1, Notification::all());
     }
+
+    /** @test */
+    public function it_send_multiple_with_an_custom_sender()
+    {
+        $this->senders->extend('sendCustom', function ($notification, $app) {
+            return new CustomDefaultSender($notification, $app->make('notifynder'));
+        });
+
+        $category_name = 'my.category';
+        $this->createCategory(['name' => $category_name]);
+
+        $multipleNotifications = [];
+        $multipleNotifications[] = $this->builder->category($category_name)
+            ->to(1)
+            ->from(2)
+            ->url('www.notifynder.io')
+            ->toArray();
+        $multipleNotifications[] = $this->builder->category($category_name)
+            ->to(2)
+            ->from(1)
+            ->url('notifynder.com')
+            ->toArray();
+
+        $this->senders->sendCustom($multipleNotifications);
+
+        $this->assertCount(2, Notification::all());
+    }
 }
