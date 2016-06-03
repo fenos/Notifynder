@@ -115,7 +115,6 @@ class NotifynderServiceProvider extends ServiceProvider
         });
 
         $this->app->singleton('notifynder.notification.repository', function ($app) {
-
             $notificationModel = $app['config']->get('notifynder.notification_model');
             $notificationInstance = $app->make($notificationModel);
 
@@ -160,7 +159,7 @@ class NotifynderServiceProvider extends ServiceProvider
     protected function senders()
     {
         $this->app->singleton('notifynder.sender', function ($app) {
-             return new SenderManager(
+            return new SenderManager(
                  $app['notifynder.sender.factory'],
                  $app['notifynder.store'],
                  $app[Container::class]
