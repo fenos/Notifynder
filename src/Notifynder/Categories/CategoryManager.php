@@ -9,7 +9,7 @@ use Fenos\Notifynder\Exceptions\CategoryNotFoundException;
 /**
  * Class CategoryManager.
  *
- * The CategoryManager is responsable to deal
+ * The CategoryManager is responsible to deal
  * with the notification categories
  */
 class CategoryManager implements NotifynderCategory

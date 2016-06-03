@@ -152,7 +152,7 @@ class SenderManager implements NotifynderSender
             // with the
             if ($extendedSender instanceof Closure) {
 
-                // I invoke the closue expecting an Instance of a custorm
+                // I invoke the closure expecting an Instance of a custom
                 // Sender
                 $invoker = call_user_func_array($extendedSender, [$notification, $this->container]);
 
@@ -162,15 +162,15 @@ class SenderManager implements NotifynderSender
                     return $invoker->send($this);
                 }
 
-                // If the dev is attemping to create a custom
+                // If the dev is attempting to create a custom
                 // way of storing notifications then
-                // i'll pass the storenotification contract
+                // i'll pass the store notification contract
                 if ($invoker instanceof DefaultSender) {
                     return $invoker->send($this->storeNotification);
                 }
             }
 
-            $error = 'The extention must be an instance of Closure';
+            $error = 'The extension must be an instance of Closure';
             throw new LogicException($error);
         }
 
@@ -180,7 +180,7 @@ class SenderManager implements NotifynderSender
 
     /**
      * When calling a not existing method
-     * try to resolve with an exteded.
+     * try to resolve with an extended.
      *
      * @param $name
      * @param $arguments

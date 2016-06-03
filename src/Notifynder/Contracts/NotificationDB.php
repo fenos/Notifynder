@@ -91,7 +91,7 @@ interface NotificationDB extends StoreNotification
     public function deleteLimit($userId, $entity, $number, $order);
 
     /**
-     * Retrive notifications not Read
+     * Retrieve notifications not Read
      * You can also limit the number of
      * Notification if you don't it will get all.
      *
@@ -113,7 +113,7 @@ interface NotificationDB extends StoreNotification
     );
 
     /**
-     * Retrive all notifications, not read
+     * Retrieve all notifications, not read
      * in first.
      * You can also limit the number of
      * Notifications if you don't, it will get all.
@@ -150,7 +150,7 @@ interface NotificationDB extends StoreNotification
      * Get last notification of the current
      * entity.
      *
-     * @param         $to_id
+     * @param         $toId
      * @param         $entity
      * @param Closure $filterScope
      * @return mixed

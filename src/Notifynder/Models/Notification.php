@@ -75,7 +75,7 @@ class Notification extends Model
     public function from()
     {
         // check if on the configurations file there is the option
-        // polymorphic setted to true, if so Notifynder will work
+        // polymorphic set to true, if so Notifynder will work
         // polymorphic.
         if (config('notifynder.polymorphic') == false) {
             return $this->belongsTo(config('notifynder.model'), 'from_id');
@@ -90,7 +90,7 @@ class Notification extends Model
     public function to()
     {
         // check if on the configurations file there is the option
-        // polymorphic setted to true, if so Notifynder will work
+        // polymorphic set to true, if so Notifynder will work
         // polymorphic.
         if (config('notifynder.polymorphic') == false) {
             return $this->belongsTo(config('notifynder.model'), 'to_id');

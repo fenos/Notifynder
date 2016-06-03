@@ -23,7 +23,7 @@ class CreateCategory extends Command
     protected $description = 'Create and store a new notifynder category';
 
     /**
-     * @var \Fenos\Notifynder\Categories\NotifynderCategory
+     * @var \\Fenos\Notifynder\Contracts\NotifynderCategory
      */
     private $notifynderCategory;
 

@@ -74,7 +74,7 @@ class NotifynderHandler
      */
     protected function getEventName($event)
     {
-        // Remove the Notiynder namespaces for
+        // Remove the Notifynder namespaces for
         // the find the method
         $event = str_replace(Dispatcher::$defaultWildcard.'.', '', $event);
 
@@ -82,7 +82,7 @@ class NotifynderHandler
             ? explode('@', $event)
             : explode('.', $event);
 
-        // Check if the name has been splited in 2
+        // Check if the name has been splitted in 2
         if (count($eventNameSpace) > 1) {
             array_shift($eventNameSpace);
         }

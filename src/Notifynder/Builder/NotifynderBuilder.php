@@ -19,7 +19,7 @@ use Closure;
  * The builder is a main factor of Notifynder, it make sure
  * that the notification is decorated and validated before
  * are passed to the Sender Classes. It also helps you to
- * create multi notifications with the same simple and easy sintax.
+ * create multi notifications with the same simple and easy syntax.
  */
 class NotifynderBuilder implements ArrayAccess
 {
@@ -170,7 +170,7 @@ class NotifynderBuilder implements ArrayAccess
     }
 
     /**
-     * Loop the datas for create
+     * Loop the data for create
      * multi notifications array.
      *
      * @param          $dataToIterate
@@ -182,7 +182,7 @@ class NotifynderBuilder implements ArrayAccess
     public function loop($dataToIterate, Closure $builder)
     {
         if (! $this->isIterable($dataToIterate)) {
-            throw new EntityNotIterableException('The data passed must be itarable');
+            throw new EntityNotIterableException('The data passed must be iterable');
         }
         if (count($dataToIterate) <= 0) {
             throw new IterableIsEmptyException('The Iterable passed must contain at least one element');
@@ -290,7 +290,7 @@ class NotifynderBuilder implements ArrayAccess
 
     /**
      * If the values passed are 2 or more,
-     * it means that you spefied the entity
+     * it means that you specified the entity
      * over then the id.
      *
      * @param  array $info

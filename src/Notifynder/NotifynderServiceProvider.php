@@ -96,7 +96,7 @@ class NotifynderServiceProvider extends ServiceProvider
             );
         });
 
-        $this->app->singleton('notifynder.category.repository', function ($app) {
+        $this->app->singleton('notifynder.category.repository', function () {
             return new CategoryRepository(
                 new NotificationCategory()
             );
@@ -117,10 +117,10 @@ class NotifynderServiceProvider extends ServiceProvider
         $this->app->singleton('notifynder.notification.repository', function ($app) {
 
             $notificationModel = $app['config']->get('notifynder.notification_model');
-            $notificationIstance = $app->make($notificationModel);
+            $notificationInstance = $app->make($notificationModel);
 
             return new NotificationRepository(
-                $notificationIstance,
+                $notificationInstance,
                 $app['db']
             );
         });
@@ -199,7 +199,7 @@ class NotifynderServiceProvider extends ServiceProvider
             );
         });
 
-        $this->app->singleton('notifynder.group.repository', function ($app) {
+        $this->app->singleton('notifynder.group.repository', function () {
             return new GroupRepository(
                 new NotificationGroup()
             );
@@ -267,7 +267,7 @@ class NotifynderServiceProvider extends ServiceProvider
         $this->mergeConfigFrom(__DIR__.'/../config/notifynder.php', 'notifynder');
 
         // Set use strict_extra config option,
-        // you can toggle it in the configuraiton file
+        // you can toggle it in the configuration file
         $strictParam = $this->app['config']->get('notifynder.strict_extra', false);
         NotifynderParser::setStrictExtra($strictParam);
     }

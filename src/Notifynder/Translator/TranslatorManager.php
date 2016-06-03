@@ -10,7 +10,7 @@ use Illuminate\Contracts\Config\Repository;
 /**
  * Class NotifynderTranslator.
  *
- * The Translator is responsable to translate the text
+ * The Translator is responsible to translate the text
  * of the notifications with the custom languages that
  * you'll define in the configuration file. Translations
  * are cached in storage/app/notifynder in a json format.
@@ -67,7 +67,7 @@ class TranslatorManager implements NotifynderTranslator
     }
 
     /**
-     * Get selected language of tranlsations.
+     * Get selected language of translations.
      *
      * @param $language
      * @return mixed
@@ -127,7 +127,7 @@ class TranslatorManager implements NotifynderTranslator
         // I put the edited content in the cached file
         $this->compiler->cacheFile($fileTranslation);
 
-        // return the traslations
+        // return the translations
         return $fileTranslation;
     }
 }

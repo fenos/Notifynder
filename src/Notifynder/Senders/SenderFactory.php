@@ -51,7 +51,7 @@ class SenderFactory
             $infoNotifications = $infoNotifications->toArray();
         }
 
-        // if the array is multidimesional
+        // if the array is multidimensional
         // it means that we want to send
         // multiple notifications
         if ($this->isMultiArray($infoNotifications)) {

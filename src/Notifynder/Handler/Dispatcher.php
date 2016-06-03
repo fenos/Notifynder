@@ -24,7 +24,7 @@ class Dispatcher implements NotifynderDispatcher
     public static $defaultWildcard = 'Notifynder';
 
     /**
-     * Sefault sender method.
+     * Default sender method.
      *
      * @var string
      */
@@ -40,7 +40,7 @@ class Dispatcher implements NotifynderDispatcher
 
     /**
      * It fire the event associated to the passed key,
-     * trigging the listener method bound with.
+     * trigger the listener method bound with.
      *
      * @param  Notifynder        $notifynder
      * @param  string            $eventName
@@ -50,7 +50,7 @@ class Dispatcher implements NotifynderDispatcher
      */
     public function fire(Notifynder $notifynder, $eventName, $categoryName = null, $values = [])
     {
-        // Generete the event from the name given
+        // Generate the event from the name given
         $eventName = $this->generateEventName($eventName);
 
         // Instantiate the Notifynder event Object that will provide
@@ -58,7 +58,7 @@ class Dispatcher implements NotifynderDispatcher
         // parameter
         $event = new NotifynderEvent($eventName, $categoryName, $values);
 
-        // Fire the event given expecting an array of notifications or falsy
+        // Fire the event given expecting an array of notifications or false
         // value to not send the notification
         $notificationsResult = $this->event->fire($eventName, [$event, $notifynder]);
 
@@ -76,7 +76,7 @@ class Dispatcher implements NotifynderDispatcher
     }
 
     /**
-     * Deletegate events to categories.
+     * Delegate events to categories.
      *
      * @param  Notifynder        $notifynder
      * @param  array             $data
@@ -91,7 +91,7 @@ class Dispatcher implements NotifynderDispatcher
     }
 
     /**
-     * Tell the disptacher to send
+     * Tell the dispatcher to send
      * the notification with a custom
      * (extended method).
      *

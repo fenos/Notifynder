@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Builder;
 /**
  * Class CategoryRepository.
  *
- * Repository reponsable to approach database
+ * Repository responsible to approach database
  * queries of the categories
  */
 class CategoryRepository implements CategoryDB
@@ -30,7 +30,7 @@ class CategoryRepository implements CategoryDB
     /**
      * Find By Id.
      *
-     * @param $id
+     * @param $categoryId
      * @return mixed
      */
     public function find($categoryId)
@@ -51,7 +51,7 @@ class CategoryRepository implements CategoryDB
     }
 
     /**
-     * Find by names returnig
+     * Find by names returning
      * lists of ids.
      *
      * @param $name
@@ -78,7 +78,7 @@ class CategoryRepository implements CategoryDB
     /**
      * Delete category by ID.
      *
-     * @param $id
+     * @param $categoryId
      * @return mixed
      */
     public function delete($categoryId)

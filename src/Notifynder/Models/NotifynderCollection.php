@@ -44,7 +44,7 @@ class NotifynderCollection extends Collection
      */
     public function translate($language)
     {
-        // Loop throught the notifications
+        // Loop through the notifications
         foreach ($this->items as $key => $item) {
             try {
                 $translation = $this->translator()

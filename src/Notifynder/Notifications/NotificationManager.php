@@ -12,7 +12,7 @@ use Illuminate\Pagination\LengthAwarePaginator;
 /**
  * Class NotifynderNotification.
  *
- * The notification manager is responsable to manage the CRUD operations
+ * The notification manager is responsible to manage the CRUD operations
  * of the notifications.
  */
 class NotificationManager implements NotifynderNotification

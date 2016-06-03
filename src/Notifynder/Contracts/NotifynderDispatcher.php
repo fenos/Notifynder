@@ -11,7 +11,7 @@ interface NotifynderDispatcher
 {
     /**
      * It fire the event associated to the passed key,
-     * trigging the listener method bound with.
+     * trigger the listener method bound with.
      *
      * @param  Notifynder $notifynder
      * @param  string            $eventName
@@ -22,7 +22,7 @@ interface NotifynderDispatcher
     public function fire(Notifynder $notifynder, $eventName, $categoryName = null, $values = []);
 
     /**
-     * Deletegate events to categories.
+     * Delegate events to categories.
      *
      * @param  Notifynder $notifynder
      * @param  array             $data
@@ -39,7 +39,7 @@ interface NotifynderDispatcher
     public function boot(array $listeners);
 
     /**
-     * Tell the disptacher to send
+     * Tell the dispatcher to send
      * the notification with a custom
      * (extended method).
      *
