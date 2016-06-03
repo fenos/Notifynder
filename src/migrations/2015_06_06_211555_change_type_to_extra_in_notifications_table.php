@@ -30,7 +30,6 @@ class ChangeTypeToExtraInNotificationsTable extends Migration
     public function down()
     {
         Schema::table('notifications', function ($table) {
-
             $driver = Config::get('database.driver');
 
             if ($driver === 'mysql' || $driver === 'sqlite') {

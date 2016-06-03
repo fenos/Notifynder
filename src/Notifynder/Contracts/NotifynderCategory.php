@@ -7,7 +7,7 @@ use Fenos\Notifynder\Exceptions\CategoryNotFoundException;
 /**
  * Class CategoryManager.
  *
- * The CategoryManager is responsable to deal
+ * The CategoryManager is responsible to deal
  * with the notification categories
  */
 interface NotifynderCategory
@@ -34,7 +34,7 @@ interface NotifynderCategory
     /**
      * Find a category by id.
      *
-     * @param $id
+     * @param $categoryId
      * @throws CategoryNotFoundException
      * @return mixed
      */
@@ -52,7 +52,7 @@ interface NotifynderCategory
     /**
      * Delete category by ID.
      *
-     * @param $id
+     * @param $categoryId
      * @return mixed
      */
     public function delete($categoryId);

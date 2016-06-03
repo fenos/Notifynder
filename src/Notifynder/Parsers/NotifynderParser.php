@@ -11,7 +11,7 @@ use Fenos\Notifynder\Notifications\ExtraParams;
 class NotifynderParser
 {
     /**
-     * Regex to get values between curly brachet {$value}.
+     * Regex to get values between curly bracket {$value}.
      */
     const RULE = '/\{(.+?)(?:\{(.+)\})?\}/';
 
@@ -85,7 +85,7 @@ class NotifynderParser
     }
 
     /**
-     * Trying to transform extra in from few datatypes
+     * Trying to transform extra in from few data types
      * to array type.
      *
      * @param $extra

@@ -16,7 +16,7 @@ use InvalidArgumentException;
  * Class Notifynder.
  *
  * Notifynder is a Facade Class that has
- * all the methods necesessary to use the library.
+ * all the methods necessary to use the library.
  *
  * Notifynder allow you to have a flexible notification
  * management. It will provide you a nice and easy API
@@ -139,7 +139,7 @@ class NotifynderManager extends NotifynderBuilder implements Notifynder
 
     /**
      * Define an entity when Notifynder is
-     * used Polymorpically.
+     * used Polymorphically.
      *
      * @param $name
      * @return $this
@@ -167,7 +167,7 @@ class NotifynderManager extends NotifynderBuilder implements Notifynder
      * Update a category.
      *
      * @param  array $updates
-     * @param        $id
+     * @param        $categoryId
      * @return mixed
      */
     public function updateCategory(array $updates, $categoryId)
@@ -317,7 +317,7 @@ class NotifynderManager extends NotifynderBuilder implements Notifynder
 
     /**
      * Delete number of notifications
-     * secified of the given entity.
+     * specified of the given entity.
      *
      * @param         $toId
      * @param         $number

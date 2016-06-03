@@ -142,7 +142,7 @@ class NotificationRepository implements NotificationDB
      * Delete All notifications about the
      * current user.
      *
-     * @param $to_id int
+     * @param $toId int
      * @param $entity
      * @return bool
      */
@@ -210,7 +210,7 @@ class NotificationRepository implements NotificationDB
     }
 
     /**
-     * Retrive notifications not Read
+     * Retrieve notifications not Read
      * You can also limit the number of
      * Notification if you don't it will get all.
      *
@@ -250,7 +250,7 @@ class NotificationRepository implements NotificationDB
     }
 
     /**
-     * Retrive all notifications, not read
+     * Retrieve all notifications, not read
      * in first.
      * You can also limit the number of
      * Notifications if you don't, it will get all.
@@ -333,7 +333,7 @@ class NotificationRepository implements NotificationDB
      * entity of a specific category.
      *
      * @param         $category
-     * @param         $to_id
+     * @param         $toId
      * @param         $entity
      * @param Closure $filterScope
      * @return mixed

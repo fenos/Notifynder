@@ -8,7 +8,7 @@ use Fenos\Notifynder\Exceptions\NotificationTranslationNotFoundException;
 /**
  * Class NotifynderTranslator.
  *
- * The Translator is responsable to translate the text
+ * The Translator is responsible to translate the text
  * of the notifications with the custom languages that
  * you define in the configuration file. Translations
  * are cached in storage/app/notifynder in a json format.
@@ -35,7 +35,7 @@ interface NotifynderTranslator
     public function translate($language, $nameCategory);
 
     /**
-     * Get selected language of tranlsations.
+     * Get selected language of translations.
      *
      * @param $language
      * @return mixed

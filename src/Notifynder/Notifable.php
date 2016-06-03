@@ -21,7 +21,7 @@ trait Notifable
     public function notifications()
     {
         // check if on the configurations file there is the option
-        // polymorphic setted to true, if so Notifynder will work
+        // polymorphic set to true, if so Notifynder will work
         // polymorphic.
         if (config('notifynder.polymorphic') == false) {
             return $this->morphMany(config('notifynder.notification_model'), 'to');

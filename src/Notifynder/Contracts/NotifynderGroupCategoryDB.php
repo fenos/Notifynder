@@ -12,7 +12,6 @@ interface NotifynderGroupCategoryDB
      *
      * @param  $groupId
      * @param  $categoryId
-     * @internal param \Fenos\Notifynder\Models\NotificationCategory $category
      * @return \Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model|static
      */
     public function addCategoryToGroupById($groupId, $categoryId);

@@ -23,7 +23,7 @@ class DeleteCategory extends Command
     protected $description = 'Delete a notifynder category by ID or Name given';
 
     /**
-     * @var \Fenos\Notifynder\Categories\NotifynderCategory
+     * @var \\Fenos\Notifynder\Contracts\NotifynderCategory
      */
     private $notifynderCategory;
 
@@ -46,12 +46,12 @@ class DeleteCategory extends Command
      */
     public function fire()
     {
-        $indentifier = $this->argument('identifier');
+        $identifier = $this->argument('identifier');
 
-        if ($this->isIntegerValue($indentifier)) {
-            $delete = $this->notifynderCategory->delete($indentifier);
+        if ($this->isIntegerValue($identifier)) {
+            $delete = $this->notifynderCategory->delete($identifier);
         } else {
-            $delete = $this->notifynderCategory->deleteByName($indentifier);
+            $delete = $this->notifynderCategory->deleteByName($identifier);
         }
 
         if (! $delete) {
@@ -62,9 +62,9 @@ class DeleteCategory extends Command
         $this->info('Category has been deleted');
     }
 
-    public function isIntegerValue($indentifier)
+    public function isIntegerValue($identifier)
     {
-        return preg_match('/[0-9]/', $indentifier);
+        return preg_match('/[0-9]/', $identifier);
     }
 
     /**

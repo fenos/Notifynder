@@ -15,7 +15,7 @@ class GroupCategoryRepository implements NotifynderGroupCategoryDB
     /**
      * @var NotificationGroup
      */
-    protected $notificationGropup;
+    protected $notificationGroup;
 
     /**
      * @var NotificationCategory
@@ -24,13 +24,13 @@ class GroupCategoryRepository implements NotifynderGroupCategoryDB
 
     /**
      * @param NotifynderCategory $notificationCategory
-     * @param NotificationGroup  $notificationGropup
+     * @param NotificationGroup  $notificationGroup
      */
     public function __construct(NotifynderCategory $notificationCategory,
-                         NotificationGroup $notificationGropup)
+                         NotificationGroup $notificationGroup)
     {
         $this->notificationCategory = $notificationCategory;
-        $this->notificationGropup = $notificationGropup;
+        $this->notificationGroup = $notificationGroup;
     }
 
     /**
@@ -42,7 +42,7 @@ class GroupCategoryRepository implements NotifynderGroupCategoryDB
      */
     public function addCategoryToGroupById($groupId, $categoryId)
     {
-        $group = $this->notificationGropup->find($groupId);
+        $group = $this->notificationGroup->find($groupId);
         $group->categories()->attach($categoryId);
 
         return $group;
@@ -58,7 +58,7 @@ class GroupCategoryRepository implements NotifynderGroupCategoryDB
      */
     public function addCategoryToGroupByName($groupName, $categoryName)
     {
-        $group = $this->notificationGropup->where('name', $groupName)->first();
+        $group = $this->notificationGroup->where('name', $groupName)->first();
 
         $category = $this->notificationCategory->findByName($categoryName);
 
@@ -77,7 +77,7 @@ class GroupCategoryRepository implements NotifynderGroupCategoryDB
      */
     public function addMultipleCategoriesToGroup($groupName, array $names)
     {
-        $group = $this->notificationGropup->where('name', $groupName)->first();
+        $group = $this->notificationGroup->where('name', $groupName)->first();
 
         $categories = $this->notificationCategory->findByNames($names);
 

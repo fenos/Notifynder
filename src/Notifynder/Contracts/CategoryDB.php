@@ -5,7 +5,7 @@ namespace Fenos\Notifynder\Contracts;
 /**
  * Class CategoryRepository.
  *
- * Repository reponsable to approach database
+ * Repository responsible to approach database
  * queries of the categories
  */
 interface CategoryDB
@@ -13,7 +13,7 @@ interface CategoryDB
     /**
      * Find By Id.
      *
-     * @param $id
+     * @param $categoryId
      * @return mixed
      */
     public function find($categoryId);
@@ -27,7 +27,7 @@ interface CategoryDB
     public function findByName($name);
 
     /**
-     * Find by names returnig
+     * Find by names returning
      * lists of ids.
      *
      * @param $name
@@ -47,7 +47,7 @@ interface CategoryDB
     /**
      * Delete category by ID.
      *
-     * @param $id
+     * @param $categoryId
      * @return mixed
      */
     public function delete($categoryId);
