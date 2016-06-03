@@ -597,7 +597,7 @@ class NotifynderManager extends NotifynderBuilder implements Notifynder
      * @param $customSenderName
      * @return $this
      */
-    public function dipatchWith($customSenderName)
+    public function dispatchWith($customSenderName)
     {
         $this->eventSender = $customSenderName;
 

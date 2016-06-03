@@ -316,5 +316,5 @@ interface Notifynder
      * @param $customSenderName
      * @return $this
      */
-    public function dipatchWith($customSenderName);
+    public function dispatchWith($customSenderName);
 }
