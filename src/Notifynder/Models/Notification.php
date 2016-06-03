@@ -142,13 +142,23 @@ class Notification extends Model
     /**
      * Get parsed body attributes.
      *
-     * @return mixed
+     * @return string
      */
     public function getNotifyBodyAttribute()
     {
         $notifynderParse = new NotifynderParser();
 
         return $notifynderParse->parse($this);
+    }
+
+    /**
+     * Get parsed body attributes.
+     *
+     * @return string
+     */
+    public function getTextAttribute()
+    {
+        return $this->notify_body;
     }
 
     /**

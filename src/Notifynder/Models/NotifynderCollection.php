@@ -71,7 +71,8 @@ class NotifynderCollection extends Collection
         $parser = new NotifynderParser();
 
         foreach ($this->items as $key => $item) {
-            $this->items[$key]['text'] = $parser->parse($item);
+            $this->items[$key]['notify_body'] = $parser->parse($item);
+            $this->items[$key]['text'] = $this->items[$key]['notify_body'];
         }
 
         return $this;
