@@ -172,7 +172,6 @@ class NotifyUserTest extends NotifynderHandler
         $users = [1, 2];
 
         return $notifynder->builder()->loop($users, function (NotifynderBuilder $builder, $value, $key) {
-
             return $builder->category('activation')
                 ->url('hello')
                 ->from(1)
