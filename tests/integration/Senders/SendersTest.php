@@ -81,13 +81,12 @@ class SendersTest extends TestCaseDB
 
         $sendMultiple = $this->builder->loop($user_ids,
             function (NotifynderBuilder $builder, $value) use ($category_name) {
-
                 return $builder->category($category_name)
                     ->to($value)
                     ->from(2)
                     ->url('www.notifynder.io')
                     ->toArray();
-        });
+            });
 
         // Send Single
         $this->senders->sendNow($sendMultiple);
