@@ -204,7 +204,7 @@ class NotificationTest extends TestCaseDB
 
         $notifications = \Fenos\Notifynder\Models\Notification::byStack(1)->get();
 
-        foreach($notifications as $notification) {
+        foreach ($notifications as $notification) {
             $this->assertEquals($text, $notification->text);
             $this->assertEquals(1, $notification->stack_id);
             $this->assertTrue($notification->hasStack());
