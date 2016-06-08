@@ -236,7 +236,7 @@ class Notification extends Model
      */
     public function hasStack()
     {
-        return !is_null($this->stack_id);
+        return ! is_null($this->stack_id);
     }
 
     /**
@@ -246,9 +246,8 @@ class Notification extends Model
      */
     public function getStack()
     {
-        if($this->hasStack()) {
+        if ($this->hasStack()) {
             return static::byStack($this->stack_id)->get();
         }
-        return null;
     }
 }

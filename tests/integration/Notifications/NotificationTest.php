@@ -99,7 +99,7 @@ class NotificationTest extends TestCaseDB
         $user = new \Fenos\Tests\Models\User(['id' => $this->to['id']]);
 
         $notificationByCategory = $user->getNotifications(false, false, 'desc', function ($query) use ($category) {
-           $query->byCategory('text');
+            $query->byCategory('text');
         });
 
         $this->assertCount(10, $notificationByCategory);
