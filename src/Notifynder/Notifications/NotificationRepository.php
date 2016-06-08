@@ -376,4 +376,41 @@ class NotificationRepository implements NotificationDB
 
         return $query;
     }
+
+    /**
+     * Retrive all notifications, in a stack.
+     * You can also limit the number of
+     * Notifications if you don't, it will get all.
+     *
+     * @param           $stackId
+     * @param  null     $limit
+     * @param  int|null $paginate
+     * @param  string   $orderDate
+     * @param Closure   $filterScope
+     * @return mixed
+     */
+    public function getStack(
+        $stackId,
+        $limit = null,
+        $paginate = null,
+        $orderDate = 'desc',
+        Closure $filterScope = null
+    ) {
+        $query = $this->notification->with('body', 'from', 'to')
+            ->byStack($stackId)
+            ->orderBy('read', 'ASC')
+            ->orderBy('created_at', $orderDate);
+
+        if ($limit && ! $paginate) {
+            $query->limit($limit);
+        }
+
+        $query = $this->applyFilter($filterScope, $query);
+
+        if (is_int(intval($paginate)) && $paginate) {
+            return $query->paginate($limit);
+        }
+
+        return $query->get();
+    }
 }
