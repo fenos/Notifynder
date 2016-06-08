@@ -193,4 +193,21 @@ class NotificationTest extends TestCaseDB
         $this->assertInternalType('array', $notifications[0]['extra']);
         $this->assertEquals('Amazing', $notifications[0]['extra']['look']);
     }
+
+    /** @test */
+    public function it_retrieve_notifications_by_stack_id()
+    {
+        $text = 'stack body text';
+        $category = $this->createCategory(['text' => $text]);
+
+        $this->createMultipleNotifications(['category_id' => $category->id]);
+
+        $notifications = \Fenos\Notifynder\Models\Notification::byStack(1)->get();
+
+        foreach($notifications as $notification) {
+            $this->assertEquals($text, $notification->text);
+            $this->assertEquals(1, $notification->stack_id);
+            $this->assertTrue($notification->hasStack());
+        }
+    }
 }
