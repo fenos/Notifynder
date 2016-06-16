@@ -205,9 +205,9 @@ class NotificationManager implements NotifynderNotification
 
     protected function getPaginatedIfNeeded(NotifynderCollection $notifications, $limit, $paginate)
     {
-        if($paginate === false || is_null($paginate)) {
+        if ($paginate === false || is_null($paginate)) {
             return $notifications->parse();
-        } elseif($paginate === true) {
+        } elseif ($paginate === true) {
             $paginate = null;
         }
 
