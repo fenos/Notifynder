@@ -300,6 +300,9 @@ class NotifynderServiceProvider extends ServiceProvider
         if (! class_exists('MakeNotificationUrlNullable')) {
             $this->publishMigration('2016_04_19_200827_make_notification_url_nullable');
         }
+        if (! class_exists('AddStackIdToNotifications')) {
+            $this->publishMigration('2016_05_19_144531_add_stack_id_to_notifications');
+        }
     }
 
     /**

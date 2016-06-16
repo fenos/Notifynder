@@ -5,6 +5,7 @@ namespace Fenos\Notifynder\Models;
 use Fenos\Notifynder\Notifications\ExtraParams;
 use Fenos\Notifynder\Parsers\NotifynderParser;
 use Illuminate\Contracts\Container\Container;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
 use Illuminate\Support\Arr;
@@ -33,8 +34,16 @@ class Notification extends Model
      * @var array
      */
     protected $fillable = [
-        'to_id', 'to_type', 'from_id', 'from_type',
-        'category_id', 'read', 'url', 'extra', 'expire_time',
+        'to_id',
+        'to_type',
+        'from_id',
+        'from_type',
+        'category_id',
+        'read',
+        'url',
+        'extra',
+        'expire_time',
+        'stack_id',
     ];
 
     /**
@@ -216,5 +225,39 @@ class Notification extends Model
         $fillables = array_unique($this->getFillable() + $this->getCustomFillableFields());
 
         return $fillables;
+    }
+
+    /**
+     * Filter Scope by stack.
+     *
+     * @param $query
+     * @param $stackId
+     * @return mixed
+     */
+    public function scopeByStack($query, $stackId)
+    {
+        return $query->where('stack_id', $stackId);
+    }
+
+    /**
+     * Check if this notification is part of a stack.
+     *
+     * @return bool
+     */
+    public function hasStack()
+    {
+        return ! is_null($this->stack_id);
+    }
+
+    /**
+     * Get the full stack of notifications if this has one.
+     *
+     * @return null|Collection
+     */
+    public function getStack()
+    {
+        if ($this->hasStack()) {
+            return static::byStack($this->stack_id)->get();
+        }
     }
 }

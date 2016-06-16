@@ -63,14 +63,24 @@ class NotificationRepository implements NotificationDB
      * Save multiple notifications sent
      * at once.
      *
-     * @param  array $info
+     * @param  array $notifications
      * @return mixed
      */
-    public function storeMultiple(array $info)
+    public function storeMultiple(array $notifications)
     {
-        return $this->db->table(
+        $this->db->beginTransaction();
+        $stackId = $this->db->table(
             $this->notification->getTable()
-        )->insert($info);
+        )->max('stack_id') + 1;
+        foreach ($notifications as $key => $notification) {
+            $notifications[$key]['stack_id'] = $stackId;
+        }
+        $insert = $this->db->table(
+            $this->notification->getTable()
+        )->insert($notifications);
+        $this->db->commit();
+
+        return $insert;
     }
 
     /**
@@ -365,5 +375,42 @@ class NotificationRepository implements NotificationDB
         $filterScope($query);
 
         return $query;
+    }
+
+    /**
+     * Retrive all notifications, in a stack.
+     * You can also limit the number of
+     * Notifications if you don't, it will get all.
+     *
+     * @param           $stackId
+     * @param  null     $limit
+     * @param  int|null $paginate
+     * @param  string   $orderDate
+     * @param Closure   $filterScope
+     * @return mixed
+     */
+    public function getStack(
+        $stackId,
+        $limit = null,
+        $paginate = null,
+        $orderDate = 'desc',
+        Closure $filterScope = null
+    ) {
+        $query = $this->notification->with('body', 'from', 'to')
+            ->byStack($stackId)
+            ->orderBy('read', 'ASC')
+            ->orderBy('created_at', $orderDate);
+
+        if ($limit && ! $paginate) {
+            $query->limit($limit);
+        }
+
+        $query = $this->applyFilter($filterScope, $query);
+
+        if (is_int(intval($paginate)) && $paginate) {
+            return $query->paginate($limit);
+        }
+
+        return $query->get();
     }
 }
