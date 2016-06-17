@@ -19,6 +19,10 @@ class Notification extends Model
         'stack_id',
     ];
 
+    protected $casts = [
+        'extra' => 'array',
+    ];
+
     public function __construct(array $attributes = [])
     {
         $this->fillable($this->mergeFillables());
