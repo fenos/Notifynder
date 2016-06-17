@@ -16,6 +16,7 @@ class NotificationCategory extends Model
     {
         $config = app('notifynder.config');
         $model = $config->getNotificationModel();
+
         return $this->hasMany($model, 'category_id');
     }
 

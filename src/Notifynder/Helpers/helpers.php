@@ -1,6 +1,6 @@
 <?php
 
-if(!function_exists('notifynder_config')) {
+if (! function_exists('notifynder_config')) {
     /**
      * @param null|string $key
      * @param null|mixed $default
@@ -9,7 +9,7 @@ if(!function_exists('notifynder_config')) {
     function notifynder_config($key = null, $default = null)
     {
         $config = app('notifynder.config');
-        if(is_null($key)) {
+        if (is_null($key)) {
             return $config;
         }
 

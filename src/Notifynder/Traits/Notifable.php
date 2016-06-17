@@ -1,4 +1,5 @@
 <?php
+
 namespace Fenos\Notifynder\Traits;
 
 trait Notifable
@@ -9,6 +10,7 @@ trait Notifable
         if (notifynder_config()->isPolymorphic()) {
             return $this->morphMany($model, 'to');
         }
+
         return $this->hasMany($model, 'to_id');
     }
 }
