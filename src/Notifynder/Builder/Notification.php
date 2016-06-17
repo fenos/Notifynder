@@ -1,4 +1,5 @@
 <?php
+
 namespace Fenos\Notifynder\Builder;
 
 use JsonSerializable;
