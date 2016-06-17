@@ -8,6 +8,11 @@
       "name": "Fabrizio Fenoglio",
       "email": "fabri_feno@yahoo.it",
       "role": "Developer"
+    },
+    {
+      "name": "Tom Witkowski",
+      "email": "dev.gummibeer@gmail.com",
+      "role": "Developer"
     }
   ],
   "require": {
