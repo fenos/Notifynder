@@ -15,7 +15,7 @@ class Notification extends Model
         'read',
         'url',
         'extra',
-        'expire_time',
+        'expire_time', // ToDo: rename to `expires_at`
         'stack_id',
     ];
 

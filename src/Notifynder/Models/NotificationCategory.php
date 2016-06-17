@@ -2,6 +2,7 @@
 
 namespace Fenos\Notifynder\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
 class NotificationCategory extends Model
@@ -28,5 +29,10 @@ class NotificationCategory extends Model
             'category_id',
             'group_id'
         );
+    }
+
+    public function scopeByName(Builder $query, $name)
+    {
+        return $query->where('name', $name);
     }
 }
