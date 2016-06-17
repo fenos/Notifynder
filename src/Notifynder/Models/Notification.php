@@ -2,13 +2,7 @@
 
 namespace Fenos\Notifynder\Models;
 
-use Fenos\Notifynder\Notifications\ExtraParams;
-use Fenos\Notifynder\Parsers\NotifynderParser;
-use Illuminate\Contracts\Container\Container;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
-use Carbon\Carbon;
-use Illuminate\Support\Arr;
 
 class Notification extends Model
 {
@@ -42,6 +36,7 @@ class Notification extends Model
         if (notifynder_config()->isPolymorphic()) {
             return $this->belongsTo(notifynder_config()->getModel(), 'from_id');
         }
+
         return $this->morphTo();
     }
 
@@ -50,6 +45,7 @@ class Notification extends Model
         if (notifynder_config()->isPolymorphic()) {
             return $this->belongsTo(notifynder_config()->getModel(), 'to_id');
         }
+
         return $this->morphTo();
     }
 
