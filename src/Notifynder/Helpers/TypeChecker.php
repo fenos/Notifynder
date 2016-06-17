@@ -47,7 +47,7 @@ class TypeChecker
 
     public function isIterable($value)
     {
-        if((is_array($value) || $value instanceof Traversable) && count($value) > 0) {
+        if ((is_array($value) || $value instanceof Traversable) && count($value) > 0) {
             return true;
         }
 

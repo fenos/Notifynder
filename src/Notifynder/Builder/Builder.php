@@ -27,7 +27,7 @@ class Builder
         $categoryId = $category;
         if (! is_numeric($category)) {
             $categoryId = NotificationCategory::byName($category)->findOrFail()->getKey();
-        } elseif($category instanceof NotificationCategory) {
+        } elseif ($category instanceof NotificationCategory) {
             $categoryId = $category->getKey();
         }
 
@@ -40,6 +40,7 @@ class Builder
     {
         $args = func_get_args();
         $this->setEntityData($args, 'from');
+
         return $this;
     }
 
@@ -47,6 +48,7 @@ class Builder
     {
         $args = func_get_args();
         $this->setEntityData($args, 'to');
+
         return $this;
     }
 
@@ -54,6 +56,7 @@ class Builder
     {
         $this->typeChecker->isString($url);
         $this->setNotificationData('url', $url);
+
         return $this;
     }
 
@@ -61,6 +64,7 @@ class Builder
     {
         $this->typeChecker->isDate($datetime);
         $this->setNotificationData('expire_time', $datetime);
+
         return $this;
     }
 
@@ -68,6 +72,7 @@ class Builder
     {
         $this->typeChecker->isArray($extra);
         $this->setNotificationData('extra', $extra);
+
         return $this;
     }
 
@@ -109,6 +114,7 @@ class Builder
     public function getNotification()
     {
         $this->setDates();
+
         return $this->notification;
     }
 
@@ -119,9 +125,10 @@ class Builder
 
     public function getNotifications()
     {
-        if(count($this->notifications) == 0) {
+        if (count($this->notifications) == 0) {
             $this->addNotification($this->getNotification());
         }
+
         return $this->notifications;
     }
 
