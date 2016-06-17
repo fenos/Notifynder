@@ -27,7 +27,7 @@ return [
      * With the path / NameSpace of your model and extend it
      * with Fenos\Notifynder\Models\Notification
      */
-    'notification_model' => 'Fenos\Notifynder\Models\Notification',
+    'notification_model' => \Fenos\Notifynder\Models\Notification::class,
 
     /*
      * Coordinating a lots notifications that require extra params

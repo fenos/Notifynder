@@ -28,7 +28,10 @@
     ],
     "psr-4": {
       "Fenos\\Notifynder\\": "src/Notifynder"
-    }
+    },
+    "files": [
+      "app/Helpers/helpers.php"
+    ]
   },
   "autoload-dev": {
     "classmap": [
