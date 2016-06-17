@@ -23,16 +23,17 @@ class Config implements ConfigContract
     public function getNotificationModel()
     {
         $class = $this->get('notification_model');
-        if(class_exists($class)) {
+        if (class_exists($class)) {
             return $class;
         }
+
         return Notification::class;
     }
 
     public function getNotifiedModel()
     {
         $class = $this->get('model');
-        if(class_exists($class)) {
+        if (class_exists($class)) {
             return $class;
         }
         throw new \InvalidArgumentException("The model class [{$class}] doesn't exist.");
