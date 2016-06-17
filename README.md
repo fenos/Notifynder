@@ -102,3 +102,9 @@ Notifynder::readAll($user_id);
 ~~~
 
 To know more, such as the advance usage of Notifynder Visit the **[Notifynder Wiki](https://github.com/fenos/Notifynder/wiki)**.
+
+#### Contributors ####
+
+Thanks for everyone who contributed to Notifynder and a special thanks for the most active contributors
+
+- [Gummibeer](https://github.com/Gummibeer)
