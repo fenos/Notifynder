@@ -1,4 +1,5 @@
 <?php
+
 namespace Fenos\Tests\Models;
 
 use Fenos\Notifynder\Traits\Notifable;
