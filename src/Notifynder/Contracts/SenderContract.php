@@ -1,4 +1,5 @@
 <?php
+
 namespace Fenos\Notifynder\Contracts;
 
 interface SenderContract

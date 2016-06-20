@@ -71,7 +71,7 @@ class NotifynderServiceProvider extends ServiceProvider
             );
         });
     }
-    
+
     public function registerSenders()
     {
         app('notifynder')->extend('sendSingle', function (array $notifications) {

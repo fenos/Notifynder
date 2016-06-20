@@ -28,7 +28,7 @@ class Builder
         $categoryId = $category;
         if ($category instanceof NotificationCategory) {
             $categoryId = $category->getKey();
-        } elseif (!is_numeric($category)) {
+        } elseif (! is_numeric($category)) {
             $categoryId = NotificationCategory::byName($category)->findOrFail()->getKey();
         }
 
