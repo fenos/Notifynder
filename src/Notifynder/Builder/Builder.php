@@ -114,7 +114,7 @@ class Builder
 
     public function getNotification()
     {
-        if(!$this->notification->isValid()) {
+        if (! $this->notification->isValid()) {
             throw new UnvalidNotificationException($this->notification);
         }
 
