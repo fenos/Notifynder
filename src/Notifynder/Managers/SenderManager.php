@@ -1,4 +1,5 @@
 <?php
+
 namespace Fenos\Notifynder\Managers;
 
 use Closure;
@@ -14,9 +15,10 @@ class SenderManager implements SenderManagerContract
 
     public function send(array $notifications)
     {
-        if(count($notifications) == 1) {
+        if (count($notifications) == 1) {
             return $this->sendSingle($notifications);
         }
+
         return $this->sendMultiple($notifications);
     }
 
@@ -33,14 +35,15 @@ class SenderManager implements SenderManagerContract
     public function extend($name, Closure $sender)
     {
         $this->senders[$name] = $sender;
+
         return true;
     }
 
     public function sendWithCustomSender($name, array $notifications)
     {
-        if($this->hasSender($name)) {
+        if ($this->hasSender($name)) {
             $sender = call_user_func_array($this->getSender($name), [$notifications]);
-            if($sender instanceof SenderContract) {
+            if ($sender instanceof SenderContract) {
                 return (bool) $sender->send($this);
             }
             throw new BadFunctionCallException("The sender [{$name}] hasn't returned an instance of ".SenderContract::class);

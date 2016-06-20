@@ -1,4 +1,5 @@
 <?php
+
 namespace Fenos\Notifynder\Senders;
 
 use Fenos\Notifynder\Contracts\SenderContract;
@@ -17,6 +18,7 @@ class SingleSender implements SenderContract
     public function send(SenderManagerContract $sender)
     {
         $notification = new Notification($this->notification);
+
         return $notification->save();
     }
 }

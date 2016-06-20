@@ -1,6 +1,6 @@
 <?php
-namespace Fenos\Notifynder\Senders;
 
+namespace Fenos\Notifynder\Senders;
 
 use Fenos\Notifynder\Contracts\SenderContract;
 use Fenos\Notifynder\Contracts\SenderManagerContract;
@@ -34,6 +34,7 @@ class MultipleSender implements SenderContract
             ->table($table)
             ->insert($this->notifications);
         $this->database->commit();
+
         return $insert;
     }
 }
