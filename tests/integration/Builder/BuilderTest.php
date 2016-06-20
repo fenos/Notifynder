@@ -78,9 +78,9 @@ class BuilderTest extends NotifynderTestCase
 
     public function testCreateMultipleNotifications()
     {
-        $datas = [2,3,4];
+        $datas = [2, 3, 4];
         $builder = new Builder();
-        $notifications = $builder->loop($datas, function($builder, $data) {
+        $notifications = $builder->loop($datas, function ($builder, $data) {
             $builder->category(1)
                 ->from(1)
                 ->to($data);
@@ -89,7 +89,7 @@ class BuilderTest extends NotifynderTestCase
         $this->assertInternalType('array', $notifications);
         $this->assertCount(count($datas), $notifications);
 
-        foreach($notifications as $index => $notification) {
+        foreach ($notifications as $index => $notification) {
             $this->assertInstanceOf(Notification::class, $notification);
 
             $this->assertSame(1, $notification->category_id);
@@ -107,7 +107,7 @@ class BuilderTest extends NotifynderTestCase
         $this->setExpectedException(UnvalidNotificationException::class);
 
         $builder = new Builder();
-        $builder->loop([2,3,4], function($builder, $data) {
+        $builder->loop([2, 3, 4], function ($builder, $data) {
             $builder->category(1)
                 ->to($data);
         })->getNotifications();
