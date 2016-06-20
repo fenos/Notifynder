@@ -82,7 +82,7 @@ class Notification implements Arrayable, Jsonable, JsonSerializable
     {
         return array_map(function ($value) {
             return $value instanceof Arrayable ? $value->toArray() : $value;
-        }, $this->attributes);
+        }, $this->attributes());
     }
 
     public function __toString()

@@ -35,12 +35,13 @@
       "Fenos\\Notifynder\\": "src/Notifynder"
     },
     "files": [
-      "app/Helpers/helpers.php"
+
+      "src/Notifynder/Helpers/helpers.php"
     ]
   },
   "autoload-dev": {
     "classmap": [
-      "tests/TestCaseDB.php"
+      "tests/NotifynderTestCase.php"
     ],
     "psr-4": {
       "Fenos\\Tests\\": "tests/models"
