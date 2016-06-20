@@ -44,6 +44,11 @@ class Config implements ConfigContract
         return Arr::flatten($this->get('additional_fields', []));
     }
 
+    public function getAdditionalRequiredFields()
+    {
+        return Arr::flatten($this->get('additional_fields.required', []));
+    }
+
     public function get($key, $default = null)
     {
         return Arr::get($this->items, $key, $default);

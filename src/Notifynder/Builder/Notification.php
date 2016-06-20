@@ -11,6 +11,18 @@ class Notification implements Arrayable, Jsonable, JsonSerializable
 {
     protected $attributes = [];
 
+    protected $requiredFields = [
+        'from_id',
+        'to_id',
+        'category_id',
+    ];
+
+    public function __construct()
+    {
+        $customRequired = notifynder_config()->getAdditionalRequiredFields();
+        $this->requiredFields = array_merge($this->requiredFields, $customRequired);
+    }
+
     public function attributes()
     {
         return $this->attributes;
@@ -21,6 +33,11 @@ class Notification implements Arrayable, Jsonable, JsonSerializable
         return $this->get($key, $default);
     }
 
+    public function has($key)
+    {
+        return Arr::has($this->attributes, $key);
+    }
+
     public function get($key, $default = null)
     {
         return Arr::get($this->attributes, $key, $default);
@@ -29,6 +46,16 @@ class Notification implements Arrayable, Jsonable, JsonSerializable
     public function set($key, $value)
     {
         Arr::set($this->attributes, $key, $value);
+    }
+
+    public function isValid()
+    {
+        foreach ($this->requiredFields as $field) {
+            if (!$this->has($field)) {
+                return false;
+            }
+        }
+        return true;
     }
 
     public function __get($key)

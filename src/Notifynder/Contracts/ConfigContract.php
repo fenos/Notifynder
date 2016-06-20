@@ -11,6 +11,8 @@ interface ConfigContract
     public function getNotifiedModel();
 
     public function getAdditionalFields();
+    
+    public function getAdditionalRequiredFields();
 
     public function get($key, $default);
 

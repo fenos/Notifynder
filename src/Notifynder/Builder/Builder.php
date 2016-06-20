@@ -4,6 +4,7 @@ namespace Fenos\Notifynder\Builder;
 
 use Closure;
 use Carbon\Carbon;
+use Fenos\Notifynder\Exceptions\UnvalidNotificationException;
 use Fenos\Notifynder\Helpers\TypeChecker;
 use Fenos\Notifynder\Models\NotificationCategory;
 use Illuminate\Database\Eloquent\Model;
@@ -113,6 +114,10 @@ class Builder
 
     public function getNotification()
     {
+        if(!$this->notification->isValid()) {
+            throw new UnvalidNotificationException($this->notification);
+        }
+
         $this->setDates();
 
         return $this->notification;
