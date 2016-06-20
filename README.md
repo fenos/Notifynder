@@ -1,5 +1,5 @@
-Notifynder 3.2 - Laravel 5
-==========================
+Notifynder 4 - Laravel 5
+========================
 
 [![GitHub release](https://img.shields.io/github/release/fenos/Notifynder.svg?style=flat-square)](https://github.com/fenos/Notifynder/releases)
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](https://raw.githubusercontent.com/fenos/Notifynder/master/LICENSE)
@@ -34,7 +34,7 @@ Documentation: **[Notifynder Wiki](https://github.com/fenos/Notifynder/wiki)**
 
 Add it on your `composer.json`
 
-    "fenos/notifynder": "^3.2"
+    "fenos/notifynder": "^4.0"
 
 and run 
 
@@ -70,35 +70,7 @@ Run the migration
 
     php artisan migrate
 
-### Quick Usage ###
+## Usage ##
 
-Set up category of notification, think about it as the
-body of the notification:
-
-    php artisan notifynder:create:category "user.following" "{from.username} started to follow you"
-
-To send a notification with notifynder, that's all
-you have to do.
-
-~~~php
-Notifynder::category('user.following')
-            ->from($from_user_id)
-            ->to($to_user_id)
-            ->url('http://www.yourwebsite.com/page')
-            ->send();
-~~~
-
-**Retrieving Notifications**
-
-~~~php
-// @return Collection
-Notifynder::getAll($user_id,$limit,$paginateBool);
-~~~
-
-**Reading Notifications:**
-~~~php
-// @return number of notifications read
-Notifynder::readAll($user_id);
-~~~
-
-To know more, such as the advance usage of Notifynder Visit the **[Notifynder Wiki](https://github.com/fenos/Notifynder/wiki)**.
+This Branch isn't ready for any kind of usage! It's development in progress and will bring a whole new code-base for this package.
+Everyone is welcome to support us or give feedback for the new major version in our Slack Team.
