@@ -26,10 +26,10 @@ class Builder
     public function category($category)
     {
         $categoryId = $category;
-        if (! is_numeric($category)) {
-            $categoryId = NotificationCategory::byName($category)->findOrFail()->getKey();
-        } elseif ($category instanceof NotificationCategory) {
+        if ($category instanceof NotificationCategory) {
             $categoryId = $category->getKey();
+        } elseif (!is_numeric($category)) {
+            $categoryId = NotificationCategory::byName($category)->findOrFail()->getKey();
         }
 
         $this->setNotificationData('category_id', $categoryId);

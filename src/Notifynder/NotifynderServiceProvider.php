@@ -4,8 +4,12 @@ namespace Fenos\Notifynder;
 
 use Fenos\Notifynder\Collections\Config;
 use Fenos\Notifynder\Contracts\ConfigContract;
-use Fenos\Notifynder\Contracts\NotifynderContract;
+use Fenos\Notifynder\Contracts\NotifynderManagerContract;
+use Fenos\Notifynder\Contracts\SenderManagerContract;
 use Fenos\Notifynder\Managers\NotifynderManager;
+use Fenos\Notifynder\Managers\SenderManager;
+use Fenos\Notifynder\Senders\MultipleSender;
+use Fenos\Notifynder\Senders\SingleSender;
 use Illuminate\Support\ServiceProvider;
 
 class NotifynderServiceProvider extends ServiceProvider
@@ -14,7 +18,10 @@ class NotifynderServiceProvider extends ServiceProvider
     {
         $this->bindContracts();
         $this->bindConfig();
+        $this->bindSender();
         $this->bindNotifynder();
+
+        $this->registerSenders();
     }
 
     public function boot()
@@ -28,7 +35,8 @@ class NotifynderServiceProvider extends ServiceProvider
      */
     protected function bindContracts()
     {
-        $this->app->bind(NotifynderContract::class, 'notifynder');
+        $this->app->bind(NotifynderManagerContract::class, 'notifynder');
+        $this->app->bind(SenderManagerContract::class, 'notifynder.sender');
         $this->app->bind(ConfigContract::class, 'notifynder.config');
     }
 
@@ -43,18 +51,35 @@ class NotifynderServiceProvider extends ServiceProvider
     }
 
     /**
+     * Bind notifynder config.
+     */
+    protected function bindSender()
+    {
+        $this->app->singleton('notifynder.sender', function ($app) {
+            return new SenderManager();
+        });
+    }
+
+    /**
      * Bind notifynder manager.
      */
     protected function bindNotifynder()
     {
         $this->app->singleton('notifynder', function ($app) {
             return new NotifynderManager(
-                $app['notifynder.category'],
-                $app['notifynder.sender'],
-                $app['notifynder.notification'],
-                $app['notifynder.dispatcher'],
-                $app['notifynder.group']
+                $app['notifynder.sender']
             );
+        });
+    }
+    
+    public function registerSenders()
+    {
+        app('notifynder')->extend('sendSingle', function (array $notifications) {
+            return new SingleSender($notifications);
+        });
+
+        app('notifynder')->extend('sendMultiple', function (array $notifications) {
+            return new MultipleSender($notifications);
         });
     }
 

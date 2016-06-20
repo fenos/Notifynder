@@ -2,6 +2,7 @@
 
 namespace Fenos\Notifynder\Models;
 
+use Fenos\Notifynder\Builder\Notification as BuilderNotification;
 use Illuminate\Database\Eloquent\Model;
 
 class Notification extends Model
@@ -23,9 +24,13 @@ class Notification extends Model
         'extra' => 'array',
     ];
 
-    public function __construct(array $attributes = [])
+    public function __construct($attributes = [])
     {
         $this->fillable($this->mergeFillables());
+
+        if($attributes instanceof BuilderNotification) {
+            $attributes = $attributes->toArray();
+        }
 
         parent::__construct($attributes);
     }
