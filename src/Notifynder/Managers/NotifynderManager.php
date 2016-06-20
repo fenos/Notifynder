@@ -27,6 +27,7 @@ class NotifynderManager implements NotifynderManagerContract
     {
         $this->builder(true);
         $this->builder->category($category);
+
         return $this;
     }
 
@@ -34,21 +35,24 @@ class NotifynderManager implements NotifynderManagerContract
     {
         $this->builder(true);
         $this->builder->loop($data, $callback);
+
         return $this;
     }
 
     public function builder($new = false)
     {
-        if(is_null($this->builder) || $new) {
+        if (is_null($this->builder) || $new) {
             $this->builder = new Builder();
         }
+
         return $this->builder;
     }
-    
+
     public function send()
     {
         $sent = $this->sender->send($this->builder->getNotifications());
         $this->reset();
+
         return $sent;
     }
 
@@ -72,14 +76,16 @@ class NotifynderManager implements NotifynderManagerContract
         if (Str::startsWith($name, 'send')) {
             $sent = $this->sender->sendWithCustomSender($name, $this->builder->getNotifications());
             $this->reset();
+
             return $sent;
         }
 
-        if($this->builder instanceof Builder && method_exists($this->builder, $name)) {
+        if ($this->builder instanceof Builder && method_exists($this->builder, $name)) {
             $result = call_user_func_array([$this->builder, $name], $arguments);
-            if(Str::startsWith($name, 'get')) {
+            if (Str::startsWith($name, 'get')) {
                 return $result;
             }
+
             return $this;
         }
 

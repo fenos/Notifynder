@@ -28,7 +28,7 @@ class Notification extends Model
     {
         $this->fillable($this->mergeFillables());
 
-        if($attributes instanceof BuilderNotification) {
+        if ($attributes instanceof BuilderNotification) {
             $attributes = $attributes->toArray();
         }
 
