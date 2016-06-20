@@ -1,4 +1,5 @@
 <?php
+
 namespace Fenos\Notifynder\Exceptions;
 
 use Exception;
