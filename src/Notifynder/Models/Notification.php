@@ -3,6 +3,7 @@
 namespace Fenos\Notifynder\Models;
 
 use Fenos\Notifynder\Builder\Notification as BuilderNotification;
+use Fenos\Notifynder\Parsers\NotificationParser;
 use Illuminate\Database\Eloquent\Model;
 
 class Notification extends Model
@@ -18,6 +19,10 @@ class Notification extends Model
         'extra',
         'expire_time', // ToDo: rename to `expires_at`
         'stack_id',
+    ];
+
+    protected $appends = [
+        'text',
     ];
 
     protected $casts = [
@@ -68,5 +73,26 @@ class Notification extends Model
         $fillables = array_unique($this->getFillable() + $this->getCustomFillableFields());
 
         return $fillables;
+    }
+
+    public function getTemplateBodyAttribute()
+    {
+        if (notifynder_config()->isTranslated()) {
+            $key = notifynder_config()->getTranslationDomain().'.'.$this->category->name;
+            $trans = trans($key);
+            if ($trans != $key) {
+                return $trans;
+            }
+        }
+        return $this->category->text;
+    }
+
+    public function getTextAttribute()
+    {
+        if(!array_key_exists('text', $this->attributes)) {
+            $notifynderParse = new NotificationParser();
+            $this->attributes['text'] = $notifynderParse->parse($this);
+        }
+        return $this->attributes['text'];
     }
 }

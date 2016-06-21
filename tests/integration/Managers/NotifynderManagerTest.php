@@ -1,7 +1,9 @@
 <?php
 
 use Fenos\Notifynder\Builder\Builder;
-use Fenos\Notifynder\Builder\Notification;
+use Fenos\Notifynder\Builder\Notification as BuilderNotification;
+use Fenos\Notifynder\Models\Notification as ModelNotification;
+use Illuminate\Database\Eloquent\Collection as EloquentCollection;
 use Fenos\Notifynder\Managers\SenderManager;
 
 class NotifynderManagerTest extends NotifynderTestCase
@@ -38,7 +40,7 @@ class NotifynderManagerTest extends NotifynderTestCase
             ->to(2)
             ->getNotification();
 
-        $this->assertInstanceOf(Notification::class, $notification);
+        $this->assertInstanceOf(BuilderNotification::class, $notification);
     }
 
     public function testBuildMultipleNotifications()
@@ -64,6 +66,10 @@ class NotifynderManagerTest extends NotifynderTestCase
             ->send();
 
         $this->assertTrue($sent);
+
+        $notifications = ModelNotification::all();
+        $this->assertCount(1, $notifications);
+        $this->assertInstanceOf(EloquentCollection::class, $notifications);
     }
 
     public function testSendMultipleNotifications()
@@ -77,5 +83,9 @@ class NotifynderManagerTest extends NotifynderTestCase
         })->send();
 
         $this->assertTrue($sent);
+
+        $notifications = ModelNotification::all();
+        $this->assertCount(count($datas), $notifications);
+        $this->assertInstanceOf(EloquentCollection::class, $notifications);
     }
 }

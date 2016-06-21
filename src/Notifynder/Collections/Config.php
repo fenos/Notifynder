@@ -20,6 +20,16 @@ class Config implements ConfigContract
         return (bool) $this->get('polymorphic');
     }
 
+    public function isStrict()
+    {
+        return (bool) $this->get('strict_extra');
+    }
+
+    public function isTranslated()
+    {
+        return (bool) $this->get('translation.enabled');
+    }
+
     public function getNotificationModel()
     {
         $class = $this->get('notification_model');
@@ -47,6 +57,11 @@ class Config implements ConfigContract
     public function getAdditionalRequiredFields()
     {
         return Arr::flatten($this->get('additional_fields.required', []));
+    }
+
+    public function getTranslationDomain()
+    {
+        return $this->get('translation.domain', 'notifynder');
     }
 
     public function get($key, $default = null)

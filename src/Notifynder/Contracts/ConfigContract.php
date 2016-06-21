@@ -6,6 +6,10 @@ interface ConfigContract
 {
     public function isPolymorphic();
 
+    public function isStrict();
+
+    public function isTranslated();
+
     public function getNotificationModel();
 
     public function getNotifiedModel();
@@ -13,6 +17,8 @@ interface ConfigContract
     public function getAdditionalFields();
 
     public function getAdditionalRequiredFields();
+
+    public function getTranslationDomain();
 
     public function get($key, $default);
 
