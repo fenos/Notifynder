@@ -84,15 +84,17 @@ class Notification extends Model
                 return $trans;
             }
         }
+
         return $this->category->text;
     }
 
     public function getTextAttribute()
     {
-        if(!array_key_exists('text', $this->attributes)) {
+        if (! array_key_exists('text', $this->attributes)) {
             $notifynderParse = new NotificationParser();
             $this->attributes['text'] = $notifynderParse->parse($this);
         }
+
         return $this->attributes['text'];
     }
 }

@@ -1,4 +1,5 @@
 <?php
+
 namespace Fenos\Notifynder\Parsers;
 
 use Fenos\Notifynder\Exceptions\ExtraParamsException;
@@ -34,12 +35,14 @@ class NotificationParser
     {
         $values = [];
         preg_match_all(self::RULE, $body, $values);
+
         return $values[1];
     }
 
     protected function replace($body, $valueMatch, $replacer)
     {
         $body = str_replace('{'.$replacer.'}', $valueMatch, $body);
+
         return $body;
     }
 }

@@ -26,9 +26,9 @@ if (! function_exists('notifynder_mixed_get')) {
         foreach (explode('.', $key) as $segment) {
             if (is_object($object) && isset($object->{$segment})) {
                 $object = $object->{$segment};
-            } elseif (is_object($object) && method_exists($object, '__get') && !is_null($object->__get($segment))) {
+            } elseif (is_object($object) && method_exists($object, '__get') && ! is_null($object->__get($segment))) {
                 $object = $object->__get($segment);
-            } elseif (is_object($object) && method_exists($object, 'getAttribute') && !is_null($object->getAttribute($segment))) {
+            } elseif (is_object($object) && method_exists($object, 'getAttribute') && ! is_null($object->getAttribute($segment))) {
                 $object = $object->getAttribute($segment);
             } elseif (is_array($object) && array_key_exists($segment, $object)) {
                 $object = array_get($object, $segment, $default);
@@ -36,6 +36,7 @@ if (! function_exists('notifynder_mixed_get')) {
                 return value($default);
             }
         }
+
         return $object;
     }
 }
