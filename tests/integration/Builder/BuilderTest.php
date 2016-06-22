@@ -76,6 +76,19 @@ class BuilderTest extends NotifynderTestCase
             ->getNotification();
     }
 
+    public function testCreateSingleCatchedUnvalidNotificationW()
+    {
+        try {
+            $builder = new Builder();
+            $builder
+                ->from(1)
+                ->to(2)
+                ->getNotification();
+        } catch(UnvalidNotificationException $e) {
+            $this->assertInstanceOf(Notification::class, $e->getNotification());
+        }
+    }
+
     public function testCreateMultipleNotifications()
     {
         $datas = [2, 3, 4];
