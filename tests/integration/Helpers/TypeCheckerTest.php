@@ -51,7 +51,7 @@ class TypeCheckerTest extends NotifynderTestCase
 
     public function testIsArray()
     {
-        $this->assertTrue($this->checker->isArray([1,2,3]));
+        $this->assertTrue($this->checker->isArray([1, 2, 3]));
     }
 
     public function testIsArrayFail()
@@ -63,7 +63,7 @@ class TypeCheckerTest extends NotifynderTestCase
 
     public function testIsIterable()
     {
-        $this->assertTrue($this->checker->isIterable(collect([1,2,3])));
+        $this->assertTrue($this->checker->isIterable(collect([1, 2, 3])));
     }
 
     public function testIsIterableFail()

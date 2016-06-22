@@ -23,8 +23,7 @@ class SenderManagerTest extends NotifynderTestCase
         $this->setExpectedException(BadFunctionCallException::class);
 
         $manager = app('notifynder.sender');
-        $manager->extend('sendFail', function() {
-            return null;
+        $manager->extend('sendFail', function () {
         });
         $manager->sendFail([]);
     }

@@ -84,7 +84,7 @@ class BuilderTest extends NotifynderTestCase
                 ->from(1)
                 ->to(2)
                 ->getNotification();
-        } catch(UnvalidNotificationException $e) {
+        } catch (UnvalidNotificationException $e) {
             $this->assertInstanceOf(Notification::class, $e->getNotification());
         }
     }
