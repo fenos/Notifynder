@@ -37,8 +37,10 @@ class SenderManager implements SenderManagerContract
     {
         if (Str::startsWith($name, 'send')) {
             $this->senders[$name] = $sender;
+
             return true;
         }
+
         return false;
     }
 
