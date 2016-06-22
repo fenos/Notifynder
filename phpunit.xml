@@ -16,7 +16,7 @@
     </testsuites>
     <filter>
         <whitelist addUncoveredFilesFromWhitelist="true">
-            <directory suffix=".php">./src</directory>
+            <directory suffix=".php">./src/Notifynder</directory>
         </whitelist>
     </filter>
     <logging>
