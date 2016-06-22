@@ -8,6 +8,7 @@ use BadMethodCallException;
 use Fenos\Notifynder\Contracts\SenderContract;
 use Fenos\Notifynder\Contracts\SenderManagerContract;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 
 class SenderManager implements SenderManagerContract
 {
@@ -34,9 +35,11 @@ class SenderManager implements SenderManagerContract
 
     public function extend($name, Closure $sender)
     {
-        $this->senders[$name] = $sender;
-
-        return true;
+        if (Str::startsWith($name, 'send')) {
+            $this->senders[$name] = $sender;
+            return true;
+        }
+        return false;
     }
 
     public function sendWithCustomSender($name, array $notifications)
