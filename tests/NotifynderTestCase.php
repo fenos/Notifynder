@@ -58,6 +58,7 @@ abstract class NotifynderTestCase extends OrchestraTestCase
             'firstname' => 'John',
             'lastname' => 'Doe',
         ], $attributes);
+
         return User::create($attributes);
     }
 }

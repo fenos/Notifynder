@@ -13,7 +13,7 @@ trait Notifable
 
         return $this->hasMany($model, 'to_id');
     }
-    
+
     public function notifynder($category)
     {
         return app('notifynder')->category($category);
