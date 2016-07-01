@@ -112,6 +112,7 @@ class Notification extends Model
     {
         $this->updateTimestamps();
         $this->read = 0;
+
         return $this->save();
     }
 }
