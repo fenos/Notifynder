@@ -107,4 +107,11 @@ class Notification extends Model
     {
         $this->update(['read' => 0]);
     }
+
+    public function resend()
+    {
+        $this->updateTimestamps();
+        $this->read = 0;
+        return $this->save();
+    }
 }
