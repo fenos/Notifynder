@@ -44,7 +44,7 @@ class Builder
 
         return $this;
     }
-    
+
     public function anonymous()
     {
         $this->setNotificationData('from_type', null);
