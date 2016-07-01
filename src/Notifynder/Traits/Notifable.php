@@ -13,4 +13,19 @@ trait Notifable
 
         return $this->hasMany($model, 'to_id');
     }
+    
+    public function notifynder($category)
+    {
+        return app('notifynder')->category($category);
+    }
+
+    public function sendNotificationFrom($category)
+    {
+        return $this->notifynder($category)->from($this);
+    }
+
+    public function sendNotificationTo($category)
+    {
+        return $this->notifynder($category)->to($this);
+    }
 }

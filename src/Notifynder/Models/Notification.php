@@ -4,6 +4,7 @@ namespace Fenos\Notifynder\Models;
 
 use Fenos\Notifynder\Builder\Notification as BuilderNotification;
 use Fenos\Notifynder\Parsers\NotificationParser;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
 class Notification extends Model
@@ -114,5 +115,21 @@ class Notification extends Model
         $this->read = 0;
 
         return $this->save();
+    }
+
+    public function scopeByCategory(Builder $query, $category)
+    {
+        $categoryId = $category;
+        if($category instanceof NotificationCategory) {
+            $categoryId = $category->getKey();
+        } elseif (! is_numeric($category)) {
+            $categoryId = NotificationCategory::byName($category)->firstOrFail()->getKey();
+        }
+        return $query->where('category_id', $categoryId);
+    }
+
+    public function scopeByRead(Builder $query, $read = 1)
+    {
+        return $query->where('read', $read);
     }
 }

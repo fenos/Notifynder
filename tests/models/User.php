@@ -9,5 +9,9 @@ class User extends Model
 {
     use Notifable;
 
-    protected $fillable = ['id'];
+    protected $fillable = [
+        'id',
+        'firstname',
+        'lastname',
+    ];
 }
