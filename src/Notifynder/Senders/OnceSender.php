@@ -34,11 +34,7 @@ class OnceSender implements SenderContract
 
     protected function getQuery(Notification $notification)
     {
-        $model = notifynder_config()->getNotificationModel();
-        $query = $model::query();
-        if (! ($query instanceof EloquentBuilder)) {
-            throw new BadMethodCallException("The query method hasn't return an instance of the eloquent query builder.");
-        }
+        $query = $this->getQueryInstance();
         $query
             ->where('from_id', $notification->from_id)
             ->where('from_type', $notification->from_type)
@@ -53,6 +49,16 @@ class OnceSender implements SenderContract
             $query->where('extra', $extra);
         }
 
+        return $query;
+    }
+
+    protected function getQueryInstance()
+    {
+        $model = notifynder_config()->getNotificationModel();
+        $query = $model::query();
+        if (! ($query instanceof EloquentBuilder)) {
+            throw new BadMethodCallException("The query method hasn't return an instance of [".EloquentBuilder::class."].");
+        }
         return $query;
     }
 }
