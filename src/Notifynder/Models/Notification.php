@@ -97,4 +97,14 @@ class Notification extends Model
 
         return $this->attributes['text'];
     }
+
+    public function read()
+    {
+        $this->update(['read' => 1]);
+    }
+
+    public function unread()
+    {
+        $this->update(['read' => 0]);
+    }
 }

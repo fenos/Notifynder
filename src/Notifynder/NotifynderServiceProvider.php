@@ -9,6 +9,7 @@ use Fenos\Notifynder\Contracts\SenderManagerContract;
 use Fenos\Notifynder\Managers\NotifynderManager;
 use Fenos\Notifynder\Managers\SenderManager;
 use Fenos\Notifynder\Senders\MultipleSender;
+use Fenos\Notifynder\Senders\OnceSender;
 use Fenos\Notifynder\Senders\SingleSender;
 use Illuminate\Support\ServiceProvider;
 
@@ -80,6 +81,10 @@ class NotifynderServiceProvider extends ServiceProvider
 
         app('notifynder')->extend('sendMultiple', function (array $notifications) {
             return new MultipleSender($notifications);
+        });
+
+        app('notifynder')->extend('sendOnce', function (array $notifications) {
+            return new OnceSender($notifications);
         });
     }
 

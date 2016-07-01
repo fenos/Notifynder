@@ -1,5 +1,6 @@
 <?php
 
+use Fenos\Notifynder\Models\Notification;
 use Fenos\Notifynder\Builder\Builder;
 use Fenos\Notifynder\Builder\Notification as BuilderNotification;
 use Fenos\Notifynder\Models\Notification as ModelNotification;
@@ -101,6 +102,71 @@ class NotifynderManagerTest extends NotifynderTestCase
 
         $notifications = ModelNotification::all();
         $this->assertCount(1, $notifications);
+        $this->assertInstanceOf(EloquentCollection::class, $notifications);
+    }
+
+    public function testSendOnceSameNotifications()
+    {
+        $manager = app('notifynder');
+        $sent = $manager->category(1)
+            ->from(1)
+            ->to(2)
+            ->sendOnce();
+        $this->assertTrue($sent);
+
+        $notifications = ModelNotification::all();
+        $this->assertCount(1, $notifications);
+        $this->assertInstanceOf(EloquentCollection::class, $notifications);
+        $notificationFirst = $notifications->first();
+        $this->assertInstanceOf(Notification::class, $notificationFirst);
+
+        $this->assertEquals(0, $notificationFirst->read);
+        $notificationFirst->read();
+        $this->assertEquals(1, $notificationFirst->read);
+
+        sleep(1);
+
+        $sent = $manager->category(1)
+            ->from(1)
+            ->to(2)
+            ->sendOnce();
+        $this->assertTrue($sent);
+
+        $notifications = ModelNotification::all();
+        $this->assertCount(1, $notifications);
+        $this->assertInstanceOf(EloquentCollection::class, $notifications);
+        $notificationSecond = $notifications->first();
+        $this->assertInstanceOf(Notification::class, $notificationSecond);
+
+        $this->assertEquals(0, $notificationSecond->read);
+
+        $this->assertSame($notificationFirst->getKey(), $notificationSecond->getKey());
+        $this->assertEquals($notificationFirst->created_at, $notificationSecond->created_at);
+        $diff = $notificationFirst->updated_at->diffInSeconds($notificationSecond->updated_at);
+        $this->assertGreaterThan(0, $diff);
+    }
+
+    public function testSendOnceDifferentNotifications()
+    {
+        $manager = app('notifynder');
+        $sent = $manager->category(1)
+            ->from(1)
+            ->to(2)
+            ->sendOnce();
+        $this->assertTrue($sent);
+
+        $notifications = ModelNotification::all();
+        $this->assertCount(1, $notifications);
+        $this->assertInstanceOf(EloquentCollection::class, $notifications);
+
+        $sent = $manager->category(1)
+            ->from(2)
+            ->to(1)
+            ->sendOnce();
+        $this->assertTrue($sent);
+
+        $notifications = ModelNotification::all();
+        $this->assertCount(2, $notifications);
         $this->assertInstanceOf(EloquentCollection::class, $notifications);
     }
 }
