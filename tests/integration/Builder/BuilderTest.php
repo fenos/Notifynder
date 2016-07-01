@@ -27,6 +27,26 @@ class BuilderTest extends NotifynderTestCase
         $this->assertInstanceOf(Carbon::class, $notification->updated_at);
     }
 
+    public function testCreateSingleAnonymousNotification()
+    {
+        $builder = new Builder();
+        $notification = $builder
+            ->category(1)
+            ->anonymous()
+            ->to(2)
+            ->getNotification();
+
+        $this->assertInstanceOf(Notification::class, $notification);
+
+        $this->assertSame(1, $notification->category_id);
+        $this->assertNull($notification->from_id);
+        $this->assertNull($notification->from_type);
+        $this->assertSame(2, $notification->to_id);
+        $this->assertSame('Fenos\Tests\Models\User', $notification->to_type);
+        $this->assertInstanceOf(Carbon::class, $notification->created_at);
+        $this->assertInstanceOf(Carbon::class, $notification->updated_at);
+    }
+
     public function testCreateSingleNotificationWithAll()
     {
         $builder = new Builder();
@@ -47,7 +67,7 @@ class BuilderTest extends NotifynderTestCase
         $this->assertInternalType('array', $notification->extra);
         $this->assertCount(1, $notification->extra);
         $this->assertSame('bar', $notification->extra['foo']);
-        $this->assertInstanceOf(Carbon::class, $notification->expire_time);
+        $this->assertInstanceOf(Carbon::class, $notification->expires_at);
     }
 
     public function testCreateSingleNotificationAndGetArray()

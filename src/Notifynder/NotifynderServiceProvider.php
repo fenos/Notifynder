@@ -132,6 +132,9 @@ class NotifynderServiceProvider extends ServiceProvider
         if (! class_exists('AddStackIdToNotifications')) {
             $this->publishMigration('2016_05_19_144531_add_stack_id_to_notifications');
         }
+        if (! class_exists('UpdateVersion4NotificationsTable')) {
+            $this->publishMigration('2016_07_01_153156_update_version4_notifications_table');
+        }
     }
 
     /**

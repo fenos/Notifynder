@@ -44,6 +44,14 @@ class Builder
 
         return $this;
     }
+    
+    public function anonymous()
+    {
+        $this->setNotificationData('from_type', null);
+        $this->setNotificationData('from_id', null);
+
+        return $this;
+    }
 
     public function to()
     {
@@ -64,7 +72,7 @@ class Builder
     public function expire($datetime)
     {
         $this->typeChecker->isDate($datetime);
-        $this->setNotificationData('expire_time', $datetime);
+        $this->setNotificationData('expires_at', $datetime);
 
         return $this;
     }

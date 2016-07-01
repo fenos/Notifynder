@@ -18,7 +18,7 @@ class Notification extends Model
         'read',
         'url',
         'extra',
-        'expire_time', // ToDo: rename to `expires_at`
+        'expires_at',
         'stack_id',
     ];
 
@@ -115,6 +115,11 @@ class Notification extends Model
         $this->read = 0;
 
         return $this->save();
+    }
+
+    public function isAnonymous()
+    {
+        return is_null($this->from_id);
     }
 
     public function scopeByCategory(Builder $query, $category)

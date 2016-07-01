@@ -73,6 +73,27 @@ class NotifynderManagerTest extends NotifynderTestCase
         $this->assertInstanceOf(EloquentCollection::class, $notifications);
     }
 
+    public function testSendSingleAnonymousNotification()
+    {
+        $manager = app('notifynder');
+        $sent = $manager->category(1)
+            ->anonymous()
+            ->to(2)
+            ->send();
+
+        $this->assertTrue($sent);
+
+        $notifications = ModelNotification::all();
+        $this->assertCount(1, $notifications);
+        $this->assertInstanceOf(EloquentCollection::class, $notifications);
+        $notification = $notifications->first();
+        $this->assertInstanceOf(ModelNotification::class, $notification);
+        $this->assertNull($notification->from);
+        $this->assertNull($notification->from_id);
+        $this->assertNull($notification->from_type);
+        $this->assertTrue($notification->isAnonymous());
+    }
+
     public function testSendMultipleNotifications()
     {
         $datas = [2, 3, 4];
