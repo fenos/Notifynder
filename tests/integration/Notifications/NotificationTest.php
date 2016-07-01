@@ -68,6 +68,40 @@ class NotificationTest extends TestCaseDB
     }
 
     /** @test */
+    public function it_retrieve_notification_by_disable_pagination()
+    {
+        app('config')->set('notifynder.polymorphic', false);
+        $extraValues = json_encode(['look' => 'Amazing']);
+
+        $category = $this->createCategory(['text' => 'parse this {extra.look} value']);
+
+        $notification = $this->createNotification(['extra' => $extraValues, 'category_id' => $category->id]);
+        $this->createMultipleNotifications(['to_id' => $notification->to_id]);
+
+        $notifications = $this->notification->getNotRead($notification->to->id, 10, false);
+
+        $this->assertCount(10, $notifications);
+        $this->assertInstanceOf(\Fenos\Notifynder\Models\NotifynderCollection::class, $notifications);
+    }
+
+    /** @test */
+    public function it_retrieve_notification_by_paginating_with_bool()
+    {
+        app('config')->set('notifynder.polymorphic', false);
+        $extraValues = json_encode(['look' => 'Amazing']);
+
+        $category = $this->createCategory(['text' => 'parse this {extra.look} value']);
+
+        $notification = $this->createNotification(['extra' => $extraValues, 'category_id' => $category->id]);
+        $this->createMultipleNotifications(['to_id' => $notification->to_id]);
+
+        $notifications = $this->notification->getNotRead($notification->to->id, 5, true);
+
+        $this->assertCount(5, $notifications);
+        $this->assertInstanceOf(\Illuminate\Contracts\Pagination\LengthAwarePaginator::class, $notifications);
+    }
+
+    /** @test */
     public function it_retrieve_notification_by_paginating_the_number()
     {
         app('config')->set('notifynder.polymorphic', false);
@@ -81,6 +115,7 @@ class NotificationTest extends TestCaseDB
         $notifications = $this->notification->getNotRead($notification->to->id, 5, 1);
 
         $this->assertCount(5, $notifications);
+        $this->assertInstanceOf(\Illuminate\Contracts\Pagination\LengthAwarePaginator::class, $notifications);
     }
 
     /**

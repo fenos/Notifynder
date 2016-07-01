@@ -7,6 +7,7 @@ use Fenos\Notifynder\Contracts\NotificationDB;
 use Fenos\Notifynder\Contracts\NotifynderNotification;
 use Fenos\Notifynder\Exceptions\NotificationNotFoundException;
 use Fenos\Notifynder\Models\Notification as NotificationModel;
+use Fenos\Notifynder\Models\NotifynderCollection;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 /**
@@ -174,17 +175,11 @@ class NotificationManager implements NotifynderNotification
     {
         $notifications = $this->notifynderRepo->getNotRead(
             $toId, $this->entity,
-            $limit, $paginate, $orderDate,
+            $limit, null, $orderDate,
             $filterScope
         );
 
-        if (is_int(intval($paginate)) && $paginate) {
-            return new LengthAwarePaginator($notifications->parse(), $notifications->total(), $limit, $paginate, [
-                'path' => LengthAwarePaginator::resolveCurrentPath(),
-            ]);
-        }
-
-        return $notifications->parse();
+        return $this->getPaginatedIfNeeded($notifications, $limit, $paginate);
     }
 
     /**
@@ -201,17 +196,24 @@ class NotificationManager implements NotifynderNotification
     {
         $notifications = $this->notifynderRepo->getAll(
             $toId, $this->entity,
-            $limit, $paginate, $orderDate,
+            $limit, null, $orderDate,
             $filterScope
         );
 
-        if (is_int(intval($paginate)) && $paginate) {
-            return new LengthAwarePaginator($notifications->parse(), $notifications->total(), $limit, $paginate, [
-                'path' => LengthAwarePaginator::resolveCurrentPath(),
-            ]);
+        return $this->getPaginatedIfNeeded($notifications, $limit, $paginate);
+    }
+
+    protected function getPaginatedIfNeeded(NotifynderCollection $notifications, $limit, $paginate)
+    {
+        if ($paginate === false || is_null($paginate)) {
+            return $notifications->parse();
+        } elseif ($paginate === true) {
+            $paginate = null;
         }
 
-        return $notifications->parse();
+        return new LengthAwarePaginator($notifications->parse(), $notifications->count(), $limit, $paginate, [
+            'path' => LengthAwarePaginator::resolveCurrentPath(),
+        ]);
     }
 
     /**
