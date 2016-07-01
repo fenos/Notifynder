@@ -74,3 +74,9 @@ Run the migration
 
 This Branch isn't ready for any kind of usage! It's development in progress and will bring a whole new code-base for this package.
 Everyone is welcome to support us or give feedback for the new major version in our Slack Team.
+
+## Contributors ##
+
+Thanks for everyone [who contributed](https://github.com/fenos/Notifynder/graphs/contributors) to Notifynder and a special thanks for the most active contributors
+
+- [Gummibeer](https://github.com/Gummibeer)
