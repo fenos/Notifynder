@@ -57,8 +57,9 @@ class OnceSender implements SenderContract
         $model = notifynder_config()->getNotificationModel();
         $query = $model::query();
         if (! ($query instanceof EloquentBuilder)) {
-            throw new BadMethodCallException("The query method hasn't return an instance of [".EloquentBuilder::class."].");
+            throw new BadMethodCallException("The query method hasn't return an instance of [".EloquentBuilder::class.'].');
         }
+
         return $query;
     }
 }
