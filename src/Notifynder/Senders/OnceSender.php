@@ -1,4 +1,5 @@
 <?php
+
 namespace Fenos\Notifynder\Senders;
 
 use BadMethodCallException;
@@ -20,9 +21,9 @@ class OnceSender implements SenderContract
         $model = notifynder_config()->getNotificationModel();
 
         $success = true;
-        foreach($this->notifications as $notification) {
+        foreach ($this->notifications as $notification) {
             $query = $model::query();
-            if (!($query instanceof EloquentBuilder)) {
+            if (! ($query instanceof EloquentBuilder)) {
                 throw new BadMethodCallException("The query method hasn't return an instance of the eloquent query builder.");
             }
             $query
@@ -31,14 +32,14 @@ class OnceSender implements SenderContract
                 ->where('to_id', $notification->to_id)
                 ->where('to_type', $notification->to_type)
                 ->where('category_id', $notification->category_id);
-            if (isset($notification->extra) && !empty($notification->extra)) {
+            if (isset($notification->extra) && ! empty($notification->extra)) {
                 $extra = $notification->extra;
-                if(is_array($extra)) {
+                if (is_array($extra)) {
                     $extra = json_encode($extra);
                 }
                 $query->where('extra', $extra);
             }
-            if (!$query->exists()) {
+            if (! $query->exists()) {
                 $success = $sender->send([$notification]) ? $success : false;
             } else {
                 $notification = $query->first();
@@ -46,6 +47,7 @@ class OnceSender implements SenderContract
                 $notification->unread();
             }
         }
+
         return $success;
     }
 }
