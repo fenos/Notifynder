@@ -2,6 +2,8 @@
 
 namespace Fenos\Notifynder\Traits;
 
+use Fenos\Notifynder\Models\Notification;
+
 trait Notifable
 {
     public function notifications()
@@ -27,5 +29,21 @@ trait Notifable
     public function sendNotificationTo($category)
     {
         return $this->notifynder($category)->to($this);
+    }
+
+    public function readNotification($notification)
+    {
+        if(!($notification instanceof Notification)) {
+            $notification = Notification::firstOrFail($notification);
+        }
+        return $notification->read();
+    }
+
+    public function unreadNotification($notification)
+    {
+        if(!($notification instanceof Notification)) {
+            $notification = Notification::firstOrFail($notification);
+        }
+        return $notification->unread();
     }
 }

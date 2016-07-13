@@ -102,12 +102,12 @@ class Notification extends Model
 
     public function read()
     {
-        $this->update(['read' => 1]);
+        return $this->update(['read' => 1]);
     }
 
     public function unread()
     {
-        $this->update(['read' => 0]);
+        return $this->update(['read' => 0]);
     }
 
     public function resend()
