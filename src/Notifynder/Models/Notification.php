@@ -24,6 +24,7 @@ class Notification extends Model
 
     protected $appends = [
         'text',
+        'template_body',
     ];
 
     protected $casts = [
