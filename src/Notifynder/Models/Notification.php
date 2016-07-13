@@ -49,19 +49,19 @@ class Notification extends Model
     public function from()
     {
         if (notifynder_config()->isPolymorphic()) {
-            return $this->belongsTo(notifynder_config()->getModel(), 'from_id');
+            return $this->morphTo('from');
         }
 
-        return $this->morphTo();
+        return $this->belongsTo(notifynder_config()->getNotifiedModel(), 'from_id');
     }
 
     public function to()
     {
         if (notifynder_config()->isPolymorphic()) {
-            return $this->belongsTo(notifynder_config()->getModel(), 'to_id');
+            return $this->morphTo('to');
         }
 
-        return $this->morphTo();
+        return $this->belongsTo(notifynder_config()->getNotifiedModel(), 'to_id');
     }
 
     public function getCustomFillableFields()
