@@ -167,4 +167,19 @@ class NotifableTraitTest extends TestCaseDB
 
         $this->assertEquals($notification->id, $lastNotification->id);
     }
+
+    /**
+     * @test
+     */
+    public function it_get_paginated_notifications_of_the_current_user()
+    {
+        $this->createMultipleNotifications();
+        $this->createMultipleNotifications();
+        $this->createMultipleNotifications();
+
+        $notifications = $this->user->getNotifications(5, true);
+
+        $this->assertSame(3 * $this->multiNotificationsNumber, $notifications->total());
+        $this->assertCount(5, $notifications);
+    }
 }

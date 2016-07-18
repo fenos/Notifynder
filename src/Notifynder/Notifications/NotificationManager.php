@@ -194,24 +194,38 @@ class NotificationManager implements NotifynderNotification
      */
     public function getAll($toId, $limit = null, $paginate = null, $orderDate = 'desc', Closure $filterScope = null)
     {
+        $queryLimit = $limit;
+        if ($this->isPaginated($paginate)) {
+            $queryLimit = null;
+        }
+
         $notifications = $this->notifynderRepo->getAll(
             $toId, $this->entity,
-            $limit, null, $orderDate,
+            $queryLimit, null, $orderDate,
             $filterScope
         );
 
         return $this->getPaginatedIfNeeded($notifications, $limit, $paginate);
     }
 
-    protected function getPaginatedIfNeeded(NotifynderCollection $notifications, $limit, $paginate)
+    protected function isPaginated($paginate)
     {
-        if ($paginate === false || is_null($paginate)) {
+        return !($paginate === false || is_null($paginate));
+    }
+
+    protected function getPaginatedIfNeeded(NotifynderCollection $notifications, $perPage, $paginate)
+    {
+        if (!$this->isPaginated($paginate)) {
             return $notifications->parse();
         } elseif ($paginate === true) {
             $paginate = null;
         }
 
-        return new LengthAwarePaginator($notifications->parse(), $notifications->count(), $limit, $paginate, [
+        $page = LengthAwarePaginator::resolveCurrentPage();
+        $total = $notifications->count();
+        $notifications = $notifications->forPage($page, $perPage);
+
+        return new LengthAwarePaginator($notifications->parse(), $total, $perPage, $paginate, [
             'path' => LengthAwarePaginator::resolveCurrentPath(),
         ]);
     }
