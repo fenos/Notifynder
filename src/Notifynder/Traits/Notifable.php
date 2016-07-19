@@ -53,4 +53,13 @@ trait Notifable
     {
         return $this->notifications()->byRead(0)->count();
     }
+
+    public function getNotifications($limit = null, $order = 'desc')
+    {
+        $query = $this->notifications()->orderBy('created_at', $order);
+        if(!is_null($limit)) {
+            $query->limit($limit);
+        }
+        return $query->get();
+    }
 }
