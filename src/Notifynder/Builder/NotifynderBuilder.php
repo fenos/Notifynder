@@ -149,6 +149,20 @@ class NotifynderBuilder implements ArrayAccess
     }
 
     /**
+     * Set additional fields value.
+     *
+     * @param $key
+     * @param $value
+     * @return $this
+     */
+    public function setField($key, $value)
+    {
+        $this->setBuilderData($key, $value);
+
+        return $this;
+    }
+
+    /**
      * Build the array with the builder inside
      * a Closure, it has more flexibility for
      * the generation of your array.
