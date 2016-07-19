@@ -54,7 +54,7 @@ class BuilderTest extends NotifynderTestCase
             ->category(1)
             ->from(1)
             ->to(2)
-            ->url('https://google.com')
+            ->url('http://notifynder.info')
             ->extra([
                 'foo' => 'bar',
             ])
@@ -63,7 +63,7 @@ class BuilderTest extends NotifynderTestCase
 
         $this->assertInstanceOf(Notification::class, $notification);
 
-        $this->assertSame('https://google.com', $notification->url);
+        $this->assertSame('http://notifynder.info', $notification->url);
         $this->assertInternalType('array', $notification->extra);
         $this->assertCount(1, $notification->extra);
         $this->assertSame('bar', $notification->extra['foo']);
@@ -144,5 +144,67 @@ class BuilderTest extends NotifynderTestCase
             $builder->category(1)
                 ->to($data);
         })->getNotifications();
+    }
+
+    public function testCreateSingleNotificationWithAdditionalField()
+    {
+        notifynder_config()->set('additional_fields.fillable', []);
+
+        $builder = new Builder();
+        $notification = $builder
+            ->category(1)
+            ->from(1)
+            ->to(2)
+            ->setField('additional_field', 'value')
+            ->getNotification();
+
+        $this->assertInstanceOf(Notification::class, $notification);
+        $this->assertSame(1, $notification->category_id);
+        $this->assertNull($notification->additional_field);
+
+        notifynder_config()->set('additional_fields.fillable', ['additional_field']);
+
+        $builder = new Builder();
+        $notification = $builder
+            ->category(1)
+            ->from(1)
+            ->to(2)
+            ->setField('additional_field', 'value')
+            ->getNotification();
+
+        $this->assertInstanceOf(Notification::class, $notification);
+        $this->assertSame(1, $notification->category_id);
+        $this->assertSame('value', $notification->additional_field);
+    }
+
+    public function testCreateSingleUnvalidNotificationWithRequiredField()
+    {
+        $this->setExpectedException(UnvalidNotificationException::class);
+
+        notifynder_config()->set('additional_fields.required', ['required_field']);
+
+        $builder = new Builder();
+        $notification = $builder
+            ->category(1)
+            ->from(1)
+            ->to(2)
+            ->getNotification();
+    }
+
+    public function testCreateSingleNotificationWithRequiredField()
+    {
+        notifynder_config()->set('additional_fields.required', ['required_field']);
+
+        $builder = new Builder();
+        $notification = $builder
+            ->category(1)
+            ->from(1)
+            ->to(2)
+            ->setField('required_field', 'value')
+            ->getNotification();
+
+        $this->assertInstanceOf(Notification::class, $notification);
+        $this->assertSame(1, $notification->category_id);
+        $this->assertSame('value', $notification->required_field);
     }
 }

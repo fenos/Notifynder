@@ -2,8 +2,8 @@
 
 namespace Fenos\Notifynder\Managers;
 
-use Closure;
 use BadMethodCallException;
+use Closure;
 use Fenos\Notifynder\Builder\Builder;
 use Fenos\Notifynder\Contracts\NotifynderManagerContract;
 use Fenos\Notifynder\Contracts\SenderManagerContract;
@@ -89,7 +89,7 @@ class NotifynderManager implements NotifynderManagerContract
             return $this;
         }
 
-        $error = "The method [$name] doesn't exist in the class ".self::class;
+        $error = "The method [$name] doesn't exist in the class " . self::class;
         throw new BadMethodCallException($error);
     }
 }

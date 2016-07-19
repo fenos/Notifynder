@@ -22,7 +22,7 @@ class OnceSender implements SenderContract
         $success = true;
         foreach ($this->notifications as $notification) {
             $query = $this->getQuery($notification);
-            if (! $query->exists()) {
+            if (!$query->exists()) {
                 $success = $sender->send([$notification]) ? $success : false;
             } else {
                 $query->firstOrFail()->resend();
@@ -41,7 +41,7 @@ class OnceSender implements SenderContract
             ->where('to_id', $notification->to_id)
             ->where('to_type', $notification->to_type)
             ->where('category_id', $notification->category_id);
-        if (isset($notification->extra) && ! empty($notification->extra)) {
+        if (isset($notification->extra) && !empty($notification->extra)) {
             $extra = $notification->extra;
             if (is_array($extra)) {
                 $extra = json_encode($extra);
@@ -56,8 +56,8 @@ class OnceSender implements SenderContract
     {
         $model = notifynder_config()->getNotificationModel();
         $query = $model::query();
-        if (! ($query instanceof EloquentBuilder)) {
-            throw new BadMethodCallException("The query method hasn't return an instance of [".EloquentBuilder::class.'].');
+        if (!($query instanceof EloquentBuilder)) {
+            throw new BadMethodCallException("The query method hasn't return an instance of [" . EloquentBuilder::class . '].');
         }
 
         return $query;

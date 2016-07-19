@@ -12,22 +12,22 @@ class Config implements ConfigContract
 
     public function __construct()
     {
-        $this->items = app('config')->get('notifynder');
+        $this->reload();
     }
 
     public function isPolymorphic()
     {
-        return (bool) $this->get('polymorphic');
+        return (bool)$this->get('polymorphic');
     }
 
     public function isStrict()
     {
-        return (bool) $this->get('strict_extra');
+        return (bool)$this->get('strict_extra');
     }
 
     public function isTranslated()
     {
-        return (bool) $this->get('translation.enabled');
+        return (bool)$this->get('translation.enabled');
     }
 
     public function getNotificationModel()
@@ -77,6 +77,12 @@ class Config implements ConfigContract
     public function set($key, $value = null)
     {
         Arr::set($this->items, $key, $value);
+        app('config')->set('notifynder.'.$key, $value);
+    }
+
+    public function reload()
+    {
+        $this->items = app('config')->get('notifynder');
     }
 
     public function __get($key)

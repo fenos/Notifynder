@@ -41,7 +41,7 @@ class NotificationParser
 
     protected function replace($body, $valueMatch, $replacer)
     {
-        $body = str_replace('{'.$replacer.'}', $valueMatch, $body);
+        $body = str_replace('{' . $replacer . '}', $valueMatch, $body);
 
         return $body;
     }

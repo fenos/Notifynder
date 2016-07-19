@@ -2,12 +2,13 @@
 
 namespace Fenos\Notifynder\Builder;
 
-use JsonSerializable;
+use ArrayAccess;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Contracts\Support\Jsonable;
 use Illuminate\Support\Arr;
+use JsonSerializable;
 
-class Notification implements Arrayable, Jsonable, JsonSerializable
+class Notification implements Arrayable, ArrayAccess, Jsonable, JsonSerializable
 {
     protected $attributes = [];
 
@@ -51,7 +52,7 @@ class Notification implements Arrayable, Jsonable, JsonSerializable
     public function isValid()
     {
         foreach ($this->requiredFields as $field) {
-            if (! $this->has($field)) {
+            if (!$this->has($field)) {
                 return false;
             }
         }
@@ -89,5 +90,25 @@ class Notification implements Arrayable, Jsonable, JsonSerializable
     public function __toString()
     {
         return $this->toJson();
+    }
+
+    public function offsetExists($offset)
+    {
+        return $this->has($offset);
+    }
+
+    public function offsetGet($offset)
+    {
+        return $this->get($offset);
+    }
+
+    public function offsetSet($offset, $value)
+    {
+        $this->set($offset, $value);
+    }
+
+    public function offsetUnset($offset)
+    {
+        Arr::forget($this->attributes, $offset);
     }
 }

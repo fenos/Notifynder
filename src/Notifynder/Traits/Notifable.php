@@ -33,7 +33,7 @@ trait Notifable
 
     public function readNotification($notification)
     {
-        if(!($notification instanceof Notification)) {
+        if (!($notification instanceof Notification)) {
             $notification = Notification::firstOrFail($notification);
         }
         return $notification->read();
@@ -41,7 +41,7 @@ trait Notifable
 
     public function unreadNotification($notification)
     {
-        if(!($notification instanceof Notification)) {
+        if (!($notification instanceof Notification)) {
             $notification = Notification::firstOrFail($notification);
         }
         return $notification->unread();

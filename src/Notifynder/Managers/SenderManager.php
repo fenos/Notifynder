@@ -2,9 +2,9 @@
 
 namespace Fenos\Notifynder\Managers;
 
-use Closure;
 use BadFunctionCallException;
 use BadMethodCallException;
+use Closure;
 use Fenos\Notifynder\Contracts\SenderContract;
 use Fenos\Notifynder\Contracts\SenderManagerContract;
 use Illuminate\Support\Arr;
@@ -49,9 +49,9 @@ class SenderManager implements SenderManagerContract
         if ($this->hasSender($name)) {
             $sender = call_user_func_array($this->getSender($name), [$notifications]);
             if ($sender instanceof SenderContract) {
-                return (bool) $sender->send($this);
+                return (bool)$sender->send($this);
             }
-            throw new BadFunctionCallException("The sender [{$name}] hasn't returned an instance of ".SenderContract::class);
+            throw new BadFunctionCallException("The sender [{$name}] hasn't returned an instance of " . SenderContract::class);
         }
         throw new BadMethodCallException("The sender [{$name}] isn't registered.");
     }

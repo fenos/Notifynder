@@ -2,14 +2,15 @@
 
 namespace Fenos\Notifynder\Builder;
 
-use Closure;
+use ArrayAccess;
 use Carbon\Carbon;
+use Closure;
 use Fenos\Notifynder\Exceptions\UnvalidNotificationException;
 use Fenos\Notifynder\Helpers\TypeChecker;
 use Fenos\Notifynder\Models\NotificationCategory;
 use Illuminate\Database\Eloquent\Model;
 
-class Builder
+class Builder implements ArrayAccess
 {
     protected $notification;
 
@@ -28,7 +29,7 @@ class Builder
         $categoryId = $category;
         if ($category instanceof NotificationCategory) {
             $categoryId = $category->getKey();
-        } elseif (! is_numeric($category)) {
+        } elseif (!is_numeric($category)) {
             $categoryId = NotificationCategory::byName($category)->firstOrFail()->getKey();
         }
 
@@ -93,6 +94,16 @@ class Builder
         $this->setNotificationData('created_at', $date);
     }
 
+    public function setField($key, $value)
+    {
+        $additionalFields = notifynder_config()->getAdditionalFields();
+        if (in_array($key, $additionalFields)) {
+            $this->setNotificationData($key, $value);
+        }
+
+        return $this;
+    }
+
     protected function setEntityData($entity, $property)
     {
         if (is_array($entity) && count($entity) == 2) {
@@ -122,7 +133,7 @@ class Builder
 
     public function getNotification()
     {
-        if (! $this->notification->isValid()) {
+        if (!$this->notification->isValid()) {
             throw new UnvalidNotificationException($this->notification);
         }
 
@@ -156,5 +167,25 @@ class Builder
         }
 
         return $this;
+    }
+
+    public function offsetExists($offset)
+    {
+        return $this->notification->offsetExists($offset);
+    }
+
+    public function offsetGet($offset)
+    {
+        return $this->notification->offsetGet($offset);
+    }
+
+    public function offsetSet($offset, $value)
+    {
+        $this->notification->offsetSet($offset, $value);
+    }
+
+    public function offsetUnset($offset)
+    {
+        $this->notification->offsetUnset($offset);
     }
 }

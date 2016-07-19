@@ -80,7 +80,7 @@ class Notification extends Model
     public function getTemplateBodyAttribute()
     {
         if (notifynder_config()->isTranslated()) {
-            $key = notifynder_config()->getTranslationDomain().'.'.$this->category->name;
+            $key = notifynder_config()->getTranslationDomain() . '.' . $this->category->name;
             $trans = trans($key);
             if ($trans != $key) {
                 return $trans;
@@ -92,7 +92,7 @@ class Notification extends Model
 
     public function getTextAttribute()
     {
-        if (! array_key_exists('text', $this->attributes)) {
+        if (!array_key_exists('text', $this->attributes)) {
             $notifynderParse = new NotificationParser();
             $this->attributes['text'] = $notifynderParse->parse($this);
         }
@@ -128,7 +128,7 @@ class Notification extends Model
         $categoryId = $category;
         if ($category instanceof NotificationCategory) {
             $categoryId = $category->getKey();
-        } elseif (! is_numeric($category)) {
+        } elseif (!is_numeric($category)) {
             $categoryId = NotificationCategory::byName($category)->firstOrFail()->getKey();
         }
 
