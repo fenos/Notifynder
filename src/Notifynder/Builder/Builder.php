@@ -29,7 +29,7 @@ class Builder implements ArrayAccess
         $categoryId = $category;
         if ($category instanceof NotificationCategory) {
             $categoryId = $category->getKey();
-        } elseif (!is_numeric($category)) {
+        } elseif (! is_numeric($category)) {
             $categoryId = NotificationCategory::byName($category)->firstOrFail()->getKey();
         }
 
@@ -133,7 +133,7 @@ class Builder implements ArrayAccess
 
     public function getNotification()
     {
-        if (!$this->notification->isValid()) {
+        if (! $this->notification->isValid()) {
             throw new UnvalidNotificationException($this->notification);
         }
 

@@ -11,7 +11,7 @@ class TypeChecker
 {
     public function isString($value)
     {
-        if (!is_string($value)) {
+        if (! is_string($value)) {
             throw new InvalidArgumentException('The value passed must be a string');
         }
 
@@ -20,7 +20,7 @@ class TypeChecker
 
     public function isNumeric($value)
     {
-        if (!is_numeric($value)) {
+        if (! is_numeric($value)) {
             throw new InvalidArgumentException('The value passed must be a number');
         }
 

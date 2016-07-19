@@ -94,10 +94,10 @@ class NotifynderServiceProvider extends ServiceProvider
     protected function config()
     {
         $this->publishes([
-            __DIR__ . '/../config/notifynder.php' => config_path('notifynder.php'),
+            __DIR__.'/../config/notifynder.php' => config_path('notifynder.php'),
         ]);
 
-        $this->mergeConfigFrom(__DIR__ . '/../config/notifynder.php', 'notifynder');
+        $this->mergeConfigFrom(__DIR__.'/../config/notifynder.php', 'notifynder');
     }
 
     /**
@@ -105,34 +105,34 @@ class NotifynderServiceProvider extends ServiceProvider
      */
     protected function migration()
     {
-        if (!class_exists('NotificationCategories')) {
+        if (! class_exists('NotificationCategories')) {
             $this->publishMigration('2014_02_10_145728_notification_categories');
         }
-        if (!class_exists('CreateNotificationGroupsTable')) {
+        if (! class_exists('CreateNotificationGroupsTable')) {
             $this->publishMigration('2014_08_01_210813_create_notification_groups_table');
         }
-        if (!class_exists('CreateNotificationCategoryNotificationGroupTable')) {
+        if (! class_exists('CreateNotificationCategoryNotificationGroupTable')) {
             $this->publishMigration('2014_08_01_211045_create_notification_category_notification_group_table');
         }
-        if (!class_exists('CreateNotificationsTable')) {
+        if (! class_exists('CreateNotificationsTable')) {
             $this->publishMigration('2015_05_05_212549_create_notifications_table');
         }
-        if (!class_exists('AddExpireTimeColumnToNotificationTable')) {
+        if (! class_exists('AddExpireTimeColumnToNotificationTable')) {
             $this->publishMigration('2015_06_06_211555_add_expire_time_column_to_notification_table');
         }
-        if (!class_exists('ChangeTypeToExtraInNotificationsTable')) {
+        if (! class_exists('ChangeTypeToExtraInNotificationsTable')) {
             $this->publishMigration('2015_06_06_211555_change_type_to_extra_in_notifications_table');
         }
-        if (!class_exists('AlterCategoryNameToUnique')) {
+        if (! class_exists('AlterCategoryNameToUnique')) {
             $this->publishMigration('2015_06_07_211555_alter_category_name_to_unique');
         }
-        if (!class_exists('MakeNotificationUrlNullable')) {
+        if (! class_exists('MakeNotificationUrlNullable')) {
             $this->publishMigration('2016_04_19_200827_make_notification_url_nullable');
         }
-        if (!class_exists('AddStackIdToNotifications')) {
+        if (! class_exists('AddStackIdToNotifications')) {
             $this->publishMigration('2016_05_19_144531_add_stack_id_to_notifications');
         }
-        if (!class_exists('UpdateVersion4NotificationsTable')) {
+        if (! class_exists('UpdateVersion4NotificationsTable')) {
             $this->publishMigration('2016_07_01_153156_update_version4_notifications_table');
         }
     }
@@ -143,8 +143,8 @@ class NotifynderServiceProvider extends ServiceProvider
     protected function publishMigration($filename)
     {
         $extension = '.php';
-        $filename = trim($filename, $extension) . $extension;
-        $stub = __DIR__ . '/../migrations/' . $filename;
+        $filename = trim($filename, $extension).$extension;
+        $stub = __DIR__.'/../migrations/'.$filename;
         $target = $this->migrationFilepath($filename);
         $this->publishes([$stub => $target], 'migrations');
     }
@@ -156,9 +156,9 @@ class NotifynderServiceProvider extends ServiceProvider
     protected function migrationFilepath($filename)
     {
         if (function_exists('database_path')) {
-            return database_path('/migrations/' . $filename);
+            return database_path('/migrations/'.$filename);
         } else {
-            return base_path('/database/migrations/' . $filename);
+            return base_path('/database/migrations/'.$filename);
         }
     }
 }
