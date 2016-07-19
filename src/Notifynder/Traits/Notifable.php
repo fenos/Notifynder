@@ -48,4 +48,9 @@ trait Notifable
 
         return $notification->unread();
     }
+
+    public function countUnreadNotifications()
+    {
+        return $this->notifications()->byRead(0)->count();
+    }
 }
