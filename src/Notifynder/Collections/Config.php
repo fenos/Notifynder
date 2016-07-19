@@ -17,17 +17,17 @@ class Config implements ConfigContract
 
     public function isPolymorphic()
     {
-        return (bool)$this->get('polymorphic');
+        return (bool) $this->get('polymorphic');
     }
 
     public function isStrict()
     {
-        return (bool)$this->get('strict_extra');
+        return (bool) $this->get('strict_extra');
     }
 
     public function isTranslated()
     {
-        return (bool)$this->get('translation.enabled');
+        return (bool) $this->get('translation.enabled');
     }
 
     public function getNotificationModel()

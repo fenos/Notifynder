@@ -52,7 +52,7 @@ class Notification implements Arrayable, ArrayAccess, Jsonable, JsonSerializable
     public function isValid()
     {
         foreach ($this->requiredFields as $field) {
-            if (!$this->has($field)) {
+            if (! $this->has($field)) {
                 return false;
             }
         }

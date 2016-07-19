@@ -89,7 +89,7 @@ class NotifynderManager implements NotifynderManagerContract
             return $this;
         }
 
-        $error = "The method [$name] doesn't exist in the class " . self::class;
+        $error = "The method [$name] doesn't exist in the class ".self::class;
         throw new BadMethodCallException($error);
     }
 }
