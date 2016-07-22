@@ -90,7 +90,7 @@ class Notification implements Arrayable, ArrayAccess, Jsonable, JsonSerializable
     public function toDbArray()
     {
         $notification = $this->toArray();
-        if(is_array($notification['extra'])) {
+        if(array_key_exists('extra', $notification) && is_array($notification['extra'])) {
             $notification['extra'] = json_encode($notification['extra']);
         }
         return $notification;
