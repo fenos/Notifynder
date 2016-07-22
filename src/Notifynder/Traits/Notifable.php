@@ -40,6 +40,11 @@ trait Notifable
         return $notification->read();
     }
 
+    public function readAllNotifications()
+    {
+        return $this->notifications()->update(['read' => 1]);
+    }
+
     public function unreadNotification($notification)
     {
         if (! ($notification instanceof Notification)) {

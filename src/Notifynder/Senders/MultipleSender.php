@@ -27,7 +27,7 @@ class MultipleSender implements SenderContract
                 ->table($table)
                 ->max('stack_id') + 1;
         foreach ($this->notifications as $key => $notification) {
-            $this->notifications[$key] = $this->notifications[$key]->toArray();
+            $this->notifications[$key] = $this->notifications[$key]->toDbArray();
             $this->notifications[$key]['stack_id'] = $stackId;
         }
         $insert = $this->database
