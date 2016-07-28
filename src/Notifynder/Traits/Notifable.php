@@ -34,13 +34,14 @@ trait Notifable
 
     public function readNotification($notification)
     {
-        if (!TypeChecker::isNotification($notification, false)) {
+        if (! TypeChecker::isNotification($notification, false)) {
             $notification = Notification::firstOrFail($notification);
         }
 
-        if($this->notifications()->where($notification->getKeyName(), $notification->getKey())->exists()) {
+        if ($this->notifications()->where($notification->getKeyName(), $notification->getKey())->exists()) {
             return $notification->read();
         }
+
         return false;
     }
 
@@ -51,13 +52,14 @@ trait Notifable
 
     public function unreadNotification($notification)
     {
-        if (!TypeChecker::isNotification($notification, false)) {
+        if (! TypeChecker::isNotification($notification, false)) {
             $notification = Notification::firstOrFail($notification);
         }
 
-        if($this->notifications()->where($notification->getKeyName(), $notification->getKey())->exists()) {
+        if ($this->notifications()->where($notification->getKeyName(), $notification->getKey())->exists()) {
             return $notification->unread();
         }
+
         return false;
     }
 
