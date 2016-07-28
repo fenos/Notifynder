@@ -11,10 +11,11 @@ class TypeChecker
 {
     public static function isString($value, $strict = true)
     {
-        if (!is_string($value)) {
+        if (! is_string($value)) {
             if ($strict) {
                 throw new InvalidArgumentException('The value passed must be a string');
             }
+
             return false;
         }
 
@@ -23,10 +24,11 @@ class TypeChecker
 
     public static function isNumeric($value, $strict = true)
     {
-        if (!is_numeric($value)) {
+        if (! is_numeric($value)) {
             if ($strict) {
                 throw new InvalidArgumentException('The value passed must be a number');
             }
+
             return false;
         }
 
@@ -42,6 +44,7 @@ class TypeChecker
         if ($strict) {
             throw new InvalidArgumentException('The value passed must be an instance of Carbon\\Carbon or DateTime');
         }
+
         return false;
     }
 
@@ -54,6 +57,7 @@ class TypeChecker
         if ($strict) {
             throw new InvalidArgumentException('The value passed must be an array');
         }
+
         return false;
     }
 
@@ -66,17 +70,20 @@ class TypeChecker
         if ($strict) {
             throw new InvalidArgumentException('The value passed must be iterable');
         }
+
         return false;
     }
 
     public static function isNotification($notification, $strict = true)
     {
-        if (!is_a($notification, notifynder_config()->getNotificationModel())) {
+        if (! is_a($notification, notifynder_config()->getNotificationModel())) {
             if ($strict) {
                 throw new InvalidArgumentException('The value passed must be an Notification Model instance');
             }
+
             return false;
         }
+
         return true;
     }
 }
