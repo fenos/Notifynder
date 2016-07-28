@@ -2,6 +2,7 @@
 
 namespace Fenos\Notifynder\Traits;
 
+use Fenos\Notifynder\Helpers\TypeChecker;
 use Fenos\Notifynder\Models\Notification;
 
 trait Notifable
@@ -33,11 +34,14 @@ trait Notifable
 
     public function readNotification($notification)
     {
-        if (! ($notification instanceof Notification)) {
+        if (!TypeChecker::isNotification($notification, false)) {
             $notification = Notification::firstOrFail($notification);
         }
 
-        return $notification->read();
+        if($this->notifications()->where($notification->getKeyName(), $notification->getKey())->exists()) {
+            return $notification->read();
+        }
+        return false;
     }
 
     public function readAllNotifications()
@@ -47,11 +51,14 @@ trait Notifable
 
     public function unreadNotification($notification)
     {
-        if (! ($notification instanceof Notification)) {
+        if (!TypeChecker::isNotification($notification, false)) {
             $notification = Notification::firstOrFail($notification);
         }
 
-        return $notification->unread();
+        if($this->notifications()->where($notification->getKeyName(), $notification->getKey())->exists()) {
+            return $notification->unread();
+        }
+        return false;
     }
 
     public function countUnreadNotifications()

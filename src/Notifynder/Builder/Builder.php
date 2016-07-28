@@ -16,12 +16,9 @@ class Builder implements ArrayAccess
 
     protected $notifications = [];
 
-    protected $typeChecker;
-
     public function __construct()
     {
         $this->notification = new Notification();
-        $this->typeChecker = new TypeChecker();
     }
 
     public function category($category)
@@ -64,7 +61,7 @@ class Builder implements ArrayAccess
 
     public function url($url)
     {
-        $this->typeChecker->isString($url);
+        TypeChecker::isString($url);
         $this->setNotificationData('url', $url);
 
         return $this;
@@ -72,7 +69,7 @@ class Builder implements ArrayAccess
 
     public function expire($datetime)
     {
-        $this->typeChecker->isDate($datetime);
+        TypeChecker::isDate($datetime);
         $this->setNotificationData('expires_at', $datetime);
 
         return $this;
@@ -80,7 +77,7 @@ class Builder implements ArrayAccess
 
     public function extra(array $extra = [])
     {
-        $this->typeChecker->isArray($extra);
+        TypeChecker::isArray($extra);
         $this->setNotificationData('extra', $extra);
 
         return $this;
@@ -107,8 +104,8 @@ class Builder implements ArrayAccess
     protected function setEntityData($entity, $property)
     {
         if (is_array($entity) && count($entity) == 2) {
-            $this->typeChecker->isString($entity[0]);
-            $this->typeChecker->isNumeric($entity[1]);
+            TypeChecker::isString($entity[0]);
+            TypeChecker::isNumeric($entity[1]);
 
             $type = $entity[0];
             $id = $entity[1];
@@ -116,7 +113,7 @@ class Builder implements ArrayAccess
             $type = $entity[0]->getMorphClass();
             $id = $entity[0]->getKey();
         } else {
-            $this->typeChecker->isNumeric($entity[0]);
+            TypeChecker::isNumeric($entity[0]);
 
             $type = notifynder_config()->getNotifiedModel();
             $id = $entity[0];
@@ -158,7 +155,7 @@ class Builder implements ArrayAccess
 
     public function loop($data, Closure $callback)
     {
-        $this->typeChecker->isIterable($data);
+        TypeChecker::isIterable($data);
 
         foreach ($data as $key => $value) {
             $builder = new static();
