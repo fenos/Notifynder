@@ -124,12 +124,6 @@ class NotifynderServiceProvider extends ServiceProvider
             );
         });
 
-        // Inject configs when model is resolved
-        $this->app->resolving(Notification::class, function (Notification $object, $app) {
-            $fillable = $app['config']->get('notifynder.additional_fields.fillable', []);
-            $object->fillable(array_merge($object->getFillable(), $fillable));
-        });
-
         // Default store notification
         $this->app->bind('notifynder.store', 'notifynder.notification.repository');
     }
