@@ -18,6 +18,19 @@ use Illuminate\Support\ServiceProvider;
  */
 class NotifynderServiceProvider extends ServiceProvider
 {
+    protected $migrations = [
+        'NotificationCategories' => '2014_02_10_145728_notification_categories',
+        'CreateNotificationGroupsTable' => '2014_08_01_210813_create_notification_groups_table',
+        'CreateNotificationCategoryNotificationGroupTable' => '2014_08_01_211045_create_notification_category_notification_group_table',
+        'CreateNotificationsTable' => '2015_05_05_212549_create_notifications_table',
+        'AddExpireTimeColumnToNotificationTable' => '2015_06_06_211555_add_expire_time_column_to_notification_table',
+        'ChangeTypeToExtraInNotificationsTable' => '2015_06_06_211555_change_type_to_extra_in_notifications_table',
+        'AlterCategoryNameToUnique' => '2015_06_07_211555_alter_category_name_to_unique',
+        'MakeNotificationUrlNullable' => '2016_04_19_200827_make_notification_url_nullable',
+        'AddStackIdToNotifications' => '2016_05_19_144531_add_stack_id_to_notifications',
+        'UpdateVersion4NotificationsTable' => '2016_07_01_153156_update_version4_notifications_table',
+    ];
+
     /**
      * Register the service provider.
      *
@@ -135,35 +148,10 @@ class NotifynderServiceProvider extends ServiceProvider
      */
     protected function migration()
     {
-        if (! class_exists('NotificationCategories')) {
-            $this->publishMigration('2014_02_10_145728_notification_categories');
-        }
-        if (! class_exists('CreateNotificationGroupsTable')) {
-            $this->publishMigration('2014_08_01_210813_create_notification_groups_table');
-        }
-        if (! class_exists('CreateNotificationCategoryNotificationGroupTable')) {
-            $this->publishMigration('2014_08_01_211045_create_notification_category_notification_group_table');
-        }
-        if (! class_exists('CreateNotificationsTable')) {
-            $this->publishMigration('2015_05_05_212549_create_notifications_table');
-        }
-        if (! class_exists('AddExpireTimeColumnToNotificationTable')) {
-            $this->publishMigration('2015_06_06_211555_add_expire_time_column_to_notification_table');
-        }
-        if (! class_exists('ChangeTypeToExtraInNotificationsTable')) {
-            $this->publishMigration('2015_06_06_211555_change_type_to_extra_in_notifications_table');
-        }
-        if (! class_exists('AlterCategoryNameToUnique')) {
-            $this->publishMigration('2015_06_07_211555_alter_category_name_to_unique');
-        }
-        if (! class_exists('MakeNotificationUrlNullable')) {
-            $this->publishMigration('2016_04_19_200827_make_notification_url_nullable');
-        }
-        if (! class_exists('AddStackIdToNotifications')) {
-            $this->publishMigration('2016_05_19_144531_add_stack_id_to_notifications');
-        }
-        if (! class_exists('UpdateVersion4NotificationsTable')) {
-            $this->publishMigration('2016_07_01_153156_update_version4_notifications_table');
+        foreach($this->migrations as $class => $file) {
+            if (! class_exists($class)) {
+                $this->publishMigration($file);
+            }
         }
     }
 
