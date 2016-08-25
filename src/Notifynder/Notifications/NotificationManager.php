@@ -173,9 +173,14 @@ class NotificationManager implements NotifynderNotification
      */
     public function getNotRead($toId, $limit = null, $paginate = null, $orderDate = 'desc', Closure $filterScope = null)
     {
+        $queryLimit = $limit;
+        if ($this->isPaginated($paginate)) {
+            $queryLimit = null;
+        }
+
         $notifications = $this->notifynderRepo->getNotRead(
             $toId, $this->entity,
-            $limit, null, $orderDate,
+            $queryLimit, null, $orderDate,
             $filterScope
         );
 
