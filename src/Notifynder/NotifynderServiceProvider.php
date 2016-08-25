@@ -14,8 +14,7 @@ use Fenos\Notifynder\Senders\SingleSender;
 use Illuminate\Support\ServiceProvider;
 
 /**
- * Class NotifynderServiceProvider
- * @package Fenos\Notifynder
+ * Class NotifynderServiceProvider.
  */
 class NotifynderServiceProvider extends ServiceProvider
 {

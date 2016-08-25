@@ -6,8 +6,7 @@ use Fenos\Notifynder\Contracts\SenderContract;
 use Fenos\Notifynder\Contracts\SenderManagerContract;
 
 /**
- * Class MultipleSender
- * @package Fenos\Notifynder\Senders
+ * Class MultipleSender.
  */
 class MultipleSender implements SenderContract
 {

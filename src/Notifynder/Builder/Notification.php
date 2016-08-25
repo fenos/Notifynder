@@ -9,8 +9,7 @@ use Illuminate\Support\Arr;
 use JsonSerializable;
 
 /**
- * Class Notification
- * @package Fenos\Notifynder\Builder
+ * Class Notification.
  */
 class Notification implements Arrayable, ArrayAccess, Jsonable, JsonSerializable
 {

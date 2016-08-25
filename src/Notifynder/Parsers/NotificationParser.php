@@ -6,13 +6,12 @@ use Fenos\Notifynder\Exceptions\ExtraParamsException;
 use Fenos\Notifynder\Models\Notification;
 
 /**
- * Class NotificationParser
- * @package Fenos\Notifynder\Parsers
+ * Class NotificationParser.
  */
 class NotificationParser
 {
     /**
-     * Regex-search-rule
+     * Regex-search-rule.
      */
     const RULE = '/\{([a-zA-Z0-9_\.]+)\}/m';
 
