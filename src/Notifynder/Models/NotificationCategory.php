@@ -66,10 +66,10 @@ class NotificationCategory extends Model
     public static function getIdByCategory($category)
     {
         $categoryId = $category;
-        if ($category instanceof NotificationCategory) {
+        if ($category instanceof self) {
             $categoryId = $category->getKey();
         } elseif (! is_numeric($category)) {
-            $categoryId = NotificationCategory::byName($category)->firstOrFail()->getKey();
+            $categoryId = self::byName($category)->firstOrFail()->getKey();
         }
 
         return $categoryId;

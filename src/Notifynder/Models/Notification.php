@@ -182,6 +182,7 @@ class Notification extends Model
     public function scopeByCategory(Builder $query, $category)
     {
         $categoryId = NotificationCategory::getIdByCategory($category);
+
         return $query->where('category_id', $categoryId);
     }
 
