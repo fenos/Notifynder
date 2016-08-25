@@ -8,6 +8,11 @@ cache:
   directories:
     - $HOME/.composer/cache
 
+## Addons used by this package
+addons:
+  code_climate:
+    repo_token: ${CC_TOKEN}
+
 ## List all PHP versions to test with
 php:
   - 5.5
@@ -36,6 +41,7 @@ before_script:
 script:
   - vendor/bin/phpspec run
   - vendor/bin/phpunit
+  - vendor/bin/test-reporter
   - php CoverageChecker.php clover.xml 65
 
 ## Send Build Notifications to Slack
