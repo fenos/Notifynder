@@ -39,7 +39,7 @@ trait Notifable
     {
         return $this->notifynderInstance()->entity(
             $this->getMorphClass()
-        )->readAll($this->id);
+        )->readAll($this->getKey());
     }
 
     /**
@@ -53,7 +53,7 @@ trait Notifable
     {
         return $this->notifynderInstance()->entity(
             $this->getMorphClass()
-        )->readLimit($this->id, $numbers, $order);
+        )->readLimit($this->getKey(), $numbers, $order);
     }
 
     /**
@@ -67,7 +67,7 @@ trait Notifable
     {
         return $this->notifynderInstance()->entity(
             $this->getMorphClass()
-        )->deleteLimit($this->id, $numbers, $order);
+        )->deleteLimit($this->getKey(), $numbers, $order);
     }
 
     /**
@@ -79,7 +79,7 @@ trait Notifable
     {
         return $this->notifynderInstance()->entity(
             $this->getMorphClass()
-        )->deleteAll($this->id);
+        )->deleteAll($this->getKey());
     }
 
     /**
@@ -95,7 +95,7 @@ trait Notifable
     {
         return $this->notifynderInstance()->entity(
             $this->getMorphClass()
-        )->getNotRead($this->id, $limit, $paginate, $order, $filterScope);
+        )->getNotRead($this->getKey(), $limit, $paginate, $order, $filterScope);
     }
 
     /**
@@ -111,7 +111,7 @@ trait Notifable
     {
         return $this->notifynderInstance()->entity(
             $this->getMorphClass()
-        )->getAll($this->id, $limit, $paginate, $order, $filterScope);
+        )->getAll($this->getKey(), $limit, $paginate, $order, $filterScope);
     }
 
     /**
@@ -125,7 +125,7 @@ trait Notifable
     {
         return $this->notifynderInstance()->entity(
             $this->getMorphClass()
-        )->getLastNotification($this->id, $category, $filterScope);
+        )->getLastNotification($this->getKey(), $category, $filterScope);
     }
 
     /**
@@ -138,7 +138,7 @@ trait Notifable
     {
         return $this->notifynderInstance()->entity(
             $this->getMorphClass()
-        )->countNotRead($this->id, $filterScope);
+        )->countNotRead($this->getKey(), $filterScope);
     }
 
     /**
