@@ -58,4 +58,20 @@ class NotificationCategory extends Model
     {
         return $query->where('name', $name);
     }
+
+    /**
+     * @param string|int|\Fenos\Notifynder\Models\NotificationCategory $category
+     * @return int
+     */
+    public static function getIdByCategory($category)
+    {
+        $categoryId = $category;
+        if ($category instanceof NotificationCategory) {
+            $categoryId = $category->getKey();
+        } elseif (! is_numeric($category)) {
+            $categoryId = NotificationCategory::byName($category)->firstOrFail()->getKey();
+        }
+
+        return $categoryId;
+    }
 }

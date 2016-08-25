@@ -65,12 +65,37 @@ trait Notifable
      */
     public function readNotification($notification)
     {
+        return $this->updateSingleReadStatus($notification, 1);
+    }
+
+    /**
+     * Unread a single Notification.
+     *
+     * @param int $notification
+     * @return bool
+     */
+    public function unreadNotification($notification)
+    {
+        return $this->updateSingleReadStatus($notification, 0);
+    }
+
+    /**
+     * @param int $notification
+     * @param int $value
+     * @return bool
+     */
+    protected function updateSingleReadStatus($notification, $value)
+    {
         if (! TypeChecker::isNotification($notification, false)) {
             $notification = $this->notifications()->firstOrFail($notification);
         }
 
         if ($this->notifications()->where($notification->getKeyName(), $notification->getKey())->exists()) {
-            return $notification->read();
+            if($value) {
+                return $notification->read();
+            } else {
+                return $notification->unread();
+            }
         }
 
         return false;
@@ -84,25 +109,6 @@ trait Notifable
     public function readAllNotifications()
     {
         return $this->notifications()->update(['read' => 1]);
-    }
-
-    /**
-     * Unread a single Notification.
-     *
-     * @param int $notification
-     * @return bool
-     */
-    public function unreadNotification($notification)
-    {
-        if (! TypeChecker::isNotification($notification, false)) {
-            $notification = $this->notifications()->firstOrFail($notification);
-        }
-
-        if ($this->notifications()->where($notification->getKeyName(), $notification->getKey())->exists()) {
-            return $notification->unread();
-        }
-
-        return false;
     }
 
     /**

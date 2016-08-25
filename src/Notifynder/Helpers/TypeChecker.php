@@ -77,7 +77,7 @@ class TypeChecker
      */
     public static function isArray($value, $strict = true)
     {
-        if (is_array($value) && count($value) > 0) {
+        if (self::isIterable($value, $strict) && is_array($value)) {
             return true;
         }
 

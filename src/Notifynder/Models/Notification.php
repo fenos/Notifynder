@@ -181,13 +181,7 @@ class Notification extends Model
      */
     public function scopeByCategory(Builder $query, $category)
     {
-        $categoryId = $category;
-        if ($category instanceof NotificationCategory) {
-            $categoryId = $category->getKey();
-        } elseif (! is_numeric($category)) {
-            $categoryId = NotificationCategory::byName($category)->firstOrFail()->getKey();
-        }
-
+        $categoryId = NotificationCategory::getIdByCategory($category);
         return $query->where('category_id', $categoryId);
     }
 

@@ -39,13 +39,7 @@ class Builder implements ArrayAccess
      */
     public function category($category)
     {
-        $categoryId = $category;
-        if ($category instanceof NotificationCategory) {
-            $categoryId = $category->getKey();
-        } elseif (! is_numeric($category)) {
-            $categoryId = NotificationCategory::byName($category)->firstOrFail()->getKey();
-        }
-
+        $categoryId = NotificationCategory::getIdByCategory($category);
         $this->setNotificationData('category_id', $categoryId);
 
         return $this;
