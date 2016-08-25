@@ -1,5 +1,4 @@
-Notifynder 4 - Laravel 5
-========================
+# Notifynder 4 - Laravel 5
 
 [![GitHub release](https://img.shields.io/github/release/fenos/Notifynder.svg?style=flat-square)](https://github.com/fenos/Notifynder/releases)
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](https://raw.githubusercontent.com/fenos/Notifynder/master/LICENSE)
