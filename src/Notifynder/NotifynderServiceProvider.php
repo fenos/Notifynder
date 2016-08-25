@@ -148,7 +148,7 @@ class NotifynderServiceProvider extends ServiceProvider
      */
     protected function migration()
     {
-        foreach($this->migrations as $class => $file) {
+        foreach ($this->migrations as $class => $file) {
             if (! class_exists($class)) {
                 $this->publishMigration($file);
             }
