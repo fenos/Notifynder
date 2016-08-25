@@ -3,8 +3,7 @@
 namespace Fenos\Notifynder\Contracts;
 
 /**
- * Interface ConfigContract
- * @package Fenos\Notifynder\Contracts
+ * Interface ConfigContract.
  */
 interface ConfigContract
 {

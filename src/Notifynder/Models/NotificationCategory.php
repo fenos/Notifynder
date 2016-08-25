@@ -6,8 +6,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Class NotificationCategory
- * @package Fenos\Notifynder\Models
+ * Class NotificationCategory.
  */
 class NotificationCategory extends Model
 {

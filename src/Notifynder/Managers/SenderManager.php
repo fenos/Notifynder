@@ -11,8 +11,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 
 /**
- * Class SenderManager
- * @package Fenos\Notifynder\Managers
+ * Class SenderManager.
  */
 class SenderManager implements SenderManagerContract
 {

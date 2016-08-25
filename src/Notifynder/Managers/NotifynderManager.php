@@ -10,8 +10,7 @@ use Fenos\Notifynder\Contracts\SenderManagerContract;
 use Illuminate\Support\Str;
 
 /**
- * Class NotifynderManager
- * @package Fenos\Notifynder\Managers
+ * Class NotifynderManager.
  */
 class NotifynderManager implements NotifynderManagerContract
 {
@@ -91,9 +90,7 @@ class NotifynderManager implements NotifynderManagerContract
         return $this->sender;
     }
 
-    /**
-     *
-     */
+
     protected function reset()
     {
         $this->builder = null;

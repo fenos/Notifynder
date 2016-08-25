@@ -9,8 +9,7 @@ use Fenos\Notifynder\Contracts\SenderManagerContract;
 use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
 
 /**
- * Class OnceSender
- * @package Fenos\Notifynder\Senders
+ * Class OnceSender.
  */
 class OnceSender implements SenderContract
 {
@@ -21,7 +20,7 @@ class OnceSender implements SenderContract
 
     /**
      * OnceSender constructor.
-     * 
+     *
      * @param array $notifications
      */
     public function __construct(array $notifications)

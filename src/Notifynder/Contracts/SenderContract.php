@@ -3,8 +3,7 @@
 namespace Fenos\Notifynder\Contracts;
 
 /**
- * Interface SenderContract
- * @package Fenos\Notifynder\Contracts
+ * Interface SenderContract.
  */
 interface SenderContract
 {
