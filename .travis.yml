@@ -41,7 +41,7 @@ script:
 ##  - vendor/bin/phpspec run
   - vendor/bin/phpunit
   - vendor/bin/test-reporter
-##  - php CoverageChecker.php ./build/logs/clover.xml 65
+  - php CoverageChecker.php build/logs/clover.xml 65
 
 ## Send Build Notifications to Slack
 notifications:
