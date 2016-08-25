@@ -11,8 +11,7 @@ use Fenos\Notifynder\Models\NotificationCategory;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Class Builder
- * @package Fenos\Notifynder\Builder
+ * Class Builder.
  */
 class Builder implements ArrayAccess
 {

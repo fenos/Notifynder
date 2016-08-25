@@ -8,8 +8,7 @@ use InvalidArgumentException;
 use Traversable;
 
 /**
- * Class TypeChecker
- * @package Fenos\Notifynder\Helpers
+ * Class TypeChecker.
  */
 class TypeChecker
 {

@@ -5,8 +5,7 @@ namespace Fenos\Notifynder\Contracts;
 use Closure;
 
 /**
- * Interface SenderManagerContract
- * @package Fenos\Notifynder\Contracts
+ * Interface SenderManagerContract.
  */
 interface SenderManagerContract
 {

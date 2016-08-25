@@ -8,8 +8,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Class Notification
- * @package Fenos\Notifynder\Models
+ * Class Notification.
  */
 class Notification extends Model
 {

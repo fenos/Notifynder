@@ -7,8 +7,7 @@ use Fenos\Notifynder\Contracts\SenderManagerContract;
 use Fenos\Notifynder\Models\Notification;
 
 /**
- * Class SingleSender
- * @package Fenos\Notifynder\Senders
+ * Class SingleSender.
  */
 class SingleSender implements SenderContract
 {

@@ -5,8 +5,7 @@ namespace Fenos\Notifynder\Traits;
 use Fenos\Notifynder\Helpers\TypeChecker;
 
 /**
- * Class Notifable
- * @package Fenos\Notifynder\Traits
+ * Class Notifable.
  */
 trait Notifable
 {
@@ -128,7 +127,7 @@ trait Notifable
 
     /**
      * Get all Notifications ordered by creation and optional limit.
-     * 
+     *
      * @param null|int $limit
      * @param string $order
      * @return \Illuminate\Database\Eloquent\Collection
