@@ -9,6 +9,10 @@ use Fenos\Notifynder\Contracts\NotifynderManagerContract;
 use Fenos\Notifynder\Contracts\SenderManagerContract;
 use Illuminate\Support\Str;
 
+/**
+ * Class NotifynderManager
+ * @package Fenos\Notifynder\Managers
+ */
 class NotifynderManager implements NotifynderManagerContract
 {
     /**
@@ -16,13 +20,24 @@ class NotifynderManager implements NotifynderManagerContract
      */
     protected $builder;
 
+    /**
+     * @var SenderManagerContract
+     */
     protected $sender;
 
+    /**
+     * NotifynderManager constructor.
+     * @param SenderManagerContract $sender
+     */
     public function __construct(SenderManagerContract $sender)
     {
         $this->sender = $sender;
     }
 
+    /**
+     * @param string|int|\Fenos\Notifynder\Models\NotificationCategory $category
+     * @return $this
+     */
     public function category($category)
     {
         $this->builder(true);
@@ -31,6 +46,11 @@ class NotifynderManager implements NotifynderManagerContract
         return $this;
     }
 
+    /**
+     * @param array|\Traversable $data
+     * @param Closure $callback
+     * @return $this
+     */
     public function loop($data, Closure $callback)
     {
         $this->builder(true);
@@ -39,45 +59,69 @@ class NotifynderManager implements NotifynderManagerContract
         return $this;
     }
 
-    public function builder($new = false)
+    /**
+     * @param bool $force
+     * @return Builder
+     */
+    public function builder($force = false)
     {
-        if (is_null($this->builder) || $new) {
+        if (is_null($this->builder) || $force) {
             $this->builder = new Builder();
         }
 
         return $this->builder;
     }
 
+    /**
+     * @return bool
+     */
     public function send()
     {
         $sent = $this->sender->send($this->builder->getNotifications());
         $this->reset();
 
-        return $sent;
+        return (bool) $sent;
     }
 
+    /**
+     * @return SenderManagerContract
+     */
     public function sender()
     {
         return $this->sender;
     }
 
+    /**
+     *
+     */
     protected function reset()
     {
         $this->builder = null;
     }
 
+    /**
+     * @param string $name
+     * @param Closure $sender
+     * @return bool
+     */
     public function extend($name, Closure $sender)
     {
-        return $this->sender->extend($name, $sender);
+        return (bool) $this->sender->extend($name, $sender);
     }
 
+    /**
+     * @param $name
+     * @param $arguments
+     * @return $this|bool
+     * @throws BadMethodCallException
+     */
     public function __call($name, $arguments)
     {
         if (Str::startsWith($name, 'send')) {
             $sent = $this->sender->sendWithCustomSender($name, $this->builder->getNotifications());
             $this->reset();
 
-            return $sent;
+            return (bool) $sent;
         }
 
         if ($this->builder instanceof Builder && method_exists($this->builder, $name)) {

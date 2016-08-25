@@ -10,29 +10,53 @@ use Fenos\Notifynder\Contracts\SenderManagerContract;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 
+/**
+ * Class SenderManager
+ * @package Fenos\Notifynder\Managers
+ */
 class SenderManager implements SenderManagerContract
 {
+    /**
+     * @var array
+     */
     protected $senders = [];
 
+    /**
+     * @param array $notifications
+     * @return bool
+     */
     public function send(array $notifications)
     {
         if (count($notifications) == 1) {
-            return $this->sendSingle($notifications);
+            return (bool) $this->sendSingle($notifications);
         }
 
-        return $this->sendMultiple($notifications);
+        return (bool) $this->sendMultiple($notifications);
     }
 
+    /**
+     * @param string $name
+     * @return bool
+     */
     public function hasSender($name)
     {
         return Arr::has($this->senders, $name);
     }
 
+    /**
+     * @param string $name
+     * @return Closure
+     */
     public function getSender($name)
     {
         return Arr::get($this->senders, $name);
     }
 
+    /**
+     * @param string $name
+     * @param Closure $sender
+     * @return bool
+     */
     public function extend($name, Closure $sender)
     {
         if (Str::startsWith($name, 'send')) {
@@ -44,6 +68,13 @@ class SenderManager implements SenderManagerContract
         return false;
     }
 
+    /**
+     * @param string $name
+     * @param array $notifications
+     * @return bool
+     * @throws BadFunctionCallException
+     * @throws BadMethodCallException
+     */
     public function sendWithCustomSender($name, array $notifications)
     {
         if ($this->hasSender($name)) {
@@ -56,7 +87,13 @@ class SenderManager implements SenderManagerContract
         throw new BadMethodCallException("The sender [{$name}] isn't registered.");
     }
 
-    public function __call($name, $arguments)
+    /**
+     * @param string $name
+     * @param array $arguments
+     * @return bool
+     * @throws BadMethodCallException
+     */
+    public function __call($name, array $arguments)
     {
         if (isset($arguments[0]) && is_array($arguments[0])) {
             return $this->sendWithCustomSender($name, $arguments[0]);

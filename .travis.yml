@@ -36,7 +36,7 @@ before_script:
 script:
 ##  - vendor/bin/phpspec run
   - vendor/bin/phpunit
-##  - php CoverageChecker.php clover.xml 65
+##  - php CoverageChecker.php ./build/logs/clover.xml 65
 
 ## Send Build Notifications to Slack
 notifications:

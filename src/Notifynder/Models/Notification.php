@@ -7,8 +7,15 @@ use Fenos\Notifynder\Parsers\NotificationParser;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * Class Notification
+ * @package Fenos\Notifynder\Models
+ */
 class Notification extends Model
 {
+    /**
+     * @var array
+     */
     protected $fillable = [
         'to_id',
         'to_type',
@@ -22,15 +29,26 @@ class Notification extends Model
         'stack_id',
     ];
 
+    /**
+     * @var array
+     */
     protected $appends = [
         'text',
         'template_body',
     ];
 
+    /**
+     * @var array
+     */
     protected $casts = [
         'extra' => 'array',
     ];
 
+    /**
+     * Notification constructor.
+     *
+     * @param array $attributes
+     */
     public function __construct($attributes = [])
     {
         $this->fillable($this->mergeFillables());
@@ -42,11 +60,17 @@ class Notification extends Model
         parent::__construct($attributes);
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function category()
     {
         return $this->belongsTo(NotificationCategory::class, 'category_id');
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo|\Illuminate\Database\Eloquent\Relations\MorphTo
+     */
     public function from()
     {
         if (notifynder_config()->isPolymorphic()) {
@@ -56,6 +80,9 @@ class Notification extends Model
         return $this->belongsTo(notifynder_config()->getNotifiedModel(), 'from_id');
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo|\Illuminate\Database\Eloquent\Relations\MorphTo
+     */
     public function to()
     {
         if (notifynder_config()->isPolymorphic()) {
@@ -65,11 +92,17 @@ class Notification extends Model
         return $this->belongsTo(notifynder_config()->getNotifiedModel(), 'to_id');
     }
 
+    /**
+     * @return array
+     */
     public function getCustomFillableFields()
     {
         return notifynder_config()->getAdditionalFields();
     }
 
+    /**
+     * @return array
+     */
     protected function mergeFillables()
     {
         $fillables = array_unique($this->getFillable() + $this->getCustomFillableFields());
@@ -77,6 +110,9 @@ class Notification extends Model
         return $fillables;
     }
 
+    /**
+     * @return string
+     */
     public function getTemplateBodyAttribute()
     {
         if (notifynder_config()->isTranslated()) {
@@ -90,6 +126,10 @@ class Notification extends Model
         return $this->category->text;
     }
 
+    /**
+     * @return string
+     * @throws \Fenos\Notifynder\Exceptions\ExtraParamsException
+     */
     public function getTextAttribute()
     {
         if (! array_key_exists('text', $this->attributes)) {
@@ -100,16 +140,25 @@ class Notification extends Model
         return $this->attributes['text'];
     }
 
+    /**
+     * @return bool|int
+     */
     public function read()
     {
         return $this->update(['read' => 1]);
     }
 
+    /**
+     * @return bool|int
+     */
     public function unread()
     {
         return $this->update(['read' => 0]);
     }
 
+    /**
+     * @return bool
+     */
     public function resend()
     {
         $this->updateTimestamps();
@@ -118,11 +167,19 @@ class Notification extends Model
         return $this->save();
     }
 
+    /**
+     * @return bool
+     */
     public function isAnonymous()
     {
         return is_null($this->from_id);
     }
 
+    /**
+     * @param Builder $query
+     * @param $category
+     * @return Builder
+     */
     public function scopeByCategory(Builder $query, $category)
     {
         $categoryId = $category;
@@ -135,6 +192,11 @@ class Notification extends Model
         return $query->where('category_id', $categoryId);
     }
 
+    /**
+     * @param Builder $query
+     * @param int $read
+     * @return Builder
+     */
     public function scopeByRead(Builder $query, $read = 1)
     {
         return $query->where('read', $read);

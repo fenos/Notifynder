@@ -8,15 +8,33 @@ use Fenos\Notifynder\Contracts\SenderContract;
 use Fenos\Notifynder\Contracts\SenderManagerContract;
 use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
 
+/**
+ * Class OnceSender
+ * @package Fenos\Notifynder\Senders
+ */
 class OnceSender implements SenderContract
 {
+    /**
+     * @var array
+     */
     protected $notifications;
 
+    /**
+     * OnceSender constructor.
+     * 
+     * @param array $notifications
+     */
     public function __construct(array $notifications)
     {
         $this->notifications = $notifications;
     }
 
+    /**
+     * Send the notification once.
+     *
+     * @param SenderManagerContract $sender
+     * @return bool
+     */
     public function send(SenderManagerContract $sender)
     {
         $success = true;
@@ -32,6 +50,12 @@ class OnceSender implements SenderContract
         return $success;
     }
 
+    /**
+     * Get the base query.
+     *
+     * @param Notification $notification
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
     protected function getQuery(Notification $notification)
     {
         $query = $this->getQueryInstance();
@@ -52,6 +76,9 @@ class OnceSender implements SenderContract
         return $query;
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
     protected function getQueryInstance()
     {
         $model = notifynder_config()->getNotificationModel();

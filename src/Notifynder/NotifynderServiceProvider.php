@@ -13,8 +13,17 @@ use Fenos\Notifynder\Senders\OnceSender;
 use Fenos\Notifynder\Senders\SingleSender;
 use Illuminate\Support\ServiceProvider;
 
+/**
+ * Class NotifynderServiceProvider
+ * @package Fenos\Notifynder
+ */
 class NotifynderServiceProvider extends ServiceProvider
 {
+    /**
+     * Register the service provider.
+     *
+     * @return void
+     */
     public function register()
     {
         $this->bindContracts();
@@ -25,6 +34,11 @@ class NotifynderServiceProvider extends ServiceProvider
         $this->registerSenders();
     }
 
+    /**
+     * Boot the service provider.
+     *
+     * @return void
+     */
     public function boot()
     {
         $this->config();
@@ -33,6 +47,8 @@ class NotifynderServiceProvider extends ServiceProvider
 
     /**
      * Bind contracts.
+     *
+     * @return void
      */
     protected function bindContracts()
     {
@@ -42,7 +58,9 @@ class NotifynderServiceProvider extends ServiceProvider
     }
 
     /**
-     * Bind notifynder config.
+     * Bind Notifynder config.
+     *
+     * @return void
      */
     protected function bindConfig()
     {
@@ -52,7 +70,9 @@ class NotifynderServiceProvider extends ServiceProvider
     }
 
     /**
-     * Bind notifynder config.
+     * Bind Notifynder sender.
+     *
+     * @return void
      */
     protected function bindSender()
     {
@@ -62,7 +82,9 @@ class NotifynderServiceProvider extends ServiceProvider
     }
 
     /**
-     * Bind notifynder manager.
+     * Bind Notifynder manager.
+     *
+     * @return void
      */
     protected function bindNotifynder()
     {
@@ -73,6 +95,11 @@ class NotifynderServiceProvider extends ServiceProvider
         });
     }
 
+    /**
+     * Register the default senders.
+     *
+     * @return void
+     */
     public function registerSenders()
     {
         app('notifynder')->extend('sendSingle', function (array $notifications) {
@@ -89,7 +116,9 @@ class NotifynderServiceProvider extends ServiceProvider
     }
 
     /**
-     * Publish config file.
+     * Publish and merge config file.
+     *
+     * @return void
      */
     protected function config()
     {
@@ -102,6 +131,8 @@ class NotifynderServiceProvider extends ServiceProvider
 
     /**
      * Publish migration files.
+     *
+     * @return void
      */
     protected function migration()
     {
@@ -138,22 +169,27 @@ class NotifynderServiceProvider extends ServiceProvider
     }
 
     /**
+     * Publish a single migration file.
+     *
      * @param string $filename
+     * @return void
      */
     protected function publishMigration($filename)
     {
         $extension = '.php';
         $filename = trim($filename, $extension).$extension;
         $stub = __DIR__.'/../migrations/'.$filename;
-        $target = $this->migrationFilepath($filename);
+        $target = $this->getMigrationFilepath($filename);
         $this->publishes([$stub => $target], 'migrations');
     }
 
     /**
+     * Get the migration file path.
+     *
      * @param string $filename
      * @return string
      */
-    protected function migrationFilepath($filename)
+    protected function getMigrationFilepath($filename)
     {
         if (function_exists('database_path')) {
             return database_path('/migrations/'.$filename);

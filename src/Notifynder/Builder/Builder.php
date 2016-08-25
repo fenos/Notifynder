@@ -10,17 +10,34 @@ use Fenos\Notifynder\Helpers\TypeChecker;
 use Fenos\Notifynder\Models\NotificationCategory;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * Class Builder
+ * @package Fenos\Notifynder\Builder
+ */
 class Builder implements ArrayAccess
 {
+    /**
+     * @var Notification
+     */
     protected $notification;
 
+    /**
+     * @var array
+     */
     protected $notifications = [];
 
+    /**
+     * Builder constructor.
+     */
     public function __construct()
     {
         $this->notification = new Notification();
     }
 
+    /**
+     * @param string|int|\Fenos\Notifynder\Models\NotificationCategory $category
+     * @return $this
+     */
     public function category($category)
     {
         $categoryId = $category;
@@ -35,6 +52,9 @@ class Builder implements ArrayAccess
         return $this;
     }
 
+    /**
+     * @return $this
+     */
     public function from()
     {
         $args = func_get_args();
@@ -43,6 +63,9 @@ class Builder implements ArrayAccess
         return $this;
     }
 
+    /**
+     * @return $this
+     */
     public function anonymous()
     {
         $this->setNotificationData('from_type', null);
@@ -51,6 +74,9 @@ class Builder implements ArrayAccess
         return $this;
     }
 
+    /**
+     * @return $this
+     */
     public function to()
     {
         $args = func_get_args();
@@ -59,6 +85,10 @@ class Builder implements ArrayAccess
         return $this;
     }
 
+    /**
+     * @param string $url
+     * @return $this
+     */
     public function url($url)
     {
         TypeChecker::isString($url);
@@ -67,14 +97,23 @@ class Builder implements ArrayAccess
         return $this;
     }
 
+    /**
+     * @param Carbon|\DateTime $datetime
+     * @return $this
+     */
     public function expire($datetime)
     {
         TypeChecker::isDate($datetime);
-        $this->setNotificationData('expires_at', $datetime);
+        $carbon = new Carbon($datetime);
+        $this->setNotificationData('expires_at', $carbon);
 
         return $this;
     }
 
+    /**
+     * @param array $extra
+     * @return $this
+     */
     public function extra(array $extra = [])
     {
         TypeChecker::isArray($extra);
@@ -83,6 +122,9 @@ class Builder implements ArrayAccess
         return $this;
     }
 
+    /**
+     * Set updated_at and created_at fields.
+     */
     public function setDates()
     {
         $date = Carbon::now();
@@ -91,6 +133,13 @@ class Builder implements ArrayAccess
         $this->setNotificationData('created_at', $date);
     }
 
+    /**
+     * Set a single field value.
+     *
+     * @param string $key
+     * @param mixed $value
+     * @return $this
+     */
     public function setField($key, $value)
     {
         $additionalFields = notifynder_config()->getAdditionalFields();
@@ -101,6 +150,10 @@ class Builder implements ArrayAccess
         return $this;
     }
 
+    /**
+     * @param array $entity
+     * @param string $property
+     */
     protected function setEntityData($entity, $property)
     {
         if (is_array($entity) && count($entity) == 2) {
@@ -123,11 +176,19 @@ class Builder implements ArrayAccess
         $this->setNotificationData("{$property}_id", $id);
     }
 
+    /**
+     * @param string $key
+     * @param mixed $value
+     */
     protected function setNotificationData($key, $value)
     {
         $this->notification->set($key, $value);
     }
 
+    /**
+     * @return Notification
+     * @throws UnvalidNotificationException
+     */
     public function getNotification()
     {
         if (! $this->notification->isValid()) {
@@ -139,11 +200,18 @@ class Builder implements ArrayAccess
         return $this->notification;
     }
 
+    /**
+     * @param Notification $notification
+     */
     public function addNotification(Notification $notification)
     {
         $this->notifications[] = $notification;
     }
 
+    /**
+     * @return array
+     * @throws UnvalidNotificationException
+     */
     public function getNotifications()
     {
         if (count($this->notifications) == 0) {
@@ -153,6 +221,12 @@ class Builder implements ArrayAccess
         return $this->notifications;
     }
 
+    /**
+     * @param array|\Traversable $data
+     * @param Closure $callback
+     * @return $this
+     * @throws UnvalidNotificationException
+     */
     public function loop($data, Closure $callback)
     {
         TypeChecker::isIterable($data);
@@ -166,21 +240,36 @@ class Builder implements ArrayAccess
         return $this;
     }
 
+    /**
+     * @param string $offset
+     * @return bool
+     */
     public function offsetExists($offset)
     {
         return $this->notification->offsetExists($offset);
     }
 
+    /**
+     * @param string $offset
+     * @return mixed
+     */
     public function offsetGet($offset)
     {
         return $this->notification->offsetGet($offset);
     }
 
+    /**
+     * @param string $offset
+     * @param mixed $value
+     */
     public function offsetSet($offset, $value)
     {
         $this->notification->offsetSet($offset, $value);
     }
 
+    /**
+     * @param string $offset
+     */
     public function offsetUnset($offset)
     {
         $this->notification->offsetUnset($offset);

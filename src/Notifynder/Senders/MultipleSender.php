@@ -5,18 +5,39 @@ namespace Fenos\Notifynder\Senders;
 use Fenos\Notifynder\Contracts\SenderContract;
 use Fenos\Notifynder\Contracts\SenderManagerContract;
 
+/**
+ * Class MultipleSender
+ * @package Fenos\Notifynder\Senders
+ */
 class MultipleSender implements SenderContract
 {
+    /**
+     * @var array
+     */
     protected $notifications;
 
+    /**
+     * @var \Illuminate\Database\DatabaseManager
+     */
     protected $database;
 
+    /**
+     * MultipleSender constructor.
+     *
+     * @param array $notifications
+     */
     public function __construct(array $notifications)
     {
         $this->notifications = $notifications;
         $this->database = app('db');
     }
 
+    /**
+     * Send all notifications.
+     *
+     * @param SenderManagerContract $sender
+     * @return bool
+     */
     public function send(SenderManagerContract $sender)
     {
         $model = notifynder_config()->getNotificationModel();
@@ -35,6 +56,6 @@ class MultipleSender implements SenderContract
             ->insert($this->notifications);
         $this->database->commit();
 
-        return $insert;
+        return (bool) $insert;
     }
 }

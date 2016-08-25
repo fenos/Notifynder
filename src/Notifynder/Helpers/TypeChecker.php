@@ -7,8 +7,18 @@ use DateTime;
 use InvalidArgumentException;
 use Traversable;
 
+/**
+ * Class TypeChecker
+ * @package Fenos\Notifynder\Helpers
+ */
 class TypeChecker
 {
+    /**
+     * @param $value
+     * @param bool $strict
+     * @return bool
+     * @throws InvalidArgumentException
+     */
     public static function isString($value, $strict = true)
     {
         if (! is_string($value)) {
@@ -22,6 +32,12 @@ class TypeChecker
         return true;
     }
 
+    /**
+     * @param $value
+     * @param bool $strict
+     * @return bool
+     * @throws InvalidArgumentException
+     */
     public static function isNumeric($value, $strict = true)
     {
         if (! is_numeric($value)) {
@@ -35,6 +51,12 @@ class TypeChecker
         return true;
     }
 
+    /**
+     * @param $value
+     * @param bool $strict
+     * @return bool
+     * @throws InvalidArgumentException
+     */
     public static function isDate($value, $strict = true)
     {
         if ($value instanceof Carbon || $value instanceof DateTime) {
@@ -48,6 +70,12 @@ class TypeChecker
         return false;
     }
 
+    /**
+     * @param $value
+     * @param bool $strict
+     * @return bool
+     * @throws InvalidArgumentException
+     */
     public static function isArray($value, $strict = true)
     {
         if (is_array($value) && count($value) > 0) {
@@ -61,6 +89,12 @@ class TypeChecker
         return false;
     }
 
+    /**
+     * @param $value
+     * @param bool $strict
+     * @return bool
+     * @throws InvalidArgumentException
+     */
     public static function isIterable($value, $strict = true)
     {
         if ((is_array($value) || $value instanceof Traversable) && count($value) > 0) {
@@ -74,6 +108,12 @@ class TypeChecker
         return false;
     }
 
+    /**
+     * @param $notification
+     * @param bool $strict
+     * @return bool
+     * @throws InvalidArgumentException
+     */
     public static function isNotification($notification, $strict = true)
     {
         if (! is_a($notification, notifynder_config()->getNotificationModel())) {

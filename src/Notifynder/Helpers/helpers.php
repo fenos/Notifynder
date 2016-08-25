@@ -18,6 +18,12 @@ if (! function_exists('notifynder_config')) {
 }
 
 if (! function_exists('notifynder_mixed_get')) {
+    /**
+     * @param array|object $object
+     * @param string $key
+     * @param null|mixed $default
+     * @return mixed
+     */
     function notifynder_mixed_get($object, $key, $default = null)
     {
         if (is_null($key) || trim($key) == '') {
