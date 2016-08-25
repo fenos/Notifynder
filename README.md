@@ -19,14 +19,14 @@ Notifynder 4 - Laravel 5
 
 Notifynder is designed to manage notifications in a powerful and easy way.
 With the flexibility that Notifynder offer, It provide a complete API to work with your notifications,
-such as storing, retriving, and organise your codebase to handle hundreds of notifications.
+such as storing, retrieving, and organise your codebase to handle hundreds of notifications.
 You get started in a couple of minutes to "enable" notifications in your Laravel Project.
 
 Compatible DBs: **MySql** - **PostgresSql** - **Sqlite**
 
 Documentation: **[Notifynder Docu](http://notifynder.info)**
 
-- - -
+-----
 
 ## Installation ##
 
@@ -34,15 +34,21 @@ Documentation: **[Notifynder Docu](http://notifynder.info)**
 
 Add it on your `composer.json`
 
-    "fenos/notifynder": "^4.0"
+```
+"fenos/notifynder": "^4.0"
+```
 
 and run 
 
-    composer update
+```
+composer update
+```
 
 or run
 
-    composer require fenos/notifynder
+```
+composer require fenos/notifynder
+```
 
 
 ### Step 2 ###
@@ -51,11 +57,15 @@ Add the following string to `config/app.php`
 
 **Providers array:**
 
-    Fenos\Notifynder\NotifynderServiceProvider::class,
+```
+Fenos\Notifynder\NotifynderServiceProvider::class,
+```
 
 **Aliases array:**
 
-    'Notifynder' => Fenos\Notifynder\Facades\Notifynder::class,
+```
+'Notifynder' => Fenos\Notifynder\Facades\Notifynder::class,
+```
 
 
 ### Step 3 ###
@@ -64,11 +74,15 @@ Add the following string to `config/app.php`
 
 Publish the migration as well as the configuration of notifynder with the following command:
 
-    php artisan vendor:publish --provider="Fenos\Notifynder\NotifynderServiceProvider"
+```
+php artisan vendor:publish --provider="Fenos\Notifynder\NotifynderServiceProvider"
+```
 
 Run the migration
 
-    php artisan migrate
+```
+php artisan migrate
+```
 
 ## Usage ##
 
