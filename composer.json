@@ -20,7 +20,8 @@
     "phpunit/phpunit": "~4.0",
     "phpspec/phpspec": "~2.1",
     "laracasts/testdummy": "~2.0",
-    "orchestra/testbench": "~3.0"
+    "orchestra/testbench": "~3.0",
+    "codeclimate/php-test-reporter": "^0.3.2"
   },
   "autoload": {
     "classmap": [
