@@ -65,7 +65,7 @@ class OnceSender implements SenderContract
             ->where('to_type', $notification->to_type)
             ->where('category_id', $notification->category_id);
         $extra = $notification->extra;
-        if (!is_null($extra) && ! empty($extra)) {
+        if (! is_null($extra) && ! empty($extra)) {
             if (is_array($extra)) {
                 $extra = json_encode($extra);
             }
