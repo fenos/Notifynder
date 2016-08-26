@@ -94,7 +94,7 @@ abstract class NotifynderTestCase extends OrchestraTestCase
 
     protected function sendNotificationsTo(Model $model, $amount = 10)
     {
-        while($amount > 0) {
+        while ($amount > 0) {
             $this->sendNotificationTo($model);
             $amount--;
         }
