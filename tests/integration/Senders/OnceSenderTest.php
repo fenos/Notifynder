@@ -1,4 +1,5 @@
 <?php
+
 class OnceSenderTest extends NotifynderTestCase
 {
     public function testGetQueryInstanceFail()
