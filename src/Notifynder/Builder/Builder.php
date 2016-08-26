@@ -126,7 +126,7 @@ class Builder implements ArrayAccess
     public function extra(array $extra = [], $override = true)
     {
         TypeChecker::isArray($extra);
-        if(!$override) {
+        if (! $override) {
             $extra = array_merge($this->getNotificationData('extra', []), $extra);
         }
         $this->setNotificationData('extra', $extra);
