@@ -95,6 +95,7 @@ Tasks we have to do until this version is ready for a stable release:
 
 * add unittests for parser and models
 * decide if we drop the groups
+* complete the new documentation
 
 
 ## Versioning
