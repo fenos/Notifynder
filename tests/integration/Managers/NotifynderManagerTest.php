@@ -132,6 +132,7 @@ class NotifynderManagerTest extends NotifynderTestCase
         $sent = $manager->category(1)
             ->from(1)
             ->to(2)
+            ->extra(['foo' => 'bar'])
             ->sendOnce();
         $this->assertTrue($sent);
 
@@ -150,6 +151,7 @@ class NotifynderManagerTest extends NotifynderTestCase
         $sent = $manager->category(1)
             ->from(1)
             ->to(2)
+            ->extra(['foo' => 'bar'])
             ->sendOnce();
         $this->assertTrue($sent);
 
@@ -173,6 +175,7 @@ class NotifynderManagerTest extends NotifynderTestCase
         $sent = $manager->category(1)
             ->from(1)
             ->to(2)
+            ->extra(['foo' => 'bar'])
             ->sendOnce();
         $this->assertTrue($sent);
 
@@ -183,6 +186,7 @@ class NotifynderManagerTest extends NotifynderTestCase
         $sent = $manager->category(1)
             ->from(2)
             ->to(1)
+            ->extra(['hello' => 'world'])
             ->sendOnce();
         $this->assertTrue($sent);
 

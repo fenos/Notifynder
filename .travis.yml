@@ -39,7 +39,7 @@ before_script:
 ## Run test Scripts
 script:
   - vendor/bin/phpunit
-  - php CoverageChecker.php build/logs/clover.xml 75
+  - php CoverageChecker.php build/logs/clover.xml 80
 
 after_script:
   - vendor/bin/test-reporter

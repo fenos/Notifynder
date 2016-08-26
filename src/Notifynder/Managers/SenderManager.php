@@ -94,7 +94,7 @@ class SenderManager implements SenderManagerContract
      */
     public function __call($name, array $arguments)
     {
-        if (isset($arguments[0]) && is_array($arguments[0])) {
+        if (array_key_exists(0, $arguments) && isset($arguments[0]) && is_array($arguments[0])) {
             return $this->sendWithCustomSender($name, $arguments[0]);
         }
 
