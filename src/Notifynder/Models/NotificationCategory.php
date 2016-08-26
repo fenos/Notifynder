@@ -4,6 +4,7 @@ namespace Fenos\Notifynder\Models;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 /**
  * Class NotificationCategory.
@@ -18,12 +19,24 @@ class NotificationCategory extends Model
     /**
      * @var array
      */
-    protected $fillable = ['name', 'text'];
+    protected $fillable = [
+        'name',
+        'text',
+    ];
 
     /**
      * @var bool
      */
     public $timestamps = false;
+
+    public function __construct(array $attributes)
+    {
+        $attributes = array_merge([
+            'text' => '',
+        ], $attributes);
+
+        parent::__construct($attributes);
+    }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
@@ -36,17 +49,13 @@ class NotificationCategory extends Model
         return $this->hasMany($model, 'category_id');
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
-     */
-    public function categories()
+    public function setNameAttribute($value)
     {
-        return $this->belongsToMany(
-            NotificationGroup::class,
-            'notifications_categories_in_groups',
-            'category_id',
-            'group_id'
-        );
+        $parts = explode('.', $value);
+        foreach($parts as $i => $part) {
+            $parts[$i] = Str::slug(preg_replace('/[^a-z0-9_]/', '_', strtolower($part)), '_');
+        }
+        $this->attributes['name'] = implode('.', $parts);
     }
 
     /**
