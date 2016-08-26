@@ -61,12 +61,12 @@ class TypeCheckerTest extends NotifynderTestCase
     public function testIsArrayFailStrict()
     {
         $this->setExpectedException(InvalidArgumentException::class);
-        TypeChecker::isArray(collect([1,2,3]));
+        TypeChecker::isArray(collect([1, 2, 3]));
     }
 
     public function testIsArrayFail()
     {
-        $this->assertFalse(TypeChecker::isArray(collect([1,2,3]), false));
+        $this->assertFalse(TypeChecker::isArray(collect([1, 2, 3]), false));
     }
 
     public function testIsIterable()

@@ -38,7 +38,7 @@ class BuilderNotificationTest extends NotifynderTestCase
         $this->assertInternalType('string', $notification->toDbArray()['extra']);
         $this->assertJson($notification->toJson());
         $this->assertInternalType('string', $notification->toString());
-        $this->assertInternalType('string', (string)$notification);
+        $this->assertInternalType('string', (string) $notification);
     }
 
     public function testOverloaded()
