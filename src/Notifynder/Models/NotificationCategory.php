@@ -52,7 +52,7 @@ class NotificationCategory extends Model
     public function setNameAttribute($value)
     {
         $parts = explode('.', $value);
-        foreach($parts as $i => $part) {
+        foreach ($parts as $i => $part) {
             $parts[$i] = Str::slug(preg_replace('/[^a-z0-9_]/', '_', strtolower($part)), '_');
         }
         $this->attributes['name'] = implode('.', $parts);
