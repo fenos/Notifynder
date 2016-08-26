@@ -87,7 +87,7 @@ trait Notifable
     protected function updateSingleReadStatus($notification, $value)
     {
         if (! TypeChecker::isNotification($notification, false)) {
-            $notification = $this->notifications()->firstOrFail($notification);
+            $notification = $this->notifications()->findOrFail($notification);
         }
 
         if ($this->notifications()->where($notification->getKeyName(), $notification->getKey())->exists()) {

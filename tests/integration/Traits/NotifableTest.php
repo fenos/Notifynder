@@ -48,4 +48,61 @@ class NotifableTest extends NotifynderTestCase
         $notifynder->send();
         $this->assertCount(1, $user->notifications);
     }
+
+    public function testNotificationsHasMany()
+    {
+        $user = $this->createUser();
+        $user
+            ->sendNotificationTo(1)
+            ->from(2)
+            ->send();
+        $this->assertCount(1, $user->notifications);
+    }
+
+    public function testNotificationsMorphMany()
+    {
+        notifynder_config()->set('polymorphic', true);
+
+        $user = $this->createUser();
+        $this->sendNotificationTo($user);
+        $car = $this->createCar();
+        $this->sendNotificationTo($car);
+        $this->assertCount(1, $user->notifications);
+        $this->assertCount(1, $car->notifications);
+    }
+    
+    public function testGetNotificationsDefault()
+    {
+        $user = $this->createUser();
+        $this->sendNotificationsTo($user, 25);
+        $this->assertCount(25, $user->getNotifications());
+    }
+
+    public function testGetNotificationsLimited()
+    {
+        $user = $this->createUser();
+        $this->sendNotificationsTo($user, 25);
+        $this->assertCount(10, $user->getNotifications(10));
+    }
+
+    public function testReadStatusRelatedMethods()
+    {
+        $user = $this->createUser();
+        $this->sendNotificationsTo($user, 25);
+        $this->assertSame(25, $user->countUnreadNotifications());
+        $this->assertSame(25, $user->readAllNotifications());
+        $this->assertSame(0, $user->countUnreadNotifications());
+        $this->assertSame(25, $user->unreadAllNotifications());
+        $this->assertSame(25, $user->countUnreadNotifications());
+        $notification = $user->notifications->first();
+        $this->assertTrue($user->readNotification($notification));
+        $this->assertSame(24, $user->countUnreadNotifications());
+        $this->assertTrue($user->unreadNotification($notification->getKey()));
+        $this->assertSame(25, $user->countUnreadNotifications());
+
+
+        $user2 = $this->createUser();
+        $this->sendNotificationsTo($user2, 5);
+        $this->assertFalse($user->readNotification($user2->notifications()->first()));
+    }
 }

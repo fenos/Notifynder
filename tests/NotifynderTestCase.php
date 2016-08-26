@@ -2,12 +2,25 @@
 
 use Orchestra\Testbench\TestCase as OrchestraTestCase;
 use Fenos\Tests\Models\User;
+use Fenos\Tests\Models\Car;
+use Fenos\Notifynder\NotifynderServiceProvider;
+use Fenos\Notifynder\Facades\Notifynder as NotifynderFacade;
+use Illuminate\Database\Eloquent\Model;
 
 abstract class NotifynderTestCase extends OrchestraTestCase
 {
     protected function getPackageProviders($app)
     {
-        return ['Fenos\Notifynder\NotifynderServiceProvider'];
+        return [
+            NotifynderServiceProvider::class,
+        ];
+    }
+
+    protected function getPackageAliases($app)
+    {
+        return [
+            'Notifynder' => NotifynderFacade::class,
+        ];
     }
 
     public function setUp()
@@ -27,9 +40,9 @@ abstract class NotifynderTestCase extends OrchestraTestCase
     {
         $app['config']->set('database.default', 'testbench');
         $app['config']->set('database.connections.testbench', [
-            'driver'   => 'sqlite',
+            'driver' => 'sqlite',
             'database' => ':memory:',
-            'prefix'   => '',
+            'prefix' => '',
         ]);
     }
 
@@ -47,18 +60,43 @@ abstract class NotifynderTestCase extends OrchestraTestCase
     {
         $artisan->call('migrate', [
             '--database' => 'testbench',
-            '--path'     => $path,
+            '--path' => $path,
         ]);
     }
 
     protected function createUser(array $attributes = [])
     {
         $attributes = array_merge([
-            'id' => 1,
             'firstname' => 'John',
             'lastname' => 'Doe',
         ], $attributes);
 
         return User::create($attributes);
+    }
+
+    protected function createCar(array $attributes = [])
+    {
+        $attributes = array_merge([
+            'brand' => 'Audi',
+            'model' => 'A6',
+        ], $attributes);
+
+        return Car::create($attributes);
+    }
+
+    protected function sendNotificationTo(Model $model)
+    {
+        return $model
+            ->sendNotificationTo(1)
+            ->from(2)
+            ->send();
+    }
+
+    protected function sendNotificationsTo(Model $model, $amount = 10)
+    {
+        while($amount > 0) {
+            $this->sendNotificationTo($model);
+            $amount--;
+        }
     }
 }
