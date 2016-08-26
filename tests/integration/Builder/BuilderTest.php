@@ -70,6 +70,51 @@ class BuilderTest extends NotifynderTestCase
         $this->assertInstanceOf(Carbon::class, $notification->expires_at);
     }
 
+    public function testCreateSingleNotificationWithExtendedExtra()
+    {
+        $builder = new Builder();
+        $notification = $builder
+            ->category(1)
+            ->from(1)
+            ->to(2)
+            ->extra([
+                'foo' => 'bar',
+            ], false)
+            ->extra([
+                'hello' => 'world',
+            ], false)
+            ->getNotification();
+
+        $this->assertInstanceOf(Notification::class, $notification);
+
+        $this->assertInternalType('array', $notification->extra);
+        $this->assertCount(2, $notification->extra);
+        $this->assertSame('bar', $notification->extra['foo']);
+        $this->assertSame('world', $notification->extra['hello']);
+    }
+
+    public function testCreateSingleNotificationWithOverriddenExtra()
+    {
+        $builder = new Builder();
+        $notification = $builder
+            ->category(1)
+            ->from(1)
+            ->to(2)
+            ->extra([
+                'foo' => 'bar',
+            ], true)
+            ->extra([
+                'hello' => 'world',
+            ], true)
+            ->getNotification();
+
+        $this->assertInstanceOf(Notification::class, $notification);
+
+        $this->assertInternalType('array', $notification->extra);
+        $this->assertCount(1, $notification->extra);
+        $this->assertSame('world', $notification->extra['hello']);
+    }
+
     public function testCreateSingleNotificationAndGetArray()
     {
         $builder = new Builder();
