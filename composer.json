@@ -26,7 +26,8 @@
     "laracasts/testdummy": "~2.0",
     "orchestra/testbench": "~3.0",
     "doctrine/dbal": "^2.5",
-    "codeclimate/php-test-reporter": "^0.3.2"
+    "codeclimate/php-test-reporter": "^0.3.2",
+    "satooshi/php-coveralls": "^1.0"
   },
   "autoload": {
     "classmap": [
