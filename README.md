@@ -27,9 +27,9 @@ Documentation: **[Notifynder Docu](http://notifynder.info)**
 
 -----
 
-## Installation ##
+## Installation
 
-### Step 1 ###
+### Step 1
 
 Add it on your `composer.json`
 
@@ -50,7 +50,7 @@ composer require fenos/notifynder
 ```
 
 
-### Step 2 ###
+### Step 2
 
 Add the following string to `config/app.php`
 
@@ -67,9 +67,9 @@ Fenos\Notifynder\NotifynderServiceProvider::class,
 ```
 
 
-### Step 3 ###
+### Step 3
 
-#### Migration ####
+#### Migration
 
 Publish the migration as well as the configuration of notifynder with the following command:
 
@@ -83,12 +83,26 @@ Run the migration
 php artisan migrate
 ```
 
-## Usage ##
+## Usage
 
 This Branch isn't ready for any kind of usage! It's development in progress and will bring a whole new code-base for this package.
 Everyone is welcome to support us or give feedback for the new major version in our Slack Team.
 
-## Contributors ##
+## Versioning
+
+Starting with `v4.0.0` we are following the [Semantic Versioning Standard](http://semver.org).
+
+### Summary
+
+Given a version number `MAJOR`.`MINOR`.`PATCH`, increment the:
+
+* **MAJOR** version when you make incompatible API changes,
+* **MINOR** version when you add functionality in a backwards-compatible manner, and
+* **PATCH** version when you make backwards-compatible bug fixes.
+
+Additional labels for pre-release (`alpha`, `beta`, `rc`) are available as extensions to the `MAJOR`.`MINOR`.`PATCH` format.
+
+## Contributors
 
 Thanks for everyone [who contributed](https://github.com/fenos/Notifynder/graphs/contributors) to Notifynder and a special thanks for the most active contributors
 
