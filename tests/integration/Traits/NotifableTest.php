@@ -70,7 +70,7 @@ class NotifableTest extends NotifynderTestCase
         $this->assertCount(1, $user->notifications);
         $this->assertCount(1, $car->notifications);
     }
-    
+
     public function testGetNotificationsDefault()
     {
         $user = $this->createUser();
