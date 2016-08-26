@@ -107,3 +107,11 @@ Additional labels for pre-release (`alpha`, `beta`, `rc`) are available as exten
 Thanks for everyone [who contributed](https://github.com/fenos/Notifynder/graphs/contributors) to Notifynder and a special thanks for the most active contributors
 
 - [Gummibeer](https://github.com/Gummibeer)
+
+## Services
+
+* [Travis CI](https://travis-ci.org/fenos/Notifynder)
+* [Style CI](https://styleci.io/repos/18425539)
+* [Code Climate](https://codeclimate.com/github/fenos/Notifynder)
+* [Scrutinizer](https://scrutinizer-ci.com/g/fenos/Notifynder)
+* [Coveralls](https://coveralls.io/github/fenos/Notifynder)

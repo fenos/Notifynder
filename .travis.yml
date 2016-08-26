@@ -38,10 +38,11 @@ before_script:
 
 ## Run test Scripts
 script:
-##  - vendor/bin/phpspec run
   - vendor/bin/phpunit
-  - vendor/bin/test-reporter
   - php CoverageChecker.php build/logs/clover.xml 70
+
+after_script:
+  - vendor/bin/test-reporter
   - vendor/bin/coveralls -v
 
 ## Send Build Notifications to Slack
