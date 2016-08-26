@@ -157,9 +157,17 @@ class Notification implements Arrayable, ArrayAccess, Jsonable, JsonSerializable
     /**
      * @return string
      */
-    public function __toString()
+    public function toString()
     {
         return $this->toJson();
+    }
+
+    /**
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->toString();
     }
 
     /**

@@ -5,71 +5,99 @@ use Fenos\Notifynder\Helpers\TypeChecker;
 
 class TypeCheckerTest extends NotifynderTestCase
 {
-    protected $checker;
-
-    public function setUp()
-    {
-        parent::setUp();
-        $this->checker = new TypeChecker();
-    }
-
     public function testIsString()
     {
-        $this->assertTrue($this->checker->isString('hello world'));
+        $this->assertTrue(TypeChecker::isString('hello world'));
+    }
+
+    public function testIsStringFailStrict()
+    {
+        $this->setExpectedException(InvalidArgumentException::class);
+        TypeChecker::isString(15);
     }
 
     public function testIsStringFail()
     {
-        $this->setExpectedException(InvalidArgumentException::class);
-
-        $this->assertTrue($this->checker->isString(15));
+        $this->assertFalse(TypeChecker::isString(15, false));
     }
 
     public function testIsNumeric()
     {
-        $this->assertTrue($this->checker->isNumeric(15));
+        $this->assertTrue(TypeChecker::isNumeric(15));
+    }
+
+    public function testIsNumericFailStrict()
+    {
+        $this->setExpectedException(InvalidArgumentException::class);
+        TypeChecker::isNumeric('hello world');
     }
 
     public function testIsNumericFail()
     {
-        $this->setExpectedException(InvalidArgumentException::class);
-
-        $this->assertTrue($this->checker->isNumeric('hello world'));
+        $this->assertFalse(TypeChecker::isNumeric('hello world', false));
     }
 
     public function testIsDate()
     {
-        $this->assertTrue($this->checker->isDate(Carbon::now()));
+        $this->assertTrue(TypeChecker::isDate(Carbon::now()));
+    }
+
+    public function testIsDateFailStrict()
+    {
+        $this->setExpectedException(InvalidArgumentException::class);
+        TypeChecker::isDate('hello world');
     }
 
     public function testIsDateFail()
     {
-        $this->setExpectedException(InvalidArgumentException::class);
-
-        $this->assertTrue($this->checker->isDate('hello world'));
+        $this->assertFalse(TypeChecker::isDate('hello world', false));
     }
 
     public function testIsArray()
     {
-        $this->assertTrue($this->checker->isArray([1, 2, 3]));
+        $this->assertTrue(TypeChecker::isArray([1, 2, 3]));
+    }
+
+    public function testIsArrayFailStrict()
+    {
+        $this->setExpectedException(InvalidArgumentException::class);
+        TypeChecker::isArray(collect([1,2,3]));
     }
 
     public function testIsArrayFail()
     {
-        $this->setExpectedException(InvalidArgumentException::class);
-
-        $this->assertTrue($this->checker->isArray([]));
+        $this->assertFalse(TypeChecker::isArray(collect([1,2,3]), false));
     }
 
     public function testIsIterable()
     {
-        $this->assertTrue($this->checker->isIterable(collect([1, 2, 3])));
+        $this->assertTrue(TypeChecker::isIterable(collect([1, 2, 3])));
+    }
+
+    public function testIsIterableFailStrict()
+    {
+        $this->setExpectedException(InvalidArgumentException::class);
+        TypeChecker::isIterable([]);
     }
 
     public function testIsIterableFail()
     {
-        $this->setExpectedException(InvalidArgumentException::class);
+        $this->assertFalse(TypeChecker::isIterable([], false));
+    }
 
-        $this->assertTrue($this->checker->isIterable([]));
+    public function testIsNotification()
+    {
+        $this->assertTrue(TypeChecker::isNotification(new \Fenos\Notifynder\Models\Notification()));
+    }
+
+    public function testIsNotificationFailStrict()
+    {
+        $this->setExpectedException(InvalidArgumentException::class);
+        TypeChecker::isNotification([]);
+    }
+
+    public function testIsNotificationFail()
+    {
+        $this->assertFalse(TypeChecker::isNotification([], false));
     }
 }

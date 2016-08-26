@@ -252,4 +252,31 @@ class BuilderTest extends NotifynderTestCase
         $this->assertSame(1, $notification->category_id);
         $this->assertSame('value', $notification->required_field);
     }
+
+    public function testCreateSingleNotificationWithSplittedEntityData()
+    {
+        $builder = new Builder();
+        $notification = $builder
+            ->category(1)
+            ->from(\Fenos\Tests\Models\User::class, 1)
+            ->to(\Fenos\Tests\Models\User::class, 2)
+            ->getNotification();
+
+        $this->assertInstanceOf(Notification::class, $notification);
+        $this->assertSame(1, $notification->category_id);
+        $this->assertSame(1, $notification->from_id);
+        $this->assertSame(\Fenos\Tests\Models\User::class, $notification->from_type);
+        $this->assertSame(2, $notification->to_id);
+        $this->assertSame(\Fenos\Tests\Models\User::class, $notification->to_type);
+    }
+
+    public function testOffsetMethods()
+    {
+        $builder = new Builder();
+        $builder->offsetSet('foo', 'bar');
+        $this->assertTrue($builder->offsetExists('foo'));
+        $this->assertSame('bar', $builder->offsetGet('foo'));
+        $builder->offsetUnset('foo');
+        $this->assertFalse($builder->offsetExists('foo'));
+    }
 }
