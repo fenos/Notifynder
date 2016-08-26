@@ -34,6 +34,8 @@ class Builder implements ArrayAccess
     }
 
     /**
+     * Set the category for this notification.
+     *
      * @param string|int|\Fenos\Notifynder\Models\NotificationCategory $category
      * @return $this
      */
@@ -46,6 +48,8 @@ class Builder implements ArrayAccess
     }
 
     /**
+     * Set the sender for this notification.
+     *
      * @return $this
      */
     public function from()
@@ -57,6 +61,8 @@ class Builder implements ArrayAccess
     }
 
     /**
+     * Set the sender anonymous for this notification.
+     *
      * @return $this
      */
     public function anonymous()
@@ -68,6 +74,8 @@ class Builder implements ArrayAccess
     }
 
     /**
+     * Set the receiver for this notification.
+     *
      * @return $this
      */
     public function to()
@@ -79,6 +87,8 @@ class Builder implements ArrayAccess
     }
 
     /**
+     * Set the url for this notification.
+     *
      * @param string $url
      * @return $this
      */
@@ -91,10 +101,12 @@ class Builder implements ArrayAccess
     }
 
     /**
+     * Set the expire date for this notification.
+     *
      * @param Carbon|\DateTime $datetime
      * @return $this
      */
-    public function expire($datetime)
+    public function expire(Carbon $datetime)
     {
         TypeChecker::isDate($datetime);
         $carbon = new Carbon($datetime);
@@ -104,12 +116,19 @@ class Builder implements ArrayAccess
     }
 
     /**
+     * Set the extra values for this notification.
+     * You can extend the existing extras or override them - important for multiple calls of extra() on one notification.
+     *
      * @param array $extra
+     * @param bool $override
      * @return $this
      */
-    public function extra(array $extra = [])
+    public function extra(array $extra = [], $override = true)
     {
         TypeChecker::isArray($extra);
+        if(!$override) {
+            $extra = array_merge($this->getNotificationData('extra', []), $extra);
+        }
         $this->setNotificationData('extra', $extra);
 
         return $this;
@@ -144,6 +163,8 @@ class Builder implements ArrayAccess
     }
 
     /**
+     * Set polymorphic model values.
+     *
      * @param array $entity
      * @param string $property
      */
@@ -170,6 +191,20 @@ class Builder implements ArrayAccess
     }
 
     /**
+     * Get a single value of this notification.
+     *
+     * @param string $key
+     * @param null|mixed $default
+     * @return mixed
+     */
+    protected function getNotificationData($key, $default = null)
+    {
+        return $this->notification->get($key, $default);
+    }
+
+    /**
+     * Set a single value of this notification.
+     *
      * @param string $key
      * @param mixed $value
      */
@@ -179,6 +214,8 @@ class Builder implements ArrayAccess
     }
 
     /**
+     * Get the current notification.
+     *
      * @return Notification
      * @throws UnvalidNotificationException
      */
@@ -194,6 +231,8 @@ class Builder implements ArrayAccess
     }
 
     /**
+     * Add a notification to the notifications array.
+     *
      * @param Notification $notification
      */
     public function addNotification(Notification $notification)
@@ -202,6 +241,8 @@ class Builder implements ArrayAccess
     }
 
     /**
+     * Get all notifications.
+     *
      * @return array
      * @throws UnvalidNotificationException
      */
@@ -215,6 +256,8 @@ class Builder implements ArrayAccess
     }
 
     /**
+     * Loop over data and call the callback with a new Builder instance and the key and value of the iterated data.
+     *
      * @param array|\Traversable $data
      * @param Closure $callback
      * @return $this
