@@ -43,6 +43,9 @@ script:
 
 after_script:
   - vendor/bin/test-reporter
+  - export CI_BUILD_NUMBER="$TRAVIS_BUILD_NUMBER"
+  - export CI_PULL_REQUEST="$TRAVIS_PULL_REQUEST"
+  - export CI_BRANCH="$TRAVIS_BRANCH"
   - vendor/bin/coveralls -v
 
 ## Send Build Notifications to Slack
