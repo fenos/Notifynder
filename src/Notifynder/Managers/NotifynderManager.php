@@ -90,7 +90,6 @@ class NotifynderManager implements NotifynderManagerContract
         return $this->sender;
     }
 
-
     protected function reset()
     {
         $this->builder = null;

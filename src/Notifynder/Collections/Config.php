@@ -128,7 +128,6 @@ class Config implements ConfigContract
         app('config')->set('notifynder.'.$key, $value);
     }
 
-
     public function reload()
     {
         $this->items = app('config')->get('notifynder');
