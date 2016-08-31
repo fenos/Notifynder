@@ -70,7 +70,7 @@ Fenos\Notifynder\NotifynderServiceProvider::class,
 
 ### Step 3
 
-#### Migration
+#### Migration & Config
 
 Publish the migration as well as the configuration of notifynder with the following command:
 
