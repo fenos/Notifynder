@@ -5,7 +5,7 @@ namespace Fenos\Notifynder\Traits;
 /**
  * Class Notifable.
  */
-trait Notifable
+trait NotifableLaravel53
 {
     use NotifableBasic;
     /**
@@ -13,7 +13,7 @@ trait Notifable
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany|\Illuminate\Database\Eloquent\Relations\MorphMany
      */
-    public function notifications()
+    public function notifynderNotifications()
     {
         $model = notifynder_config()->getNotificationModel();
         if (notifynder_config()->isPolymorphic()) {
@@ -25,6 +25,6 @@ trait Notifable
 
     public function getNotificationRelation()
     {
-        return $this->notifications();
+        return $this->notifynderNotifications();
     }
 }

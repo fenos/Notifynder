@@ -46,7 +46,7 @@ class NotifableTest extends NotifynderTestCase
         $this->assertSame(1, $notification->category_id);
         $this->assertSame(1, $notification->to_id);
         $notifynder->send();
-        $this->assertCount(1, $user->notifications);
+        $this->assertCount(1, $user->getNotificationRelation);
     }
 
     public function testNotificationsHasMany()
@@ -56,7 +56,7 @@ class NotifableTest extends NotifynderTestCase
             ->sendNotificationTo(1)
             ->from(2)
             ->send();
-        $this->assertCount(1, $user->notifications);
+        $this->assertCount(1, $user->getNotificationRelation);
     }
 
     public function testNotificationsMorphMany()
@@ -67,8 +67,8 @@ class NotifableTest extends NotifynderTestCase
         $this->sendNotificationTo($user);
         $car = $this->createCar();
         $this->sendNotificationTo($car);
-        $this->assertCount(1, $user->notifications);
-        $this->assertCount(1, $car->notifications);
+        $this->assertCount(1, $user->getNotificationRelation);
+        $this->assertCount(1, $car->getNotificationRelation);
     }
 
     public function testGetNotificationsDefault()
@@ -94,7 +94,7 @@ class NotifableTest extends NotifynderTestCase
         $this->assertSame(0, $user->countUnreadNotifications());
         $this->assertSame(25, $user->unreadAllNotifications());
         $this->assertSame(25, $user->countUnreadNotifications());
-        $notification = $user->notifications->first();
+        $notification = $user->getNotificationRelation->first();
         $this->assertTrue($user->readNotification($notification));
         $this->assertSame(24, $user->countUnreadNotifications());
         $this->assertTrue($user->unreadNotification($notification->getKey()));
@@ -103,6 +103,6 @@ class NotifableTest extends NotifynderTestCase
 
         $user2 = $this->createUser();
         $this->sendNotificationsTo($user2, 5);
-        $this->assertFalse($user->readNotification($user2->notifications()->first()));
+        $this->assertFalse($user->readNotification($user2->getNotificationRelation->first()));
     }
 }

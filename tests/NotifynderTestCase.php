@@ -2,7 +2,9 @@
 
 use Orchestra\Testbench\TestCase as OrchestraTestCase;
 use Fenos\Tests\Models\User;
+use Fenos\Tests\Models\UserL53;
 use Fenos\Tests\Models\Car;
+use Fenos\Tests\Models\CarL53;
 use Fenos\Notifynder\NotifynderServiceProvider;
 use Fenos\Notifynder\Facades\Notifynder as NotifynderFacade;
 use Illuminate\Database\Eloquent\Model;
@@ -71,7 +73,11 @@ abstract class NotifynderTestCase extends OrchestraTestCase
             'lastname' => 'Doe',
         ], $attributes);
 
-        return User::create($attributes);
+        if($this->getLaravelVersion() < 5.3) {
+            return User::create($attributes);
+        } else {
+            return UserL53::create($attributes);
+        }
     }
 
     protected function createCar(array $attributes = [])
@@ -81,7 +87,11 @@ abstract class NotifynderTestCase extends OrchestraTestCase
             'model' => 'A6',
         ], $attributes);
 
-        return Car::create($attributes);
+        if($this->getLaravelVersion() < 5.3) {
+            return Car::create($attributes);
+        } else {
+            return CarL53::create($attributes);
+        }
     }
 
     protected function sendNotificationTo(Model $model)
@@ -98,5 +108,12 @@ abstract class NotifynderTestCase extends OrchestraTestCase
             $this->sendNotificationTo($model);
             $amount--;
         }
+    }
+
+    protected function getLaravelVersion()
+    {
+        $version = app()::VERSION;
+        $parts = explode('.', $version);
+        return ($parts[0].'.'.$parts[1]) * 1;
     }
 }
