@@ -10,7 +10,7 @@ class CarL53 extends Model
     use NotifableLaravel53;
 
     protected $table = 'cars';
-    
+
     protected $fillable = [
         'id',
         'brand',
