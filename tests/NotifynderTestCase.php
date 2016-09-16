@@ -112,7 +112,7 @@ abstract class NotifynderTestCase extends OrchestraTestCase
 
     protected function getLaravelVersion()
     {
-        $version = app()::VERSION;
+        $version = app()->version();
         $parts = explode('.', $version);
 
         return ($parts[0].'.'.$parts[1]) * 1;
