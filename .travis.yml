@@ -26,6 +26,11 @@ env:
   - LARAVEL_VERSION="5.2.*"
   - LARAVEL_VERSION="5.3.*"
 
+matrix:
+  exclude:
+  - php: 5.5
+    env: LARAVEL_VERSION="5.3.*"
+
 ## Install Dependencies
 install:
   - composer self-update
