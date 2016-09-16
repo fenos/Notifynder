@@ -73,7 +73,7 @@ abstract class NotifynderTestCase extends OrchestraTestCase
             'lastname' => 'Doe',
         ], $attributes);
 
-        if($this->getLaravelVersion() < 5.3) {
+        if ($this->getLaravelVersion() < 5.3) {
             return User::create($attributes);
         } else {
             return UserL53::create($attributes);
@@ -87,7 +87,7 @@ abstract class NotifynderTestCase extends OrchestraTestCase
             'model' => 'A6',
         ], $attributes);
 
-        if($this->getLaravelVersion() < 5.3) {
+        if ($this->getLaravelVersion() < 5.3) {
             return Car::create($attributes);
         } else {
             return CarL53::create($attributes);
@@ -114,6 +114,7 @@ abstract class NotifynderTestCase extends OrchestraTestCase
     {
         $version = app()::VERSION;
         $parts = explode('.', $version);
+
         return ($parts[0].'.'.$parts[1]) * 1;
     }
 }

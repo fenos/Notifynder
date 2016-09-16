@@ -8,6 +8,7 @@ namespace Fenos\Notifynder\Traits;
 trait NotifableLaravel53
 {
     use NotifableBasic;
+
     /**
      * Get the notifications Relationship.
      *

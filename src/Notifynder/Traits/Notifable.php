@@ -8,6 +8,7 @@ namespace Fenos\Notifynder\Traits;
 trait Notifable
 {
     use NotifableBasic;
+
     /**
      * Get the notifications Relationship.
      *
