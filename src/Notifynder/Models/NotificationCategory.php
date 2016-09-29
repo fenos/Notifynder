@@ -29,7 +29,7 @@ class NotificationCategory extends Model
      */
     public $timestamps = false;
 
-    public function __construct(array $attributes)
+    public function __construct(array $attributes = [])
     {
         $attributes = array_merge([
             'text' => '',
