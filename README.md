@@ -16,6 +16,7 @@ Notifynder 3.2 - Laravel 5
 [![Slack Team](https://img.shields.io/badge/slack-notifynder-orange.svg?style=flat-square)](https://notifynder.slack.com)
 [![Slack join](https://img.shields.io/badge/slack-join-green.svg?style=social)](https://notifynder.signup.team)
 
+Version 4 is under development and we recommend to use this version for new projects. We won't add new features to v3.
 
 Notifynder is designed to manage notifications in a powerful and easy way.
 With the flexibility that Notifynder offer, It provide a complete API to work with your notifications,
@@ -80,26 +81,26 @@ body of the notification:
 To send a notification with notifynder, that's all
 you have to do.
 
-~~~php
+```php
 Notifynder::category('user.following')
             ->from($from_user_id)
             ->to($to_user_id)
             ->url('http://www.yourwebsite.com/page')
             ->send();
-~~~
+```
 
 **Retrieving Notifications**
 
-~~~php
+```php
 // @return Collection
 Notifynder::getAll($user_id,$limit,$paginateBool);
-~~~
+```
 
 **Reading Notifications:**
-~~~php
+```php
 // @return number of notifications read
 Notifynder::readAll($user_id);
-~~~
+```
 
 To know more, such as the advance usage of Notifynder Visit the **[Notifynder Wiki](https://github.com/fenos/Notifynder/wiki)**.
 
