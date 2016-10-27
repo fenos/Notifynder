@@ -37,7 +37,7 @@ class SingleSender implements SenderContract
         $model = notifynder_config()->getNotificationModel();
 
         $notification = new $model($this->notification);
-        
+
         return $notification->save();
     }
 }
