@@ -34,7 +34,9 @@ class SingleSender implements SenderContract
      */
     public function send(SenderManagerContract $sender)
     {
-        $notification = new Notification($this->notification);
+        $model = notifynder_config()->getNotificationModel();
+
+        $notification = new $model($this->notification);
 
         return $notification->save();
     }
