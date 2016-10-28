@@ -13,7 +13,7 @@
 [![Code Climate](https://img.shields.io/codeclimate/github/fenos/Notifynder.svg?style=flat-square)](https://codeclimate.com/github/fenos/Notifynder)
 [![Coveralls](https://img.shields.io/coveralls/fenos/Notifynder.svg?style=flat-square)](https://coveralls.io/github/fenos/Notifynder)
 
-[![Slack Team](https://img.shields.io/badge/slack-notifynder-orange.svg?style=flat-square)](https://notifynder.slack.com)
+[![Slack Team](https://img.shields.io/badge/slack-astrotomic-orange.svg?style=flat-square)](https://astrotomic.slack.com)
 [![Slack join](https://img.shields.io/badge/slack-join-green.svg?style=social)](https://notifynder.signup.team)
 
 
