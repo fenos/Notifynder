@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class NotificationCategories extends Migration
+class DropVersion4UnusedTables extends Migration
 {
     /**
      * Run the migrations.
@@ -12,11 +12,8 @@ class NotificationCategories extends Migration
      */
     public function up()
     {
-        Schema::create('notification_categories', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('name')->index();
-            $table->string('text');
-        });
+        Schema::dropIfExists('notification_groups');
+        Schema::dropIfExists('notifications_categories_in_groups');
     }
 
     /**
@@ -26,6 +23,6 @@ class NotificationCategories extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('notification_categories');
+        // no way to rollback this
     }
 }

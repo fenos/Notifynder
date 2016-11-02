@@ -29,6 +29,7 @@ class NotifynderServiceProvider extends ServiceProvider
         'MakeNotificationUrlNullable' => '2016_04_19_200827_make_notification_url_nullable',
         'AddStackIdToNotifications' => '2016_05_19_144531_add_stack_id_to_notifications',
         'UpdateVersion4NotificationsTable' => '2016_07_01_153156_update_version4_notifications_table',
+        'DropVersion4UnusedTables' => '2016_11_02_193415_drop_version4_unused_tables',
     ];
 
     /**

@@ -25,6 +25,6 @@ class CreateNotificationGroupsTable extends Migration
      */
     public function down()
     {
-        Schema::drop('notification_groups');
+        Schema::dropIfExists('notification_groups');
     }
 }
