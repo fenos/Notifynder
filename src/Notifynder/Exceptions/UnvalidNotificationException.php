@@ -6,7 +6,7 @@ use Exception;
 use Fenos\Notifynder\Builder\Notification;
 
 /**
- * Class UnvalidNotificationException
+ * Class UnvalidNotificationException.
  */
 class UnvalidNotificationException extends Exception
 {
