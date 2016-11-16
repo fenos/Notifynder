@@ -5,7 +5,7 @@ namespace Fenos\Notifynder\Exceptions;
 use Exception;
 
 /**
- * Class ExtraParamsException
+ * Class ExtraParamsException.
  */
 class ExtraParamsException extends Exception
 {
