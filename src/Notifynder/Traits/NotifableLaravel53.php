@@ -24,6 +24,11 @@ trait NotifableLaravel53
         return $this->hasMany($model, 'to_id');
     }
 
+    /**
+     * Get the notifications Relationship.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany|\Illuminate\Database\Eloquent\Relations\MorphMany
+     */
     public function getNotificationRelation()
     {
         return $this->notifynderNotifications();

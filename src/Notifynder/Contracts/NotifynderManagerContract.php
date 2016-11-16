@@ -4,6 +4,9 @@ namespace Fenos\Notifynder\Contracts;
 
 use Closure;
 
+/**
+ * Interface NotifynderManagerContract.
+ */
 interface NotifynderManagerContract
 {
     /**

@@ -63,7 +63,6 @@ interface ConfigContract
     /**
      * @param string $key
      * @param mixed $value
-     * @return mixed
      */
     public function set($key, $value);
 
@@ -76,7 +75,6 @@ interface ConfigContract
     /**
      * @param string $key
      * @param mixed $value
-     * @return mixed
      */
     public function __set($key, $value);
 }

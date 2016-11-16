@@ -3,7 +3,7 @@
 namespace Fenos\Notifynder\Traits;
 
 /**
- * Class Notifable.
+ * Class Notifable
  */
 trait Notifable
 {
@@ -24,6 +24,11 @@ trait Notifable
         return $this->hasMany($model, 'to_id');
     }
 
+    /**
+     * Get the notifications Relationship.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany|\Illuminate\Database\Eloquent\Relations\MorphMany
+     */
     public function getNotificationRelation()
     {
         return $this->notifications();
