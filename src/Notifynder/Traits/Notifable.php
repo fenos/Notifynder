@@ -3,7 +3,7 @@
 namespace Fenos\Notifynder\Traits;
 
 /**
- * Class Notifable
+ * Class Notifable.
  */
 trait Notifable
 {
