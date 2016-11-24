@@ -33,7 +33,6 @@ class Notification extends Model
      */
     protected $appends = [
         'text',
-        'template_body',
     ];
 
     /**
@@ -111,29 +110,13 @@ class Notification extends Model
 
     /**
      * @return string
-     */
-    public function getTemplateBodyAttribute()
-    {
-        if (notifynder_config()->isTranslated()) {
-            $key = notifynder_config()->getTranslationDomain().'.'.$this->category->name;
-            $trans = trans($key);
-            if ($trans != $key) {
-                return $trans;
-            }
-        }
-
-        return $this->category->text;
-    }
-
-    /**
-     * @return string
      * @throws \Fenos\Notifynder\Exceptions\ExtraParamsException
      */
     public function getTextAttribute()
     {
         if (! array_key_exists('text', $this->attributes)) {
             $notifynderParse = new NotificationParser();
-            $this->attributes['text'] = $notifynderParse->parse($this);
+            $this->attributes['text'] = $notifynderParse->parse($this, $this->category_id);
         }
 
         return $this->attributes['text'];

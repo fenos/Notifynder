@@ -63,4 +63,17 @@ class BuilderNotificationTest extends NotifynderTestCase
         $notification->offsetUnset('foo');
         $this->assertFalse($notification->offsetExists('foo'));
     }
+
+    public function testGetText()
+    {
+        $category = $this->createCategory();
+        $from = $this->createUser();
+        $to = $this->createUser();
+        $notification = new Notification();
+        $notification->set('category_id', $category->getKey());
+        $notification->set('from_id', $from->getKey());
+        $notification->set('to_id', $to->getKey());
+
+        $this->assertSame('Notification send from #1 to #2.', $notification->getText());
+    }
 }

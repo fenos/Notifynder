@@ -25,6 +25,13 @@ class NotificationCategory extends Model
     ];
 
     /**
+     * @var array
+     */
+    protected $appends = [
+        'template_body',
+    ];
+
+    /**
      * @var bool
      */
     public $timestamps = false;
@@ -56,6 +63,22 @@ class NotificationCategory extends Model
             $parts[$i] = Str::slug(preg_replace('/[^a-z0-9_]/', '_', strtolower($part)), '_');
         }
         $this->attributes['name'] = implode('.', $parts);
+    }
+
+    /**
+     * @return string
+     */
+    public function getTemplateBodyAttribute()
+    {
+        if (notifynder_config()->isTranslated()) {
+            $key = notifynder_config()->getTranslationDomain().'.'.$this->name;
+            $trans = trans($key);
+            if ($trans != $key) {
+                return $trans;
+            }
+        }
+
+        return $this->text;
     }
 
     /**

@@ -8,6 +8,7 @@ use Fenos\Tests\Models\CarL53;
 use Fenos\Notifynder\NotifynderServiceProvider;
 use Fenos\Notifynder\Facades\Notifynder as NotifynderFacade;
 use Illuminate\Database\Eloquent\Model;
+use Fenos\Notifynder\Models\NotificationCategory;
 
 abstract class NotifynderTestCase extends OrchestraTestCase
 {
@@ -64,6 +65,16 @@ abstract class NotifynderTestCase extends OrchestraTestCase
             '--database' => 'testbench',
             '--path' => $path,
         ]);
+    }
+
+    protected function createCategory(array $attributes = [])
+    {
+        $attributes = array_merge([
+            'text' => 'Notification send from #{from.id} to #{to.id}.',
+            'name' => 'test.category',
+        ], $attributes);
+
+        return NotificationCategory::create($attributes);
     }
 
     protected function createUser(array $attributes = [])

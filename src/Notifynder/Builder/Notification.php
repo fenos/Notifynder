@@ -3,10 +3,12 @@
 namespace Fenos\Notifynder\Builder;
 
 use ArrayAccess;
+use Fenos\Notifynder\Parsers\NotificationParser;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Contracts\Support\Jsonable;
 use Illuminate\Support\Arr;
 use JsonSerializable;
+use Fenos\Notifynder\Models\Notification as ModelNotification;
 
 /**
  * Class Notification.
@@ -152,6 +154,17 @@ class Notification implements Arrayable, ArrayAccess, Jsonable, JsonSerializable
         }
 
         return $notification;
+    }
+
+    /**
+     * @return string
+     */
+    public function getText() {
+        if ($this->isValid()) {
+            $notification = new ModelNotification($this);
+            $notifynderParse = new NotificationParser();
+            return $notifynderParse->parse($notification, $this->category_id);
+        }
     }
 
     /**

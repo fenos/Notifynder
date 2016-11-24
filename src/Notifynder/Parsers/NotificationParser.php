@@ -2,8 +2,10 @@
 
 namespace Fenos\Notifynder\Parsers;
 
+use Fenos\Notifynder\Builder\Notification as BuilderNotification;
 use Fenos\Notifynder\Exceptions\ExtraParamsException;
-use Fenos\Notifynder\Models\Notification;
+use Fenos\Notifynder\Models\Notification as ModelNotification;
+use Fenos\Notifynder\Models\NotificationCategory;
 
 /**
  * Class NotificationParser.
@@ -18,18 +20,20 @@ class NotificationParser
     /**
      * Parse a notification and return the body text.
      *
-     * @param Notification $notification
+     * @param array|ModelNotification|BuilderNotification $notification
+     * @param int $categoryId
      * @return string
      * @throws ExtraParamsException
      */
-    public function parse(Notification $notification)
+    public function parse($notification, $categoryId)
     {
-        $text = $notification->template_body;
+        $category = NotificationCategory::findOrFail($categoryId);
+        $text = $category->template_body;
 
         $specialValues = $this->getValues($text);
         if (count($specialValues) > 0) {
             $specialValues = array_filter($specialValues, function ($value) use ($notification) {
-                return isset($notification->$value) || starts_with($value, ['extra.', 'to.', 'from.']);
+                return ((is_array($notification) && isset($notification[$value])) || (is_object($notification) && isset($notification->$value))) || starts_with($value, ['extra.', 'to.', 'from.']);
             });
 
             foreach ($specialValues as $replacer) {
@@ -68,7 +72,7 @@ class NotificationParser
      */
     protected function replace($body, $valueMatch, $replacer)
     {
-        $body = str_replace('{'.$replacer.'}', $valueMatch, $body);
+        $body = str_replace('{' . $replacer . '}', $valueMatch, $body);
 
         return $body;
     }
@@ -87,9 +91,9 @@ class NotificationParser
         foreach (explode('.', $key) as $segment) {
             if (is_object($object) && isset($object->{$segment})) {
                 $object = $object->{$segment};
-            } elseif (is_object($object) && method_exists($object, '__get') && ! is_null($object->__get($segment))) {
+            } elseif (is_object($object) && method_exists($object, '__get') && !is_null($object->__get($segment))) {
                 $object = $object->__get($segment);
-            } elseif (is_object($object) && method_exists($object, 'getAttribute') && ! is_null($object->getAttribute($segment))) {
+            } elseif (is_object($object) && method_exists($object, 'getAttribute') && !is_null($object->getAttribute($segment))) {
                 $object = $object->getAttribute($segment);
             } elseif (is_array($object) && array_key_exists($segment, $object)) {
                 $object = array_get($object, $segment, $default);
