@@ -159,10 +159,12 @@ class Notification implements Arrayable, ArrayAccess, Jsonable, JsonSerializable
     /**
      * @return string
      */
-    public function getText() {
+    public function getText()
+    {
         if ($this->isValid()) {
             $notification = new ModelNotification($this);
             $notifynderParse = new NotificationParser();
+
             return $notifynderParse->parse($notification, $this->category_id);
         }
     }
