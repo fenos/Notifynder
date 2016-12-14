@@ -1,8 +1,8 @@
 <?php
 
-use Fenos\Notifynder\Models\Notification;
 use Fenos\Tests\Models\User;
 use Laracasts\TestDummy\Factory;
+use Fenos\Notifynder\Models\Notification;
 
 /**
  * Class NotificationTest.

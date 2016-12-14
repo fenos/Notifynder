@@ -3,13 +3,13 @@
 namespace spec\Fenos\Notifynder\Builder;
 
 use Carbon\Carbon;
+use PhpSpec\ObjectBehavior;
+use Illuminate\Support\Collection;
 use Fenos\Notifynder\Builder\NotifynderBuilder;
 use Fenos\Notifynder\Categories\CategoryManager;
-use Fenos\Notifynder\Exceptions\EntityNotIterableException;
-use Fenos\Notifynder\Exceptions\IterableIsEmptyException;
 use Fenos\Notifynder\Models\NotificationCategory;
-use Illuminate\Support\Collection;
-use PhpSpec\ObjectBehavior;
+use Fenos\Notifynder\Exceptions\IterableIsEmptyException;
+use Fenos\Notifynder\Exceptions\EntityNotIterableException;
 
 class NotifynderBuilderSpec extends ObjectBehavior
 {

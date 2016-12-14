@@ -2,8 +2,8 @@
 
 namespace Fenos\Notifynder\Parsers;
 
-use Fenos\Notifynder\Exceptions\ExtraParamsException;
 use Fenos\Notifynder\Notifications\ExtraParams;
+use Fenos\Notifynder\Exceptions\ExtraParamsException;
 
 /**
  * Class NotifynderParser.

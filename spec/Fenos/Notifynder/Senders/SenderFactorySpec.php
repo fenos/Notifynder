@@ -2,12 +2,12 @@
 
 namespace spec\Fenos\Notifynder\Senders;
 
-use Fenos\Notifynder\Contracts\NotifynderCategory;
-use Fenos\Notifynder\Contracts\NotifynderGroup;
+use PhpSpec\ObjectBehavior;
+use Fenos\Notifynder\Senders\SendOne;
 use Fenos\Notifynder\Senders\SendGroup;
 use Fenos\Notifynder\Senders\SendMultiple;
-use Fenos\Notifynder\Senders\SendOne;
-use PhpSpec\ObjectBehavior;
+use Fenos\Notifynder\Contracts\NotifynderGroup;
+use Fenos\Notifynder\Contracts\NotifynderCategory;
 
 class SenderFactorySpec extends ObjectBehavior
 {

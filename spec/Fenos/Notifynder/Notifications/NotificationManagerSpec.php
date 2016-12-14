@@ -2,11 +2,11 @@
 
 namespace spec\Fenos\Notifynder\Notifications;
 
-use Fenos\Notifynder\Contracts\NotificationDB;
-use Fenos\Notifynder\Exceptions\NotificationNotFoundException;
-use Fenos\Notifynder\Models\Notification;
-use Fenos\Notifynder\Models\NotifynderCollection;
 use PhpSpec\ObjectBehavior;
+use Fenos\Notifynder\Models\Notification;
+use Fenos\Notifynder\Contracts\NotificationDB;
+use Fenos\Notifynder\Models\NotifynderCollection;
+use Fenos\Notifynder\Exceptions\NotificationNotFoundException;
 
 class NotificationManagerSpec extends ObjectBehavior
 {

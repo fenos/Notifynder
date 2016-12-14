@@ -2,10 +2,10 @@
 
 namespace Fenos\Notifynder\Translator;
 
+use Illuminate\Contracts\Config\Repository;
 use Fenos\Notifynder\Contracts\NotifynderTranslator;
 use Fenos\Notifynder\Exceptions\NotificationLanguageNotFoundException;
 use Fenos\Notifynder\Exceptions\NotificationTranslationNotFoundException;
-use Illuminate\Contracts\Config\Repository;
 
 /**
  * Class NotifynderTranslator.

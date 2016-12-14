@@ -2,10 +2,10 @@
 
 namespace spec\Fenos\Notifynder\Categories;
 
-use Fenos\Notifynder\Contracts\CategoryDB;
-use Fenos\Notifynder\Exceptions\CategoryNotFoundException;
-use Fenos\Notifynder\Models\NotificationCategory;
 use PhpSpec\ObjectBehavior;
+use Fenos\Notifynder\Contracts\CategoryDB;
+use Fenos\Notifynder\Models\NotificationCategory;
+use Fenos\Notifynder\Exceptions\CategoryNotFoundException;
 
 class CategoryManagerSpec extends ObjectBehavior
 {

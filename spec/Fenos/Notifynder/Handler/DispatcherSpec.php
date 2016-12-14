@@ -2,10 +2,10 @@
 
 namespace spec\Fenos\Notifynder\Handler;
 
-use Fenos\Notifynder\Handler\NotifynderEvent;
+use PhpSpec\ObjectBehavior;
 use Fenos\Notifynder\NotifynderManager;
 use Illuminate\Contracts\Events\Dispatcher;
-use PhpSpec\ObjectBehavior;
+use Fenos\Notifynder\Handler\NotifynderEvent;
 
 class DispatcherSpec extends ObjectBehavior
 {

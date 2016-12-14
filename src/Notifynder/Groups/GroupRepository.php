@@ -2,9 +2,9 @@
 
 namespace Fenos\Notifynder\Groups;
 
-use Fenos\Notifynder\Contracts\NotifynderGroupDB;
-use Fenos\Notifynder\Models\NotificationGroup;
 use Illuminate\Database\Eloquent\Builder;
+use Fenos\Notifynder\Models\NotificationGroup;
+use Fenos\Notifynder\Contracts\NotifynderGroupDB;
 
 /**
  * Class NotificationGroupsRepository.

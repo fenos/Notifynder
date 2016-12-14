@@ -1,7 +1,7 @@
 <?php
 
-use Fenos\Notifynder\Models\Notification;
 use Laracasts\TestDummy\Factory;
+use Fenos\Notifynder\Models\Notification;
 
 trait CreateModels
 {

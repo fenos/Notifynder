@@ -2,9 +2,9 @@
 
 namespace Fenos\Notifynder\Builder;
 
-use Illuminate\Contracts\Config\Repository;
-use InvalidArgumentException;
 use Carbon\Carbon;
+use InvalidArgumentException;
+use Illuminate\Contracts\Config\Repository;
 
 /**
  * Class BuilderRules.

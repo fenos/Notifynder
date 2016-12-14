@@ -1,7 +1,7 @@
 <?php
 
-use Fenos\Notifynder\Contracts\NotifynderSender;
 use Fenos\Notifynder\Contracts\Sender;
+use Fenos\Notifynder\Contracts\NotifynderSender;
 
 /**
  * Class CustomSender.

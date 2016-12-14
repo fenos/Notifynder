@@ -1,9 +1,9 @@
 <?php
 
+use Fenos\Notifynder\Models\Notification;
 use Fenos\Notifynder\Builder\NotifynderBuilder;
 use Fenos\Notifynder\Contracts\NotifynderGroup;
 use Fenos\Notifynder\Contracts\NotifynderSender;
-use Fenos\Notifynder\Models\Notification;
 
 /**
  * Class SendersTest.

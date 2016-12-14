@@ -2,14 +2,14 @@
 
 namespace Fenos\Notifynder\Senders;
 
-use BadMethodCallException;
 use Closure;
-use Fenos\Notifynder\Contracts\DefaultSender;
-use Fenos\Notifynder\Contracts\NotifynderSender;
-use Fenos\Notifynder\Contracts\Sender;
-use Fenos\Notifynder\Contracts\StoreNotification;
-use Illuminate\Contracts\Container\Container;
 use LogicException;
+use BadMethodCallException;
+use Fenos\Notifynder\Contracts\Sender;
+use Fenos\Notifynder\Contracts\DefaultSender;
+use Illuminate\Contracts\Container\Container;
+use Fenos\Notifynder\Contracts\NotifynderSender;
+use Fenos\Notifynder\Contracts\StoreNotification;
 
 /**
  * Class SenderManager.

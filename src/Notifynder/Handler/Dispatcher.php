@@ -2,8 +2,8 @@
 
 namespace Fenos\Notifynder\Handler;
 
-use Fenos\Notifynder\Contracts\NotifynderDispatcher;
 use Fenos\Notifynder\Notifynder;
+use Fenos\Notifynder\Contracts\NotifynderDispatcher;
 use Illuminate\Contracts\Events\Dispatcher as LaravelDispatcher;
 
 /**

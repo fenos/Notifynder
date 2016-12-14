@@ -2,11 +2,11 @@
 
 namespace Fenos\Notifynder\Groups;
 
-use Fenos\Notifynder\Contracts\NotifynderGroup;
-use Fenos\Notifynder\Contracts\NotifynderGroupCategoryDB;
-use Fenos\Notifynder\Contracts\NotifynderGroupDB;
-use Fenos\Notifynder\Exceptions\NotifynderGroupNotFoundException;
 use InvalidArgumentException;
+use Fenos\Notifynder\Contracts\NotifynderGroup;
+use Fenos\Notifynder\Contracts\NotifynderGroupDB;
+use Fenos\Notifynder\Contracts\NotifynderGroupCategoryDB;
+use Fenos\Notifynder\Exceptions\NotifynderGroupNotFoundException;
 
 /**
  * Class NotifynderGroup.

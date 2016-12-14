@@ -1,7 +1,7 @@
 <?php
 
-use Fenos\Notifynder\Categories\CategoryRepository;
 use Laracasts\TestDummy\Factory;
+use Fenos\Notifynder\Categories\CategoryRepository;
 
 /**
  * Class NotificationCategoryRepositoryTest.

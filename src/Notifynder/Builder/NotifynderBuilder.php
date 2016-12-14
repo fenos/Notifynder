@@ -2,16 +2,16 @@
 
 namespace Fenos\Notifynder\Builder;
 
-use ArrayAccess;
-use Carbon\Carbon;
-use Fenos\Notifynder\Contracts\NotifynderCategory;
-use Fenos\Notifynder\Exceptions\EntityNotIterableException;
-use Fenos\Notifynder\Exceptions\IterableIsEmptyException;
-use Fenos\Notifynder\Exceptions\NotificationBuilderException;
-use Illuminate\Contracts\Config\Repository;
-use Illuminate\Database\Eloquent\Model;
-use Traversable;
 use Closure;
+use ArrayAccess;
+use Traversable;
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Contracts\Config\Repository;
+use Fenos\Notifynder\Contracts\NotifynderCategory;
+use Fenos\Notifynder\Exceptions\IterableIsEmptyException;
+use Fenos\Notifynder\Exceptions\EntityNotIterableException;
+use Fenos\Notifynder\Exceptions\NotificationBuilderException;
 
 /**
  * Class NotifynderBuilder.

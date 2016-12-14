@@ -2,11 +2,11 @@
 
 namespace Fenos\Notifynder\Senders;
 
-use Fenos\Notifynder\Contracts\NotifynderCategory;
-use Fenos\Notifynder\Contracts\NotifynderGroup;
-use Fenos\Notifynder\Contracts\DefaultSender;
-use Fenos\Notifynder\Contracts\StoreNotification;
 use Fenos\Notifynder\NotifynderManager;
+use Fenos\Notifynder\Contracts\DefaultSender;
+use Fenos\Notifynder\Contracts\NotifynderGroup;
+use Fenos\Notifynder\Contracts\StoreNotification;
+use Fenos\Notifynder\Contracts\NotifynderCategory;
 
 /**
  * Class SendGroup.

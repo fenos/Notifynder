@@ -2,10 +2,10 @@
 
 namespace Fenos\Notifynder\Artisan;
 
-use Fenos\Notifynder\Contracts\NotifynderGroup;
-use Fenos\Notifynder\Parsers\ArtisanOptionsParser;
 use Illuminate\Console\Command;
+use Fenos\Notifynder\Contracts\NotifynderGroup;
 use Symfony\Component\Console\Input\InputOption;
+use Fenos\Notifynder\Parsers\ArtisanOptionsParser;
 use Symfony\Component\Console\Input\InputArgument;
 
 class PushCategoryToGroup extends Command

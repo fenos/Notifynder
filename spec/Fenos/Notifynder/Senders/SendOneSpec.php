@@ -2,10 +2,10 @@
 
 namespace spec\Fenos\Notifynder\Senders;
 
+use PhpSpec\ObjectBehavior;
+use Fenos\Notifynder\Models\Notification;
 use Fenos\Notifynder\Contracts\StoreNotification;
 use Fenos\Notifynder\Exceptions\CategoryNotFoundException;
-use Fenos\Notifynder\Models\Notification;
-use PhpSpec\ObjectBehavior;
 
 class SendOneSpec extends ObjectBehavior
 {

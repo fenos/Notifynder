@@ -2,11 +2,11 @@
 
 namespace Fenos\Notifynder\Notifications;
 
+use stdClass;
 use ArrayAccess;
 use JsonSerializable;
-use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Contracts\Support\Jsonable;
-use stdClass;
+use Illuminate\Contracts\Support\Arrayable;
 
 /**
  * Class Jsonable.
