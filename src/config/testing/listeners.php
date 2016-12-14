@@ -7,7 +7,7 @@ return [
 
     'listeners' => [
 
-        'test.*' => 'ListenerDummyTest'
+        'test.*' => 'ListenerDummyTest',
 
-    ]
+    ],
 ];

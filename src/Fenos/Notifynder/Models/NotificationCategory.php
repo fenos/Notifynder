@@ -5,25 +5,22 @@
 
 namespace Fenos\Notifynder\Models;
 
-
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Class NotificationCategory
- *
- * @package Fenos\Notifynder\Models
+ * Class NotificationCategory.
  */
-class NotificationCategory extends Model {
-
+class NotificationCategory extends Model
+{
     /**
      * @var string
      */
-    protected $table = "notification_categories";
+    protected $table = 'notification_categories';
 
     /**
      * @var array
      */
-    protected $fillable = ['name','text'];
+    protected $fillable = ['name', 'text'];
 
     /**
      * @var bool
@@ -31,13 +28,13 @@ class NotificationCategory extends Model {
     public $timestamps = false;
 
     /**
-     * Relation with the notifications
+     * Relation with the notifications.
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function notifications()
     {
-        return $this->hasMany('Fenos\Notifynder\Models\Notification','category_id');
+        return $this->hasMany('Fenos\Notifynder\Models\Notification', 'category_id');
     }
 
     /**
@@ -48,12 +45,12 @@ class NotificationCategory extends Model {
         return $this->belongsToMany(
             'Fenos\Notifynder\Models\NotificationGroup',
             'notifications_categories_in_groups',
-            'category_id','group_id'
+            'category_id', 'group_id'
         );
     }
 
     /**
-     * Return category id
+     * Return category id.
      *
      * @return mixed
      */
@@ -61,4 +58,4 @@ class NotificationCategory extends Model {
     {
         return $this->id;
     }
-} 
+}

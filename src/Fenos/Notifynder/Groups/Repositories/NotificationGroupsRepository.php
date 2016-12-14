@@ -1,15 +1,15 @@
-<?php namespace Fenos\Notifynder\Groups\Repositories;
+<?php
+
+namespace Fenos\Notifynder\Groups\Repositories;
 
 use Fenos\Notifynder\Models\NotificationGroup;
 use Illuminate\Database\Eloquent\Builder;
 
 /**
- * Class NotificationGroupsRepository
- *
- * @package Fenos\Notifynder\Groups\Repositories
+ * Class NotificationGroupsRepository.
  */
-class NotificationGroupsRepository {
-
+class NotificationGroupsRepository
+{
     /**
      * @var NotificationGroup | Builder
      */
@@ -18,15 +18,16 @@ class NotificationGroupsRepository {
     /**
      * @param NotificationGroup $groupModel
      */
-    function __construct(NotificationGroup $groupModel)
+    public function __construct(NotificationGroup $groupModel)
     {
         $this->groupModel = $groupModel;
     }
 
     /**
-     * Find a group by ID
+     * Find a group by ID.
      *
      * @param $group_id
+     *
      * @return \Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model|static
      */
     public function find($group_id)
@@ -35,20 +36,22 @@ class NotificationGroupsRepository {
     }
 
     /**
-     * Find a group by name
+     * Find a group by name.
      *
      * @param $name
+     *
      * @return mixed
      */
     public function findByName($name)
     {
-        return $this->groupModel->where('name',$name)->first();
+        return $this->groupModel->where('name', $name)->first();
     }
 
     /**
-     * Create a new group
+     * Create a new group.
      *
      * @param $name
+     *
      * @return \Illuminate\Database\Eloquent\Model|static
      */
     public function create($name)
@@ -57,13 +60,14 @@ class NotificationGroupsRepository {
     }
 
     /**
-     * Delete a group
+     * Delete a group.
      *
      * @param $group_id
+     *
      * @return mixed
      */
     public function delete($group_id)
     {
-        return  $this->groupModel->where('id',$group_id)->delete();
+        return  $this->groupModel->where('id', $group_id)->delete();
     }
 }

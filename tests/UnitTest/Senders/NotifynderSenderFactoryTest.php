@@ -2,15 +2,14 @@
 /**
  * Created by Fabrizio Fenoglio.
  */
-
 use Fenos\Notifynder\Senders\NotifynderSenderFactory;
 use Mockery as m;
 
 /**
- * Class NotifynderSenderHandlerTest
+ * Class NotifynderSenderHandlerTest.
  */
-class NotifynderSenderFactoryTest extends PHPUnit_Framework_TestCase {
-
+class NotifynderSenderFactoryTest extends PHPUnit_Framework_TestCase
+{
     /**
      * @var NotifynderSenderFactory
      */
@@ -27,7 +26,7 @@ class NotifynderSenderFactoryTest extends PHPUnit_Framework_TestCase {
     protected $dependency = [];
 
     /**
-     * Set Up Test
+     * Set Up Test.
      */
     public function setUp()
     {
@@ -39,7 +38,7 @@ class NotifynderSenderFactoryTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * TearDown
+     * TearDown.
      */
     public function tearDown()
     {
@@ -51,16 +50,16 @@ class NotifynderSenderFactoryTest extends PHPUnit_Framework_TestCase {
     {
         $infoNotifications = NotificationDataBuilder::singleNotificationData();
 
-        $mockSenderHandler = m::mock('Fenos\Notifynder\Senders\NotifynderSenderFactory[isMultiArray]',$this->dependency);
+        $mockSenderHandler = m::mock('Fenos\Notifynder\Senders\NotifynderSenderFactory[isMultiArray]', $this->dependency);
 
         $mockSenderHandler->shouldReceive('isMultiArray')
             ->once()
             ->with($infoNotifications)
             ->andReturn(false);
 
-        $result = $mockSenderHandler->getSender($infoNotifications,null);
+        $result = $mockSenderHandler->getSender($infoNotifications, null);
 
-        $this->assertInstanceOf('Fenos\Notifynder\Senders\SendOne',$result);
+        $this->assertInstanceOf('Fenos\Notifynder\Senders\SendOne', $result);
     }
 
     /** @test */
@@ -68,7 +67,7 @@ class NotifynderSenderFactoryTest extends PHPUnit_Framework_TestCase {
     {
         $infoNotifications = NotificationDataBuilder::multipleNotificationData();
 
-        $mockSenderHandler = m::mock('Fenos\Notifynder\Senders\NotifynderSenderFactory[isMultiArray]',$this->dependency);
+        $mockSenderHandler = m::mock('Fenos\Notifynder\Senders\NotifynderSenderFactory[isMultiArray]', $this->dependency);
 
         $mockSenderHandler->shouldReceive('isMultiArray')
             ->once()
@@ -77,7 +76,7 @@ class NotifynderSenderFactoryTest extends PHPUnit_Framework_TestCase {
 
         $result = $mockSenderHandler->getSender($infoNotifications);
 
-        $this->assertInstanceOf('Fenos\Notifynder\Senders\SendMultiple',$result);
+        $this->assertInstanceOf('Fenos\Notifynder\Senders\SendMultiple', $result);
     }
 
     /** @test */
@@ -85,11 +84,11 @@ class NotifynderSenderFactoryTest extends PHPUnit_Framework_TestCase {
     {
         $info = NotificationDataBuilder::singleNotificationData();
 
-        $category = "User";
+        $category = 'User';
 
-        $result = $this->notifynderSenderFactory->sendSingle($info,$category);
+        $result = $this->notifynderSenderFactory->sendSingle($info, $category);
 
-        $this->assertInstanceOf('Fenos\Notifynder\Senders\SendOne',$result);
+        $this->assertInstanceOf('Fenos\Notifynder\Senders\SendOne', $result);
     }
 
     /** @test */
@@ -99,9 +98,9 @@ class NotifynderSenderFactoryTest extends PHPUnit_Framework_TestCase {
 
         $category = null;
 
-        $result = $this->notifynderSenderFactory->sendMultiple($info,$category);
+        $result = $this->notifynderSenderFactory->sendMultiple($info, $category);
 
-        $this->assertInstanceOf('Fenos\Notifynder\Senders\SendMultiple',$result);
+        $this->assertInstanceOf('Fenos\Notifynder\Senders\SendMultiple', $result);
     }
 
     /** @test */
@@ -132,4 +131,3 @@ class NotifynderSenderFactoryTest extends PHPUnit_Framework_TestCase {
         return [$this->notifynderGroup];
     }
 }
- 

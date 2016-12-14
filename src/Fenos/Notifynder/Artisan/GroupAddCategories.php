@@ -1,13 +1,15 @@
-<?php namespace Fenos\Notifynder\Artisan;
+<?php
+
+namespace Fenos\Notifynder\Artisan;
 
 use Fenos\Notifynder\Groups\NotifynderGroup;
 use Fenos\Notifynder\Parse\ArtisanOptionsParser;
 use Illuminate\Console\Command;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputOption;
 
-class GroupAddCategories extends Command {
-
+class GroupAddCategories extends Command
+{
     /**
      * The console command name.
      *
@@ -37,6 +39,7 @@ class GroupAddCategories extends Command {
      *
      * @param \Fenos\Notifynder\Groups\NotifynderGroup $notifynderGroup
      * @param ArtisanOptionsParser                     $artisanOptionsParser
+     *
      * @return \Fenos\Notifynder\Artisan\GroupAddCategories
      */
     public function __construct(NotifynderGroup $notifynderGroup,
@@ -58,15 +61,11 @@ class GroupAddCategories extends Command {
 
         $groupCategories = $this->notifynderGroup->addMultipleCategoriesToGroup($arguments);
 
-        if ($groupCategories)
-        {
-            foreach($groupCategories->categories as $category)
-            {
+        if ($groupCategories) {
+            foreach ($groupCategories->categories as $category) {
                 $this->info("Category {$category->name} has been associated to the group {$groupCategories->name}");
             }
-        }
-        else
-        {
+        } else {
             $this->error('The name must be a string with dots as namespaces');
         }
     }
@@ -94,9 +93,9 @@ class GroupAddCategories extends Command {
      */
     protected function getArguments()
     {
-        return array(
-            array('name', InputArgument::REQUIRED, 'user.post.add'),
-        );
+        return [
+            ['name', InputArgument::REQUIRED, 'user.post.add'],
+        ];
     }
 
     /**
@@ -106,8 +105,8 @@ class GroupAddCategories extends Command {
      */
     protected function getOptions()
     {
-        return array(
-            array('categories', null, InputOption::VALUE_OPTIONAL, 'notifynder.name', []),
-        );
+        return [
+            ['categories', null, InputOption::VALUE_OPTIONAL, 'notifynder.name', []],
+        ];
     }
 }

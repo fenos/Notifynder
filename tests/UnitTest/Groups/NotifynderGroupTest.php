@@ -4,10 +4,10 @@ use Fenos\Notifynder\Groups\NotifynderGroup;
 use Mockery as m;
 
 /**
- * Class NotifynderGroupTest
+ * Class NotifynderGroupTest.
  */
-class NotifynderGroupTest extends \PHPUnit_Framework_TestCase {
-
+class NotifynderGroupTest extends \PHPUnit_Framework_TestCase
+{
     /**
      * @var NotifynderGroup
      */
@@ -29,7 +29,7 @@ class NotifynderGroupTest extends \PHPUnit_Framework_TestCase {
     protected $dependency = [];
 
     /**
-     * SetUp UnitTest
+     * SetUp UnitTest.
      */
     public function setUp()
     {
@@ -69,13 +69,13 @@ class NotifynderGroupTest extends \PHPUnit_Framework_TestCase {
 
         $result = $this->notifynderGroup->findGroupById($group_id);
 
-        $this->assertInstanceOf('Fenos\Notifynder\Models\NotificationGroup',$result);
+        $this->assertInstanceOf('Fenos\Notifynder\Models\NotificationGroup', $result);
     }
 
     /** @test */
     public function it_find_a_group_by_name()
     {
-        $group_name = "event.group";
+        $group_name = 'event.group';
 
         $this->groupRepo->shouldReceive('findByName')
             ->once()
@@ -84,7 +84,7 @@ class NotifynderGroupTest extends \PHPUnit_Framework_TestCase {
 
         $result = $this->notifynderGroup->findGroupByName($group_name);
 
-        $this->assertInstanceOf('Fenos\Notifynder\Models\NotificationGroup',$result);
+        $this->assertInstanceOf('Fenos\Notifynder\Models\NotificationGroup', $result);
     }
 
     /** @test */
@@ -95,36 +95,36 @@ class NotifynderGroupTest extends \PHPUnit_Framework_TestCase {
 
         $this->groupCategory->shouldReceive('addCategoryToGroupById')
              ->once()
-             ->with($group_id,$category_id)
+             ->with($group_id, $category_id)
              ->andReturn(m::mock('Fenos\Notifynder\Models\NotificationGroup'));
 
-        $result = $this->notifynderGroup->addCategoryToGroupById($group_id,$category_id);
+        $result = $this->notifynderGroup->addCategoryToGroupById($group_id, $category_id);
 
-        $this->assertInstanceOf('Fenos\Notifynder\Models\NotificationGroup',$result);
+        $this->assertInstanceOf('Fenos\Notifynder\Models\NotificationGroup', $result);
     }
 
     /** @test */
     public function it_add_category_to_a_group_giving_names_of_them()
     {
-        $group_name = "notifynder.event";
-        $category_name = "notifynder";
+        $group_name = 'notifynder.event';
+        $category_name = 'notifynder';
 
         $this->groupCategory->shouldReceive('addCategoryToGroupByName')
             ->once()
-            ->with($group_name,$category_name)
+            ->with($group_name, $category_name)
             ->andReturn(m::mock('Fenos\Notifynder\Models\NotificationGroup'));
 
-        $result = $this->notifynderGroup->addCategoryToGroupByName($group_name,$category_name);
+        $result = $this->notifynderGroup->addCategoryToGroupByName($group_name, $category_name);
 
-        $this->assertInstanceOf('Fenos\Notifynder\Models\NotificationGroup',$result);
+        $this->assertInstanceOf('Fenos\Notifynder\Models\NotificationGroup', $result);
     }
 
     /** @test */
     public function it_add_a_group_in_the_db()
     {
-        $name = "notifynder.hello";
+        $name = 'notifynder.hello';
 
-        $mockGroup = m::mock('Fenos\Notifynder\Groups\NotifynderGroup[isStringWithDots]',$this->dependency);
+        $mockGroup = m::mock('Fenos\Notifynder\Groups\NotifynderGroup[isStringWithDots]', $this->dependency);
 
         $mockGroup->shouldReceive('isStringWithDots')
              ->once()
@@ -138,12 +138,11 @@ class NotifynderGroupTest extends \PHPUnit_Framework_TestCase {
 
         $result = $mockGroup->addGroup($name);
 
-        $this->assertInstanceOf('Fenos\Notifynder\Models\NotificationGroup',$result);
+        $this->assertInstanceOf('Fenos\Notifynder\Models\NotificationGroup', $result);
     }
 
     public function setDependency()
     {
-        return [$this->groupRepo,$this->groupCategory];
+        return [$this->groupRepo, $this->groupCategory];
     }
 }
- 

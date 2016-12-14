@@ -1,15 +1,15 @@
-<?php namespace Fenos\Notifynder\Categories;
+<?php
+
+namespace Fenos\Notifynder\Categories;
 
 use Fenos\Notifynder\Categories\Repositories\CategoryRepository;
 use Fenos\Notifynder\Exceptions\CategoryNotFoundException;
 
 /**
- * Class NotifynderCategory
- *
- * @package Fenos\Notifynder\Categories
+ * Class NotifynderCategory.
  */
-class NotifynderCategory {
-
+class NotifynderCategory
+{
     /**
      * @var CategoryRepository
      */
@@ -18,25 +18,26 @@ class NotifynderCategory {
     /**
      * @param CategoryRepository $categoryRepo
      */
-    function __construct(CategoryRepository $categoryRepo)
+    public function __construct(CategoryRepository $categoryRepo)
     {
         $this->categoryRepo = $categoryRepo;
     }
 
     /**
-     * Find by name
+     * Find by name.
      *
      * @param $name
+     *
      * @throws CategoryNotFoundException
+     *
      * @return mixed
      */
     public function findByName($name)
     {
         $category = $this->categoryRepo->findByName($name);
 
-        if ( is_null($category))
-        {
-            throw new CategoryNotFoundException("Category Not Found");
+        if (is_null($category)) {
+            throw new CategoryNotFoundException('Category Not Found');
         }
 
         return $category;
@@ -44,47 +45,50 @@ class NotifynderCategory {
 
     /**
      * Find by names returnig
-     * lists of ids
+     * lists of ids.
      *
      * @param $name
+     *
      * @throws CategoryNotFoundException
+     *
      * @return mixed
      */
     public function findByNames(array $name)
     {
         $category = $this->categoryRepo->findByNames($name);
 
-        if ( count($category) == 0)
-        {
-            throw new CategoryNotFoundException("Category Not Found");
+        if (count($category) == 0) {
+            throw new CategoryNotFoundException('Category Not Found');
         }
 
         return $category;
     }
 
     /**
-     * Find By Id
+     * Find By Id.
      *
      * @param $id
+     *
      * @throws CategoryNotFoundException
+     *
      * @return mixed
      */
     public function find($id)
     {
         $category = $this->categoryRepo->find($id);
 
-        if ( is_null($category))
-        {
-            throw new CategoryNotFoundException("Category Not Found");
+        if (is_null($category)) {
+            throw new CategoryNotFoundException('Category Not Found');
         }
 
         return $category;
     }
 
     /**
-     * Add a category to the DB
+     * Add a category to the DB.
      *
      * @param array $info
+     *
      * @return \Fenos\Notifynder\Models\NotificationCategory
      */
     public function add(array $info)
@@ -93,9 +97,10 @@ class NotifynderCategory {
     }
 
     /**
-     * Delete category by ID
+     * Delete category by ID.
      *
      * @param $id
+     *
      * @return mixed
      */
     public function delete($id)
@@ -104,9 +109,10 @@ class NotifynderCategory {
     }
 
     /**
-     * Delete category by name
+     * Delete category by name.
      *
      * @param $name
+     *
      * @return mixed
      */
     public function deleteByName($name)

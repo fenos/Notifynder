@@ -5,14 +5,11 @@
 
 namespace Fenos\Notifynder\Senders;
 
-
 /**
- * Class SendMultiple
- *
- * @package Fenos\Notifynder\Senders
+ * Class SendMultiple.
  */
-class SendMultiple implements Sender {
-
+class SendMultiple implements Sender
+{
     /**
      * @var array
      */
@@ -21,19 +18,20 @@ class SendMultiple implements Sender {
     /**
      * @param $infoNotifications
      */
-    function __construct($infoNotifications)
+    public function __construct($infoNotifications)
     {
         $this->infoNotifications = $infoNotifications;
     }
 
     /**
-     * Send multiple notifications
+     * Send multiple notifications.
      *
      * @param StoreNotification $storeNotification
+     *
      * @return mixed
      */
     public function send(StoreNotification $storeNotification)
     {
         return $storeNotification->sendMultiple($this->infoNotifications);
     }
-} 
+}

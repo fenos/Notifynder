@@ -2,15 +2,14 @@
 /**
  * Created by Fabrizio Fenoglio.
  */
-
 use Fenos\Notifynder\Senders\NotifynderSender;
 use Mockery as m;
 
 /**
- * Class NotifynderSenderTest
+ * Class NotifynderSenderTest.
  */
-class NotifynderSenderTest extends \PHPUnit_Framework_TestCase {
-
+class NotifynderSenderTest extends \PHPUnit_Framework_TestCase
+{
     /**
      * @var NotifynderSender
      */
@@ -37,7 +36,7 @@ class NotifynderSenderTest extends \PHPUnit_Framework_TestCase {
     protected $dependency = [];
 
     /**
-     * Set Up Test
+     * Set Up Test.
      */
     public function setUp()
     {
@@ -53,7 +52,7 @@ class NotifynderSenderTest extends \PHPUnit_Framework_TestCase {
     }
 
     /**
-     * TearDown
+     * TearDown.
      */
     public function tearDown()
     {
@@ -63,7 +62,7 @@ class NotifynderSenderTest extends \PHPUnit_Framework_TestCase {
     /** @test */
     public function it_send_single_notification_using_the_right_sender()
     {
-        $notificationSenderMock = m::mock('Fenos\Notifynder\Senders\NotifynderSender[getQueue,sendNow]',$this->dependency);
+        $notificationSenderMock = m::mock('Fenos\Notifynder\Senders\NotifynderSender[getQueue,sendNow]', $this->dependency);
 
         $this->notifynderQueue->shouldReceive('isActive')
             ->once()
@@ -73,18 +72,18 @@ class NotifynderSenderTest extends \PHPUnit_Framework_TestCase {
 
         $notificationSenderMock->shouldReceive('sendNow')
              ->once()
-             ->with($infoNotifications,null)
+             ->with($infoNotifications, null)
              ->andReturn(m::mock('Fenos\Notifynder\Models\Notification'));
 
         $result = $notificationSenderMock->send($infoNotifications);
 
-        $this->assertInstanceOf('Fenos\Notifynder\Models\Notification',$result);
+        $this->assertInstanceOf('Fenos\Notifynder\Models\Notification', $result);
     }
 
     /** @test */
     public function it_send_a_notification_processed_by_queue()
     {
-        $notificationSenderMock = m::mock('Fenos\Notifynder\Senders\NotifynderSender[getQueue]',$this->dependency);
+        $notificationSenderMock = m::mock('Fenos\Notifynder\Senders\NotifynderSender[getQueue]', $this->dependency);
 
         $info = NotificationDataBuilder::singleNotificationData();
 
@@ -99,9 +98,9 @@ class NotifynderSenderTest extends \PHPUnit_Framework_TestCase {
              ->with(['info' => $info, 'category' => $category])
              ->andReturn(m::mock('Fenos\Notifynder\Models\Notification'));
 
-        $result = $notificationSenderMock->send($info,$category);
+        $result = $notificationSenderMock->send($info, $category);
 
-        $this->assertInstanceOf('Fenos\Notifynder\Models\Notification',$result);
+        $this->assertInstanceOf('Fenos\Notifynder\Models\Notification', $result);
     }
 
     /** @test */
@@ -113,7 +112,7 @@ class NotifynderSenderTest extends \PHPUnit_Framework_TestCase {
 
         $this->senderFactory->shouldReceive('getSender')
              ->once()
-             ->with($infoNotifications,null)
+             ->with($infoNotifications, null)
              ->andReturn($sender);
 
         $sender->shouldReceive('send')
@@ -121,9 +120,9 @@ class NotifynderSenderTest extends \PHPUnit_Framework_TestCase {
              ->with($this->notification)
              ->andReturn(m::mock('Fenos\Notifynder\Models\Notification'));
 
-        $result = $this->notifynderSender->sendNow($infoNotifications,null);
+        $result = $this->notifynderSender->sendNow($infoNotifications, null);
 
-        $this->assertInstanceOf('Fenos\Notifynder\Models\Notification',$result);
+        $this->assertInstanceOf('Fenos\Notifynder\Models\Notification', $result);
     }
 
     /** @test */
@@ -135,7 +134,7 @@ class NotifynderSenderTest extends \PHPUnit_Framework_TestCase {
 
         $this->senderFactory->shouldReceive('getSender')
             ->once()
-            ->with($infoNotifications,null)
+            ->with($infoNotifications, null)
             ->andReturn($sender);
 
         $sender->shouldReceive('send')
@@ -145,7 +144,7 @@ class NotifynderSenderTest extends \PHPUnit_Framework_TestCase {
 
         $result = $this->notifynderSender->sendNow($infoNotifications);
 
-        $this->assertInstanceOf('Fenos\Notifynder\Models\Notification',$result);
+        $this->assertInstanceOf('Fenos\Notifynder\Models\Notification', $result);
     }
 
     /** @test */
@@ -161,17 +160,17 @@ class NotifynderSenderTest extends \PHPUnit_Framework_TestCase {
 
         $this->senderFactory->shouldReceive('sendSingle')
              ->once()
-             ->with($infoNotifications,null)
+             ->with($infoNotifications, null)
              ->andReturn($sendSingle);
-        
+
         $sendSingle->shouldReceive('send')
              ->once()
-             ->with($this->notification,null)
+             ->with($this->notification, null)
              ->andReturn(m::mock('Fenos\Notifynder\Models\Notification'));
 
         $result = $this->notifynderSender->sendOne($infoNotifications);
 
-        $this->assertInstanceOf('Fenos\Notifynder\Models\Notification',$result);
+        $this->assertInstanceOf('Fenos\Notifynder\Models\Notification', $result);
     }
 
     /** @test */
@@ -201,11 +200,10 @@ class NotifynderSenderTest extends \PHPUnit_Framework_TestCase {
     }
 
     /**
-     * Set Dependency Class
+     * Set Dependency Class.
      */
     public function setDependency()
     {
-        $this->dependency = [$this->senderFactory,$this->notification,$this->notifynderQueue];
+        $this->dependency = [$this->senderFactory, $this->notification, $this->notifynderQueue];
     }
 }
- 

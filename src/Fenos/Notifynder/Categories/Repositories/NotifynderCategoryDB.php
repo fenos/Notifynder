@@ -1,16 +1,16 @@
-<?php namespace Fenos\Notifynder\Categories\Repositories;
+<?php
+
+namespace Fenos\Notifynder\Categories\Repositories;
 
 use Fenos\Notifynder\Exceptions\CategoryNotFoundException;
 use Fenos\Notifynder\Models\NotificationCategory;
 use Illuminate\Database\Eloquent\Builder;
 
 /**
- * Class NotifynderCategoryDB
- *
- * @package Fenos\Notifynder\Categories\Repositories
+ * Class NotifynderCategoryDB.
  */
-class NotifynderCategoryDB implements CategoryRepository {
-
+class NotifynderCategoryDB implements CategoryRepository
+{
     /**
      * @var NotificationCategory | Builder
      */
@@ -19,15 +19,16 @@ class NotifynderCategoryDB implements CategoryRepository {
     /**
      * @param NotificationCategory $categoryModel
      */
-    function __construct(NotificationCategory $categoryModel)
+    public function __construct(NotificationCategory $categoryModel)
     {
         $this->categoryModel = $categoryModel;
     }
 
     /**
-     * Find By Id
+     * Find By Id.
      *
      * @param $id
+     *
      * @return mixed
      */
     public function find($id)
@@ -36,33 +37,37 @@ class NotifynderCategoryDB implements CategoryRepository {
     }
 
     /**
-     * Find by name
+     * Find by name.
      *
      * @param $name
+     *
      * @return mixed
      */
     public function findByName($name)
     {
-        return $this->categoryModel->where('name',$name)->first();
+        return $this->categoryModel->where('name', $name)->first();
     }
 
     /**
      * Find by names returnig
-     * lists of ids
+     * lists of ids.
      *
      * @param $name
+     *
      * @throws CategoryNotFoundException
+     *
      * @return mixed
      */
     public function findByNames(array $name)
     {
-        return $this->categoryModel->whereIn('name',$name)->get();
+        return $this->categoryModel->whereIn('name', $name)->get();
     }
 
     /**
-     * Add a category to the DB
+     * Add a category to the DB.
      *
      * @param array $info
+     *
      * @return static
      */
     public function add(array $info)
@@ -71,24 +76,26 @@ class NotifynderCategoryDB implements CategoryRepository {
     }
 
     /**
-     * Delete category by ID
+     * Delete category by ID.
      *
      * @param $id
+     *
      * @return mixed
      */
     public function delete($id)
     {
-        return $this->categoryModel->where('id',$id)->delete();
+        return $this->categoryModel->where('id', $id)->delete();
     }
 
     /**
-     * Delete category by name
+     * Delete category by name.
      *
      * @param $name
+     *
      * @return mixed
      */
     public function deleteByName($name)
     {
-        return $this->categoryModel->where('name',$name)->delete();
+        return $this->categoryModel->where('name', $name)->delete();
     }
 }

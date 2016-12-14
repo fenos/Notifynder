@@ -9,12 +9,10 @@ use Illuminate\Config\Repository;
 use Illuminate\Queue\QueueManager;
 
 /**
- * Class NotifynderQueue
- *
- * @package Fenos\Notifynder\Senders\Queue
+ * Class NotifynderQueue.
  */
-class NotifynderQueue {
-
+class NotifynderQueue
+{
     /**
      * @var QueueManager
      */
@@ -29,17 +27,19 @@ class NotifynderQueue {
      * @param Repository   $config
      * @param QueueManager $queueManager
      */
-    function __construct(Repository $config, QueueManager $queueManager)
+    public function __construct(Repository $config, QueueManager $queueManager)
     {
         $this->config = $config;
         $this->queueManager = $queueManager;
     }
 
     /**
-     * Push tje job to a queue
+     * Push tje job to a queue.
      *
      * @param array $info
+     *
      * @internal param $category
+     *
      * @return mixed
      */
     public function push(array $info)
@@ -48,12 +48,12 @@ class NotifynderQueue {
     }
 
     /**
-     * Check if the queue system is active
+     * Check if the queue system is active.
      *
-     * @return boolean
+     * @return bool
      */
     public function isActive()
     {
         return $this->config->get('notifynder::config.queue');
     }
-} 
+}

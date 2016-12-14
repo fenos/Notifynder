@@ -1,18 +1,18 @@
-<?php namespace Fenos\Notifynder\Models;
+<?php
+
+namespace Fenos\Notifynder\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Class NotificationGroup
- *
- * @package Fenos\Notifynder\Models
+ * Class NotificationGroup.
  */
-class NotificationGroup extends Model {
-
+class NotificationGroup extends Model
+{
     /**
      * @var array
      */
-    protected $fillable = ["name"];
+    protected $fillable = ['name'];
 
     public $timestamps = false;
 
@@ -24,7 +24,7 @@ class NotificationGroup extends Model {
         return $this->belongsToMany(
             'Fenos\Notifynder\Models\NotificationCategory',
             'notifications_categories_in_groups',
-            'group_id','category_id'
+            'group_id', 'category_id'
         );
     }
-} 
+}

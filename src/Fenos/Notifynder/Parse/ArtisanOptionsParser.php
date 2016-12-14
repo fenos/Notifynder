@@ -1,22 +1,25 @@
-<?php namespace Fenos\Notifynder\Parse;
+<?php
+
+namespace Fenos\Notifynder\Parse;
 
 /**
- * Class ArtisanOptionsParser
- *
- * @package Fenos\Notifynder\Parse
+ * Class ArtisanOptionsParser.
  */
-class ArtisanOptionsParser {
-
+class ArtisanOptionsParser
+{
     /**
      * Parse a string of fields, like
-     * name, name2, name3
+     * name, name2, name3.
      *
      * @param string $fields
+     *
      * @return array
      */
     public function parse($fields)
     {
-        if ( ! $fields) return [];
+        if (!$fields) {
+            return [];
+        }
 
         // name:string, age:integer
         // name:string(10,2), age:integer
@@ -24,8 +27,7 @@ class ArtisanOptionsParser {
 
         $parsed = [];
 
-        foreach($fields as $index => $field)
-        {
+        foreach ($fields as $index => $field) {
             // Example:
             // name:string:nullable => ['name', 'string', 'nullable']
             // name:string(15):nullable
@@ -42,10 +44,14 @@ class ArtisanOptionsParser {
 
             $parsed[$index] = $property;
 
-            if (isset($args)) $parsed[$index]['args'] = $args;
-            if ($decorators) $parsed[$index]['decorators'] = $decorators;
+            if (isset($args)) {
+                $parsed[$index]['args'] = $args;
+            }
+            if ($decorators) {
+                $parsed[$index]['decorators'] = $decorators;
+            }
         }
 
         return $parsed;
     }
-} 
+}

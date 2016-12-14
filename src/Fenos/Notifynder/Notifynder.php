@@ -1,4 +1,6 @@
-<?php namespace Fenos\Notifynder;
+<?php
+
+namespace Fenos\Notifynder;
 
 use Fenos\Notifynder\Builder\NotifynderBuilder;
 use Fenos\Notifynder\Categories\NotifynderCategory;
@@ -8,14 +10,12 @@ use Fenos\Notifynder\Notifications\NotifynderNotification;
 use Fenos\Notifynder\Senders\NotifynderSender;
 
 /**
- * Class Notifynder
+ * Class Notifynder.
  *
  * Notification system 2.0
- *
- * @package Fenos\Notifynder
  */
-class Notifynder implements NotifynderInterface {
-
+class Notifynder implements NotifynderInterface
+{
     /**
      * @var NotifynderCategory
      */
@@ -63,7 +63,7 @@ class Notifynder implements NotifynderInterface {
      * @param Handler\NotifynderHandler            $notifynderHandler
      * @param Groups\NotifynderGroup               $notifynderGroup
      */
-    function __construct(NotifynderCategory $notifynderCategory,
+    public function __construct(NotifynderCategory $notifynderCategory,
                          NotifynderSender $notifynderSender,
                          NotifynderNotification $notification,
                          NotifynderHandler $notifynderHandler,
@@ -78,16 +78,16 @@ class Notifynder implements NotifynderInterface {
 
     /**
      * Set the category of the
-     * notification
+     * notification.
      *
      * @param $name
+     *
      * @return $this
      */
     public function category($name)
     {
         // Check if the category is eager loaded
-        if ($this->isEagerLoaded($name))
-        {
+        if ($this->isEagerLoaded($name)) {
             // Yes it is, split out the value from the array
             $this->category = $this->getCategoriesContainer()[$name];
 
@@ -102,16 +102,17 @@ class Notifynder implements NotifynderInterface {
         $this->category = $category;
 
         // Set the category on the array
-        $this->setCategoriesContainer($name,$category);
+        $this->setCategoriesContainer($name, $category);
 
         return $this;
     }
 
     /**
      * Define an entity when Notifynder is
-     * used Polymorpically
+     * used Polymorpically.
      *
      * @param $name
+     *
      * @return $this
      */
     public function entity($name)
@@ -120,92 +121,101 @@ class Notifynder implements NotifynderInterface {
 
         return $this;
     }
-    
+
     /**
-     * Add a category
+     * Add a category.
      *
      * @param $name
      * @param $text
+     *
      * @return static
      */
-    public function addCategory($name,$text)
+    public function addCategory($name, $text)
     {
-        return $this->notifynderCategory->add(compact('name','text'));
+        return $this->notifynderCategory->add(compact('name', 'text'));
     }
+
     /**
-     * Update a category
+     * Update a category.
      *
      * @param array $updates
      * @param       $id
+     *
      * @return mixed
      */
     public function updateCategory(array $updates, $id)
     {
-        return $this->notifynderCategory->update($updates,$id);
+        return $this->notifynderCategory->update($updates, $id);
     }
 
     /**
      * Send notifications
-     * Both multiple and single
+     * Both multiple and single.
      *
      * @param array $info
+     *
      * @return mixed
      */
     public function send(array $info)
     {
-        return $this->notifynderSender->send($info,$this->category);
+        return $this->notifynderSender->send($info, $this->category);
     }
 
     /**
      * Send immediately the notification
-     * even if the queue is enabled
+     * even if the queue is enabled.
      *
      * @param array $info
+     *
      * @return mixed
      */
     public function sendNow(array $info)
     {
-        return $this->notifynderSender->sendNow($info,$this->category);
+        return $this->notifynderSender->sendNow($info, $this->category);
     }
 
     /**
-     * Send One notification
+     * Send One notification.
      *
      * @param array $info
+     *
      * @return mixed
      */
     public function sendOne(array $info)
     {
-        return $this->notifynderSender->sendOne($info,$this->category);
+        return $this->notifynderSender->sendOne($info, $this->category);
     }
 
     /**
-     * Send multiple notifications
+     * Send multiple notifications.
      *
      * @param array $info
+     *
      * @return Senders\SendMultiple
      */
     public function sendMultiple(array $info)
     {
-        return $this->notifynderSender->sendMultiple($info,$this->category);
+        return $this->notifynderSender->sendMultiple($info, $this->category);
     }
 
     /**
-     * Send a group of notifications
+     * Send a group of notifications.
      *
      * @param $group_name
      * @param $info
+     *
      * @return mixed
      */
     public function sendGroup($group_name, $info)
     {
-        return $this->notifynderSender->sendGroup($this,$group_name,$info);
+        return $this->notifynderSender->sendGroup($this, $group_name, $info);
     }
 
     /**
-     * Read one notification
+     * Read one notification.
      *
      * @param $notification_id
+     *
      * @return bool|Models\Notification
      */
     public function readOne($notification_id)
@@ -215,25 +225,27 @@ class Notifynder implements NotifynderInterface {
 
     /**
      * Read notification in base the number
-     * Given
+     * Given.
      *
      * @param        $to_id
      * @param        $numbers
      * @param string $order
+     *
      * @return mixed
      */
-    public function readLimit($to_id,$numbers, $order = "ASC")
+    public function readLimit($to_id, $numbers, $order = 'ASC')
     {
         $notification = $this->notification->entity($this->entity);
 
-        return $notification->readLimit($to_id,$numbers,$order);
+        return $notification->readLimit($to_id, $numbers, $order);
     }
 
     /**
      * Read all notifications of the given
-     * entity
+     * entity.
      *
      * @param $to_id
+     *
      * @return Number
      */
     public function readAll($to_id)
@@ -244,10 +256,11 @@ class Notifynder implements NotifynderInterface {
     }
 
     /**
-     * Delete a single notification
+     * Delete a single notification.
      *
      * @param $notification_id
-     * @return Bool
+     *
+     * @return bool
      */
     public function delete($notification_id)
     {
@@ -256,26 +269,28 @@ class Notifynder implements NotifynderInterface {
 
     /**
      * Delete number of notifications
-     * secified of the given entity
+     * secified of the given entity.
      *
      * @param        $to_id
      * @param        $number
      * @param string $order
+     *
      * @return mixed
      */
-    public function deleteLimit($to_id,$number,$order = "ASC")
+    public function deleteLimit($to_id, $number, $order = 'ASC')
     {
         $notifications = $this->notification->entity($this->entity);
 
-        return $notifications->deleteLimit($to_id,$number,$order);
+        return $notifications->deleteLimit($to_id, $number, $order);
     }
 
     /**
      * Delete all notifications
-     * of the the given entity
+     * of the the given entity.
      *
      * @param $to_id
-     * @return Bool
+     *
+     * @return bool
      */
     public function deleteAll($to_id)
     {
@@ -286,41 +301,44 @@ class Notifynder implements NotifynderInterface {
 
     /**
      * Get Notifications not read
-     * of the given entity
+     * of the given entity.
      *
      * @param      $to_id
      * @param null $limit
      * @param bool $paginate
+     *
      * @return mixed
      */
     public function getNotRead($to_id, $limit = null, $paginate = false)
     {
         $notifications = $this->notification->entity($this->entity);
 
-        return $notifications->getNotRead($to_id,$limit,$paginate);
+        return $notifications->getNotRead($to_id, $limit, $paginate);
     }
 
     /**
      * Get all notifications of the
-     * given entity
+     * given entity.
      *
      * @param      $to_id
      * @param null $limit
      * @param bool $paginate
+     *
      * @return mixed
      */
     public function getAll($to_id, $limit = null, $paginate = false)
     {
         $notifications = $this->notification->entity($this->entity);
 
-        return $notifications->getAll($to_id,$limit,$paginate);
+        return $notifications->getAll($to_id, $limit, $paginate);
     }
 
     /**
      * Get number of notification not read
-     * of the given entity
+     * of the given entity.
      *
      * @param $to_id
+     *
      * @return mixed
      */
     public function countNotRead($to_id)
@@ -331,9 +349,10 @@ class Notifynder implements NotifynderInterface {
     }
 
     /**
-     * Find Notification by ID
+     * Find Notification by ID.
      *
      * @param $notification_id
+     *
      * @return \Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model|static
      */
     public function findNotificationById($notification_id)
@@ -343,34 +362,36 @@ class Notifynder implements NotifynderInterface {
 
     /**
      * Add category to a group
-     * giving the names of them
+     * giving the names of them.
      *
      * @param $gorup_name
      * @param $category_name
+     *
      * @return mixed
      */
-    public function addCategoryToGroupByName($gorup_name,$category_name)
+    public function addCategoryToGroupByName($gorup_name, $category_name)
     {
-        return $this->notifynderGroup->addCategoryToGroupByName($gorup_name,$category_name);
+        return $this->notifynderGroup->addCategoryToGroupByName($gorup_name, $category_name);
     }
 
     /**
      * Add category to a group
-     * giving the ids of them
+     * giving the ids of them.
      *
      * @param $gorup_id
      * @param $category_id
+     *
      * @return mixed
      */
-    public function addCategoryToGroupById($gorup_id,$category_id)
+    public function addCategoryToGroupById($gorup_id, $category_id)
     {
-        return $this->notifynderGroup->addCategoryToGroupById($gorup_id,$category_id);
+        return $this->notifynderGroup->addCategoryToGroupById($gorup_id, $category_id);
     }
 
     /**
      * Add categories to a group having as first parameter
      * the name of the group, and others as name
-     * categories
+     * categories.
      *
      * @return mixed
      */
@@ -381,32 +402,34 @@ class Notifynder implements NotifynderInterface {
 
     /**
      * Fire method for fire listeners
-     * of logic
+     * of logic.
      *
-     * @param  string     $key
-     * @param  string     $category_name
-     * @param  mixed|null $values
+     * @param string     $key
+     * @param string     $category_name
+     * @param mixed|null $values
+     *
      * @return mixed|null
      */
-    public function fire($key,$category_name, $values = null)
+    public function fire($key, $category_name, $values = null)
     {
-        return $this->notifynderHandler->fire($this,$key,$category_name,$values);
+        return $this->notifynderHandler->fire($this, $key, $category_name, $values);
     }
 
     /**
-     * Associate events to categories
+     * Associate events to categories.
      *
      * @param       $data
      * @param array $delegation
+     *
      * @return mixed
      */
-    public function delegate($data = null,array $delegation)
+    public function delegate($data, array $delegation)
     {
-        return $this->notifynderHandler->delegate($this,$data,$delegation);
+        return $this->notifynderHandler->delegate($this, $data, $delegation);
     }
 
     /**
-     * Boot Listeners
+     * Boot Listeners.
      *
      * @return void
      */
@@ -416,7 +439,7 @@ class Notifynder implements NotifynderInterface {
     }
 
     /**
-     * Get instance of the notifynder builder
+     * Get instance of the notifynder builder.
      *
      * @return NotifynderBuilder
      */
@@ -428,9 +451,10 @@ class Notifynder implements NotifynderInterface {
     }
 
     /**
-     * Check if the category is eager Loaded
+     * Check if the category is eager Loaded.
      *
      * @param $name
+     *
      * @return bool
      */
     public function isEagerLoaded($name)
@@ -439,7 +463,7 @@ class Notifynder implements NotifynderInterface {
     }
 
     /**
-     * Return the Id of the category
+     * Return the Id of the category.
      *
      * @return mixed
      */
@@ -450,18 +474,18 @@ class Notifynder implements NotifynderInterface {
 
     /**
      * Push a category in the categoriesContainer
-     * property
+     * property.
      *
      * @param       $name
      * @param array $categoriesContainer
      */
-    public function setCategoriesContainer($name,$categoriesContainer)
+    public function setCategoriesContainer($name, $categoriesContainer)
     {
         $this->categoriesContainer[$name] = $categoriesContainer;
     }
 
     /**
-     * Get the categoriesContainer property
+     * Get the categoriesContainer property.
      *
      * @return array
      */
@@ -469,4 +493,4 @@ class Notifynder implements NotifynderInterface {
     {
         return $this->categoriesContainer;
     }
-} 
+}

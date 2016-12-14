@@ -8,14 +8,12 @@ namespace Fenos\Notifynder\Senders;
 use Fenos\Notifynder\Exceptions\CategoryNotFoundException;
 
 /**
- * Class SendSingle
+ * Class SendSingle.
  *
  * Delegate to send a single notification
- *
- * @package Fenos\Notifynder\Senders
  */
-class SendOne implements Sender {
-
+class SendOne implements Sender
+{
     /**
      * @var array
      */
@@ -30,16 +28,17 @@ class SendOne implements Sender {
      * @param      $infoNotification
      * @param null $category
      */
-    function __construct($infoNotification,$category = null)
+    public function __construct($infoNotification, $category = null)
     {
         $this->infoNotification = $infoNotification;
         $this->category = $category;
     }
 
     /**
-     * Send Single notification
+     * Send Single notification.
      *
      * @param StoreNotification $storeNotification
+     *
      * @return mixed
      */
     public function send(StoreNotification $storeNotification)
@@ -51,21 +50,19 @@ class SendOne implements Sender {
 
     /**
      * Check if the category of the notification
-     * has been specified
+     * has been specified.
+     *
+     * @throws \Fenos\Notifynder\Exceptions\CategoryNotFoundException
      *
      * @return bool
-     * @throws \Fenos\Notifynder\Exceptions\CategoryNotFoundException
      */
     public function hasCategory()
     {
-        if ( is_null($this->category) )
-        {
+        if (is_null($this->category)) {
             $this->hasCategoryIdInInformation();
 
             return true;
-        }
-        else
-        {
+        } else {
             $this->infoNotification['category_id'] = $this->category->id;
 
             return true;
@@ -74,16 +71,15 @@ class SendOne implements Sender {
 
     /**
      * Check if the category of the notification has been
-     * specified in the array of information
+     * specified in the array of information.
      *
      * @throws \Fenos\Notifynder\Exceptions\CategoryNotFoundException
      */
     public function hasCategoryIdInInformation()
     {
-        if (! array_key_exists('category_id', $this->infoNotification))
-        {
-            $error = "Category not found please provide one,
-                     you can not store a notification without category id";
+        if (!array_key_exists('category_id', $this->infoNotification)) {
+            $error = 'Category not found please provide one,
+                     you can not store a notification without category id';
 
             throw new CategoryNotFoundException($error);
         }

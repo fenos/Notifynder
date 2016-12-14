@@ -1,16 +1,17 @@
-<?php namespace Fenos\Notifynder\Builder;
+<?php
+
+namespace Fenos\Notifynder\Builder;
 
 use Carbon\Carbon;
-use App;
 use Fenos\Notifynder\Categories\NotifynderCategory;
 use Fenos\Notifynder\Exceptions\NotificationBuilderException;
 use Traversable;
 
 /**
- * Class NotifynderBuilder
+ * Class NotifynderBuilder.
  */
-class NotifynderBuilder {
-
+class NotifynderBuilder
+{
     use BuilderRules,ObjectHelper;
 
     /**
@@ -53,18 +54,17 @@ class NotifynderBuilder {
      */
     private $notifynderCategory;
 
-
-    function __construct(NotifynderCategory $notifynderCategory)
+    public function __construct(NotifynderCategory $notifynderCategory)
     {
-
         $this->notifynderCategory = $notifynderCategory;
     }
 
     /**
      * Compose the builder to
-     * the array
+     * the array.
      *
      * @throws NotificationBuilderException
+     *
      * @return mixed
      */
     public function getArray()
@@ -73,8 +73,7 @@ class NotifynderBuilder {
 
         $builtArray = $this->getPropertiesToArray($this);
 
-        if ($this->hasRequiredFields($builtArray))
-        {
+        if ($this->hasRequiredFields($builtArray)) {
             return $builtArray;
         }
 
@@ -83,7 +82,7 @@ class NotifynderBuilder {
     }
 
     /**
-     * Set who will send the notification
+     * Set who will send the notification.
      *
      * @return $this
      */
@@ -91,13 +90,13 @@ class NotifynderBuilder {
     {
         $from = func_get_args();
 
-        $this->setEntityAction($from,'from');
+        $this->setEntityAction($from, 'from');
 
         return $this;
     }
 
     /**
-     * Set who will receive the notification
+     * Set who will receive the notification.
      *
      * @return $this
      */
@@ -105,15 +104,16 @@ class NotifynderBuilder {
     {
         $from = func_get_args();
 
-        $this->setEntityAction($from,'to');
+        $this->setEntityAction($from, 'to');
 
         return $this;
     }
 
     /**
-     * Set the url of the notification
+     * Set the url of the notification.
      *
      * @param $url
+     *
      * @return $this
      */
     public function url($url)
@@ -127,16 +127,15 @@ class NotifynderBuilder {
 
     /**
      * Set Category and covert it, to the id
-     * if name of it given
+     * if name of it given.
      *
      * @param $category
+     *
      * @return $this
      */
     public function category($category)
     {
-
-        if (is_string($category))
-        {
+        if (is_string($category)) {
             $category = $this->notifynderCategory->findByName($category)->id();
         }
 
@@ -148,18 +147,18 @@ class NotifynderBuilder {
     /**
      * Build the array with the builder inside
      * a Closure, it has more flexibility for
-     * the generation of your array
+     * the generation of your array.
      *
      *
      * @param callable $closure
+     *
      * @return array | false
      */
     public function raw(\Closure $closure)
     {
         $builder = $closure($this);
 
-        if (! is_null($builder))
-        {
+        if (!is_null($builder)) {
             return $this->getArray();
         }
 
@@ -167,9 +166,10 @@ class NotifynderBuilder {
     }
 
     /**
-     * Set extra value
+     * Set extra value.
      *
      * @param $extra
+     *
      * @return $this
      */
     public function extra($extra)
@@ -183,24 +183,22 @@ class NotifynderBuilder {
 
     /**
      * Loop the datas for create
-     * multi notifications array
+     * multi notifications array.
      *
      * @param          $dataToIterate
      * @param callable $builder
+     *
      * @return $this
      */
-    public function loop($dataToIterate,\Closure $builder)
+    public function loop($dataToIterate, \Closure $builder)
     {
-        if ($this->isIterable($dataToIterate))
-        {
+        if ($this->isIterable($dataToIterate)) {
             $arrayOfData = [];
 
-            foreach($dataToIterate as $key => $data)
-            {
+            foreach ($dataToIterate as $key => $data) {
                 $dataBuilt = $builder($this, $key, $data);
 
-                if ( $dataBuilt )
-                {
+                if ($dataBuilt) {
                     $arrayOfData[] = $this->getArray();
                 }
             }
@@ -208,41 +206,41 @@ class NotifynderBuilder {
             return $arrayOfData;
         }
 
-        throw new \InvalidArgumentException("The data passed must be itarable");
+        throw new \InvalidArgumentException('The data passed must be itarable');
     }
 
     /**
      * @param $var
+     *
      * @return bool
      */
     public function isIterable($var)
     {
-        return (is_array($var) || $var instanceof Traversable);
+        return is_array($var) || $var instanceof Traversable;
     }
 
     /**
      * It set the entity who will do
      * the action of receive or
-     * send
+     * send.
      *
      * @param $from
      * @param $property
+     *
      * @return array
      */
-    public function setEntityAction($from,$property)
+    public function setEntityAction($from, $property)
     {
         // Check if has the entity as parameter
         // it should be the firstOne
-        if ($this->hasEntity($from))
-        {
+        if ($this->hasEntity($from)) {
             $this->isString($from[0]);
             $this->isNumeric($from[1]);
 
             return $this->{$property} = ["{$property}_type" => $from[0], "{$property}_id" => $from[1]];
-
-        } else
-        {
+        } else {
             $this->isNumeric($from[0]);
+
             return $this->{$property} = ["{$property}_id" => $from[0]];
         }
     }
@@ -250,9 +248,10 @@ class NotifynderBuilder {
     /**
      * If the values passed are 2 or more,
      * it means that you spefied the entity
-     * over then the id
+     * over then the id.
      *
      * @param array $info
+     *
      * @return bool
      */
     public function hasEntity(array $info)
@@ -261,7 +260,7 @@ class NotifynderBuilder {
     }
 
     /**
-     * Set date on the array
+     * Set date on the array.
      */
     public function setDate()
     {

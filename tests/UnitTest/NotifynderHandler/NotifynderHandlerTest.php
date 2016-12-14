@@ -4,10 +4,10 @@ use Fenos\Notifynder\Handler\NotifynderHandler;
 use Mockery as m;
 
 /**
- * Class NotifynderHandlerTest
+ * Class NotifynderHandlerTest.
  */
-class NotifynderHandlerTest extends PHPUnit_Framework_TestCase {
-
+class NotifynderHandlerTest extends PHPUnit_Framework_TestCase
+{
     /**
      * @var NotifynderHandler
      */
@@ -32,8 +32,7 @@ class NotifynderHandlerTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * Tear down function for all tests
-     *
+     * Tear down function for all tests.
      */
     public function teardown()
     {
@@ -45,15 +44,15 @@ class NotifynderHandlerTest extends PHPUnit_Framework_TestCase {
     {
         $mockNotifynder = m::mock('Fenos\Notifynder\Notifynder');
 
-        $keyEvent = "user.post.add";
-        $category_name = "category";
+        $keyEvent = 'user.post.add';
+        $category_name = 'category';
         $eventName = ['eventName' => $keyEvent];
 
         $multipleNotificationData = NotificationDataBuilder::multipleNotificationData();
 
         $this->event->shouldReceive('fire')
              ->once()
-             ->with($keyEvent,[$eventName,$category_name,$mockNotifynder])
+             ->with($keyEvent, [$eventName, $category_name, $mockNotifynder])
              ->andReturn($multipleNotificationData);
 
         $mockNotifynder->shouldReceive('send')
@@ -61,9 +60,9 @@ class NotifynderHandlerTest extends PHPUnit_Framework_TestCase {
              ->with($multipleNotificationData[0])
              ->andReturn(m::mock('Fenos\Notifynder\Models\Notification'));
 
-        $result = $this->notifynderHandler->fire($mockNotifynder,$keyEvent,$category_name);
+        $result = $this->notifynderHandler->fire($mockNotifynder, $keyEvent, $category_name);
 
-        $this->assertInstanceOf('Fenos\Notifynder\Models\Notification',$result);
+        $this->assertInstanceOf('Fenos\Notifynder\Models\Notification', $result);
     }
 
     /** @test */
@@ -72,7 +71,7 @@ class NotifynderHandlerTest extends PHPUnit_Framework_TestCase {
         $mockNotifynder = m::mock('Fenos\Notifynder\Notifynder');
 
         $delegation = [
-            'category.name' => 'event.key.name'
+            'category.name' => 'event.key.name',
         ];
 
         $multipleNotificationData = NotificationDataBuilder::multipleNotificationData(1);
@@ -84,7 +83,7 @@ class NotifynderHandlerTest extends PHPUnit_Framework_TestCase {
 
         $this->event->shouldReceive('fire')
             ->once()
-            ->with($eventData['eventName'],[$eventData,'category.name',$mockNotifynder])
+            ->with($eventData['eventName'], [$eventData, 'category.name', $mockNotifynder])
             ->andReturn($fetchNotification);
 
         $mockNotifynder->shouldReceive('send')
@@ -92,9 +91,8 @@ class NotifynderHandlerTest extends PHPUnit_Framework_TestCase {
             ->with($fetchNotification[0])
             ->andReturn(m::mock('Fenos\Notifynder\Models\Notification'));
 
-        $result = $this->notifynderHandler->delegate($mockNotifynder,$multipleNotificationData,$delegation);
+        $result = $this->notifynderHandler->delegate($mockNotifynder, $multipleNotificationData, $delegation);
 
         $this->assertNull($result);
     }
 }
- 

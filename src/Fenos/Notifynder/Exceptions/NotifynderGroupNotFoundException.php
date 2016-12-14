@@ -5,7 +5,6 @@
 
 namespace Fenos\Notifynder\Exceptions;
 
-
-class NotifynderGroupNotFoundException extends \Exception {
-
-} 
+class NotifynderGroupNotFoundException extends \Exception
+{
+}
