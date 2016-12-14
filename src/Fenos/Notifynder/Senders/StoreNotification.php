@@ -2,29 +2,29 @@
 /**
  * Created by Fabrizio Fenoglio.
  */
+
 namespace Fenos\Notifynder\Senders;
 
-
 /**
- * Class SendersDB
- *
- * @package Fenos\Notifynder\Senders
+ * Class SendersDB.
  */
-interface StoreNotification {
-
+interface StoreNotification
+{
     /**
-     * Save a single notification sent
+     * Save a single notification sent.
      *
      * @param array $info
+     *
      * @return static
      */
     public function sendOne(array $info);
 
     /**
      * Save multiple notifications sent
-     * at once
+     * at once.
      *
      * @param array $info
+     *
      * @return mixed
      */
     public function sendMultiple(array $info);

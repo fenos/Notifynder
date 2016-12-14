@@ -1,39 +1,41 @@
-<?php namespace Fenos\Notifynder\Builder;
+<?php
 
-trait BuilderRules {
+namespace Fenos\Notifynder\Builder;
 
+trait BuilderRules
+{
     /**
      * @var array
      */
-    private $requiredFields = ['from_id','to_id','url','category_id'];
+    private $requiredFields = ['from_id', 'to_id', 'url', 'category_id'];
 
     /**
-     * Must be a string
+     * Must be a string.
      *
      * @param $value
+     *
      * @return bool
      */
     public function isString($value)
     {
-        if ( ! is_string($value))
-        {
-            throw new \InvalidArgumentException("The value Passed is not a string");
+        if (!is_string($value)) {
+            throw new \InvalidArgumentException('The value Passed is not a string');
         }
 
         return true;
     }
 
     /**
-     * Must Be numeric
+     * Must Be numeric.
      *
      * @param $value
+     *
      * @return bool
      */
     public function isNumeric($value)
     {
-        if ( ! is_numeric($value))
-        {
-            throw new \InvalidArgumentException("The value Passed must be a number");
+        if (!is_numeric($value)) {
+            throw new \InvalidArgumentException('The value Passed must be a number');
         }
 
         return true;
@@ -41,14 +43,13 @@ trait BuilderRules {
 
     /**
      * @param $array
+     *
      * @return bool
      */
     public function hasRequiredFields($array)
     {
-        foreach($this->requiredFields as $field)
-        {
-            if (! array_key_exists($field,$array))
-            {
+        foreach ($this->requiredFields as $field) {
+            if (!array_key_exists($field, $array)) {
                 return false;
             }
         }

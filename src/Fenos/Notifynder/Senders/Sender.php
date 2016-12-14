@@ -2,20 +2,19 @@
 /**
  * Created by Fabrizio Fenoglio.
  */
+
 namespace Fenos\Notifynder\Senders;
 
-
 /**
- * Class SendMultiple
- *
- * @package Fenos\Notifynder\Senders
+ * Class SendMultiple.
  */
-interface Sender {
-
+interface Sender
+{
     /**
-     * Send multiple notifications
+     * Send multiple notifications.
      *
      * @param StoreNotification $storeNotification
+     *
      * @return mixed
      */
     public function send(StoreNotification $storeNotification);

@@ -5,7 +5,6 @@
 
 namespace Fenos\Notifynder\Exceptions;
 
-
-class NotificationTranslationNotFoundException extends \Exception {
-
-} 
+class NotificationTranslationNotFoundException extends \Exception
+{
+}

@@ -1,14 +1,14 @@
-<?php namespace Fenos\Notifynder\Senders\Queue;
+<?php
+
+namespace Fenos\Notifynder\Senders\Queue;
 
 use Fenos\Notifynder\Senders\NotifynderSender;
 
 /**
- * Class QueueSender
- *
- * @package Fenos\Notifynder\Senders
+ * Class QueueSender.
  */
-class QueueSender {
-
+class QueueSender
+{
     /**
      * @var NotifynderSender
      */
@@ -17,21 +17,21 @@ class QueueSender {
     /**
      * @param NotifynderSender $notifynderSender
      */
-    function __construct(NotifynderSender $notifynderSender)
+    public function __construct(NotifynderSender $notifynderSender)
     {
         $this->notifynderSender = $notifynderSender;
     }
 
     /**
-     * Put in a queue the notification to send
+     * Put in a queue the notification to send.
      *
      * @param $job
      * @param $data
      */
-    public function fire($job,$data)
+    public function fire($job, $data)
     {
-        $this->notifynderSender->sendNow($data['info'],$data['category']);
+        $this->notifynderSender->sendNow($data['info'], $data['category']);
 
         $job->delete();
     }
-} 
+}

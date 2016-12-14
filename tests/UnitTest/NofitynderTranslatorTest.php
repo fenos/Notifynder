@@ -1,31 +1,30 @@
 <?php
 
-use Mockery as m;
 use Fenos\Notifynder\Translator\NotifynderTranslator;
+use Mockery as m;
 
 /**
-* Test NofitynderTranslatorTest Class
-*/
+ * Test NofitynderTranslatorTest Class.
+ */
 class NofitynderTranslatorTest extends PHPUnit_Framework_TestCase
 {
     /**
-    * @var
-    */
+     * @var
+     */
     protected $notifynderTranslator;
 
     /**
-    * @var
-    */
+     * @var
+     */
     protected $array_languages;
 
     /**
-    * @var
-    */
+     * @var
+     */
     protected $app;
 
     public function setUp()
     {
-
         $app = $this->mockApp();
 
         $this->notifynderTranslator = m::mock('Fenos\Notifynder\Translator\NotifynderTranslator')->makePartial();
@@ -47,9 +46,8 @@ class NofitynderTranslatorTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-    * Tear down function for all tests
-    *
-    */
+     * Tear down function for all tests.
+     */
     public function teardown()
     {
         m::close();
@@ -62,14 +60,14 @@ class NofitynderTranslatorTest extends PHPUnit_Framework_TestCase
                                     ->once()
                                     ->andReturn($this->languages['en']);
 
-        $result = $this->notifynderTranslator->translate('en','notifynder');
+        $result = $this->notifynderTranslator->translate('en', 'notifynder');
 
-        $this->assertEquals($result,'notifynder do the job well');
+        $this->assertEquals($result, 'notifynder do the job well');
     }
 
     /**
-    *@expectedException Fenos\Notifynder\Exceptions\NotificationTranslationNotFoundException
-    */
+     *@expectedException Fenos\Notifynder\Exceptions\NotificationTranslationNotFoundException
+     */
     public function test_translate_notification_but_not_tranlsations_has_found()
     {
         $this->notifynderTranslator->shouldReceive('getLanguage')
@@ -77,51 +75,47 @@ class NofitynderTranslatorTest extends PHPUnit_Framework_TestCase
                                     ->once()
                                     ->andReturn($this->languages['en']);
 
-        $result = $this->notifynderTranslator->translate('en','message');
-
+        $result = $this->notifynderTranslator->translate('en', 'message');
     }
 
     /**
-    *@expectedException Fenos\Notifynder\Exceptions\NotificationLanguageNotFoundException
-    */
+     *@expectedException Fenos\Notifynder\Exceptions\NotificationLanguageNotFoundException
+     */
     public function test_translate_notification_using_a_languages_that_does_not_exist()
     {
         $this->notifynderTranslator->shouldReceive('getLanguage')
                                     ->with('it')
                                     ->once()
-                                    ->andThrow(new Fenos\Notifynder\Exceptions\NotificationLanguageNotFoundException);
+                                    ->andThrow(new Fenos\Notifynder\Exceptions\NotificationLanguageNotFoundException());
 
-        $result = $this->notifynderTranslator->translate('it','message');
+        $result = $this->notifynderTranslator->translate('it', 'message');
     }
 
     public function test_get_languages_notification()
     {
-
-
         $result = $this->notifynderTranslator->getLanguage('en');
 
-        $this->assertEquals($result,$this->languages['en']);
+        $this->assertEquals($result, $this->languages['en']);
     }
 
     public function test_load_translations_array()
     {
         $result = $this->notifynderTranslator->loadTranslations();
 
-        $this->assertEquals($this->languages,$result);
+        $this->assertEquals($this->languages, $result);
     }
 
     public function mockApp()
     {
-        $app = array();
+        $app = [];
 
-        $app['config'] = m::mock( 'Illuminate\Config\Repository' );
+        $app['config'] = m::mock('Illuminate\Config\Repository');
 
-        $app['config']->shouldReceive( 'get' )
-            ->with( 'notifynder::config.translation_file' )
-            ->andReturn( m::type('array') );
+        $app['config']->shouldReceive('get')
+            ->with('notifynder::config.translation_file')
+            ->andReturn(m::type('array'));
 
         return $app;
-
     }
 
     public function array_languages()
@@ -130,11 +124,10 @@ class NofitynderTranslatorTest extends PHPUnit_Framework_TestCase
 
             'en' => [
 
-                'notifynder' => 'notifynder do the job well'
+                'notifynder' => 'notifynder do the job well',
 
-            ]
+            ],
 
         ];
     }
-
 }

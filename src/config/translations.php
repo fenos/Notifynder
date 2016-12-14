@@ -5,21 +5,19 @@
 // language and speficing the name of the category to translate
 // feel free to add it how much you want
 
-return array(
+return [
 
-        'it' => array(
+        'it' => [
 
             'notifynder' => 'e un ottimo pacchetto',
-        ),
+        ],
 
-        'fr' => array(
+        'fr' => [
 
+        ],
 
-        ),
+        'es' => [
 
-        'es' => array(
+        ],
 
-
-        )
-
-);
+];

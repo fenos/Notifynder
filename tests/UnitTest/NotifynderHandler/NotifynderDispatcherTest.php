@@ -2,21 +2,19 @@
 /**
  * Created by Fabrizio Fenoglio.
  */
-
 use Fenos\Notifynder\Handler\NotifynderDispatcher;
 use Mockery as m;
 
-class NotifynderDispatcherMock extends NotifynderDispatcher {
-
+class NotifynderDispatcherMock extends NotifynderDispatcher
+{
     public function postAdd()
     {
-        return "addPost";
+        return 'addPost';
     }
-
 }
 
-class NotifynderDispatcherTest extends PHPUnit_Framework_TestCase {
-
+class NotifynderDispatcherTest extends PHPUnit_Framework_TestCase
+{
     /**
      * @var NotifynderDispatcherMock
      */
@@ -33,8 +31,7 @@ class NotifynderDispatcherTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * Tear down function for all tests
-     *
+     * Tear down function for all tests.
      */
     public function teardown()
     {
@@ -46,8 +43,8 @@ class NotifynderDispatcherTest extends PHPUnit_Framework_TestCase {
     {
         $mockDispatcher = m::mock('NotifynderDispatcherMock[getEventName,listenerIsRegistered]');
 
-        $eventName = "user.post.add";
-        $categoryName = "test";
+        $eventName = 'user.post.add';
+        $categoryName = 'test';
         $notifynder = m::mock('Fenos\Notifynder\Notifynder');
 
         $mockDispatcher->shouldReceive('getEventName')
@@ -60,9 +57,9 @@ class NotifynderDispatcherTest extends PHPUnit_Framework_TestCase {
              ->with('postAdd')
              ->andReturn(true);
 
-        $result = $mockDispatcher->handle(['eventName' => $eventName],$categoryName,$notifynder);
+        $result = $mockDispatcher->handle(['eventName' => $eventName], $categoryName, $notifynder);
 
-        $this->assertEquals('addPost',$result);
+        $this->assertEquals('addPost', $result);
     }
 
     /** @test */
@@ -76,11 +73,10 @@ class NotifynderDispatcherTest extends PHPUnit_Framework_TestCase {
     /** @test */
     public function it_get_event_name_transforming_from_the_key()
     {
-        $nameEvent = "user.post.add";
+        $nameEvent = 'user.post.add';
 
         $result = $this->notifynderDispatcher->getEventName($nameEvent);
 
-        $this->assertEquals('postAdd',$result);
+        $this->assertEquals('postAdd', $result);
     }
 }
- 

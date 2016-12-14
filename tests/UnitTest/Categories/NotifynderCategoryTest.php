@@ -2,15 +2,14 @@
 /**
  * Created by Fabrizio Fenoglio.
  */
-
 use Fenos\Notifynder\Categories\NotifynderCategory;
 use Mockery as m;
 
 /**
- * Class NotifynderCategoryTest
+ * Class NotifynderCategoryTest.
  */
-class NotifynderCategoryTest extends PHPUnit_Framework_TestCase {
-
+class NotifynderCategoryTest extends PHPUnit_Framework_TestCase
+{
     /**
      * @var NotifynderCategory
      */
@@ -22,7 +21,7 @@ class NotifynderCategoryTest extends PHPUnit_Framework_TestCase {
     protected $categoryRepo;
 
     /**
-     * Set Up Test
+     * Set Up Test.
      */
     public function setUp()
     {
@@ -34,7 +33,7 @@ class NotifynderCategoryTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * TearDown
+     * TearDown.
      */
     public function tearDown()
     {
@@ -55,7 +54,7 @@ class NotifynderCategoryTest extends PHPUnit_Framework_TestCase {
 
         $result = $this->notifynderCategory->findByName($nameCategory);
 
-        $this->assertInstanceOf('Fenos\Notifynder\Models\NotificationCategory',$result);
+        $this->assertInstanceOf('Fenos\Notifynder\Models\NotificationCategory', $result);
     }
 
     /** @test */
@@ -63,7 +62,7 @@ class NotifynderCategoryTest extends PHPUnit_Framework_TestCase {
     {
         $notificationModel = m::mock('Fenos\Notifynder\Models\NotificationCategory');
 
-        $namesCategory = ['testname','testname2','testname3'];
+        $namesCategory = ['testname', 'testname2', 'testname3'];
 
         $this->categoryRepo->shouldReceive('findByNames')
             ->once()
@@ -72,7 +71,7 @@ class NotifynderCategoryTest extends PHPUnit_Framework_TestCase {
 
         $result = $this->notifynderCategory->findByNames($namesCategory);
 
-        $this->assertInstanceOf('Fenos\Notifynder\Models\NotificationCategory',$result);
+        $this->assertInstanceOf('Fenos\Notifynder\Models\NotificationCategory', $result);
     }
 
     /**
@@ -105,7 +104,7 @@ class NotifynderCategoryTest extends PHPUnit_Framework_TestCase {
 
         $result = $this->notifynderCategory->find($idCategory);
 
-        $this->assertInstanceOf('Fenos\Notifynder\Models\NotificationCategory',$result);
+        $this->assertInstanceOf('Fenos\Notifynder\Models\NotificationCategory', $result);
     }
 
     /**
@@ -138,7 +137,7 @@ class NotifynderCategoryTest extends PHPUnit_Framework_TestCase {
 
         $result = $this->notifynderCategory->add($categoryInfo);
 
-        $this->assertInstanceOf('Fenos\Notifynder\Models\NotificationCategory',$result);
+        $this->assertInstanceOf('Fenos\Notifynder\Models\NotificationCategory', $result);
     }
 
     /** @test */
@@ -159,7 +158,7 @@ class NotifynderCategoryTest extends PHPUnit_Framework_TestCase {
     /** @test */
     public function it_delete_a_category_by_name()
     {
-        $categoryName = "testcategory";
+        $categoryName = 'testcategory';
 
         $this->categoryRepo->shouldReceive('deleteByName')
             ->once()
@@ -171,4 +170,3 @@ class NotifynderCategoryTest extends PHPUnit_Framework_TestCase {
         $this->assertTrue($result);
     }
 }
- 

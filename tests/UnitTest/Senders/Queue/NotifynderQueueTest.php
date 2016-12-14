@@ -4,10 +4,10 @@ use Fenos\Notifynder\Senders\Queue\NotifynderQueue;
 use Mockery as m;
 
 /**
- * Class NotifynderQueueTest
+ * Class NotifynderQueueTest.
  */
-class NotifynderQueueTest extends \PHPUnit_Framework_TestCase {
-
+class NotifynderQueueTest extends \PHPUnit_Framework_TestCase
+{
     /**
      * @var NotifynderQueue
      */
@@ -24,7 +24,7 @@ class NotifynderQueueTest extends \PHPUnit_Framework_TestCase {
     protected $queue;
 
     /**
-     * SetUp UnitTest
+     * SetUp UnitTest.
      */
     public function setUp()
     {
@@ -46,7 +46,7 @@ class NotifynderQueueTest extends \PHPUnit_Framework_TestCase {
 
         $this->queue->shouldReceive('push')
              ->once()
-             ->with('Fenos\Notifynder\Senders\Queue\QueueSender',$info)
+             ->with('Fenos\Notifynder\Senders\Queue\QueueSender', $info)
              ->andReturn(true);
 
         $result = $this->notifynderQueue->push($info);
@@ -67,4 +67,3 @@ class NotifynderQueueTest extends \PHPUnit_Framework_TestCase {
         $this->assertTrue($result);
     }
 }
- 

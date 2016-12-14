@@ -1,11 +1,10 @@
-<?php namespace Fenos\Notifynder\Translator;
+<?php
+
+namespace Fenos\Notifynder\Translator;
 
 use Fenos\Notifynder\Exceptions\NotificationLanguageNotFoundException;
 use Fenos\Notifynder\Exceptions\NotificationTranslationNotFoundException;
 
-/**
-*
-*/
 class NotifynderTranslator
 {
     /**
@@ -18,7 +17,7 @@ class NotifynderTranslator
      */
     public $app;
 
-    function __construct()
+    public function __construct()
     {
         $this->app = app();
         $this->loadTranslations();
@@ -34,51 +33,52 @@ class NotifynderTranslator
 
     /**
      * Translate the notification getting the
-     * translation from the array
+     * translation from the array.
      *
      * @param $language
      * @param $name
-     * @return mixed
+     *
      * @throws \Fenos\Notifynder\Exceptions\NotificationTranslationNotFoundException
+     *
+     * @return mixed
      */
-    public function translate($language,$name)
+    public function translate($language, $name)
     {
         $language = $this->getLanguage($language);
 
-        if ( array_key_exists($name, $language) )
-        {
+        if (array_key_exists($name, $language)) {
             return $language[$name];
         }
 
-        throw new NotificationTranslationNotFoundException("Translation not found");
+        throw new NotificationTranslationNotFoundException('Translation not found');
     }
 
     /**
-     * Get language from the array
+     * Get language from the array.
      *
      * @param $language
-     * @return mixed
+     *
      * @throws \Fenos\Notifynder\Exceptions\NotificationLanguageNotFoundException
+     *
+     * @return mixed
      */
     public function getLanguage($language)
     {
-        if ( array_key_exists($language, $this->languages) )
-        {
+        if (array_key_exists($language, $this->languages)) {
             return $this->languages[$language];
         }
 
-        throw new NotificationLanguageNotFoundException("Language Not Found");
+        throw new NotificationLanguageNotFoundException('Language Not Found');
     }
 
     /**
-    * Load the array content the translations
-    *
-    * @return Array
-    */
+     * Load the array content the translations.
+     *
+     * @return array
+     */
     public function loadTranslations()
     {
-        if ( !is_null( $this->languages ) )
-        {
+        if (!is_null($this->languages)) {
             return $this->languages;
         }
 

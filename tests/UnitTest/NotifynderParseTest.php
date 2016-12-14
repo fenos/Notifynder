@@ -1,21 +1,21 @@
 <?php
 
-use Mockery as m;
 use Fenos\Notifynder\Parse\NotifynderParse;
+use Mockery as m;
 
 /**
-* Test NofitynderParseTest Class
-*/
+ * Test NofitynderParseTest Class.
+ */
 class NofitynderParseTest extends PHPUnit_Framework_TestCase
 {
     /**
-    * @var
-    */
+     * @var
+     */
     protected $notifynder_model;
 
     /**
-    * @var
-    */
+     * @var
+     */
     protected $notifynderParse;
 
     /**
@@ -28,13 +28,11 @@ class NofitynderParseTest extends PHPUnit_Framework_TestCase
         $eloquent = m::mock('Illuminate\Database\Eloquent\Model');
 
         $this->notifynderParse = new NotifynderParse();
-
     }
 
     /**
-    * Tear down function for all tests
-    *
-    */
+     * Tear down function for all tests.
+     */
     public function teardown()
     {
         m::close();
@@ -45,10 +43,9 @@ class NofitynderParseTest extends PHPUnit_Framework_TestCase
         $notifynderParse = m::mock('Fenos\Notifynder\Parse\NotifynderParse[getValues,replaceSpecialValues]');
 
         $body = $this->item()['body']['text'];
-        $valuesToParse = [0,['extra' => $this->extra]];
+        $valuesToParse = [0, ['extra' => $this->extra]];
         $item = m::mock('Fenos\Notifynder\Models\Notification');
         $model = m::mock('Illuminate\Database\Eloquent\Model');
-
 
         $item->shouldReceive('getAttribute')
              ->once()
@@ -67,12 +64,12 @@ class NofitynderParseTest extends PHPUnit_Framework_TestCase
 
         $notifynderParse->shouldReceive('replaceSpecialValues')
              ->once()
-             ->with($valuesToParse,$item,$body,$this->item()['extra'])
+             ->with($valuesToParse, $item, $body, $this->item()['extra'])
              ->andReturn($this->itemParsed()['body']['text']);
 
-        $result = $notifynderParse->parse($item,$this->item()['extra']);
+        $result = $notifynderParse->parse($item, $this->item()['extra']);
 
-        $this->assertEquals($this->itemParsed()['body']['text'],$result);
+        $this->assertEquals($this->itemParsed()['body']['text'], $result);
     }
 
     public function test_replace_extra_special_values()
@@ -84,12 +81,12 @@ class NofitynderParseTest extends PHPUnit_Framework_TestCase
 
         $notifynderParse->shouldReceive('replaceExtraParameter')
              ->once()
-             ->with('is cool',$body,$this->item()['extra'])
+             ->with('is cool', $body, $this->item()['extra'])
              ->andReturn($this->itemParsed()['body']['text']);
 
-        $result = $notifynderParse->replaceSpecialValues($valuesToParse,$item,$body,$this->item()['extra']);
+        $result = $notifynderParse->replaceSpecialValues($valuesToParse, $item, $body, $this->item()['extra']);
 
-        $this->assertEquals($this->itemParsed()['body']['text'],$result);
+        $this->assertEquals($this->itemParsed()['body']['text'], $result);
     }
 
     public function test_replace_values_relation_special_values()
@@ -101,65 +98,65 @@ class NofitynderParseTest extends PHPUnit_Framework_TestCase
 
         $notifynderParse->shouldReceive('insertValuesRelation')
             ->once()
-            ->with(['hello'],'from',$body,$item)
+            ->with(['hello'], 'from', $body, $item)
             ->andReturn($this->itemParsed()['body']['text']);
 
-        $result = $notifynderParse->replaceSpecialValues($valuesToParse,$item,$body,null);
+        $result = $notifynderParse->replaceSpecialValues($valuesToParse, $item, $body, null);
 
-        $this->assertEquals($this->itemParsed()['body']['text'],$result);
+        $this->assertEquals($this->itemParsed()['body']['text'], $result);
     }
 
     protected function item()
     {
         return [
-            "id" => 150,
-            "from_id" => 1,
-            "to_id" => 2,
-            "category_id" => 4,
-            "url" => "www.foo.com",
-            "extra" => "is cool",
-            "read" => 0,
-            "created_at" => "2014-04-16 23:23:49",
-            "updated_at" => "2014-04-16 23:23:49",
-            "body" => array(
-                "id" => 4,
-                "name" => "notifynder",
-                "text" => "notifynder is {extra} build by {user.name}",
-                "created_at" => "2014-04-16 23:23:36",
-                "updated_at" => "2014-04-16 23:23:36",
-            ),
-            "user" => array(
-                "id" => 1,
-                "email" => "admin@admin.com",
-                "name" => "fabrizio"
-            )
+            'id'          => 150,
+            'from_id'     => 1,
+            'to_id'       => 2,
+            'category_id' => 4,
+            'url'         => 'www.foo.com',
+            'extra'       => 'is cool',
+            'read'        => 0,
+            'created_at'  => '2014-04-16 23:23:49',
+            'updated_at'  => '2014-04-16 23:23:49',
+            'body'        => [
+                'id'         => 4,
+                'name'       => 'notifynder',
+                'text'       => 'notifynder is {extra} build by {user.name}',
+                'created_at' => '2014-04-16 23:23:36',
+                'updated_at' => '2014-04-16 23:23:36',
+            ],
+            'user' => [
+                'id'    => 1,
+                'email' => 'admin@admin.com',
+                'name'  => 'fabrizio',
+            ],
         ];
     }
 
     public function itemParsed()
     {
         return [
-            "id" => 150,
-            "from_id" => 1,
-            "to_id" => 2,
-            "category_id" => 4,
-            "url" => "www.foo.com",
-            "extra" => "is cool",
-            "read" => 0,
-            "created_at" => "2014-04-16 23:23:49",
-            "updated_at" => "2014-04-16 23:23:49",
-            "body" => array(
-                "id" => 4,
-                "name" => "notifynder",
-                "text" => "notifynder is is cool build by fabrizio",
-                "created_at" => "2014-04-16 23:23:36",
-                "updated_at" => "2014-04-16 23:23:36",
-            ),
-            "user" => array(
-                "id" => 1,
-                "email" => "admin@admin.com",
-                "name" => "fabrizio"
-            )
+            'id'          => 150,
+            'from_id'     => 1,
+            'to_id'       => 2,
+            'category_id' => 4,
+            'url'         => 'www.foo.com',
+            'extra'       => 'is cool',
+            'read'        => 0,
+            'created_at'  => '2014-04-16 23:23:49',
+            'updated_at'  => '2014-04-16 23:23:49',
+            'body'        => [
+                'id'         => 4,
+                'name'       => 'notifynder',
+                'text'       => 'notifynder is is cool build by fabrizio',
+                'created_at' => '2014-04-16 23:23:36',
+                'updated_at' => '2014-04-16 23:23:36',
+            ],
+            'user' => [
+                'id'    => 1,
+                'email' => 'admin@admin.com',
+                'name'  => 'fabrizio',
+            ],
         ];
     }
 }

@@ -1,5 +1,7 @@
-<?php namespace Fenos\Notifynder\Exceptions; 
+<?php
 
-class NotificationBuilderException extends \Exception {
+namespace Fenos\Notifynder\Exceptions;
 
-} 
+class NotificationBuilderException extends \Exception
+{
+}

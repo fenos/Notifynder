@@ -1,16 +1,16 @@
-<?php namespace Fenos\Notifynder\Notifications;
+<?php
+
+namespace Fenos\Notifynder\Notifications;
 
 use Fenos\Notifynder\Exceptions\NotificationNotFoundException;
 use Fenos\Notifynder\Notifications\Repositories\NotificationRepository;
 use Fenos\Notifynder\Senders\StoreNotification;
 
 /**
- * Class NotifynderNotification
- *
- * @package Fenos\Notifynder\Notifications
+ * Class NotifynderNotification.
  */
-class NotifynderNotification implements StoreNotification {
-
+class NotifynderNotification implements StoreNotification
+{
     /**
      * @var NotificationRepository
      */
@@ -24,15 +24,16 @@ class NotifynderNotification implements StoreNotification {
     /**
      * @param NotificationRepository $notifynderRepo
      */
-    function __construct(NotificationRepository $notifynderRepo)
+    public function __construct(NotificationRepository $notifynderRepo)
     {
         $this->notifynderRepo = $notifynderRepo;
     }
 
     /**
-     * Set the entity for polymorphic
+     * Set the entity for polymorphic.
      *
      * @param $name
+     *
      * @return $this
      */
     public function entity($name)
@@ -43,19 +44,20 @@ class NotifynderNotification implements StoreNotification {
     }
 
     /**
-     * Find a notification by ID
+     * Find a notification by ID.
      *
      * @param $notification_id
-     * @return \Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model|static
+     *
      * @throws \Fenos\Notifynder\Exceptions\NotificationNotFoundException
+     *
+     * @return \Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model|static
      */
     public function find($notification_id)
     {
         $notification = $this->notifynderRepo->find($notification_id);
 
-        if ( is_null($notification) )
-        {
-            throw new NotificationNotFoundException("Notification Not found");
+        if (is_null($notification)) {
+            throw new NotificationNotFoundException('Notification Not found');
         }
 
         return $notification;
@@ -63,9 +65,10 @@ class NotifynderNotification implements StoreNotification {
 
     /**
      * Make read one notification giving
-     * the ID of it
+     * the ID of it.
      *
      * @param $notification_id
+     *
      * @return bool|\Fenos\Notifynder\Models\Notification
      */
     public function readOne($notification_id)
@@ -77,25 +80,27 @@ class NotifynderNotification implements StoreNotification {
 
     /**
      * Read notifications in base the number
-     * Given
+     * Given.
      *
      * @param        $to_id
      * @param        $numbers
      * @param string $order
+     *
      * @return mixed
      */
-    public function readLimit($to_id,$numbers,$order = "ASC")
+    public function readLimit($to_id, $numbers, $order = 'ASC')
     {
         $notifications = $this->notifynderRepo->entity($this->entity);
 
-        return $notifications->readLimit($to_id,$numbers,$order);
+        return $notifications->readLimit($to_id, $numbers, $order);
     }
 
     /**
      * Read all notification of the
-     * given entity
+     * given entity.
      *
      * @param $to_id
+     *
      * @return Number
      */
     public function readAll($to_id)
@@ -107,10 +112,11 @@ class NotifynderNotification implements StoreNotification {
 
     /**
      * Delete a notification giving the id
-     * of it
+     * of it.
      *
      * @param $notification_id
-     * @return Bool
+     *
+     * @return bool
      */
     public function delete($notification_id)
     {
@@ -120,26 +126,28 @@ class NotifynderNotification implements StoreNotification {
     /**
      * Delete numbers of notifications equals
      * to the number passing as 2 parameter of
-     * the current user
+     * the current user.
      *
      * @param $entity_id
      * @param $number
      * @param $order
+     *
      * @return mixed
      */
     public function deleteLimit($entity_id, $number, $order)
     {
         $notifications = $this->notifynderRepo->entity($this->entity);
 
-        return $notifications->deleteLimit($entity_id,$number,$order);
+        return $notifications->deleteLimit($entity_id, $number, $order);
     }
 
     /**
      * Delete all notification of a given
-     * Entity
+     * Entity.
      *
      * @param $entity_id
-     * @return Bool
+     *
+     * @return bool
      */
     public function deleteAll($entity_id)
     {
@@ -150,39 +158,42 @@ class NotifynderNotification implements StoreNotification {
 
     /**
      * Get notifications not read
-     * of the entity given
+     * of the entity given.
      *
      * @param $to_id
      * @param $limit
      * @param $paginate
+     *
      * @return mixed
      */
-    public function getNotRead($to_id,$limit,$paginate)
+    public function getNotRead($to_id, $limit, $paginate)
     {
-        $notifications =  $this->notifynderRepo->entity($this->entity);
+        $notifications = $this->notifynderRepo->entity($this->entity);
 
-        return $notifications->getNotRead($to_id,$limit,$paginate);
+        return $notifications->getNotRead($to_id, $limit, $paginate);
     }
 
     /**
-     * Get All notifications
+     * Get All notifications.
      *
      * @param $to_id
      * @param $limit
      * @param $paginate
+     *
      * @return mixed
      */
-    public function getAll($to_id,$limit,$paginate)
+    public function getAll($to_id, $limit, $paginate)
     {
-        $notifications =  $this->notifynderRepo->entity($this->entity);
+        $notifications = $this->notifynderRepo->entity($this->entity);
 
-        return $notifications->getAll($to_id,$limit,$paginate);
+        return $notifications->getAll($to_id, $limit, $paginate);
     }
 
     /**
-     * Send single notification
+     * Send single notification.
      *
      * @param array $info
+     *
      * @return static
      */
     public function sendOne(array $info)
@@ -191,9 +202,10 @@ class NotifynderNotification implements StoreNotification {
     }
 
     /**
-     * Send multiple notifications
+     * Send multiple notifications.
      *
      * @param array $info
+     *
      * @return mixed
      */
     public function sendMultiple(array $info)
@@ -203,15 +215,16 @@ class NotifynderNotification implements StoreNotification {
 
     /**
      * Get number of notification
-     * not read
+     * not read.
      *
      * @param $to_id
+     *
      * @return mixed
      */
     public function countNotRead($to_id)
     {
-        $notifications =  $this->notifynderRepo->entity($this->entity);
+        $notifications = $this->notifynderRepo->entity($this->entity);
 
         return $notifications->countNotRead($to_id);
     }
-} 
+}

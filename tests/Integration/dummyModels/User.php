@@ -11,8 +11,8 @@ use Illuminate\Auth\UserInterface;
 use Illuminate\Auth\UserTrait;
 use Illuminate\Database\Eloquent\Model;
 
-class User extends Model implements UserInterface, RemindableInterface {
-
+class User extends Model implements UserInterface, RemindableInterface
+{
     use UserTrait, RemindableTrait;
 
     /**
@@ -27,5 +27,5 @@ class User extends Model implements UserInterface, RemindableInterface {
      *
      * @var array
      */
-    protected $hidden = array('password', 'remember_token');
+    protected $hidden = ['password', 'remember_token'];
 }
