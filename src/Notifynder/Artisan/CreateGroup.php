@@ -2,8 +2,8 @@
 
 namespace Fenos\Notifynder\Artisan;
 
-use Fenos\Notifynder\Contracts\NotifynderGroup;
 use Illuminate\Console\Command;
+use Fenos\Notifynder\Contracts\NotifynderGroup;
 use Symfony\Component\Console\Input\InputArgument;
 
 class CreateGroup extends Command

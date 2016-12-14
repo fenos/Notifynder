@@ -2,8 +2,8 @@
 
 namespace spec\Fenos\Notifynder\Senders;
 
-use Fenos\Notifynder\Contracts\StoreNotification;
 use PhpSpec\ObjectBehavior;
+use Fenos\Notifynder\Contracts\StoreNotification;
 
 class SendMultipleSpec extends ObjectBehavior
 {

@@ -1,8 +1,8 @@
 <?php
 
+use Laracasts\TestDummy\Factory;
 use Fenos\Notifynder\Models\Notification;
 use Fenos\Notifynder\Notifications\NotificationRepository;
-use Laracasts\TestDummy\Factory;
 
 class NotificationRepositoryDBTest extends TestCaseDB
 {

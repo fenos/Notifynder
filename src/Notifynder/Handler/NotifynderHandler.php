@@ -2,8 +2,8 @@
 
 namespace Fenos\Notifynder\Handler;
 
-use Fenos\Notifynder\Contracts\NotifyListener;
 use Fenos\Notifynder\Notifynder;
+use Fenos\Notifynder\Contracts\NotifyListener;
 
 /**
  * Class NotifynderHandler.

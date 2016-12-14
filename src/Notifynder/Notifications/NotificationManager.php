@@ -4,11 +4,11 @@ namespace Fenos\Notifynder\Notifications;
 
 use Closure;
 use Fenos\Notifynder\Contracts\NotificationDB;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Fenos\Notifynder\Models\NotifynderCollection;
 use Fenos\Notifynder\Contracts\NotifynderNotification;
 use Fenos\Notifynder\Exceptions\NotificationNotFoundException;
 use Fenos\Notifynder\Models\Notification as NotificationModel;
-use Fenos\Notifynder\Models\NotifynderCollection;
-use Illuminate\Pagination\LengthAwarePaginator;
 
 /**
  * Class NotifynderNotification.

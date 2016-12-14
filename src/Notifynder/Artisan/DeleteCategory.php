@@ -2,8 +2,8 @@
 
 namespace Fenos\Notifynder\Artisan;
 
-use Fenos\Notifynder\Contracts\NotifynderCategory;
 use Illuminate\Console\Command;
+use Fenos\Notifynder\Contracts\NotifynderCategory;
 use Symfony\Component\Console\Input\InputArgument;
 
 class DeleteCategory extends Command

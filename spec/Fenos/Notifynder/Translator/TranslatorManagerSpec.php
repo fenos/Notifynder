@@ -2,11 +2,11 @@
 
 namespace spec\Fenos\Notifynder\Translator;
 
-use Fenos\Notifynder\Exceptions\NotificationLanguageNotFoundException;
-use Fenos\Notifynder\Exceptions\NotificationTranslationNotFoundException;
+use PhpSpec\ObjectBehavior;
 use Fenos\Notifynder\Translator\Compiler;
 use Illuminate\Contracts\Config\Repository;
-use PhpSpec\ObjectBehavior;
+use Fenos\Notifynder\Exceptions\NotificationLanguageNotFoundException;
+use Fenos\Notifynder\Exceptions\NotificationTranslationNotFoundException;
 
 class TranslatorManagerSpec extends ObjectBehavior
 {

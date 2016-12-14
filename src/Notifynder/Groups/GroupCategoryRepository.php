@@ -2,10 +2,10 @@
 
 namespace Fenos\Notifynder\Groups;
 
+use Fenos\Notifynder\Models\NotificationGroup;
+use Fenos\Notifynder\Models\NotificationCategory;
 use Fenos\Notifynder\Contracts\NotifynderCategory;
 use Fenos\Notifynder\Contracts\NotifynderGroupCategoryDB;
-use Fenos\Notifynder\Models\NotificationCategory;
-use Fenos\Notifynder\Models\NotificationGroup;
 
 /**
  * Class NotificationGroupCategoryRepository.

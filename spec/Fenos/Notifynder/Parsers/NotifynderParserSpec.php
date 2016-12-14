@@ -2,9 +2,9 @@
 
 namespace spec\Fenos\Notifynder\Parsers;
 
-use Fenos\Notifynder\Exceptions\ExtraParamsException;
-use Fenos\Notifynder\Parsers\NotifynderParser;
 use PhpSpec\ObjectBehavior;
+use Fenos\Notifynder\Parsers\NotifynderParser;
+use Fenos\Notifynder\Exceptions\ExtraParamsException;
 
 class NotifynderParserSpec extends ObjectBehavior
 {

@@ -3,11 +3,11 @@
 namespace Fenos\Notifynder\Notifications;
 
 use Closure;
-use Fenos\Notifynder\Contracts\NotificationDB;
-use Fenos\Notifynder\Models\Notification;
-use Illuminate\Database\DatabaseManager;
 use Illuminate\Database\Connection;
+use Illuminate\Database\DatabaseManager;
+use Fenos\Notifynder\Models\Notification;
 use Illuminate\Database\Eloquent\Builder;
+use Fenos\Notifynder\Contracts\NotificationDB;
 use Illuminate\Database\Query\Builder as BuilderDB;
 
 /**

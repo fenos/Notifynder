@@ -3,11 +3,11 @@
 namespace spec\Fenos\Notifynder\Senders;
 
 use BadMethodCallException;
-use Fenos\Notifynder\Contracts\DefaultSender;
-use Fenos\Notifynder\Contracts\StoreNotification;
-use Fenos\Notifynder\Senders\SenderFactory;
-use Illuminate\Contracts\Foundation\Application;
 use PhpSpec\ObjectBehavior;
+use Fenos\Notifynder\Senders\SenderFactory;
+use Fenos\Notifynder\Contracts\DefaultSender;
+use Illuminate\Contracts\Foundation\Application;
+use Fenos\Notifynder\Contracts\StoreNotification;
 
 class SenderManagerSpec extends ObjectBehavior
 {

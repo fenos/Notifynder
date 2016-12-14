@@ -1,11 +1,11 @@
 <?php
 
-use Fenos\Notifynder\Builder\NotifynderBuilder;
-use Fenos\Notifynder\Handler\NotifynderEvent;
-use Fenos\Notifynder\Handler\NotifynderHandler;
-use Fenos\Notifynder\NotifynderManager;
 use Fenos\Tests\Models\User;
+use Fenos\Notifynder\NotifynderManager;
 use Illuminate\Contracts\Events\Dispatcher;
+use Fenos\Notifynder\Handler\NotifynderEvent;
+use Fenos\Notifynder\Builder\NotifynderBuilder;
+use Fenos\Notifynder\Handler\NotifynderHandler;
 
 /**
  * Class NotifynderHandlerTest.

@@ -2,9 +2,9 @@
 
 namespace Fenos\Notifynder\Categories;
 
+use Illuminate\Database\Eloquent\Builder;
 use Fenos\Notifynder\Contracts\CategoryDB;
 use Fenos\Notifynder\Models\NotificationCategory;
-use Illuminate\Database\Eloquent\Builder;
 
 /**
  * Class CategoryRepository.

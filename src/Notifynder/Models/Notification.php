@@ -2,13 +2,13 @@
 
 namespace Fenos\Notifynder\Models;
 
-use Fenos\Notifynder\Notifications\ExtraParams;
-use Fenos\Notifynder\Parsers\NotifynderParser;
-use Illuminate\Contracts\Container\Container;
-use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
 use Illuminate\Support\Arr;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Contracts\Container\Container;
+use Fenos\Notifynder\Parsers\NotifynderParser;
+use Fenos\Notifynder\Notifications\ExtraParams;
 
 /**
  * Class Notification.

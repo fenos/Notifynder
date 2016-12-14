@@ -8,8 +8,8 @@ namespace Fenos\Notifynder\Senders;
  * @package Fenos\Notifynder
  */
 use Fenos\Notifynder\Builder\NotifynderBuilder;
-use Fenos\Notifynder\Contracts\NotifynderCategory;
 use Fenos\Notifynder\Contracts\NotifynderGroup;
+use Fenos\Notifynder\Contracts\NotifynderCategory;
 
 /**
  * Class SenderFactory.

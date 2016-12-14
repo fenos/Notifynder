@@ -2,15 +2,15 @@
 
 namespace Fenos\Notifynder;
 
-use BadMethodCallException;
 use Closure;
+use BadMethodCallException;
+use InvalidArgumentException;
 use Fenos\Notifynder\Builder\NotifynderBuilder;
+use Fenos\Notifynder\Contracts\NotifynderGroup;
+use Fenos\Notifynder\Contracts\NotifynderSender;
 use Fenos\Notifynder\Contracts\NotifynderCategory;
 use Fenos\Notifynder\Contracts\NotifynderDispatcher;
-use Fenos\Notifynder\Contracts\NotifynderGroup;
 use Fenos\Notifynder\Contracts\NotifynderNotification;
-use Fenos\Notifynder\Contracts\NotifynderSender;
-use InvalidArgumentException;
 
 /**
  * Class Notifynder.
