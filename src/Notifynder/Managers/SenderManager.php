@@ -2,13 +2,13 @@
 
 namespace Fenos\Notifynder\Managers;
 
-use BadFunctionCallException;
-use BadMethodCallException;
 use Closure;
-use Fenos\Notifynder\Contracts\SenderContract;
-use Fenos\Notifynder\Contracts\SenderManagerContract;
+use BadMethodCallException;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
+use BadFunctionCallException;
+use Fenos\Notifynder\Contracts\SenderContract;
+use Fenos\Notifynder\Contracts\SenderManagerContract;
 
 /**
  * Class SenderManager.

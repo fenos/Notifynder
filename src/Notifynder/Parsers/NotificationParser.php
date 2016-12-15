@@ -2,10 +2,10 @@
 
 namespace Fenos\Notifynder\Parsers;
 
-use Fenos\Notifynder\Builder\Notification as BuilderNotification;
+use Fenos\Notifynder\Models\NotificationCategory;
 use Fenos\Notifynder\Exceptions\ExtraParamsException;
 use Fenos\Notifynder\Models\Notification as ModelNotification;
-use Fenos\Notifynder\Models\NotificationCategory;
+use Fenos\Notifynder\Builder\Notification as BuilderNotification;
 
 /**
  * Class NotificationParser.

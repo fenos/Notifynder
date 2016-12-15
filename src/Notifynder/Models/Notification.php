@@ -2,10 +2,10 @@
 
 namespace Fenos\Notifynder\Models;
 
-use Fenos\Notifynder\Builder\Notification as BuilderNotification;
-use Fenos\Notifynder\Parsers\NotificationParser;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
+use Fenos\Notifynder\Parsers\NotificationParser;
+use Fenos\Notifynder\Builder\Notification as BuilderNotification;
 
 /**
  * Class Notification.

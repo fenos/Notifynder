@@ -1,7 +1,7 @@
 <?php
 
-use Fenos\Notifynder\Models\Notification;
 use Fenos\Tests\Models\User;
+use Fenos\Notifynder\Models\Notification;
 
 class ConfigTest extends NotifynderTestCase
 {

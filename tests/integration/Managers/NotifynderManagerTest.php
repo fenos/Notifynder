@@ -1,11 +1,11 @@
 <?php
 
-use Fenos\Notifynder\Models\Notification;
 use Fenos\Notifynder\Builder\Builder;
-use Fenos\Notifynder\Builder\Notification as BuilderNotification;
-use Fenos\Notifynder\Models\Notification as ModelNotification;
-use Illuminate\Database\Eloquent\Collection as EloquentCollection;
+use Fenos\Notifynder\Models\Notification;
 use Fenos\Notifynder\Managers\SenderManager;
+use Fenos\Notifynder\Models\Notification as ModelNotification;
+use Fenos\Notifynder\Builder\Notification as BuilderNotification;
+use Illuminate\Database\Eloquent\Collection as EloquentCollection;
 
 class NotifynderManagerTest extends NotifynderTestCase
 {

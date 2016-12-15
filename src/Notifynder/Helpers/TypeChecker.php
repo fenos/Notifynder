@@ -2,10 +2,10 @@
 
 namespace Fenos\Notifynder\Helpers;
 
-use Carbon\Carbon;
 use DateTime;
-use InvalidArgumentException;
 use Traversable;
+use Carbon\Carbon;
+use InvalidArgumentException;
 
 /**
  * Class TypeChecker.

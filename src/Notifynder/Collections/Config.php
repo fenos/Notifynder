@@ -2,10 +2,10 @@
 
 namespace Fenos\Notifynder\Collections;
 
-use Fenos\Notifynder\Contracts\ConfigContract;
-use Fenos\Notifynder\Models\Notification;
 use Illuminate\Support\Arr;
 use InvalidArgumentException;
+use Fenos\Notifynder\Models\Notification;
+use Fenos\Notifynder\Contracts\ConfigContract;
 
 /**
  * Class Config.
