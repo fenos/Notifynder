@@ -2,12 +2,12 @@
 
 namespace Fenos\Notifynder\Managers;
 
-use BadMethodCallException;
 use Closure;
-use Fenos\Notifynder\Builder\Builder;
-use Fenos\Notifynder\Contracts\NotifynderManagerContract;
-use Fenos\Notifynder\Contracts\SenderManagerContract;
+use BadMethodCallException;
 use Illuminate\Support\Str;
+use Fenos\Notifynder\Builder\Builder;
+use Fenos\Notifynder\Contracts\SenderManagerContract;
+use Fenos\Notifynder\Contracts\NotifynderManagerContract;
 
 /**
  * Class NotifynderManager.

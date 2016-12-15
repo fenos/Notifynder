@@ -3,11 +3,11 @@
 namespace Fenos\Notifynder\Builder;
 
 use ArrayAccess;
-use Fenos\Notifynder\Parsers\NotificationParser;
-use Illuminate\Contracts\Support\Arrayable;
-use Illuminate\Contracts\Support\Jsonable;
-use Illuminate\Support\Arr;
 use JsonSerializable;
+use Illuminate\Support\Arr;
+use Illuminate\Contracts\Support\Jsonable;
+use Illuminate\Contracts\Support\Arrayable;
+use Fenos\Notifynder\Parsers\NotificationParser;
 use Fenos\Notifynder\Models\Notification as ModelNotification;
 
 /**

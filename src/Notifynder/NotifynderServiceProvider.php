@@ -2,16 +2,16 @@
 
 namespace Fenos\Notifynder;
 
+use Illuminate\Support\ServiceProvider;
 use Fenos\Notifynder\Collections\Config;
-use Fenos\Notifynder\Contracts\ConfigContract;
-use Fenos\Notifynder\Contracts\NotifynderManagerContract;
-use Fenos\Notifynder\Contracts\SenderManagerContract;
-use Fenos\Notifynder\Managers\NotifynderManager;
-use Fenos\Notifynder\Managers\SenderManager;
-use Fenos\Notifynder\Senders\MultipleSender;
 use Fenos\Notifynder\Senders\OnceSender;
 use Fenos\Notifynder\Senders\SingleSender;
-use Illuminate\Support\ServiceProvider;
+use Fenos\Notifynder\Managers\SenderManager;
+use Fenos\Notifynder\Senders\MultipleSender;
+use Fenos\Notifynder\Contracts\ConfigContract;
+use Fenos\Notifynder\Managers\NotifynderManager;
+use Fenos\Notifynder\Contracts\SenderManagerContract;
+use Fenos\Notifynder\Contracts\NotifynderManagerContract;
 
 /**
  * Class NotifynderServiceProvider.

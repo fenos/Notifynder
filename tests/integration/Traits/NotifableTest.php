@@ -1,8 +1,8 @@
 <?php
 
-use Fenos\Notifynder\Managers\NotifynderManager;
 use Fenos\Notifynder\Builder\Builder;
 use Fenos\Notifynder\Builder\Notification;
+use Fenos\Notifynder\Managers\NotifynderManager;
 
 class NotifableTest extends NotifynderTestCase
 {
@@ -99,7 +99,6 @@ class NotifableTest extends NotifynderTestCase
         $this->assertSame(24, $user->countUnreadNotifications());
         $this->assertTrue($user->unreadNotification($notification->getKey()));
         $this->assertSame(25, $user->countUnreadNotifications());
-
 
         $user2 = $this->createUser();
         $this->sendNotificationsTo($user2, 5);

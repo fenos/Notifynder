@@ -2,8 +2,8 @@
 
 namespace Fenos\Tests\Models;
 
-use Fenos\Notifynder\Traits\NotifableLaravel53;
 use Illuminate\Database\Eloquent\Model;
+use Fenos\Notifynder\Traits\NotifableLaravel53;
 
 class UserL53 extends Model
 {

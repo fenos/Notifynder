@@ -1,14 +1,14 @@
 <?php
 
-use Orchestra\Testbench\TestCase as OrchestraTestCase;
-use Fenos\Tests\Models\User;
-use Fenos\Tests\Models\UserL53;
 use Fenos\Tests\Models\Car;
+use Fenos\Tests\Models\User;
 use Fenos\Tests\Models\CarL53;
-use Fenos\Notifynder\NotifynderServiceProvider;
-use Fenos\Notifynder\Facades\Notifynder as NotifynderFacade;
+use Fenos\Tests\Models\UserL53;
 use Illuminate\Database\Eloquent\Model;
+use Fenos\Notifynder\NotifynderServiceProvider;
 use Fenos\Notifynder\Models\NotificationCategory;
+use Orchestra\Testbench\TestCase as OrchestraTestCase;
+use Fenos\Notifynder\Facades\Notifynder as NotifynderFacade;
 
 abstract class NotifynderTestCase extends OrchestraTestCase
 {

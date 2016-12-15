@@ -2,13 +2,13 @@
 
 namespace Fenos\Notifynder\Builder;
 
+use Closure;
 use ArrayAccess;
 use Carbon\Carbon;
-use Closure;
-use Fenos\Notifynder\Exceptions\UnvalidNotificationException;
+use Illuminate\Database\Eloquent\Model;
 use Fenos\Notifynder\Helpers\TypeChecker;
 use Fenos\Notifynder\Models\NotificationCategory;
-use Illuminate\Database\Eloquent\Model;
+use Fenos\Notifynder\Exceptions\UnvalidNotificationException;
 
 /**
  * Class Builder.
