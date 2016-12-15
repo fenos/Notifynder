@@ -1,8 +1,19 @@
-<?php namespace Fenos\Tests\Models;
+<?php
 
-use Fenos\Notifynder\Notifable;
+namespace Fenos\Tests\Models;
 
-class User extends \Illuminate\Database\Eloquent\Model {
+use Fenos\Notifynder\Traits\Notifable;
+use Illuminate\Database\Eloquent\Model;
 
+class User extends Model
+{
     use Notifable;
+
+    protected $table = 'users';
+
+    protected $fillable = [
+        'id',
+        'firstname',
+        'lastname',
+    ];
 }

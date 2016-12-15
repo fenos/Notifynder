@@ -1,0 +1,5 @@
+preset: laravel
+
+risky: false
+
+linting: true

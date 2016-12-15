@@ -1,95 +1,126 @@
-Notifynder 3.0 - Laravel 5
-==========
+# Notifynder 4 - Laravel 5
 
-[![Build Status](https://travis-ci.org/fenos/Notifynder.svg?branch=master)](https://travis-ci.org/fenos/Notifynder)
-[![ProjectStatus](http://stillmaintained.com/fenos/Notifynder.png)](http://stillmaintained.com/fenos/Notifynder)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/fenos/Notifynder/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/fenos/Notifynder/?branch=master)
-[![Total Downloads](https://poser.pugx.org/fenos/notifynder/downloads.svg)](https://packagist.org/packages/fenos/notifynder)
-[![License](https://poser.pugx.org/fenos/Notifynder/license.png)](https://packagist.org/packages/fenos/Notifynder)
-[![Latest Stable Version](https://poser.pugx.org/fenos/notifynder/v/stable.png)](https://packagist.org/packages/fenos/notifynder)
+[![GitHub release](https://img.shields.io/github/release/fenos/Notifynder.svg?style=flat-square)](https://github.com/fenos/Notifynder/releases)
+[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](https://raw.githubusercontent.com/fenos/Notifynder/master/LICENSE)
+[![GitHub issues](https://img.shields.io/github/issues/fenos/Notifynder.svg?style=flat-square)](https://github.com/fenos/Notifynder/issues)
+[![Total Downloads](https://img.shields.io/packagist/dt/fenos/notifynder.svg?style=flat-square)](https://packagist.org/packages/fenos/notifynder)
+
+[![Travis branch](https://img.shields.io/travis/fenos/Notifynder/master.svg?style=flat-square&label=TravisCI)](https://travis-ci.org/fenos/Notifynder/branches)
+[![StyleCI](https://styleci.io/repos/18425539/shield)](https://styleci.io/repos/18425539)
+[![Scrutinizer Build](https://img.shields.io/scrutinizer/build/g/fenos/Notifynder.svg?style=flat-square&label=ScrutinizerCI)](https://scrutinizer-ci.com/g/fenos/Notifynder/?branch=master)
+
+[![Scrutinizer Code Quality](https://img.shields.io/scrutinizer/g/fenos/Notifynder.svg?style=flat-square)](https://scrutinizer-ci.com/g/fenos/Notifynder/?branch=master)
+[![Code Climate](https://img.shields.io/codeclimate/github/fenos/Notifynder.svg?style=flat-square)](https://codeclimate.com/github/fenos/Notifynder)
+[![Coveralls](https://img.shields.io/coveralls/fenos/Notifynder.svg?style=flat-square)](https://coveralls.io/github/fenos/Notifynder)
+
+[![Slack Team](https://img.shields.io/badge/slack-astrotomic-orange.svg?style=flat-square)](https://astrotomic.slack.com)
+[![Slack join](https://img.shields.io/badge/slack-join-green.svg?style=social)](https://notifynder.signup.team)
+
 
 Notifynder is designed to manage notifications in a powerful and easy way.
 With the flexibility that Notifynder offer, It provide a complete API to work with your notifications,
-such as storing, retriving, and organise your codebase to handle hundreds of notifications.
+such as storing, retrieving, and organise your codebase to handle hundreds of notifications.
 You get started in a couple of minutes to "enable" notifications in your Laravel Project.
 
 Compatible DBs: **MySql** - **PostgresSql** - **Sqlite**
 
-Documentation: **[Notifynder Wiki](https://github.com/fenos/Notifynder/wiki)**
-- - -
+Documentation: **[Notifynder Docu](http://notifynder.info)**
 
-## Installation ##
+-----
 
-### Step 1 ###
+## Installation
 
-Add it on your composer.json
+### Step 1
 
-~~~
-"fenos/notifynder": "3.*"
-~~~
+Add it on your `composer.json`
 
-and run **composer update**
+```
+"fenos/notifynder": "^4.0"
+```
+
+and run 
+
+```
+composer update
+```
+
+or run
+
+```
+composer require fenos/notifynder
+```
 
 
-### Step 2 ###
+### Step 2
 
-Add the following string to **config/app.php**
+Add the following string to `config/app.php`
 
 **Providers array:**
 
-~~~
-'Fenos\Notifynder\NotifynderServiceProvider'
-~~~
+```
+Fenos\Notifynder\NotifynderServiceProvider::class,
+```
 
 **Aliases array:**
 
-~~~
-'Notifynder'    => 'Fenos\Notifynder\Facades\Notifynder'
-~~~
+```
+'Notifynder' => Fenos\Notifynder\Facades\Notifynder::class,
+```
 
-### Step 3 ###
 
-#### Migration ####
+### Step 3
+
+#### Migration & Config
 
 Publish the migration as well as the configuration of notifynder with the following command:
 
-~~~
+```
 php artisan vendor:publish --provider="Fenos\Notifynder\NotifynderServiceProvider"
-~~~
+```
 
-Don't forget to migrate.
+Run the migration
 
-### Quick Usage ###
+```
+php artisan migrate
+```
 
-Set up category of notification, think about it as the
-body of the notification:
+## Usage
 
-~~~
-php artisan notifynder:create:category "user.following" "{from.username} started to follow you"
-~~~
+This Branch isn't ready for any kind of usage! It's development in progress and will bring a whole new code-base for this package.
+Everyone is welcome to support us or give feedback for the new major version in our Slack Team.
 
-To send a notification with notifynder, that's all
-you have to do.
+### ToDo
 
-~~~
-Notifynder::category('user.following')
-            ->from($from_user_id)
-            ->to($to_user_id)
-            ->url('http://www.yourwebsite.com/page')
-            ->send();
-~~~
+Tasks we have to do until this version is ready for a stable release:
 
-**Retrieving Notifications**
+* add unittests for parser and models
+* complete the new documentation
 
-~~~
-// @return Collection
-Notifynder::getAll($user_id,$limit,$paginateBool);
-~~~
 
-**Reading Notifications:**
-~~~
-// @return number of notifications read
-Notifynder::ReadAll($user_id);
-~~~
+## Versioning
 
-To know more, such as the advance usage of Notifynder Visit the **[Notifynder Wiki](https://github.com/fenos/Notifynder/wiki)**.
+Starting with `v4.0.0` we are following the [Semantic Versioning Standard](http://semver.org).
+
+### Summary
+
+Given a version number `MAJOR`.`MINOR`.`PATCH`, increment the:
+
+* **MAJOR** version when you make incompatible API changes,
+* **MINOR** version when you add functionality in a backwards-compatible manner, and
+* **PATCH** version when you make backwards-compatible bug fixes.
+
+Additional labels for pre-release (`alpha`, `beta`, `rc`) are available as extensions to the `MAJOR`.`MINOR`.`PATCH` format.
+
+## Contributors
+
+Thanks for everyone [who contributed](https://github.com/fenos/Notifynder/graphs/contributors) to Notifynder and a special thanks for the most active contributors
+
+- [Gummibeer](https://github.com/Gummibeer)
+
+## Services
+
+* [Travis CI](https://travis-ci.org/fenos/Notifynder)
+* [Style CI](https://styleci.io/repos/18425539)
+* [Code Climate](https://codeclimate.com/github/fenos/Notifynder)
+* [Scrutinizer](https://scrutinizer-ci.com/g/fenos/Notifynder)
+* [Coveralls](https://coveralls.io/github/fenos/Notifynder)

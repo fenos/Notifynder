@@ -5,10 +5,9 @@ use Illuminate\Database\Migrations\Migration;
 
 class NotificationCategories extends Migration
 {
-
     /**
      * Run the migrations.
-     *
+
      * @return void
      */
     public function up()
@@ -27,6 +26,6 @@ class NotificationCategories extends Migration
      */
     public function down()
     {
-        Schema::drop('notification_categories');
+        Schema::dropIfExists('notification_categories');
     }
 }

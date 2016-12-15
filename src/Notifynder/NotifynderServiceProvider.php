@@ -1,295 +1,188 @@
-<?php namespace Fenos\Notifynder;
+<?php
 
-use Fenos\Notifynder\Artisan\CreateCategory;
-use Fenos\Notifynder\Artisan\DeleteCategory;
-use Fenos\Notifynder\Artisan\CreateGroup;
-use Fenos\Notifynder\Artisan\PushCategoryToGroup;
-use Fenos\Notifynder\Builder\NotifynderBuilder;
-use Fenos\Notifynder\Categories\CategoryRepository;
-use Fenos\Notifynder\Categories\CategoryManager;
-use Fenos\Notifynder\Contracts\CategoryDB;
-use Fenos\Notifynder\Contracts\NotificationDB;
-use Fenos\Notifynder\Contracts\NotifynderCategory;
-use Fenos\Notifynder\Contracts\NotifynderDispatcher;
-use Fenos\Notifynder\Contracts\NotifynderGroup;
-use Fenos\Notifynder\Contracts\NotifynderGroupCategoryDB;
-use Fenos\Notifynder\Contracts\NotifynderGroupDB;
-use Fenos\Notifynder\Contracts\NotifynderNotification;
-use Fenos\Notifynder\Contracts\NotifynderSender;
-use Fenos\Notifynder\Contracts\NotifynderTranslator;
-use Fenos\Notifynder\Contracts\StoreNotification;
-use Fenos\Notifynder\Groups\GroupManager;
-use Fenos\Notifynder\Groups\GroupCategoryRepository;
-use Fenos\Notifynder\Groups\GroupRepository;
-use Fenos\Notifynder\Handler\Dispatcher;
-use Fenos\Notifynder\Models\NotificationCategory;
-use Fenos\Notifynder\Models\NotificationGroup;
-use Fenos\Notifynder\Notifications\NotificationManager;
-use Fenos\Notifynder\Notifications\NotificationRepository;
-use Fenos\Notifynder\Parsers\ArtisanOptionsParser;
-use Fenos\Notifynder\Senders\SenderFactory;
-use Fenos\Notifynder\Senders\SenderManager;
-use Fenos\Notifynder\Translator\Compiler;
-use Fenos\Notifynder\Translator\TranslatorManager;
-use Illuminate\Container\Container;
+namespace Fenos\Notifynder;
+
+use Fenos\Notifynder\Collections\Config;
+use Fenos\Notifynder\Contracts\ConfigContract;
+use Fenos\Notifynder\Contracts\NotifynderManagerContract;
+use Fenos\Notifynder\Contracts\SenderManagerContract;
+use Fenos\Notifynder\Managers\NotifynderManager;
+use Fenos\Notifynder\Managers\SenderManager;
+use Fenos\Notifynder\Senders\MultipleSender;
+use Fenos\Notifynder\Senders\OnceSender;
+use Fenos\Notifynder\Senders\SingleSender;
 use Illuminate\Support\ServiceProvider;
 
+/**
+ * Class NotifynderServiceProvider.
+ */
 class NotifynderServiceProvider extends ServiceProvider
 {
+    protected $migrations = [
+        'NotificationCategories' => '2014_02_10_145728_notification_categories',
+        'CreateNotificationGroupsTable' => '2014_08_01_210813_create_notification_groups_table',
+        'CreateNotificationCategoryNotificationGroupTable' => '2014_08_01_211045_create_notification_category_notification_group_table',
+        'CreateNotificationsTable' => '2015_05_05_212549_create_notifications_table',
+        'AddExpireTimeColumnToNotificationTable' => '2015_06_06_211555_add_expire_time_column_to_notification_table',
+        'ChangeTypeToExtraInNotificationsTable' => '2015_06_06_211555_change_type_to_extra_in_notifications_table',
+        'AlterCategoryNameToUnique' => '2015_06_07_211555_alter_category_name_to_unique',
+        'MakeNotificationUrlNullable' => '2016_04_19_200827_make_notification_url_nullable',
+        'AddStackIdToNotifications' => '2016_05_19_144531_add_stack_id_to_notifications',
+        'UpdateVersion4NotificationsTable' => '2016_07_01_153156_update_version4_notifications_table',
+        'DropVersion4UnusedTables' => '2016_11_02_193415_drop_version4_unused_tables',
+    ];
 
     /**
-     * Register Bindings
+     * Register the service provider.
+     *
+     * @return void
      */
     public function register()
     {
-        $this->notifynder();
-        $this->senders();
-        $this->notifications();
-        $this->categories();
-        $this->builder();
-        $this->groups();
-        $this->translator();
-        $this->events();
-        $this->contracts();
-        $this->artisan();
+        $this->bindContracts();
+        $this->bindConfig();
+        $this->bindSender();
+        $this->bindNotifynder();
+
+        $this->registerSenders();
     }
 
-    /*
-     * Boot the publishing config
+    /**
+     * Boot the service provider.
+     *
+     * @return void
      */
     public function boot()
     {
         $this->config();
+        $this->migration();
     }
 
     /**
-     * Bind Notifynder
+     * Bind contracts.
+     *
+     * @return void
      */
-    protected function notifynder()
+    protected function bindContracts()
     {
-        $this->app->bindShared('notifynder', function ($app) {
+        $this->app->bind(NotifynderManagerContract::class, 'notifynder');
+        $this->app->bind(SenderManagerContract::class, 'notifynder.sender');
+        $this->app->bind(ConfigContract::class, 'notifynder.config');
+    }
+
+    /**
+     * Bind Notifynder config.
+     *
+     * @return void
+     */
+    protected function bindConfig()
+    {
+        $this->app->singleton('notifynder.config', function ($app) {
+            return new Config();
+        });
+    }
+
+    /**
+     * Bind Notifynder sender.
+     *
+     * @return void
+     */
+    protected function bindSender()
+    {
+        $this->app->singleton('notifynder.sender', function ($app) {
+            return new SenderManager();
+        });
+    }
+
+    /**
+     * Bind Notifynder manager.
+     *
+     * @return void
+     */
+    protected function bindNotifynder()
+    {
+        $this->app->singleton('notifynder', function ($app) {
             return new NotifynderManager(
-                $app['notifynder.category'],
-                $app['notifynder.sender'],
-                $app['notifynder.notification'],
-                $app['notifynder.dispatcher'],
-                $app['notifynder.group']
+                $app['notifynder.sender']
             );
         });
-
-        // Register Facade
-        $this->app->alias('notifynder', 'Notifynder');
     }
 
     /**
-     * Bind Notifynder Categories to IoC
+     * Register the default senders.
+     *
+     * @return void
      */
-    protected function categories()
+    public function registerSenders()
     {
-        $this->app->bindShared('notifynder.category', function ($app) {
-            return new CategoryManager(
-                $app->make('notifynder.category.repository')
-            );
+        app('notifynder')->extend('sendSingle', function (array $notifications) {
+            return new SingleSender($notifications);
         });
 
-        $this->app->bindShared('notifynder.category.repository', function ($app) {
-            return new CategoryRepository(
-                new NotificationCategory()
-            );
+        app('notifynder')->extend('sendMultiple', function (array $notifications) {
+            return new MultipleSender($notifications);
+        });
+
+        app('notifynder')->extend('sendOnce', function (array $notifications) {
+            return new OnceSender($notifications);
         });
     }
 
     /**
-     * Bind the notifications
-     */
-    protected function notifications()
-    {
-        $this->app->bindShared('notifynder.notification', function ($app) {
-            return new NotificationManager(
-                $app['notifynder.notification.repository']
-            );
-        });
-
-        $this->app->bindShared('notifynder.notification.repository', function ($app) {
-
-            $notificationModel = $app['config']->get('notifynder.notification_model');
-            $notificationIstance = $app->make($notificationModel);
-
-            return new NotificationRepository(
-                $notificationIstance,
-                $app['db']
-            );
-        });
-
-        // Default store notification
-        $this->app->bind('notifynder.store', 'notifynder.notification.repository');
-    }
-
-    /**
-     * Bind Translator
-     */
-    protected function translator()
-    {
-        $this->app->bindShared('notifynder.translator', function ($app) {
-            return new TranslatorManager(
-                $app['notifynder.translator.compiler'],
-                $app['config']
-            );
-        });
-
-        $this->app->bindShared('notifynder.translator.compiler', function ($app) {
-            return new Compiler(
-                $app['filesystem.disk']
-            );
-        });
-    }
-
-    /**
-     * Bind Senders
-     */
-    protected function senders()
-    {
-        $this->app->bindShared('notifynder.sender', function ($app) {
-             return new SenderManager(
-                 $app['notifynder.sender.factory'],
-                 $app['notifynder.store'],
-                 $app[Container::class]
-             );
-        });
-
-        $this->app->bindShared('notifynder.sender.factory', function ($app) {
-            return new SenderFactory(
-                $app['notifynder.group'],
-                $app['notifynder.category']
-            );
-        });
-    }
-
-    /**
-     * Bind Dispatcher
-     */
-    protected function events()
-    {
-        $this->app->bindShared('notifynder.dispatcher', function ($app) {
-            return new Dispatcher(
-                $app['events']
-            );
-        });
-    }
-
-    /**
-     * Bind Groups
-     */
-    protected function groups()
-    {
-        $this->app->bindShared('notifynder.group', function ($app) {
-            return new GroupManager(
-                $app['notifynder.group.repository'],
-                $app['notifynder.group.category']
-            );
-        });
-
-        $this->app->bindShared('notifynder.group.repository', function ($app) {
-            return new GroupRepository(
-                new NotificationGroup()
-            );
-        });
-
-        $this->app->bindShared('notifynder.group.category', function ($app) {
-            return new GroupCategoryRepository(
-                $app['notifynder.category'],
-                new NotificationGroup()
-            );
-        });
-    }
-
-    /**
-     * Bind Builder
-     */
-    protected function builder()
-    {
-        $this->app->bindShared('notifynder.builder', function ($app) {
-            return new NotifynderBuilder(
-                $app['notifynder.category']
-            );
-        });
-    }
-
-    /**
-     * Contracts of notifynder
-     */
-    protected function contracts()
-    {
-        // Notifynder
-        $this->app->bind(Notifynder::class, 'notifynder');
-
-        // Repositories
-        $this->app->bind(CategoryDB::class, 'notifynder.category.repository');
-        $this->app->bind(NotificationDB::class, 'notifynder.notification.repository');
-        $this->app->bind(NotifynderGroupDB::class, 'notifynder.group.repository');
-        $this->app->bind(NotifynderGroupCategoryDB::class, 'notifynder.group.category');
-
-        // Main Classes
-        $this->app->bind(NotifynderCategory::class, 'notifynder.category');
-        $this->app->bind(NotifynderNotification::class, 'notifynder.notification');
-        $this->app->bind(NotifynderTranslator::class, 'notifynder.translator');
-        $this->app->bind(NotifynderGroup::class, 'notifynder.group');
-
-        // Store notifications
-        $this->app->bind(StoreNotification::class, 'notifynder.store');
-        $this->app->bind(NotifynderSender::class, 'notifynder.sender');
-        $this->app->bind(NotifynderDispatcher::class, 'notifynder.dispatcher');
-    }
-
-    /**
-     * Publish config files
+     * Publish and merge config file.
+     *
+     * @return void
      */
     protected function config()
     {
         $this->publishes([
             __DIR__.'/../config/notifynder.php' => config_path('notifynder.php'),
-            __DIR__.'/../migrations/' => base_path('/database/migrations'),
         ]);
+
+        $this->mergeConfigFrom(__DIR__.'/../config/notifynder.php', 'notifynder');
     }
 
     /**
-     * Register Artisan commands
+     * Publish migration files.
+     *
+     * @return void
      */
-    protected function artisan()
+    protected function migration()
     {
-        // Categories
-        $this->app->bindShared('notifynder.artisan.category-add', function ($app) {
-            return new CreateCategory(
-                $app['notifynder.category']
-            );
-        });
+        foreach ($this->migrations as $class => $file) {
+            if (! class_exists($class)) {
+                $this->publishMigration($file);
+            }
+        }
+    }
 
-        $this->app->bindShared('notifynder.artisan.category-delete', function ($app) {
-            return new DeleteCategory(
-                $app['notifynder.category']
-            );
-        });
+    /**
+     * Publish a single migration file.
+     *
+     * @param string $filename
+     * @return void
+     */
+    protected function publishMigration($filename)
+    {
+        $extension = '.php';
+        $filename = trim($filename, $extension).$extension;
+        $stub = __DIR__.'/../migrations/'.$filename;
+        $target = $this->getMigrationFilepath($filename);
+        $this->publishes([$stub => $target], 'migrations');
+    }
 
-        // Groups
-        $this->app->bindShared('notifynder.artisan.group-add', function ($app) {
-            return new CreateGroup(
-                $app['notifynder.group']
-            );
-        });
-
-        $this->app->bindShared('notifynder.artisan.group-add-categories', function ($app) {
-            return new PushCategoryToGroup(
-                $app['notifynder.group'],
-                new ArtisanOptionsParser()
-            );
-        });
-
-        // Register commands
-        $this->commands([
-            'notifynder.artisan.category-add',
-            'notifynder.artisan.category-delete',
-            'notifynder.artisan.group-add',
-            'notifynder.artisan.group-add-categories',
-        ]);
+    /**
+     * Get the migration file path.
+     *
+     * @param string $filename
+     * @return string
+     */
+    protected function getMigrationFilepath($filename)
+    {
+        if (function_exists('database_path')) {
+            return database_path('/migrations/'.$filename);
+        } else {
+            return base_path('/database/migrations/'.$filename); // @codeCoverageIgnore
+        }
     }
 }

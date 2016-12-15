@@ -5,7 +5,6 @@ use Illuminate\Database\Schema\Blueprint;
 
 class CreateNotificationGroupsTable extends Migration
 {
-
     /**
      * Run the migrations.
      *
@@ -26,6 +25,6 @@ class CreateNotificationGroupsTable extends Migration
      */
     public function down()
     {
-        Schema::drop('notification_groups');
+        Schema::dropIfExists('notification_groups');
     }
 }

@@ -1,0 +1,9 @@
+checks:
+  php: true
+filter:
+  paths: ["src/Notifynder/*"]
+  excluded_paths:
+    - tests/*
+build:
+  environment:
+    php: 7.0.6
