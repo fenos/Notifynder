@@ -81,13 +81,20 @@ Run the migration
 php artisan migrate
 ```
 
-### ToDo
+## Senders
+
+A list of official supported custom senders:
+
+* [email sender](https://github.com/Astrotomic/notifynder-sender-email)
+
+If you want any more senders or want to provide your own please [create an issue](https://github.com/fenos/Notifynder/issues/new).
+
+## ToDo
 
 Tasks we still have to do:
 
 * add unittests for parser and models
 * complete the new documentation
-
 
 ## Versioning
 
