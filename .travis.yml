@@ -24,6 +24,12 @@ env:
   - LARAVEL_VERSION="5.0.*"
   - LARAVEL_VERSION="5.1.*"
   - LARAVEL_VERSION="5.2.*"
+  - LARAVEL_VERSION="5.3.*"
+
+matrix:
+  exclude:
+  - php: 5.5
+    env: LARAVEL_VERSION="5.3.*"
 
 ## Install Dependencies
 install:
@@ -38,8 +44,8 @@ before_script:
 
 ## Run test Scripts
 script:
-  - vendor/bin/phpspec run
   - vendor/bin/phpunit
+  - php CoverageChecker.php build/logs/clover.xml 80
 
 after_script:
   - vendor/bin/test-reporter

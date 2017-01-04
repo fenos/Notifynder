@@ -1,7 +1,7 @@
 <?php
 
-use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
 
 class CreateNotificationCategoryNotificationGroupTable extends Migration
 {
@@ -28,6 +28,6 @@ class CreateNotificationCategoryNotificationGroupTable extends Migration
      */
     public function down()
     {
-        Schema::drop('notifications_categories_in_groups');
+        Schema::dropIfExists('notifications_categories_in_groups');
     }
 }

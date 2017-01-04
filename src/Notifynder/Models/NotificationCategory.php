@@ -2,14 +2,12 @@
 
 namespace Fenos\Notifynder\Models;
 
+use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
 
 /**
  * Class NotificationCategory.
- *
- * @property int id
- * @property string name
- * @property string text
  */
 class NotificationCategory extends Model
 {
@@ -21,35 +19,91 @@ class NotificationCategory extends Model
     /**
      * @var array
      */
-    protected $fillable = ['name', 'text'];
+    protected $fillable = [
+        'name',
+        'text',
+    ];
+
+    /**
+     * @var array
+     */
+    protected $appends = [
+        'template_body',
+    ];
 
     /**
      * @var bool
      */
     public $timestamps = false;
 
+    public function __construct(array $attributes = [])
+    {
+        $attributes = array_merge([
+            'text' => '',
+        ], $attributes);
+
+        parent::__construct($attributes);
+    }
+
     /**
-     * Relation with the notifications.
-     *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function notifications()
     {
-        return $this->hasMany('Fenos\Notifynder\Models\Notification', 'category_id');
+        $config = app('notifynder.config');
+        $model = $config->getNotificationModel();
+
+        return $this->hasMany($model, 'category_id');
+    }
+
+    public function setNameAttribute($value)
+    {
+        $parts = explode('.', $value);
+        foreach ($parts as $i => $part) {
+            $parts[$i] = Str::slug(preg_replace('/[^a-z0-9_]/', '_', strtolower($part)), '_');
+        }
+        $this->attributes['name'] = implode('.', $parts);
     }
 
     /**
-     * Groups Categories.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     * @return string
      */
-    public function categories()
+    public function getTemplateBodyAttribute()
     {
-        return $this->belongsToMany(
-            'Fenos\Notifynder\Models\NotificationGroup',
-            'notifications_categories_in_groups',
-            'category_id',
-            'group_id'
-        );
+        if (notifynder_config()->isTranslated()) {
+            $key = notifynder_config()->getTranslationDomain().'.'.$this->name;
+            $trans = trans($key);
+            if ($trans != $key) {
+                return $trans;
+            }
+        }
+
+        return $this->text;
+    }
+
+    /**
+     * @param Builder $query
+     * @param $name
+     * @return Builder
+     */
+    public function scopeByName(Builder $query, $name)
+    {
+        return $query->where('name', $name);
+    }
+
+    /**
+     * @param string|int|\Fenos\Notifynder\Models\NotificationCategory $category
+     * @return int
+     */
+    public static function getIdByCategory($category)
+    {
+        $categoryId = $category;
+        if ($category instanceof self) {
+            $categoryId = $category->getKey();
+        } elseif (! is_numeric($category)) {
+            $categoryId = self::byName($category)->firstOrFail()->getKey();
+        }
+
+        return $categoryId;
     }
 }

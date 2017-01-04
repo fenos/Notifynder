@@ -16,8 +16,14 @@
     </testsuites>
     <filter>
         <whitelist addUncoveredFilesFromWhitelist="true">
-            <directory suffix=".php">./src</directory>
+            <directory suffix=".php">./src/Notifynder</directory>
         </whitelist>
+        <exclude>
+            <directory>./vendor</directory>
+            <directory>./tests</directory>
+            <directory>./spec</directory>
+            <directory>./build</directory>
+        </exclude>
     </filter>
     <logging>
         <log type="coverage-html" target="./build/coverage" title="Retail Barometer Code Coverage Results" charset="UTF-8" yui="true" highlight="true" lowUpperBound="50" highLowerBound="75"/>

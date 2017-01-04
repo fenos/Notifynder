@@ -1,7 +1,7 @@
 <?php
 
-use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
 
 class CreateNotificationGroupsTable extends Migration
 {
@@ -25,6 +25,6 @@ class CreateNotificationGroupsTable extends Migration
      */
     public function down()
     {
-        Schema::drop('notification_groups');
+        Schema::dropIfExists('notification_groups');
     }
 }

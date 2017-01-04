@@ -2,12 +2,12 @@
 
 namespace Fenos\Tests\Models;
 
-use Fenos\Notifynder\Traits\Notifable;
 use Illuminate\Database\Eloquent\Model;
+use Fenos\Notifynder\Traits\NotifableLaravel53;
 
-class User extends Model
+class UserL53 extends Model
 {
-    use Notifable;
+    use NotifableLaravel53;
 
     protected $table = 'users';
 

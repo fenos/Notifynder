@@ -3,19 +3,20 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class NotificationCategories extends Migration
+class CreateCarsTable extends Migration
 {
     /**
      * Run the migrations.
-
+     *
      * @return void
      */
     public function up()
     {
-        Schema::create('notification_categories', function (Blueprint $table) {
+        Schema::create('cars', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name')->index();
-            $table->string('text');
+            $table->string('brand');
+            $table->string('model');
+            $table->timestamps();
         });
     }
 
@@ -26,6 +27,6 @@ class NotificationCategories extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('notification_categories');
+        Schema::drop('cars');
     }
 }

@@ -27,7 +27,7 @@ return [
      * With the path / NameSpace of your model and extend it
      * with Fenos\Notifynder\Models\Notification
      */
-    'notification_model' => 'Fenos\Notifynder\Models\Notification',
+    'notification_model' => \Fenos\Notifynder\Models\Notification::class,
 
     /*
      * Coordinating a lots notifications that require extra params
@@ -47,8 +47,9 @@ return [
      * the language you wish to translate ex 'it' or 'italian' and pass as
      * value an array with the translations
      */
-    'translations'  => [
-
+    'translation'  => [
+        'enabled' => false,
+        'domain' => 'notifynder',
     ],
 
     /*

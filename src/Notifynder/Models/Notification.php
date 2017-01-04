@@ -2,31 +2,13 @@
 
 namespace Fenos\Notifynder\Models;
 
-use Fenos\Notifynder\Notifications\ExtraParams;
-use Fenos\Notifynder\Parsers\NotifynderParser;
-use Illuminate\Contracts\Container\Container;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
-use Carbon\Carbon;
-use Illuminate\Support\Arr;
+use Illuminate\Database\Eloquent\Builder;
+use Fenos\Notifynder\Parsers\NotificationParser;
+use Fenos\Notifynder\Builder\Notification as BuilderNotification;
 
 /**
  * Class Notification.
- *
- * @property int to_id
- * @property string to_type
- * @property int from_id
- * @property string from_type
- * @property int category_id
- * @property int read
- * @property string url
- * @property string extra
- *
- * Php spec complain when model is mocked
- * if I turn them on as php doc block
- *
- * @method wherePolymorphic
- * @method withNotRead
  */
 class Notification extends Model
 {
@@ -42,8 +24,22 @@ class Notification extends Model
         'read',
         'url',
         'extra',
-        'expire_time',
+        'expires_at',
         'stack_id',
+    ];
+
+    /**
+     * @var array
+     */
+    protected $appends = [
+        'text',
+    ];
+
+    /**
+     * @var array
+     */
+    protected $casts = [
+        'extra' => 'array',
     ];
 
     /**
@@ -51,29 +47,21 @@ class Notification extends Model
      *
      * @param array $attributes
      */
-    public function __construct(array $attributes = [])
+    public function __construct($attributes = [])
     {
-        $fillables = $this->mergeFillable();
-        $this->fillable($fillables);
+        $this->fillable($this->mergeFillables());
+
+        if ($attributes instanceof BuilderNotification) {
+            $attributes = $attributes->toArray();
+        }
 
         parent::__construct($attributes);
     }
 
     /**
-     * Custom Collection.
-     *
-     * @param  array                                                         $models
-     * @return NotifynderCollection|\Illuminate\Database\Eloquent\Collection
-     */
-    public function newCollection(array $models = [])
-    {
-        return new NotifynderCollection($models);
-    }
-
-    /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function body()
+    public function category()
     {
         return $this->belongsTo(NotificationCategory::class, 'category_id');
     }
@@ -83,14 +71,11 @@ class Notification extends Model
      */
     public function from()
     {
-        // check if on the configurations file there is the option
-        // polymorphic set to true, if so Notifynder will work
-        // polymorphic.
-        if (config('notifynder.polymorphic') == false) {
-            return $this->belongsTo(config('notifynder.model'), 'from_id');
+        if (notifynder_config()->isPolymorphic()) {
+            return $this->morphTo('from');
         }
 
-        return $this->morphTo();
+        return $this->belongsTo(notifynder_config()->getNotifiedModel(), 'from_id');
     }
 
     /**
@@ -98,166 +83,99 @@ class Notification extends Model
      */
     public function to()
     {
-        // check if on the configurations file there is the option
-        // polymorphic set to true, if so Notifynder will work
-        // polymorphic.
-        if (config('notifynder.polymorphic') == false) {
-            return $this->belongsTo(config('notifynder.model'), 'to_id');
+        if (notifynder_config()->isPolymorphic()) {
+            return $this->morphTo('to');
         }
 
-        return $this->morphTo();
-    }
-
-    /**
-     * Not read scope.
-     *
-     * @param $query
-     * @return mixed
-     */
-    public function scopeWithNotRead($query)
-    {
-        return $query->where('read', 0);
-    }
-
-    /**
-     * Only Expired Notification scope.
-     *
-     * @param $query
-     * @return mixed
-     */
-    public function scopeOnlyExpired($query)
-    {
-        return $query->where('expire_time', '<', Carbon::now());
-    }
-
-    /**
-     * Where Polymorphic.
-     *
-     * @param $query
-     * @param $toId
-     * @param $type
-     * @return mixed
-     */
-    public function scopeWherePolymorphic($query, $toId, $type)
-    {
-        if (! $type or config('notifynder.polymorphic') === false) {
-            return $query->where('to_id', $toId);
-        }
-
-        return $query->where('to_id', $toId)
-            ->where('to_type', $type);
-    }
-
-    /**
-     * Get parsed body attributes.
-     *
-     * @return string
-     */
-    public function getNotifyBodyAttribute()
-    {
-        $notifynderParse = new NotifynderParser();
-
-        return $notifynderParse->parse($this);
-    }
-
-    /**
-     * Get parsed body attributes.
-     *
-     * @return string
-     */
-    public function getTextAttribute()
-    {
-        return $this->notify_body;
-    }
-
-    /**
-     * @param $value
-     * @return \Fenos\Notifynder\Notifications\ExtraParams
-     */
-    public function getExtraAttribute($value)
-    {
-        if (! empty($value)) {
-            return new ExtraParams($value);
-        }
-
-        return new ExtraParams([]);
-    }
-
-    /**
-     * Filter Scope by category.
-     *
-     * @param $query
-     * @param $category
-     * @return mixed
-     */
-    public function scopeByCategory($query, $category)
-    {
-        if (is_numeric($category)) {
-            return $query->where('category_id', $category);
-        }
-
-        return $query->whereHas('body', function ($categoryQuery) use ($category) {
-            $categoryQuery->where('name', $category);
-        });
-    }
-
-    /**
-     * Get custom required fields from the configs
-     * so that we can automatically bind them to the model
-     * fillable property.
-     *
-     * @return mixed
-     */
-    public function getCustomFillableFields()
-    {
-        if (function_exists('app') && app() instanceof Container) {
-            return Arr::flatten(config('notifynder.additional_fields', []));
-        }
-
-        return [];
+        return $this->belongsTo(notifynder_config()->getNotifiedModel(), 'to_id');
     }
 
     /**
      * @return array
      */
-    protected function mergeFillable()
+    public function getCustomFillableFields()
     {
-        $fillables = array_unique(array_merge($this->getFillable(), $this->getCustomFillableFields()));
+        return notifynder_config()->getAdditionalFields();
+    }
+
+    /**
+     * @return array
+     */
+    protected function mergeFillables()
+    {
+        $fillables = array_unique($this->getFillable() + $this->getCustomFillableFields());
 
         return $fillables;
     }
 
     /**
-     * Filter Scope by stack.
-     *
-     * @param $query
-     * @param $stackId
-     * @return mixed
+     * @return string
+     * @throws \Fenos\Notifynder\Exceptions\ExtraParamsException
      */
-    public function scopeByStack($query, $stackId)
+    public function getTextAttribute()
     {
-        return $query->where('stack_id', $stackId);
+        if (! array_key_exists('text', $this->attributes)) {
+            $notifynderParse = new NotificationParser();
+            $this->attributes['text'] = $notifynderParse->parse($this, $this->category_id);
+        }
+
+        return $this->attributes['text'];
     }
 
     /**
-     * Check if this notification is part of a stack.
-     *
+     * @return bool|int
+     */
+    public function read()
+    {
+        return $this->update(['read' => 1]);
+    }
+
+    /**
+     * @return bool|int
+     */
+    public function unread()
+    {
+        return $this->update(['read' => 0]);
+    }
+
+    /**
      * @return bool
      */
-    public function hasStack()
+    public function resend()
     {
-        return ! is_null($this->stack_id);
+        $this->updateTimestamps();
+        $this->read = 0;
+
+        return $this->save();
     }
 
     /**
-     * Get the full stack of notifications if this has one.
-     *
-     * @return null|Collection
+     * @return bool
      */
-    public function getStack()
+    public function isAnonymous()
     {
-        if ($this->hasStack()) {
-            return static::byStack($this->stack_id)->get();
-        }
+        return is_null($this->from_id);
+    }
+
+    /**
+     * @param Builder $query
+     * @param $category
+     * @return Builder
+     */
+    public function scopeByCategory(Builder $query, $category)
+    {
+        $categoryId = NotificationCategory::getIdByCategory($category);
+
+        return $query->where('category_id', $categoryId);
+    }
+
+    /**
+     * @param Builder $query
+     * @param int $read
+     * @return Builder
+     */
+    public function scopeByRead(Builder $query, $read = 1)
+    {
+        return $query->where('read', $read);
     }
 }

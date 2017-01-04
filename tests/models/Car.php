@@ -5,15 +5,15 @@ namespace Fenos\Tests\Models;
 use Fenos\Notifynder\Traits\Notifable;
 use Illuminate\Database\Eloquent\Model;
 
-class User extends Model
+class Car extends Model
 {
     use Notifable;
 
-    protected $table = 'users';
+    protected $table = 'cars';
 
     protected $fillable = [
         'id',
-        'firstname',
-        'lastname',
+        'brand',
+        'model',
     ];
 }
