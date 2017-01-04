@@ -85,9 +85,10 @@ php artisan migrate
 
 A list of official supported custom senders:
 
-* [email sender](https://github.com/Astrotomic/notifynder-sender-email)
-* [slack sender](https://github.com/Astrotomic/notifynder-sender-slack)
-* [messagebird sender](https://github.com/Astrotomic/notifynder-sender-messagebird)
+* [Email sender](https://github.com/Astrotomic/notifynder-sender-email)
+* [Slack sender](https://github.com/Astrotomic/notifynder-sender-slack)
+* [MessageBird sender](https://github.com/Astrotomic/notifynder-sender-messagebird)
+* [Redis sender](https://github.com/Astrotomic/notifynder-sender-redis)
 
 If you want any more senders or want to provide your own please [create an issue](https://github.com/fenos/Notifynder/issues/new).
 
