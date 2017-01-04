@@ -17,12 +17,9 @@
 [![Slack join](https://img.shields.io/badge/slack-join-green.svg?style=social)](https://notifynder.signup.team)
 
 
-Notifynder is designed to manage notifications in a powerful and easy way.
-With the flexibility that Notifynder offer, It provide a complete API to work with your notifications,
-such as storing, retrieving, and organise your codebase to handle hundreds of notifications.
-You get started in a couple of minutes to "enable" notifications in your Laravel Project.
+Notifynder is designed to manage notifications in a powerful and easy way. With the flexibility that Notifynder offer, It provide a complete API to work with your notifications, such as storing, retrieving, and organise your codebase to handle hundreds of notifications. You get started in a couple of minutes to "enable" notifications in your Laravel Project.
 
-Compatible DBs: **MySql** - **PostgresSql** - **Sqlite**
+Compatible DBs: **MySQL** - **PostgreSQL** - **SQLite**
 
 Documentation: **[Notifynder Docu](http://notifynder.info)**
 
@@ -84,14 +81,9 @@ Run the migration
 php artisan migrate
 ```
 
-## Usage
-
-This Branch isn't ready for any kind of usage! It's development in progress and will bring a whole new code-base for this package.
-Everyone is welcome to support us or give feedback for the new major version in our Slack Team.
-
 ### ToDo
 
-Tasks we have to do until this version is ready for a stable release:
+Tasks we still have to do:
 
 * add unittests for parser and models
 * complete the new documentation
