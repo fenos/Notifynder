@@ -90,7 +90,7 @@ A list of official supported custom senders:
 * [MessageBird sender](https://github.com/Astrotomic/notifynder-sender-messagebird)
 * [Redis sender](https://github.com/Astrotomic/notifynder-sender-redis)
 
-If you want any more senders or want to provide your own please [create an issue](https://github.com/fenos/Notifynder/issues/new).
+If you want any more senders or want to provide your own please [create an issue](https://github.com/fenos/Notifynder/issues/new?milestone=Senders).
 
 ## ToDo
 
