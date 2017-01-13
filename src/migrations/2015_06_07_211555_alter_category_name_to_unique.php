@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
 class AlterCategoryNameToUnique extends Migration
@@ -11,7 +12,7 @@ class AlterCategoryNameToUnique extends Migration
      */
     public function up()
     {
-        Schema::table('notification_categories', function ($table) {
+        Schema::table('notification_categories', function (Blueprint $table) {
             $table->unique('name');
         });
     }
@@ -23,7 +24,7 @@ class AlterCategoryNameToUnique extends Migration
      */
     public function down()
     {
-        Schema::table('notification_categories', function ($table) {
+        Schema::table('notification_categories', function (Blueprint $table) {
             $table->dropUnique('notification_categories_name_unique');
         });
     }

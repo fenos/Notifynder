@@ -4,6 +4,8 @@
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](https://raw.githubusercontent.com/fenos/Notifynder/master/LICENSE)
 [![GitHub issues](https://img.shields.io/github/issues/fenos/Notifynder.svg?style=flat-square)](https://github.com/fenos/Notifynder/issues)
 [![Total Downloads](https://img.shields.io/packagist/dt/fenos/notifynder.svg?style=flat-square)](https://packagist.org/packages/fenos/notifynder)
+[![VersionEye](https://www.versioneye.com/user/projects/5878c014a21fa90051522611/badge.svg?style=flat-square)](https://www.versioneye.com/user/projects/5878c014a21fa90051522611)
+[![SensioLabs Insight](https://img.shields.io/sensiolabs/i/ef2a6768-337d-4a88-ae0b-8a0eb9621bf5.svg?style=flat-square&label=SensioLabs)](https://insight.sensiolabs.com/projects/ef2a6768-337d-4a88-ae0b-8a0eb9621bf5)
 
 [![Travis branch](https://img.shields.io/travis/fenos/Notifynder/master.svg?style=flat-square&label=TravisCI)](https://travis-ci.org/fenos/Notifynder/branches)
 [![StyleCI](https://styleci.io/repos/18425539/shield)](https://styleci.io/repos/18425539)

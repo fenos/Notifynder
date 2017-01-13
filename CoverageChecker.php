@@ -4,13 +4,11 @@ $inputFile = $argv[1];
 $percentage = min(100, max(0, (int) $argv[2]));
 
 if (! file_exists($inputFile)) {
-    echo $inputFile." isn't present.";
-    exit(0);
+    throw new RuntimeException($inputFile." isn't present.");
 }
 
 if (! $percentage) {
-    echo $percentage." isn't percentage.";
-    exit(0);
+    throw new RuntimeException($percentage." isn't a percentage value.");
 }
 
 $xml = new SimpleXMLElement(file_get_contents($inputFile));
@@ -26,8 +24,7 @@ foreach ($metrics as $metric) {
 $coverage = ($checkedElements / $totalElements) * 100;
 
 if ($coverage < $percentage) {
-    echo 'Code coverage is '.$coverage.'%, which is below the accepted '.$percentage.'%'.PHP_EOL;
-    exit(1);
+    throw new RuntimeException('Code coverage is '.$coverage.'%, which is below the accepted '.$percentage.'%');
 }
 
 echo 'Code coverage is '.$coverage.'% - OK!'.PHP_EOL;
