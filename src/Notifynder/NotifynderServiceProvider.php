@@ -181,8 +181,7 @@ class NotifynderServiceProvider extends ServiceProvider
     {
         if (function_exists('database_path')) {
             return database_path('/migrations/'.$filename);
-        } else {
-            return base_path('/database/migrations/'.$filename); // @codeCoverageIgnore
         }
+        return base_path('/database/migrations/'.$filename); // @codeCoverageIgnore
     }
 }
