@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
 class AddExpireTimeColumnToNotificationTable extends Migration
@@ -11,7 +12,7 @@ class AddExpireTimeColumnToNotificationTable extends Migration
      */
     public function up()
     {
-        Schema::table('notifications', function ($table) {
+        Schema::table('notifications', function (Blueprint $table) {
             $table->timestamp('expire_time')->nullable();
         });
     }
@@ -23,7 +24,7 @@ class AddExpireTimeColumnToNotificationTable extends Migration
      */
     public function down()
     {
-        Schema::table('notifications', function ($table) {
+        Schema::table('notifications', function (Blueprint $table) {
             $table->dropColumn('expire_time');
         });
     }
