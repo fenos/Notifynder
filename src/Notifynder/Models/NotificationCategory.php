@@ -8,6 +8,10 @@ use Illuminate\Database\Eloquent\Builder;
 
 /**
  * Class NotificationCategory.
+ *
+ * @property string $name
+ * @property string $text
+ * @method Builder byName($name)
  */
 class NotificationCategory extends Model
 {
@@ -66,7 +70,7 @@ class NotificationCategory extends Model
     }
 
     /**
-     * @return string
+     * @return \Symfony\Component\Translation\TranslatorInterface|string
      */
     public function getTemplateBodyAttribute()
     {

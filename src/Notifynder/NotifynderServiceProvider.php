@@ -77,7 +77,7 @@ class NotifynderServiceProvider extends ServiceProvider
      */
     protected function bindConfig()
     {
-        $this->app->singleton('notifynder.config', function ($app) {
+        $this->app->singleton('notifynder.config', function () {
             return new Config();
         });
     }
@@ -89,7 +89,7 @@ class NotifynderServiceProvider extends ServiceProvider
      */
     protected function bindSender()
     {
-        $this->app->singleton('notifynder.sender', function ($app) {
+        $this->app->singleton('notifynder.sender', function () {
             return new SenderManager();
         });
     }

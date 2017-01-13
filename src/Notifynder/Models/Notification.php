@@ -9,6 +9,17 @@ use Fenos\Notifynder\Builder\Notification as BuilderNotification;
 
 /**
  * Class Notification.
+ *
+ * @property int $to_id
+ * @property string $to_type
+ * @property int $from_id
+ * @property string $from_type
+ * @property int $category_id
+ * @property bool $read
+ * @property string $url
+ * @property array $extra
+ * @property string $expires_at
+ * @property int $stack_id
  */
 class Notification extends Model
 {
@@ -45,7 +56,7 @@ class Notification extends Model
     /**
      * Notification constructor.
      *
-     * @param array $attributes
+     * @param array|\Fenos\Notifynder\Builder\Notification $attributes
      */
     public function __construct($attributes = [])
     {
