@@ -105,6 +105,7 @@ class NotificationParser
                 $object = array_get($object, $segment, $default);
                 continue;
             }
+
             return value($default);
         }
 
