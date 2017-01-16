@@ -74,10 +74,10 @@ class SenderManager implements SenderManagerContract
 
     /**
      * @param string $class
-     * @param Closure $callback
+     * @param callable $callback
      * @return bool
      */
-    public function setCallback($class, Closure $callback)
+    public function setCallback($class, callable $callback)
     {
         if (class_exists($class)) {
             $this->callbacks[$class] = $callback;
@@ -90,7 +90,7 @@ class SenderManager implements SenderManagerContract
 
     /**
      * @param string $class
-     * @return Closure|null
+     * @return callable|null
      */
     public function getCallback($class)
     {
