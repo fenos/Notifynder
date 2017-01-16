@@ -29,14 +29,10 @@
     "satooshi/php-coveralls": "^1.0"
   },
   "autoload": {
-    "classmap": [
-
-    ],
     "psr-4": {
       "Fenos\\Notifynder\\": "src/Notifynder"
     },
     "files": [
-
       "src/Notifynder/Helpers/helpers.php"
     ]
   },
@@ -47,6 +43,5 @@
     "psr-4": {
       "Fenos\\Tests\\": "tests/models"
     }
-  },
-  "minimum-stability": "stable"
+  }
 }
