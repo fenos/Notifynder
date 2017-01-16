@@ -41,9 +41,9 @@ class OnceSender implements SenderContract
             $query = $this->getQuery($notification);
             if (! $query->exists()) {
                 $success = $sender->send([$notification]) ? $success : false;
-            } else {
-                $query->firstOrFail()->resend();
+                continue;
             }
+            $success = $query->firstOrFail()->resend() ? $success : false;
         }
 
         return $success;

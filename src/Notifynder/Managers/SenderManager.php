@@ -21,6 +21,11 @@ class SenderManager implements SenderManagerContract
     protected $senders = [];
 
     /**
+     * @var array
+     */
+    protected $callbacks = [];
+
+    /**
      * @param array $notifications
      * @return bool
      */
@@ -65,6 +70,31 @@ class SenderManager implements SenderManagerContract
         }
 
         return false;
+    }
+
+    /**
+     * @param string $class
+     * @param callable $callback
+     * @return bool
+     */
+    public function setCallback($class, callable $callback)
+    {
+        if (class_exists($class)) {
+            $this->callbacks[$class] = $callback;
+
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * @param string $class
+     * @return callable|null
+     */
+    public function getCallback($class)
+    {
+        return Arr::get($this->callbacks, $class);
     }
 
     /**

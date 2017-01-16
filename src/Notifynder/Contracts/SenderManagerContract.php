@@ -23,7 +23,7 @@ interface SenderManagerContract
 
     /**
      * @param string $name
-     * @return Closure
+     * @return Closure|null
      */
     public function getSender($name);
 
@@ -33,6 +33,19 @@ interface SenderManagerContract
      * @return bool
      */
     public function extend($name, Closure $sender);
+
+    /**
+     * @param string $class
+     * @param callable $callback
+     * @return bool
+     */
+    public function setCallback($class, callable $callback);
+
+    /**
+     * @param string $class
+     * @return callable|null
+     */
+    public function getCallback($class);
 
     /**
      * @param string $name

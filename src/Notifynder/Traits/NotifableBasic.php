@@ -83,11 +83,7 @@ trait NotifableBasic
         }
 
         if ($this->getNotificationRelation()->where($notification->getKeyName(), $notification->getKey())->exists()) {
-            if ($value) {
-                return $notification->read();
-            } else {
-                return $notification->unread();
-            }
+            return $value ? $notification->read() : $notification->unread();
         }
 
         return false;

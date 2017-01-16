@@ -57,4 +57,4 @@ after_script:
 
 ## Send Build Notifications to Slack
 notifications:
-  slack: notifynder:CnF7P2xaZuJTJ4VzNOy6ksDH
+  slack: astrotomic:CnF7P2xaZuJTJ4VzNOy6ksDH
