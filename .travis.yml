@@ -19,6 +19,8 @@ php:
   - 5.6
   - 7.0
   - 7.1
+  - hhvm
+  - nightly
 
 ## Define all ENV vars to test with
 env:
@@ -26,14 +28,24 @@ env:
   - LARAVEL_VERSION="5.1.*"
   - LARAVEL_VERSION="5.2.*"
   - LARAVEL_VERSION="5.3.*"
-##  - LARAVEL_VERSION="5.4.*"
+  - LARAVEL_VERSION="5.4.*"
+  - LARAVEL_VERSION="dev-master"
 
 matrix:
+  fast_finish: true
   exclude:
   - php: 5.5
     env: LARAVEL_VERSION="5.3.*"
   - php: 5.5
     env: LARAVEL_VERSION="5.4.*"
+  - php: 5.5
+    env: LARAVEL_VERSION="dev-master"
+  - php: 5.6
+    env: LARAVEL_VERSION="dev-master"
+  allow_failures:
+    - php: nightly
+    - php: hhvm
+    - env: LARAVEL_VERSION="dev-master"
 
 ## Install Dependencies
 install:
