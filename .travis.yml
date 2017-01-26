@@ -34,14 +34,14 @@ env:
 matrix:
   fast_finish: true
   exclude:
-  - php: 5.5
-    env: LARAVEL_VERSION="5.3.*"
-  - php: 5.5
-    env: LARAVEL_VERSION="5.4.*"
-  - php: 5.5
-    env: LARAVEL_VERSION="dev-master"
-  - php: 5.6
-    env: LARAVEL_VERSION="dev-master"
+    - php: 5.5
+      env: LARAVEL_VERSION="5.3.*"
+    - php: 5.5
+      env: LARAVEL_VERSION="5.4.*"
+    - php: 5.5
+      env: LARAVEL_VERSION="dev-master"
+    - php: 5.6
+      env: LARAVEL_VERSION="dev-master"
   allow_failures:
     - php: nightly
     - php: hhvm
@@ -61,7 +61,6 @@ before_script:
 ## Run test Scripts
 script:
   - vendor/bin/phpunit
-  - php CoverageChecker.php build/logs/clover.xml 80
 
 after_script:
   - vendor/bin/test-reporter
