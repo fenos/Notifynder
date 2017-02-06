@@ -90,7 +90,7 @@ abstract class NotifynderTestCase extends OrchestraTestCase
         ], $attributes);
 
         $category = NotificationCategory::byName($attributes['name'])->first();
-        if($category instanceof NotificationCategory) {
+        if ($category instanceof NotificationCategory) {
             return $category;
         }
 
