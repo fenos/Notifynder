@@ -19,7 +19,6 @@ services:
 
 ## List all PHP versions to test with
 php:
-  - 5.5
   - 5.6
   - 7.0
   - 7.1
@@ -38,17 +37,14 @@ env:
   - LARAVEL_VERSION="5.3.*" DB_TYPE="mysql"
   - LARAVEL_VERSION="5.4.*" DB_TYPE="sqlite"
   - LARAVEL_VERSION="5.4.*" DB_TYPE="mysql"
-  - LARAVEL_VERSION="dev-master"
+  - LARAVEL_VERSION="dev-master" DB_TYPE="sqlite"
 
 matrix:
   fast_finish: true
+  include:
+    - php: 5.5
+      env: LARAVEL_VERSION="5.1.*" DB_TYPE="mysql"
   exclude:
-    - php: 5.5
-      env: LARAVEL_VERSION="5.3.*"
-    - php: 5.5
-      env: LARAVEL_VERSION="5.4.*"
-    - php: 5.5
-      env: LARAVEL_VERSION="dev-master"
     - php: 5.6
       env: LARAVEL_VERSION="dev-master"
     - php: nightly
