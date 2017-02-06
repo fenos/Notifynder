@@ -5,9 +5,9 @@ use Fenos\Tests\Models\User;
 use Fenos\Tests\Models\CarL53;
 use Fenos\Tests\Models\UserL53;
 use Illuminate\Database\Eloquent\Model;
+use Fenos\Notifynder\Models\Notification;
 use Fenos\Notifynder\NotifynderServiceProvider;
 use Fenos\Notifynder\Models\NotificationCategory;
-use Fenos\Notifynder\Models\Notification;
 use Orchestra\Testbench\TestCase as OrchestraTestCase;
 use Fenos\Notifynder\Facades\Notifynder as NotifynderFacade;
 
