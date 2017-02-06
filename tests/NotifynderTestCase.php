@@ -89,6 +89,11 @@ abstract class NotifynderTestCase extends OrchestraTestCase
             'name' => 'test.category',
         ], $attributes);
 
+        $category = NotificationCategory::byName($attributes['name'])->first();
+        if($category instanceof NotificationCategory) {
+            return $category;
+        }
+
         return NotificationCategory::create($attributes);
     }
 
