@@ -71,10 +71,8 @@ abstract class NotifynderTestCase extends OrchestraTestCase
         app('db')->rollback();
         if(app('db')->getDriverName() == 'mysql') {
             app('db')->statement('SET FOREIGN_KEY_CHECKS=0;');
-        }
-        Notification::truncate();
-        NotificationCategory::truncate();
-        if(app('db')->getDriverName() == 'mysql') {
+            Notification::truncate();
+            NotificationCategory::truncate();
             app('db')->statement('SET FOREIGN_KEY_CHECKS=1;');
         }
     }
