@@ -29,7 +29,6 @@ abstract class NotifynderTestCase extends OrchestraTestCase
     public function setUp()
     {
         parent::setUp();
-        // This should only do work for Sqlite DBs in memory.
         $artisan = $this->app->make('Illuminate\Contracts\Console\Kernel');
         app('db')->beginTransaction();
         $this->migrate($artisan);
