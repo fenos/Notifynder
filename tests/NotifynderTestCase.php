@@ -69,7 +69,7 @@ abstract class NotifynderTestCase extends OrchestraTestCase
     public function tearDown()
     {
         app('db')->rollback();
-        if(app('db')->getDriverName() == 'mysql') {
+        if (app('db')->getDriverName() == 'mysql') {
             app('db')->statement('SET FOREIGN_KEY_CHECKS=0;');
             Notification::truncate();
             NotificationCategory::truncate();
