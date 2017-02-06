@@ -59,7 +59,7 @@ abstract class NotifynderTestCase extends OrchestraTestCase
             'strict' => false,
             'engine' => null,
         ]);
-        if(env('DB_TYPE', 'sqlite') == 'mysql') {
+        if (env('DB_TYPE', 'sqlite') == 'mysql') {
             $app['config']->set('database.default', 'test_mysql');
         } else {
             $app['config']->set('database.default', 'test_sqlite');
