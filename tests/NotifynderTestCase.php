@@ -123,6 +123,7 @@ abstract class NotifynderTestCase extends OrchestraTestCase
     protected function sendNotificationTo(Model $model)
     {
         $category = $this->createCategory();
+
         return $model
             ->sendNotificationTo($category->getKey())
             ->from(2)
