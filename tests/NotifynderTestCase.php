@@ -7,6 +7,7 @@ use Fenos\Tests\Models\UserL53;
 use Illuminate\Database\Eloquent\Model;
 use Fenos\Notifynder\NotifynderServiceProvider;
 use Fenos\Notifynder\Models\NotificationCategory;
+use Fenos\Notifynder\Models\Notification;
 use Orchestra\Testbench\TestCase as OrchestraTestCase;
 use Fenos\Notifynder\Facades\Notifynder as NotifynderFacade;
 
@@ -68,6 +69,8 @@ abstract class NotifynderTestCase extends OrchestraTestCase
     public function tearDown()
     {
         app('db')->rollback();
+        NotificationCategory::truncate();
+        Notification::truncate();
     }
 
     protected function getApplicationTimezone($app)
