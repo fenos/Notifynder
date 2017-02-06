@@ -69,8 +69,10 @@ abstract class NotifynderTestCase extends OrchestraTestCase
     public function tearDown()
     {
         app('db')->rollback();
+        app('db')->statement('SET FOREIGN_KEY_CHECKS=0;');
         Notification::truncate();
         NotificationCategory::truncate();
+        app('db')->statement('SET FOREIGN_KEY_CHECKS=1;');
     }
 
     protected function getApplicationTimezone($app)
