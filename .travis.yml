@@ -13,6 +13,10 @@ addons:
   code_climate:
     repo_token: ${CC_TOKEN}
 
+## Services used by this package
+services:
+  - mysql
+
 ## List all PHP versions to test with
 php:
   - 5.5
@@ -24,11 +28,16 @@ php:
 
 ## Define all ENV vars to test with
 env:
-  - LARAVEL_VERSION="5.0.*"
-  - LARAVEL_VERSION="5.1.*"
-  - LARAVEL_VERSION="5.2.*"
-  - LARAVEL_VERSION="5.3.*"
-  - LARAVEL_VERSION="5.4.*"
+  - LARAVEL_VERSION="5.0.*" DB_TYPE="sqlite"
+  - LARAVEL_VERSION="5.0.*" DB_TYPE="mysql"
+  - LARAVEL_VERSION="5.1.*" DB_TYPE="sqlite"
+  - LARAVEL_VERSION="5.1.*" DB_TYPE="mysql"
+  - LARAVEL_VERSION="5.2.*" DB_TYPE="sqlite"
+  - LARAVEL_VERSION="5.2.*" DB_TYPE="mysql"
+  - LARAVEL_VERSION="5.3.*" DB_TYPE="sqlite"
+  - LARAVEL_VERSION="5.3.*" DB_TYPE="mysql"
+  - LARAVEL_VERSION="5.4.*" DB_TYPE="sqlite"
+  - LARAVEL_VERSION="5.4.*" DB_TYPE="mysql"
   - LARAVEL_VERSION="dev-master"
 
 matrix:
@@ -47,6 +56,10 @@ matrix:
     - php: hhvm
     - env: LARAVEL_VERSION="dev-master"
 
+## Run Scripts before Install
+before_install:
+  - mysql -e 'CREATE DATABASE IF NOT EXISTS notifynder;'
+
 ## Install Dependencies
 install:
   - composer self-update
@@ -62,6 +75,7 @@ before_script:
 script:
   - vendor/bin/phpunit
 
+## Run Scripts after Tests
 after_script:
   - vendor/bin/test-reporter
   - export CI_BUILD_NUMBER="$TRAVIS_BUILD_NUMBER"

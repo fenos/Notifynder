@@ -41,12 +41,29 @@ abstract class NotifynderTestCase extends OrchestraTestCase
 
     protected function getEnvironmentSetUp($app)
     {
-        $app['config']->set('database.default', 'testbench');
-        $app['config']->set('database.connections.testbench', [
+        $app['config']->set('database.connections.test_sqlite', [
             'driver' => 'sqlite',
             'database' => ':memory:',
             'prefix' => '',
         ]);
+        $app['config']->set('database.connections.test_mysql', [
+            'driver' => 'mysql',
+            'host' => '127.0.0.1',
+            'port' => 3306,
+            'database' => 'notifynder',
+            'username' => 'travis',
+            'password' => '',
+            'charset' => 'utf8',
+            'collation' => 'utf8_general_ci',
+            'prefix' => '',
+            'strict' => false,
+            'engine' => null,
+        ]);
+        if(env('DB_TYPE', 'sqlite') == 'mysql') {
+            $app['config']->set('database.default', 'test_mysql');
+        } else {
+            $app['config']->set('database.default', 'test_sqlite');
+        }
     }
 
     public function tearDown()
@@ -62,7 +79,6 @@ abstract class NotifynderTestCase extends OrchestraTestCase
     protected function migrate($artisan, $path = '/../../../../src/migrations')
     {
         $artisan->call('migrate', [
-            '--database' => 'testbench',
             '--path' => $path,
         ]);
     }
