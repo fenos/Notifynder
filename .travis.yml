@@ -46,7 +46,7 @@ matrix:
       env: LARAVEL_VERSION="5.1.*" DB_TYPE="mysql"
   exclude:
     - php: 5.6
-      env: LARAVEL_VERSION="dev-master"
+      env: LARAVEL_VERSION="dev-master" DB_TYPE="sqlite"
     - php: nightly
       env: LARAVEL_VERSION="5.0.*" DB_TYPE="mysql"
     - php: nightly
