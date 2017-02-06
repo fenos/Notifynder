@@ -61,7 +61,8 @@ class NotifynderManagerTest extends NotifynderTestCase
     public function testSendSingleNotification()
     {
         $manager = app('notifynder');
-        $sent = $manager->category(1)
+        $category = $this->createCategory();
+        $sent = $manager->category($category->getKey())
             ->from(1)
             ->to(2)
             ->send();
@@ -76,7 +77,8 @@ class NotifynderManagerTest extends NotifynderTestCase
     public function testSendSingleAnonymousNotification()
     {
         $manager = app('notifynder');
-        $sent = $manager->category(1)
+        $category = $this->createCategory();
+        $sent = $manager->category($category->getKey())
             ->anonymous()
             ->to(2)
             ->send();
@@ -98,8 +100,9 @@ class NotifynderManagerTest extends NotifynderTestCase
     {
         $datas = [2, 3, 4];
         $manager = app('notifynder');
-        $sent = $manager->loop($datas, function ($builder, $data) {
-            $builder->category(1)
+        $category = $this->createCategory();
+        $sent = $manager->loop($datas, function ($builder, $data) use ($category) {
+            $builder->category($category->getKey())
                 ->from(1)
                 ->to($data);
         })->send();
@@ -114,7 +117,8 @@ class NotifynderManagerTest extends NotifynderTestCase
     public function testSendSingleSpecificNotification()
     {
         $manager = app('notifynder');
-        $sent = $manager->category(1)
+        $category = $this->createCategory();
+        $sent = $manager->category($category->getKey())
             ->from(1)
             ->to(2)
             ->sendSingle();
@@ -129,7 +133,8 @@ class NotifynderManagerTest extends NotifynderTestCase
     public function testSendOnceSameNotifications()
     {
         $manager = app('notifynder');
-        $sent = $manager->category(1)
+        $category = $this->createCategory();
+        $sent = $manager->category($category->getKey())
             ->from(1)
             ->to(2)
             ->extra(['foo' => 'bar'])
@@ -148,7 +153,7 @@ class NotifynderManagerTest extends NotifynderTestCase
 
         sleep(1);
 
-        $sent = $manager->category(1)
+        $sent = $manager->category($category->getKey())
             ->from(1)
             ->to(2)
             ->extra(['foo' => 'bar'])
@@ -172,7 +177,8 @@ class NotifynderManagerTest extends NotifynderTestCase
     public function testSendOnceDifferentNotifications()
     {
         $manager = app('notifynder');
-        $sent = $manager->category(1)
+        $category = $this->createCategory();
+        $sent = $manager->category($category->getKey())
             ->from(1)
             ->to(2)
             ->extra(['foo' => 'bar'])
@@ -183,7 +189,7 @@ class NotifynderManagerTest extends NotifynderTestCase
         $this->assertCount(1, $notifications);
         $this->assertInstanceOf(EloquentCollection::class, $notifications);
 
-        $sent = $manager->category(1)
+        $sent = $manager->category($category->getKey())
             ->from(2)
             ->to(1)
             ->extra(['hello' => 'world'])

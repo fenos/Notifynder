@@ -13,9 +13,12 @@ addons:
   code_climate:
     repo_token: ${CC_TOKEN}
 
+## Services used by this package
+services:
+  - mysql
+
 ## List all PHP versions to test with
 php:
-  - 5.5
   - 5.6
   - 7.0
   - 7.1
@@ -29,23 +32,26 @@ env:
   - LARAVEL_VERSION="5.2.*"
   - LARAVEL_VERSION="5.3.*"
   - LARAVEL_VERSION="5.4.*"
-  - LARAVEL_VERSION="dev-master"
 
 matrix:
   fast_finish: true
-  exclude:
+  include:
     - php: 5.5
-      env: LARAVEL_VERSION="5.3.*"
-    - php: 5.5
-      env: LARAVEL_VERSION="5.4.*"
-    - php: 5.5
-      env: LARAVEL_VERSION="dev-master"
+      env: LARAVEL_VERSION="5.1.*"
     - php: 5.6
+      env: LARAVEL_VERSION="5.1.*" DB_TYPE="mysql"
+    - php: 7.1
+      env: LARAVEL_VERSION="5.4.*" DB_TYPE="mysql"
+    - php: 7.1
       env: LARAVEL_VERSION="dev-master"
   allow_failures:
     - php: nightly
     - php: hhvm
     - env: LARAVEL_VERSION="dev-master"
+
+## Run Scripts before Install
+before_install:
+  - mysql -e 'CREATE DATABASE IF NOT EXISTS notifynder;'
 
 ## Install Dependencies
 install:
@@ -62,6 +68,7 @@ before_script:
 script:
   - vendor/bin/phpunit
 
+## Run Scripts after Tests
 after_script:
   - vendor/bin/test-reporter
   - export CI_BUILD_NUMBER="$TRAVIS_BUILD_NUMBER"

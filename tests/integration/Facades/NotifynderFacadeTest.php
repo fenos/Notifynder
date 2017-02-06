@@ -7,7 +7,8 @@ class NotifynderFacadeTest extends NotifynderTestCase
 {
     public function testSendSingleNotification()
     {
-        $sent = \Notifynder::category(1)
+        $category = $this->createCategory();
+        $sent = \Notifynder::category($category->getKey())
             ->from(1)
             ->to(2)
             ->send();

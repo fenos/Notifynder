@@ -11,8 +11,8 @@ class DropVersion4UnusedTables extends Migration
      */
     public function up()
     {
-        Schema::dropIfExists('notification_groups');
         Schema::dropIfExists('notifications_categories_in_groups');
+        Schema::dropIfExists('notification_groups');
     }
 
     /**
