@@ -29,7 +29,7 @@
     "codeclimate/php-test-reporter": "^0.3.2",
     "satooshi/php-coveralls": "^1.0"
   },
-  "suggests": {
+  "suggest": {
     "astrotomic/notifynder-sender-email": "Allows to send notifications as email.",
     "astrotomic/notifynder-sender-redis": "Allows to send notifications via Redis (Pub/Sub).",
     "astrotomic/notifynder-sender-slack": "Allows to send notifications via Slack.",
