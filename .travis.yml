@@ -51,6 +51,10 @@ matrix:
       env: LARAVEL_VERSION="dev-master"
     - php: 5.6
       env: LARAVEL_VERSION="dev-master"
+    - php: nightly
+      env: DB_TYPE="mysql"
+    - php: hhvm
+      env: DB_TYPE="mysql"
   allow_failures:
     - php: nightly
     - php: hhvm
