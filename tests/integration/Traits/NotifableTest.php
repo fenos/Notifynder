@@ -31,7 +31,7 @@ class NotifableTest extends NotifynderTestCase
         $notification = $builder->getNotification();
         $this->assertInstanceOf(Notification::class, $notification);
         $this->assertSame($category->getKey(), $notification->category_id);
-        $this->assertSame(1, $notification->from_id);
+        $this->assertSame($user->getKey(), $notification->from_id);
     }
 
     public function testSendNotificationTo()
@@ -46,7 +46,7 @@ class NotifableTest extends NotifynderTestCase
         $notification = $builder->getNotification();
         $this->assertInstanceOf(Notification::class, $notification);
         $this->assertSame($category->getKey(), $notification->category_id);
-        $this->assertSame(1, $notification->to_id);
+        $this->assertSame($user->getKey(), $notification->to_id);
         $notifynder->send();
         $this->assertCount(1, $user->getNotificationRelation);
     }
