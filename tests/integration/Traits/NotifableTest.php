@@ -51,9 +51,10 @@ class NotifableTest extends NotifynderTestCase
 
     public function testNotificationsHasMany()
     {
+        $category = $this->createCategory();
         $user = $this->createUser();
         $user
-            ->sendNotificationTo(1)
+            ->sendNotificationTo($category->getKey())
             ->from(2)
             ->send();
         $this->assertCount(1, $user->getNotificationRelation);
