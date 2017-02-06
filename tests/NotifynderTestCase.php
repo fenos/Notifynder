@@ -59,8 +59,21 @@ abstract class NotifynderTestCase extends OrchestraTestCase
             'strict' => false,
             'engine' => null,
         ]);
+        $app['config']->set('database.connections.test_pgsql', [
+            'driver' => 'pgsql',
+            'host' => 'localhost',
+            'port' => 5432,
+            'database' => 'notifynder',
+            'username' => 'postgres',
+            'password' => '',
+            'charset' => 'utf8',
+            'prefix' => '',
+            'schema' => 'public',
+        ]);
         if (env('DB_TYPE', 'sqlite') == 'mysql') {
             $app['config']->set('database.default', 'test_mysql');
+        } elseif (env('DB_TYPE', 'sqlite') == 'pgsql') {
+            $app['config']->set('database.default', 'test_pgsql');
         } else {
             $app['config']->set('database.default', 'test_sqlite');
         }
