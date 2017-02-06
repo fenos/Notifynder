@@ -69,8 +69,8 @@ abstract class NotifynderTestCase extends OrchestraTestCase
     public function tearDown()
     {
         app('db')->rollback();
-        NotificationCategory::truncate();
         Notification::truncate();
+        NotificationCategory::truncate();
     }
 
     protected function getApplicationTimezone($app)
