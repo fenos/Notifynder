@@ -52,9 +52,25 @@ matrix:
     - php: 5.6
       env: LARAVEL_VERSION="dev-master"
     - php: nightly
-      env: DB_TYPE="mysql"
+      env: LARAVEL_VERSION="5.0.*" DB_TYPE="mysql"
+    - php: nightly
+      env: LARAVEL_VERSION="5.1.*" DB_TYPE="mysql"
+    - php: nightly
+      env: LARAVEL_VERSION="5.2.*" DB_TYPE="mysql"
+    - php: nightly
+      env: LARAVEL_VERSION="5.3.*" DB_TYPE="mysql"
+    - php: nightly
+      env: LARAVEL_VERSION="5.4.*" DB_TYPE="mysql"
     - php: hhvm
-      env: DB_TYPE="mysql"
+      env: LARAVEL_VERSION="5.0.*" DB_TYPE="mysql"
+    - php: hhvm
+      env: LARAVEL_VERSION="5.1.*" DB_TYPE="mysql"
+    - php: hhvm
+      env: LARAVEL_VERSION="5.2.*" DB_TYPE="mysql"
+    - php: hhvm
+      env: LARAVEL_VERSION="5.3.*" DB_TYPE="mysql"
+    - php: hhvm
+      env: LARAVEL_VERSION="5.4.*" DB_TYPE="mysql"
   allow_failures:
     - php: nightly
     - php: hhvm
