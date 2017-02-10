@@ -12,7 +12,7 @@ class TypeCheckerTest extends NotifynderTestCase
 
     public function testIsStringFailStrict()
     {
-        $this->setExpectedException(InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         TypeChecker::isString(15);
     }
 
@@ -28,7 +28,7 @@ class TypeCheckerTest extends NotifynderTestCase
 
     public function testIsNumericFailStrict()
     {
-        $this->setExpectedException(InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         TypeChecker::isNumeric('hello world');
     }
 
@@ -44,7 +44,7 @@ class TypeCheckerTest extends NotifynderTestCase
 
     public function testIsDateFailStrict()
     {
-        $this->setExpectedException(InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         TypeChecker::isDate('hello world');
     }
 
@@ -60,7 +60,7 @@ class TypeCheckerTest extends NotifynderTestCase
 
     public function testIsArrayFailStrict()
     {
-        $this->setExpectedException(InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         TypeChecker::isArray(collect([1, 2, 3]));
     }
 
@@ -76,7 +76,7 @@ class TypeCheckerTest extends NotifynderTestCase
 
     public function testIsIterableFailStrict()
     {
-        $this->setExpectedException(InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         TypeChecker::isIterable([]);
     }
 
@@ -92,7 +92,7 @@ class TypeCheckerTest extends NotifynderTestCase
 
     public function testIsNotificationFailStrict()
     {
-        $this->setExpectedException(InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         TypeChecker::isNotification([]);
     }
 

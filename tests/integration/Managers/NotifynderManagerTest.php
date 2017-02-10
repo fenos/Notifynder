@@ -11,7 +11,7 @@ class NotifynderManagerTest extends NotifynderTestCase
 {
     public function testCallUndefinedMethod()
     {
-        $this->setExpectedException(BadMethodCallException::class);
+        $this->expectException(BadMethodCallException::class);
 
         $manager = app('notifynder');
         $manager->undefinedMethod();

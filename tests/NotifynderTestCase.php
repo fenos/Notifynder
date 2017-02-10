@@ -81,6 +81,8 @@ abstract class NotifynderTestCase extends OrchestraTestCase
 
     public function tearDown()
     {
+        $resolver = app('notifynder.resolver.model');
+        $resolver->setTable(Notification::class, 'notifications');
         app('db')->rollback();
         if (app('db')->getDriverName() == 'mysql') {
             app('db')->statement('SET FOREIGN_KEY_CHECKS=0;');
@@ -169,5 +171,12 @@ abstract class NotifynderTestCase extends OrchestraTestCase
         $parts = explode('.', $version);
 
         return ($parts[0].'.'.$parts[1]) * 1;
+    }
+
+    public function __call($name, $arguments)
+    {
+        if($name == 'expectException') {
+            $this->setExpectedException($arguments[0]);
+        }
     }
 }
