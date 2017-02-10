@@ -2,9 +2,9 @@
 
 namespace Fenos\Notifynder\Senders;
 
+use Fenos\Notifynder\Models\Notification;
 use Fenos\Notifynder\Contracts\SenderContract;
 use Fenos\Notifynder\Contracts\SenderManagerContract;
-use Fenos\Notifynder\Models\Notification;
 
 /**
  * Class SingleSender.

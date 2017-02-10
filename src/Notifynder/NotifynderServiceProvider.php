@@ -2,13 +2,13 @@
 
 namespace Fenos\Notifynder;
 
-use Fenos\Notifynder\Resolvers\ModelResolver;
 use Illuminate\Support\ServiceProvider;
 use Fenos\Notifynder\Collections\Config;
 use Fenos\Notifynder\Senders\OnceSender;
 use Fenos\Notifynder\Senders\SingleSender;
 use Fenos\Notifynder\Managers\SenderManager;
 use Fenos\Notifynder\Senders\MultipleSender;
+use Fenos\Notifynder\Resolvers\ModelResolver;
 use Fenos\Notifynder\Contracts\ConfigContract;
 use Fenos\Notifynder\Managers\NotifynderManager;
 use Fenos\Notifynder\Contracts\SenderManagerContract;

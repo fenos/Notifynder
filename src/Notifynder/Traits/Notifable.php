@@ -1,6 +1,7 @@
 <?php
 
 namespace Fenos\Notifynder\Traits;
+
 use Fenos\Notifynder\Models\Notification;
 
 /**

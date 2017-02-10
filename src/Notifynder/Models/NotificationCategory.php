@@ -43,7 +43,7 @@ class NotificationCategory extends Model
     public function __construct(array $attributes = [])
     {
         $table = app('notifynder.resolver.model')->getTable(get_class($this));
-        if(!empty($table)) {
+        if (! empty($table)) {
             $this->setTable($table);
         }
 
@@ -60,6 +60,7 @@ class NotificationCategory extends Model
     public function notifications()
     {
         $model = app('notifynder.resolver.model')->getModel(Notification::class);
+
         return $this->hasMany($model, 'category_id');
     }
 

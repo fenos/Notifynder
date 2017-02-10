@@ -1,4 +1,5 @@
 <?php
+
 namespace Fenos\Notifynder\Resolvers;
 
 use Illuminate\Support\Str;
@@ -23,6 +24,7 @@ class ModelResolver
         if (isset($this->models[$class])) {
             return $this->models[$class];
         }
+
         return $class;
     }
 
@@ -31,15 +33,17 @@ class ModelResolver
         if (isset($this->tables[$class])) {
             return $this->tables[$class];
         }
+
         return str_replace('\\', '', Str::snake(Str::plural(class_basename($this->getModel($class)))));
     }
 
     public function make($class, array $attributes = [])
     {
         $model = $this->getModel($class);
-        if(!class_exists($model)) {
+        if (! class_exists($model)) {
             throw new \ReflectionException("Class {$model} does not exist");
         }
+
         return new $model($attributes);
     }
 }

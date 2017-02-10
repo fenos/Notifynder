@@ -3,10 +3,10 @@
 namespace Fenos\Notifynder\Helpers;
 
 use DateTime;
-use Fenos\Notifynder\Models\Notification;
 use Traversable;
 use Carbon\Carbon;
 use InvalidArgumentException;
+use Fenos\Notifynder\Models\Notification;
 
 /**
  * Class TypeChecker.

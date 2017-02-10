@@ -61,7 +61,7 @@ class Notification extends Model
     public function __construct($attributes = [])
     {
         $table = app('notifynder.resolver.model')->getTable(get_class($this));
-        if(!empty($table)) {
+        if (! empty($table)) {
             $this->setTable($table);
         }
 

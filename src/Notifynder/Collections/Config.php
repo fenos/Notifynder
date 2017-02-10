@@ -4,7 +4,6 @@ namespace Fenos\Notifynder\Collections;
 
 use Illuminate\Support\Arr;
 use InvalidArgumentException;
-use Fenos\Notifynder\Models\Notification;
 use Fenos\Notifynder\Contracts\ConfigContract;
 
 /**
