@@ -51,19 +51,6 @@ class Config implements ConfigContract
 
     /**
      * @return string
-     */
-    public function getNotificationModel()
-    {
-        $class = $this->get('notification_model');
-        if (class_exists($class)) {
-            return $class;
-        }
-
-        return Notification::class;
-    }
-
-    /**
-     * @return string
      * @throws InvalidArgumentException
      */
     public function getNotifiedModel()

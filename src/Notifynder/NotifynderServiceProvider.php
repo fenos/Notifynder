@@ -2,6 +2,7 @@
 
 namespace Fenos\Notifynder;
 
+use Fenos\Notifynder\Resolvers\ModelResolver;
 use Illuminate\Support\ServiceProvider;
 use Fenos\Notifynder\Collections\Config;
 use Fenos\Notifynder\Senders\OnceSender;
@@ -42,6 +43,7 @@ class NotifynderServiceProvider extends ServiceProvider
         $this->bindContracts();
         $this->bindConfig();
         $this->bindSender();
+        $this->bindResolver();
         $this->bindNotifynder();
 
         $this->registerSenders();
@@ -91,6 +93,18 @@ class NotifynderServiceProvider extends ServiceProvider
     {
         $this->app->singleton('notifynder.sender', function () {
             return new SenderManager();
+        });
+    }
+
+    /**
+     * Bind Notifynder resolver.
+     *
+     * @return void
+     */
+    protected function bindResolver()
+    {
+        $this->app->singleton('notifynder.resolver.model', function () {
+            return new ModelResolver();
         });
     }
 

@@ -22,14 +22,6 @@ return [
     'polymorphic' => false,
 
     /*
-     * If you need to extend the model class of
-     * Notifynder you just need to change this line
-     * With the path / NameSpace of your model and extend it
-     * with Fenos\Notifynder\Models\Notification
-     */
-    'notification_model' => \Fenos\Notifynder\Models\Notification::class,
-
-    /*
      * Coordinating a lots notifications that require extra params
      * might cause to forget and not insert the {extra.*} value needed.
      * This flag allow you to cause an exception to be thrown if you miss

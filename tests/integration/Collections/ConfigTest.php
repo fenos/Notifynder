@@ -23,21 +23,6 @@ class ConfigTest extends NotifynderTestCase
         $this->assertInternalType('bool', $config->isTranslated());
     }
 
-    public function testGetNotificationModel()
-    {
-        $config = app('notifynder.config');
-        $this->assertInternalType('string', $config->getNotificationModel());
-        $this->assertSame(Notification::class, $config->getNotificationModel());
-    }
-
-    public function testGetNotificationModelFallback()
-    {
-        $config = app('notifynder.config');
-        $config->set('notification_model', 'undefined_class_name');
-        $this->assertInternalType('string', $config->getNotificationModel());
-        $this->assertSame(Notification::class, $config->getNotificationModel());
-    }
-
     public function testGetNotifiedModel()
     {
         $config = app('notifynder.config');
@@ -47,7 +32,7 @@ class ConfigTest extends NotifynderTestCase
 
     public function testGetNotifiedModelFail()
     {
-        $this->setExpectedException(InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
 
         $config = app('notifynder.config');
         $config->set('model', 'undefined_class_name');

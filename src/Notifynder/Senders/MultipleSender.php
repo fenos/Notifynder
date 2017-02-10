@@ -4,6 +4,7 @@ namespace Fenos\Notifynder\Senders;
 
 use Fenos\Notifynder\Contracts\SenderContract;
 use Fenos\Notifynder\Contracts\SenderManagerContract;
+use Fenos\Notifynder\Models\Notification;
 
 /**
  * Class MultipleSender.
@@ -39,7 +40,7 @@ class MultipleSender implements SenderContract
      */
     public function send(SenderManagerContract $sender)
     {
-        $model = notifynder_config()->getNotificationModel();
+        $model = app('notifynder.resolver.model')->getModel(Notification::class);
         $table = (new $model())->getTable();
 
         $this->database->beginTransaction();

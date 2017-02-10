@@ -1,6 +1,7 @@
 <?php
 
 namespace Fenos\Notifynder\Traits;
+use Fenos\Notifynder\Models\Notification;
 
 /**
  * Class Notifable.
@@ -16,7 +17,7 @@ trait Notifable
      */
     public function notifications()
     {
-        $model = notifynder_config()->getNotificationModel();
+        $model = app('notifynder.resolver.model')->getModel(Notification::class);
         if (notifynder_config()->isPolymorphic()) {
             return $this->morphMany($model, 'to');
         }

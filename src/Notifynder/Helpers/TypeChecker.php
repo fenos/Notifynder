@@ -3,6 +3,7 @@
 namespace Fenos\Notifynder\Helpers;
 
 use DateTime;
+use Fenos\Notifynder\Models\Notification;
 use Traversable;
 use Carbon\Carbon;
 use InvalidArgumentException;
@@ -115,7 +116,7 @@ class TypeChecker
      */
     public static function isNotification($notification, $strict = true)
     {
-        if (! is_a($notification, notifynder_config()->getNotificationModel())) {
+        if (! is_a($notification, app('notifynder.resolver.model')->getModel(Notification::class))) {
             if ($strict) {
                 throw new InvalidArgumentException('The value passed must be an Notification Model instance');
             }
