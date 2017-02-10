@@ -175,7 +175,7 @@ abstract class NotifynderTestCase extends OrchestraTestCase
 
     public function __call($name, $arguments)
     {
-        if($name == 'expectException') {
+        if ($name == 'expectException') {
             $this->setExpectedException($arguments[0]);
         }
     }
