@@ -4,9 +4,9 @@ class OnceSenderTest extends NotifynderTestCase
 {
     public function testGetQueryInstanceFail()
     {
-        notifynder_config()->set('notification_model', \Fenos\Tests\Models\FakeModel::class);
+        app('notifynder.resolver.model')->setModel(\Fenos\Notifynder\Models\Notification::class, \Fenos\Tests\Models\FakeModel::class);
 
-        $this->setExpectedException(BadMethodCallException::class);
+        $this->expectException(BadMethodCallException::class);
 
         $manager = app('notifynder.sender');
         $manager->sendOnce([

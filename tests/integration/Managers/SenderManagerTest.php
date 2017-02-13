@@ -4,7 +4,7 @@ class SenderManagerTest extends NotifynderTestCase
 {
     public function testCallWithoutArguments()
     {
-        $this->setExpectedException(BadMethodCallException::class);
+        $this->expectException(BadMethodCallException::class);
 
         $manager = app('notifynder.sender');
         $manager->sendSingle();
@@ -12,7 +12,7 @@ class SenderManagerTest extends NotifynderTestCase
 
     public function testCallUndefinedMethod()
     {
-        $this->setExpectedException(BadMethodCallException::class);
+        $this->expectException(BadMethodCallException::class);
 
         $manager = app('notifynder.sender');
         $manager->undefinedMethod([]);
@@ -20,7 +20,7 @@ class SenderManagerTest extends NotifynderTestCase
 
     public function testCallFailingSender()
     {
-        $this->setExpectedException(BadFunctionCallException::class);
+        $this->expectException(BadFunctionCallException::class);
 
         $manager = app('notifynder.sender');
         $manager->extend('sendFail', function () {

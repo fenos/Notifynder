@@ -7,6 +7,7 @@ use Fenos\Notifynder\Builder\Notification;
 use Fenos\Notifynder\Contracts\SenderContract;
 use Fenos\Notifynder\Contracts\SenderManagerContract;
 use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
+use Fenos\Notifynder\Models\Notification as NotificationModel;
 
 /**
  * Class OnceSender.
@@ -80,7 +81,7 @@ class OnceSender implements SenderContract
      */
     protected function getQueryInstance()
     {
-        $model = notifynder_config()->getNotificationModel();
+        $model = app('notifynder.resolver.model')->getModel(NotificationModel::class);
         $query = $model::query();
         if (! ($query instanceof EloquentBuilder)) {
             throw new BadMethodCallException("The query method hasn't return an instance of [".EloquentBuilder::class.'].');

@@ -132,7 +132,7 @@ class BuilderTest extends NotifynderTestCase
 
     public function testCreateSingleUnvalidNotification()
     {
-        $this->setExpectedException(UnvalidNotificationException::class);
+        $this->expectException(UnvalidNotificationException::class);
 
         $builder = new Builder();
         $builder
@@ -182,7 +182,7 @@ class BuilderTest extends NotifynderTestCase
 
     public function testCreateMultipleUnvalidNotifications()
     {
-        $this->setExpectedException(UnvalidNotificationException::class);
+        $this->expectException(UnvalidNotificationException::class);
 
         $builder = new Builder();
         $builder->loop([2, 3, 4], function ($builder, $data) {
@@ -224,7 +224,7 @@ class BuilderTest extends NotifynderTestCase
 
     public function testCreateSingleUnvalidNotificationWithRequiredField()
     {
-        $this->setExpectedException(UnvalidNotificationException::class);
+        $this->expectException(UnvalidNotificationException::class);
 
         notifynder_config()->set('additional_fields.required', ['required_field']);
 

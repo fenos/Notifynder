@@ -2,6 +2,7 @@
 
 namespace Fenos\Notifynder\Senders;
 
+use Fenos\Notifynder\Models\Notification;
 use Fenos\Notifynder\Contracts\SenderContract;
 use Fenos\Notifynder\Contracts\SenderManagerContract;
 
@@ -33,7 +34,7 @@ class SingleSender implements SenderContract
      */
     public function send(SenderManagerContract $sender)
     {
-        $model = notifynder_config()->getNotificationModel();
+        $model = app('notifynder.resolver.model')->getModel(Notification::class);
 
         $notification = new $model($this->notification);
 

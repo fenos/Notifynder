@@ -59,8 +59,21 @@ abstract class NotifynderTestCase extends OrchestraTestCase
             'strict' => false,
             'engine' => null,
         ]);
+        $app['config']->set('database.connections.test_pgsql', [
+            'driver' => 'pgsql',
+            'host' => 'localhost',
+            'port' => 5432,
+            'database' => 'notifynder',
+            'username' => 'postgres',
+            'password' => '',
+            'charset' => 'utf8',
+            'prefix' => '',
+            'schema' => 'public',
+        ]);
         if (env('DB_TYPE', 'sqlite') == 'mysql') {
             $app['config']->set('database.default', 'test_mysql');
+        } elseif (env('DB_TYPE', 'sqlite') == 'pgsql') {
+            $app['config']->set('database.default', 'test_pgsql');
         } else {
             $app['config']->set('database.default', 'test_sqlite');
         }
@@ -68,6 +81,8 @@ abstract class NotifynderTestCase extends OrchestraTestCase
 
     public function tearDown()
     {
+        $resolver = app('notifynder.resolver.model');
+        $resolver->setTable(Notification::class, 'notifications');
         app('db')->rollback();
         if (app('db')->getDriverName() == 'mysql') {
             app('db')->statement('SET FOREIGN_KEY_CHECKS=0;');
@@ -156,5 +171,12 @@ abstract class NotifynderTestCase extends OrchestraTestCase
         $parts = explode('.', $version);
 
         return ($parts[0].'.'.$parts[1]) * 1;
+    }
+
+    public function __call($name, $arguments)
+    {
+        if ($name == 'expectException') {
+            $this->setExpectedException($arguments[0]);
+        }
     }
 }

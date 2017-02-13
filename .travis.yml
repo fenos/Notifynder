@@ -16,6 +16,7 @@ addons:
 ## Services used by this package
 services:
   - mysql
+  - postgresql
 
 ## List all PHP versions to test with
 php:
@@ -36,12 +37,22 @@ env:
 matrix:
   fast_finish: true
   include:
+    ## php5.5 support build
     - php: 5.5
       env: LARAVEL_VERSION="5.1.*"
+    ## mysql laravel lts build
     - php: 5.6
       env: LARAVEL_VERSION="5.1.*" DB_TYPE="mysql"
+    ## mysql laravel latest build
     - php: 7.1
       env: LARAVEL_VERSION="5.4.*" DB_TYPE="mysql"
+    ## pgsql laravel lts build
+    - php: 5.6
+      env: LARAVEL_VERSION="5.1.*" DB_TYPE="pgsql"
+    ## pgsql laravel latest build
+    - php: 7.1
+      env: LARAVEL_VERSION="5.4.*" DB_TYPE="pgsql"
+    ## laravel future build
     - php: 7.1
       env: LARAVEL_VERSION="dev-master"
   allow_failures:
@@ -52,6 +63,7 @@ matrix:
 ## Run Scripts before Install
 before_install:
   - mysql -e 'CREATE DATABASE IF NOT EXISTS notifynder;'
+  - psql -c 'create database notifynder;' -U postgres
 
 ## Install Dependencies
 install:

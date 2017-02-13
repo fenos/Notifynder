@@ -4,7 +4,6 @@ namespace Fenos\Notifynder\Collections;
 
 use Illuminate\Support\Arr;
 use InvalidArgumentException;
-use Fenos\Notifynder\Models\Notification;
 use Fenos\Notifynder\Contracts\ConfigContract;
 
 /**
@@ -47,19 +46,6 @@ class Config implements ConfigContract
     public function isTranslated()
     {
         return (bool) $this->get('translation.enabled');
-    }
-
-    /**
-     * @return string
-     */
-    public function getNotificationModel()
-    {
-        $class = $this->get('notification_model');
-        if (class_exists($class)) {
-            return $class;
-        }
-
-        return Notification::class;
     }
 
     /**

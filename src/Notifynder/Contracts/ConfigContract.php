@@ -25,11 +25,6 @@ interface ConfigContract
     /**
      * @return string
      */
-    public function getNotificationModel();
-
-    /**
-     * @return string
-     */
     public function getNotifiedModel();
 
     /**

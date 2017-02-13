@@ -8,6 +8,7 @@ use Fenos\Notifynder\Senders\OnceSender;
 use Fenos\Notifynder\Senders\SingleSender;
 use Fenos\Notifynder\Managers\SenderManager;
 use Fenos\Notifynder\Senders\MultipleSender;
+use Fenos\Notifynder\Resolvers\ModelResolver;
 use Fenos\Notifynder\Contracts\ConfigContract;
 use Fenos\Notifynder\Managers\NotifynderManager;
 use Fenos\Notifynder\Contracts\SenderManagerContract;
@@ -42,6 +43,7 @@ class NotifynderServiceProvider extends ServiceProvider
         $this->bindContracts();
         $this->bindConfig();
         $this->bindSender();
+        $this->bindResolver();
         $this->bindNotifynder();
 
         $this->registerSenders();
@@ -91,6 +93,18 @@ class NotifynderServiceProvider extends ServiceProvider
     {
         $this->app->singleton('notifynder.sender', function () {
             return new SenderManager();
+        });
+    }
+
+    /**
+     * Bind Notifynder resolver.
+     *
+     * @return void
+     */
+    protected function bindResolver()
+    {
+        $this->app->singleton('notifynder.resolver.model', function () {
+            return new ModelResolver();
         });
     }
 
