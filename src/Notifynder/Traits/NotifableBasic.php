@@ -135,4 +135,21 @@ trait NotifableBasic
 
         return $query->get();
     }
+
+    /**
+     * Get all unread Notifications.
+     *
+     * @param null|int $limit
+     * @param string $order
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function getNotificationsNotRead($limit = null, $order = 'desc')
+    {
+        $query = $this->getNotificationRelation()->byRead(0)->orderBy('created_at', $order);
+        if (! is_null($limit)) {
+            $query->limit($limit);
+        }
+
+        return $query->get();
+    }
 }

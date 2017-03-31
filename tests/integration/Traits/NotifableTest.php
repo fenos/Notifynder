@@ -88,6 +88,21 @@ class NotifableTest extends NotifynderTestCase
         $this->assertCount(10, $user->getNotifications(10));
     }
 
+    public function testGetNotificationsNotRead()
+    {
+        $user = $this->createUser();
+        $this->sendNotificationsTo($user, 25);
+        $this->assertSame(25, $user->readAllNotifications());
+        $this->assertCount(0, $user->getNotificationsNotRead());
+    }
+
+    public function testGetNotificationsNotReadLimited()
+    {
+        $user = $this->createUser();
+        $this->sendNotificationsTo($user, 25);
+        $this->assertCount(10, $user->getNotificationsNotRead(10));
+    }
+
     public function testReadStatusRelatedMethods()
     {
         $user = $this->createUser();
