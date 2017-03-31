@@ -138,7 +138,7 @@ trait NotifableBasic
 
     /**
      * Get all unread Notifications.
-     * 
+     *
      * @param null|int $limit
      * @param string $order
      * @return \Illuminate\Database\Eloquent\Collection
@@ -150,6 +150,6 @@ trait NotifableBasic
             $query->limit($limit);
         }
 
-        return $query->get();   
+        return $query->get();
     }
 }
