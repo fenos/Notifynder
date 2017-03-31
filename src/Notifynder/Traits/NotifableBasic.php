@@ -145,8 +145,7 @@ trait NotifableBasic
      */
     public function getNotificationsNotRead($limit = null, $order = 'desc')
     {
-        $query = $this->getNotificationRelation()->orderBy('created_at', $order);
-        $query = $query->where('notifications.read', 0);
+        $query = $this->getNotificationRelation()->byRead(0)->orderBy('created_at', $order);
         if (! is_null($limit)) {
             $query->limit($limit);
         }
