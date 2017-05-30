@@ -1,4 +1,5 @@
 <?php
+
 use Fenos\Notifynder\Models\Notification;
 
 class NotificationTest extends NotifynderTestCase
