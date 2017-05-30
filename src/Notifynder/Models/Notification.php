@@ -119,7 +119,7 @@ class Notification extends Model
      */
     protected function mergeFillables()
     {
-        $fillables = array_unique($this->getFillable() + $this->getCustomFillableFields());
+        $fillables = array_unique(array_merge($this->getFillable(), $this->getCustomFillableFields()));
 
         return $fillables;
     }

@@ -41,6 +41,32 @@ class ConfigTest extends NotifynderTestCase
     public function testGetAdditionalFields()
     {
         $config = app('notifynder.config');
+        $config->set('additional_fields.fillable', ['fillable_field']);
+        $config->set('additional_fields.required', ['required_field']);
+        $this->assertInternalType('array', $config->getAdditionalFields());
+        $this->assertCount(2, $config->getAdditionalFields());
+        $this->assertSame(['required_field', 'fillable_field'], $config->getAdditionalFields());
+    }
+
+    public function testGetAdditionalFieldsFillable()
+    {
+        $config = app('notifynder.config');
+        $config->set('additional_fields.fillable', ['fillable_field']);
+        $this->assertInternalType('array', $config->getAdditionalFields());
+        $this->assertSame(['fillable_field'], $config->getAdditionalFields());
+    }
+
+    public function testGetAdditionalFieldsRequired()
+    {
+        $config = app('notifynder.config');
+        $config->set('additional_fields.required', ['required_field']);
+        $this->assertInternalType('array', $config->getAdditionalFields());
+        $this->assertSame(['required_field'], $config->getAdditionalFields());
+    }
+
+    public function testGetAdditionalFieldsEmpty()
+    {
+        $config = app('notifynder.config');
         $this->assertInternalType('array', $config->getAdditionalFields());
         $this->assertSame([], $config->getAdditionalFields());
     }
