@@ -2,10 +2,10 @@
 
 namespace Fenos\Notifynder\Parsers;
 
-use Fenos\Notifynder\Exceptions\ExtraParamsException;
-use Fenos\Notifynder\Models\Notification as ModelNotification;
 use Fenos\Notifynder\Models\NotificationCategory;
+use Fenos\Notifynder\Exceptions\ExtraParamsException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Fenos\Notifynder\Models\Notification as ModelNotification;
 
 /**
  * Class NotificationParser.
