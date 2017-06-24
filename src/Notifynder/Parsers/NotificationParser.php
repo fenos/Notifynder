@@ -6,6 +6,7 @@ use Fenos\Notifynder\Models\NotificationCategory;
 use Fenos\Notifynder\Exceptions\ExtraParamsException;
 use Fenos\Notifynder\Models\Notification as ModelNotification;
 use Fenos\Notifynder\Builder\Notification as BuilderNotification;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 /**
  * Class NotificationParser.
@@ -20,14 +21,19 @@ class NotificationParser
     /**
      * Parse a notification and return the body text.
      *
-     * @param array|ModelNotification|BuilderNotification $notification
+     * @param ModelNotification $notification
      * @param int $categoryId
      * @return string
      * @throws ExtraParamsException
      */
     public function parse($notification, $categoryId)
     {
-        $category = NotificationCategory::findOrFail($categoryId);
+        $category = $notification->category;
+        if (is_null($category)) {
+            throw (new ModelNotFoundException)->setModel(
+                NotificationCategory::class, $notification->category_id
+            );
+        }
         $text = $category->template_body;
 
         $specialValues = $this->getValues($text);
