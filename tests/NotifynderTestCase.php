@@ -147,20 +147,21 @@ abstract class NotifynderTestCase extends OrchestraTestCase
         }
     }
 
-    protected function sendNotificationTo(Model $model)
+    protected function sendNotificationTo(Model $model, Model $category = null)
     {
-        $category = $this->createCategory();
-
+        if (is_null($category)) {
+            $category = $this->createCategory();
+        }
         return $model
             ->sendNotificationTo($category->getKey())
             ->from(2)
             ->send();
     }
 
-    protected function sendNotificationsTo(Model $model, $amount = 10)
+    protected function sendNotificationsTo(Model $model, $amount = 10, Model $category = null)
     {
         while ($amount > 0) {
-            $this->sendNotificationTo($model);
+            $this->sendNotificationTo($model, $category);
             $amount--;
         }
     }
