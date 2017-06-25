@@ -6,11 +6,11 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 class NotifableCategoryEagerLoadingTest extends NotifynderTestCase
 {
     private $initialLogStatus;
-    
+
     public function setUp()
     {
         parent::setUp();
-        if (!app('db')->connection()->logging()) {
+        if (! app('db')->connection()->logging()) {
             app('db')->connection()->enableQueryLog();
             $this->initialLogStatus = false;
         } else {
