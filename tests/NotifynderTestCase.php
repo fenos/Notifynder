@@ -152,6 +152,7 @@ abstract class NotifynderTestCase extends OrchestraTestCase
         if (is_null($category)) {
             $category = $this->createCategory();
         }
+
         return $model
             ->sendNotificationTo($category->getKey())
             ->from(2)
