@@ -1,8 +1,5 @@
 <?php
 
-use Fenos\Notifynder\Builder\Notification;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
-
 class NotifableEagerLoadingTest extends NotifynderTestCase
 {
     public function testGetNotificationRelationReadsConfigurationParameterIfNothingIsPassed()
@@ -20,7 +17,7 @@ class NotifableEagerLoadingTest extends NotifynderTestCase
         $this->sendNotificationTo($user);
 
         $notification = $user->getNotificationRelation(true)->first();
-        
+
         $this->assertModelHasLoadedRelations($notification, ['category', 'from', 'to']);
     }
 
@@ -30,7 +27,7 @@ class NotifableEagerLoadingTest extends NotifynderTestCase
         $this->sendNotificationTo($user);
 
         $notification = $user->getNotificationRelation(['category'])->first();
-        
+
         $this->assertModelHasLoadedRelations($notification, ['category']);
         $this->assertModelHasNoLoadedRelations($notification, ['from', 'to']);
     }
@@ -72,7 +69,7 @@ class NotifableEagerLoadingTest extends NotifynderTestCase
     {
         $modelLoadedRelations = $model->getRelations();
         foreach ($relationNames as $relationName) {
-            $this->assertArrayHasKey($relationName, $modelLoadedRelations, $relationName. ' relation was not eager loaded');
+            $this->assertArrayHasKey($relationName, $modelLoadedRelations, $relationName.' relation was not eager loaded');
         }
     }
 
@@ -80,7 +77,7 @@ class NotifableEagerLoadingTest extends NotifynderTestCase
     {
         $modelLoadedRelations = $model->getRelations();
         foreach ($relationNames as $relationName) {
-            $this->assertArrayNotHasKey($relationName, $modelLoadedRelations, $relationName. ' relation was eager loaded');
+            $this->assertArrayNotHasKey($relationName, $modelLoadedRelations, $relationName.' relation was eager loaded');
         }
     }
 }

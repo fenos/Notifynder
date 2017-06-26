@@ -20,7 +20,7 @@ return [
      * just swap the value to true to eager load relations
      * or you can specify which relations to eager load
      *
-     * Possible Values: 
+     * Possible Values:
      * false: No relations are eager loaded (default)
      * true: All relations are eager loaded
      * array: Specify which relations to eager load can be any combination of ['category', 'from', 'to']
