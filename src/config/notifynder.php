@@ -18,7 +18,7 @@ return [
     /*
      * Do you want notifynder to eager load its related models?
      * just swap the value to true to eager load relations
-     * or you can specify which models to eager load
+     * or you can specify which relations to eager load
      *
      * Possible Values: 
      * false: No relations are eager loaded (default)
