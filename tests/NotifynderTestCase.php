@@ -147,11 +147,9 @@ abstract class NotifynderTestCase extends OrchestraTestCase
         }
     }
 
-    protected function sendNotificationTo(Model $model, Model $category = null)
+    protected function sendNotificationTo(Model $model)
     {
-        if (is_null($category)) {
-            $category = $this->createCategory();
-        }
+        $category = $this->createCategory();
 
         return $model
             ->sendNotificationTo($category->getKey())
@@ -159,10 +157,10 @@ abstract class NotifynderTestCase extends OrchestraTestCase
             ->send();
     }
 
-    protected function sendNotificationsTo(Model $model, $amount = 10, Model $category = null)
+    protected function sendNotificationsTo(Model $model, $amount = 10)
     {
         while ($amount > 0) {
-            $this->sendNotificationTo($model, $category);
+            $this->sendNotificationTo($model);
             $amount--;
         }
     }

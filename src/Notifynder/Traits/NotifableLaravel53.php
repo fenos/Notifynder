@@ -49,11 +49,11 @@ trait NotifableLaravel53
     }
 
     /**
-     * Get the notifications Relationship.
+     * Get the notifications Relationship without any eager loading.
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany|\Illuminate\Database\Eloquent\Relations\MorphMany
      */
-    public function getNotificationRelation()
+    private function getLazyLoadedNotificationRelation()
     {
         return $this->notifynderNotifications();
     }
