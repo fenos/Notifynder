@@ -65,7 +65,7 @@ class NotifableEagerLoadingTest extends NotifynderTestCase
         $this->assertModelHasNoLoadedRelations($notifications[0], ['to']);
     }
 
-    private function assertModelHasLoadedRelations($model, $relationNames = [])
+    protected function assertModelHasLoadedRelations($model, $relationNames = [])
     {
         $modelLoadedRelations = $model->getRelations();
         foreach ($relationNames as $relationName) {
@@ -73,7 +73,7 @@ class NotifableEagerLoadingTest extends NotifynderTestCase
         }
     }
 
-    private function assertModelHasNoLoadedRelations($model, $relationNames = [])
+    protected function assertModelHasNoLoadedRelations($model, $relationNames = [])
     {
         $modelLoadedRelations = $model->getRelations();
         foreach ($relationNames as $relationName) {
