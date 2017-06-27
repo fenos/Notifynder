@@ -14,7 +14,7 @@ trait NotifableBasic
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany|\Illuminate\Database\Eloquent\Relations\MorphMany
      */
-    abstract protected function getLazyLoadedNotificationRelation();
+    abstract public function getLazyNotificationRelation();
 
     /**
      * Get the notifications Relationship.
@@ -35,7 +35,7 @@ trait NotifableBasic
             $with = $eagerLoad;
         }
 
-        return $this->getLazyLoadedNotificationRelation()->with($with);
+        return $this->getLazyNotificationRelation()->with($with);
     }
 
     /**
@@ -101,10 +101,10 @@ trait NotifableBasic
     protected function updateSingleReadStatus($notification, $value)
     {
         if (! TypeChecker::isNotification($notification, false)) {
-            $notification = $this->getNotificationRelation()->findOrFail($notification);
+            $notification = $this->getLazyNotificationRelation()->findOrFail($notification);
         }
 
-        if ($this->getNotificationRelation()->where($notification->getKeyName(), $notification->getKey())->exists()) {
+        if ($this->getLazyNotificationRelation()->where($notification->getKeyName(), $notification->getKey())->exists()) {
             return $value ? $notification->read() : $notification->unread();
         }
 
@@ -118,7 +118,7 @@ trait NotifableBasic
      */
     public function readAllNotifications()
     {
-        return $this->getNotificationRelation()->update(['read' => 1]);
+        return $this->getLazyNotificationRelation()->update(['read' => 1]);
     }
 
     /**
@@ -128,7 +128,7 @@ trait NotifableBasic
      */
     public function unreadAllNotifications()
     {
-        return $this->getNotificationRelation()->update(['read' => 0]);
+        return $this->getLazyNotificationRelation()->update(['read' => 0]);
     }
 
     /**
@@ -138,7 +138,7 @@ trait NotifableBasic
      */
     public function countUnreadNotifications()
     {
-        return $this->getNotificationRelation()->byRead(0)->count();
+        return $this->getLazyNotificationRelation()->byRead(0)->count();
     }
 
     /**

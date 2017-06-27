@@ -53,7 +53,7 @@ trait Notifable
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany|\Illuminate\Database\Eloquent\Relations\MorphMany
      */
-    protected function getLazyLoadedNotificationRelation()
+    public function getLazyNotificationRelation()
     {
         return $this->notifications();
     }

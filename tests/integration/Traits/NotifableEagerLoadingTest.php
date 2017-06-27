@@ -2,6 +2,15 @@
 
 class NotifableEagerLoadingTest extends NotifynderTestCase
 {
+    public function testGetLazyNotificationRelationDoesnotEagerLoad()
+    {
+        $user = $this->createUser();
+        $this->sendNotificationTo($user);
+
+        $notification = $user->getLazyNotificationRelation()->first();
+        $this->assertModelHasNoLoadedRelations($notification, ['category', 'from', 'to']);
+    }
+
     public function testGetNotificationRelationReadsConfigurationParameterIfNothingIsPassed()
     {
         $user = $this->createUser();
