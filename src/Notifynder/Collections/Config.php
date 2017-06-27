@@ -116,7 +116,6 @@ class Config implements ConfigContract
 
     /**
      * @param string $key
-     * @param null $value
      */
     public function forget($key)
     {
