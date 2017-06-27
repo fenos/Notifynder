@@ -21,11 +21,10 @@ class NotificationParser
      * Parse a notification and return the body text.
      *
      * @param ModelNotification $notification
-     * @param int $categoryId
      * @return string
      * @throws ExtraParamsException
      */
-    public function parse($notification, $categoryId)
+    public function parse($notification)
     {
         $category = $notification->category;
         if (is_null($category)) {

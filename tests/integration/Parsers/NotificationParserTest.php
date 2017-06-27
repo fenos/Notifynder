@@ -6,9 +6,8 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class NotificationParserTest extends NotifynderTestCase
 {
-    public function testThrowsModelNotFoundExceptionIfCategoryIsNull()
+    public function testParseThrowsModelNotFoundExceptionIfCategoryIsNull()
     {
-        $category = $this->createCategory();
         $from = $this->createUser();
         $to = $this->createUser();
         $notification = new Notification();
@@ -18,6 +17,6 @@ class NotificationParserTest extends NotifynderTestCase
 
         $this->expectException(ModelNotFoundException::class);
         $parser = new NotificationParser();
-        $parser->parse($notification, $category->id);
+        $parser->parse($notification);
     }
 }
