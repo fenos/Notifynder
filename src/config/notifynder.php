@@ -16,6 +16,18 @@ return [
     'model' => 'App\User',
 
     /*
+     * Do you want notifynder to eager load its related models?
+     * just swap the value to true to eager load relations
+     * or you can specify which relations to eager load
+     *
+     * Possible Values:
+     * false: No relations are eager loaded (default)
+     * true: All relations are eager loaded
+     * array: Specify which relations to eager load can be any combination of ['category', 'from', 'to']
+     */
+    'eager_load' => false,
+
+    /*
      * Do you want have notifynder that work polymorphically?
      * just swap the value to true and you will able to use it!
      */
