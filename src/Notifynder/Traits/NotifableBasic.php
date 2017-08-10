@@ -10,11 +10,33 @@ use Fenos\Notifynder\Helpers\TypeChecker;
 trait NotifableBasic
 {
     /**
-     * Get the notifications Relationship.
+     * Get the notifications Relationship without any eager loading.
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany|\Illuminate\Database\Eloquent\Relations\MorphMany
      */
-    abstract public function getNotificationRelation();
+    abstract public function getLazyNotificationRelation();
+
+    /**
+     * Get the notifications Relationship.
+     *
+     * @param array|bool $eagerLoad
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany|\Illuminate\Database\Eloquent\Relations\MorphMany
+     */
+    public function getNotificationRelation($eagerLoad = null)
+    {
+        $with = [];
+        if (is_null($eagerLoad)) {
+            $eagerLoad = notifynder_config('eager_load', false);
+        }
+
+        if ($eagerLoad === true) {
+            $with = ['category', 'from', 'to']; // all relations
+        } elseif (is_array($eagerLoad)) {
+            $with = $eagerLoad;
+        }
+
+        return $this->getLazyNotificationRelation()->with($with);
+    }
 
     /**
      * Get a new NotifynderManager instance with the given category.
@@ -79,10 +101,10 @@ trait NotifableBasic
     protected function updateSingleReadStatus($notification, $value)
     {
         if (! TypeChecker::isNotification($notification, false)) {
-            $notification = $this->getNotificationRelation()->findOrFail($notification);
+            $notification = $this->getLazyNotificationRelation()->findOrFail($notification);
         }
 
-        if ($this->getNotificationRelation()->where($notification->getKeyName(), $notification->getKey())->exists()) {
+        if ($this->getLazyNotificationRelation()->where($notification->getKeyName(), $notification->getKey())->exists()) {
             return $value ? $notification->read() : $notification->unread();
         }
 
@@ -96,7 +118,7 @@ trait NotifableBasic
      */
     public function readAllNotifications()
     {
-        return $this->getNotificationRelation()->update(['read' => 1]);
+        return $this->getLazyNotificationRelation()->update(['read' => 1]);
     }
 
     /**
@@ -106,7 +128,7 @@ trait NotifableBasic
      */
     public function unreadAllNotifications()
     {
-        return $this->getNotificationRelation()->update(['read' => 0]);
+        return $this->getLazyNotificationRelation()->update(['read' => 0]);
     }
 
     /**
@@ -116,7 +138,7 @@ trait NotifableBasic
      */
     public function countUnreadNotifications()
     {
-        return $this->getNotificationRelation()->byRead(0)->count();
+        return $this->getLazyNotificationRelation()->byRead(0)->count();
     }
 
     /**

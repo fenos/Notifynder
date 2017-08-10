@@ -114,6 +114,15 @@ class Config implements ConfigContract
         app('config')->set('notifynder.'.$key, $value);
     }
 
+    /**
+     * @param string $key
+     */
+    public function forget($key)
+    {
+        Arr::forget($this->items, $key);
+        app('config')->offsetUnset('notifynder.'.$key);
+    }
+
     public function reload()
     {
         $this->items = app('config')->get('notifynder');
